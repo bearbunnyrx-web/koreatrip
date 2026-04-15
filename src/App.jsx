@@ -48,8 +48,8 @@ const itinerary = [
     date: 'May 21',
     area: 'Jamsil',
     title: 'Sofitel stay begins',
-    summary: 'Back from Jeju to Seoul, luggage transfer, dinner, Sofitel Ambassador Seoul check-in.',
-    tags: ['11:30 Flight', 'Dinner', 'Sofitel booked'],
+    summary: 'Back from Jeju to Seoul, luggage transfer, Sofitel Ambassador Seoul check-in, then dinner at 본연 at 7:00 PM.',
+    tags: ['11:30 Flight', '7:00 본연', 'Sofitel booked'],
     status: 'confirmed',
   },
   {
@@ -75,6 +75,12 @@ const bookings = [
     title: 'Sofitel Ambassador Seoul',
     meta: 'May 21–24 • Jamsil',
     note: 'Confirmed hotel anchor for the second half of the Seoul stay.',
+    state: 'booked',
+  },
+  {
+    title: '본연',
+    meta: 'May 21 • 7:00 PM • Seoul',
+    note: 'Fine dining dinner reservation confirmed.',
     state: 'booked',
   },
   {
