@@ -446,43 +446,12 @@ const spend = [
   { item: 'Activity', detail: 'Imported activity / beach cost', amount: '$160' },
 ]
 
-const todoItems = [
-  {
-    key: 'headspa-booking',
-    label: 'Book arrival-day headspa',
-    dueDate: '2026-05-10',
-    priority: 1,
-    done: false,
-  },
-  {
-    key: 'nail-brow-shortlist',
-    label: 'Finish nail / eyebrow shortlist',
-    dueDate: '2026-05-11',
-    priority: 2,
-    done: false,
-  },
-  {
-    key: 'hair-time',
-    label: 'Confirm hair perm time',
-    dueDate: '2026-05-12',
-    priority: 3,
-    done: false,
-  },
-  {
-    key: 'derm-shortlist',
-    label: 'Narrow dermatology clinic options',
-    dueDate: '2026-05-13',
-    priority: 4,
-    done: false,
-  },
-]
-
-const scheduleItems = [
-  { key: 'flight-out', date: '2026-05-15', label: 'Flight out' },
-  { key: 'arrival', date: '2026-05-16', label: 'Arrival + family lunch + headspa window' },
-  { key: 'seongsu', date: '2026-05-17', label: 'Seongsu beauty + shopping day' },
-  { key: 'sofitel-dinner', date: '2026-05-21', label: 'Sofitel check-in + 본연 dinner' },
-]
+const todoRules = {
+  'headspa': { label: 'Book arrival-day headspa', dueDate: '2026-05-10', priority: 1 },
+  'nail-brow': { label: 'Finish nail / eyebrow shortlist', dueDate: '2026-05-11', priority: 2 },
+  'hair-perm': { label: 'Confirm hair perm time', dueDate: '2026-05-12', priority: 3 },
+  'derm': { label: 'Narrow dermatology clinic options', dueDate: '2026-05-13', priority: 4 },
+}
 
 function statusClass(value) {
   const lower = value.toLowerCase()
@@ -501,6 +470,20 @@ function stopTypeLabel(type) {
   if (type === 'hotel') return 'hotel'
   if (type === 'shopping') return 'shopping'
   return type
+}
+
+function parseTripDate(value) {
+  return new Date(`${value}T00:00:00-07:00`)
+}
+
+function asDayStart(date) {
+  const clone = new Date(date)
+  clone.setHours(0, 0, 0, 0)
+  return clone
+}
+
+function diffDaysFromToday(targetDate, today) {
+  return Math.ceil((targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
 }
 
 let kakaoMapsPromise
@@ -556,46 +539,64 @@ function App() {
 
   const countdownDays = useMemo(() => {
     const today = new Date()
-    const tripStart = new Date('2026-05-15T00:00:00-07:00')
+    const tripStart = parseTripDate('2026-05-15')
     return Math.max(0, Math.ceil((tripStart.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)))
   }, [])
 
   const smartTodos = useMemo(() => {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    const today = asDayStart(new Date())
 
-    return todoItems
-      .filter((item) => !item.done)
-      .map((item) => {
-        const due = new Date(`${item.dueDate}T00:00:00-07:00`)
-        const diffDays = Math.ceil((due.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+    return researchBoards
+      .filter((board) => {
+        const lower = board.status.toLowerCase()
+        return !(lower.includes('confirmed') || lower.includes('booked') || lower.includes('done'))
+      })
+      .map((board) => {
+        const rule = todoRules[board.key] ?? {
+          label: board.title,
+          dueDate: '2026-05-14',
+          priority: 99,
+        }
+        const due = parseTripDate(rule.dueDate)
+        const diffDays = diffDaysFromToday(due, today)
         const urgency = diffDays < 0 ? 'overdue' : diffDays <= 2 ? 'soon' : 'upcoming'
         const meta = diffDays < 0 ? `${Math.abs(diffDays)}d late` : diffDays === 0 ? 'today' : `due in ${diffDays}d`
-        return { ...item, urgency, meta, diffDays }
+        return {
+          key: board.key,
+          label: rule.label,
+          urgency,
+          meta,
+          diffDays,
+          priority: rule.priority,
+        }
       })
       .sort((a, b) => a.diffDays - b.diffDays || a.priority - b.priority)
       .slice(0, 4)
   }, [])
 
   const smartSchedule = useMemo(() => {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    const today = asDayStart(new Date())
 
-    const upcoming = scheduleItems
-      .map((item) => {
-        const dateObj = new Date(`${item.date}T00:00:00-07:00`)
-        const diffDays = Math.ceil((dateObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+    const derived = itineraryDays
+      .map((day) => {
+        const dateObj = parseTripDate(`2026-${day.key.replace('may-', '05-')}`)
+        const diffDays = diffDaysFromToday(dateObj, today)
+        const hasHardAnchor = day.stops.some((stop) => ['anchor', 'hotel'].includes(stop.type))
+        const highlight = day.stops.find((stop) => ['anchor', 'hotel', 'beauty', 'meal'].includes(stop.type))
         return {
-          ...item,
+          key: day.key,
+          dateObj,
           diffDays,
           shortDate: dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
           meta: diffDays === 0 ? 'today' : diffDays === 1 ? 'tomorrow' : diffDays > 1 ? `in ${diffDays}d` : `${Math.abs(diffDays)}d ago`,
+          label: highlight ? `${day.label} · ${highlight.title}` : day.label,
+          weight: hasHardAnchor ? 0 : day.status.toLowerCase().includes('open') ? 2 : 1,
         }
       })
       .filter((item) => item.diffDays >= 0)
-      .sort((a, b) => a.diffDays - b.diffDays)
+      .sort((a, b) => a.diffDays - b.diffDays || a.weight - b.weight)
 
-    return (upcoming.length ? upcoming : scheduleItems.map((item) => ({ ...item, shortDate: item.date, meta: 'passed' }))).slice(0, 3)
+    return derived.slice(0, 3)
   }, [])
 
   const pendingBookings = useMemo(
