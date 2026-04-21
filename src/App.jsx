@@ -569,7 +569,7 @@ function App() {
       } catch (error) {
         if (cancelled) return
         setMapStatus('error')
-        setMapNotice('Kakao map did not load. If the key is valid, the remaining common cause is Kakao domain allowlist setup.')
+        setMapNotice('Kakao map did not load. In Kakao Developers, make sure OPEN_MAP_AND_LOCAL is enabled for this app and add koreatrip.vercel.app to the platform/domain allowlist.')
         setResolvedMapTargets([])
         console.error(error)
       }
