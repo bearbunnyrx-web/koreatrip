@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 const tabs = ['home', 'itinerary', 'bookings', 'spend']
 const KAKAO_JS_KEY = import.meta.env.VITE_KAKAO_JS_KEY
+const TRIP_TELEGRAM_URL = import.meta.env.VITE_TRIP_TELEGRAM_URL || ''
 
 function mapTarget(name, reason, options = {}) {
   const query = options.query ?? name
@@ -324,36 +325,54 @@ const itineraryDays = [
   }),
 ]
 
-const bookings = [
+const researchBoards = [
   {
-    title: 'Sofitel Ambassador Seoul',
-    meta: 'May 21–24 • Jamsil',
-    note: 'Confirmed hotel anchor for the second half of the Seoul stay.',
-    state: 'booked',
+    key: 'nail-brow',
+    title: 'Nail / eyebrow in Seongsu',
+    status: 'research active',
+    lead: 'Build this from Discord comparison notes, then lock one beauty block and cluster lunch + shopping around it.',
+    source: 'Discord research board → travel / korea-trip / bookings',
+    recommendation: 'Current recommendation should appear here after comparison is done.',
+    options: [
+      { name: 'Option A', takeaway: 'Best overall once price / portfolio / timing are compared.' },
+      { name: 'Option B', takeaway: 'Backup if timing is better or Korean booking is easier.' },
+    ],
   },
   {
-    title: '본연',
-    meta: 'May 21 • 7:00 PM • Seoul',
-    note: 'Fine dining dinner reservation confirmed.',
-    state: 'confirmed',
+    key: 'headspa',
+    title: 'Arrival-day headspa near 고덕',
+    status: 'decision pending',
+    lead: 'This is close to resolved already, so the tab should make the final comparison feel obvious.',
+    source: 'Discord research board + arrival-day logistics',
+    recommendation: 'Likely 숱하다헤드스파 unless an exact slot or commute makes another option cleaner.',
+    options: [
+      { name: '숱하다헤드스파', takeaway: 'Late-afternoon friendly and easier to fit after landing + family lunch.' },
+      { name: '단비 헤드스파앤컬러', takeaway: 'Cozier backup if the timing lines up better.' },
+    ],
   },
   {
-    title: 'Arrival-day headspa',
-    meta: 'Late afternoon near 고덕역',
-    note: 'Goodmona is full, so compare 숱하다 vs 단비 and book the more realistic slot.',
-    state: 'needs decision',
+    key: 'hair-perm',
+    title: 'Hair perm day structure',
+    status: 'to confirm',
+    lead: 'This theme is less about choosing a salon and more about protecting the day around the confirmed perm time.',
+    source: 'Discord comparison + itinerary timing',
+    recommendation: 'Once the exact time is fixed, the itinerary should update and this card can collapse to one chosen plan.',
+    options: [
+      { name: 'Morning-heavy version', takeaway: 'Best if embassy + salon stay in one clean sequence.' },
+      { name: 'Late-morning version', takeaway: 'Better if transit and lunch feel too compressed early.' },
+    ],
   },
   {
-    title: 'Nail / eyebrow',
-    meta: 'Seongsu beauty block',
-    note: 'Lock the appointment time first, then build lunch and shopping around it.',
-    state: 'researching',
-  },
-  {
-    title: 'Hair perm',
-    meta: 'Soonsiki',
-    note: 'Confirm exact time and buffer around embassy / transit.',
-    state: 'to confirm',
+    key: 'derm',
+    title: 'Dermatology clinic shortlist',
+    status: 'research active',
+    lead: 'Use this for treatment comparison, neighborhood fit, price, and how easy the booking flow is for both of you.',
+    source: 'Discord research board → future compare view',
+    recommendation: 'Chosen clinic should appear here with why it won.',
+    options: [
+      { name: 'Clinic option 1', takeaway: 'Placeholder until you drop real comparison notes into Discord.' },
+      { name: 'Clinic option 2', takeaway: 'Placeholder until real research is available.' },
+    ],
   },
 ]
 
@@ -368,9 +387,8 @@ function statusClass(value) {
   const lower = value.toLowerCase()
   if (lower.includes('booked') || lower.includes('confirmed')) return 'chip chip-dark'
   if (lower.includes('decision')) return 'chip chip-rose'
-  if (lower.includes('research')) return 'chip chip-gold'
-  if (lower.includes('set') || lower.includes('anchor') || lower.includes('logistics')) return 'chip chip-sage'
-  if (lower.includes('open')) return 'chip chip-mist'
+  if (lower.includes('research') || lower.includes('pending') || lower.includes('confirm')) return 'chip chip-gold'
+  if (lower.includes('travel') || lower.includes('set') || lower.includes('anchor')) return 'chip chip-sage'
   return 'chip chip-mist'
 }
 
@@ -387,25 +405,15 @@ function stopTypeLabel(type) {
 let kakaoMapsPromise
 
 function loadKakaoMapsSdk() {
-  if (!KAKAO_JS_KEY) {
-    return Promise.reject(new Error('Missing Kakao JavaScript key'))
-  }
-
-  if (window.kakao?.maps) {
-    return Promise.resolve(window.kakao)
-  }
-
-  if (kakaoMapsPromise) {
-    return kakaoMapsPromise
-  }
+  if (!KAKAO_JS_KEY) return Promise.reject(new Error('Missing Kakao JavaScript key'))
+  if (window.kakao?.maps) return Promise.resolve(window.kakao)
+  if (kakaoMapsPromise) return kakaoMapsPromise
 
   kakaoMapsPromise = new Promise((resolve, reject) => {
     const existingScript = document.querySelector('script[data-kakao-maps="true"]')
 
     if (existingScript) {
-      existingScript.addEventListener('load', () => {
-        window.kakao.maps.load(() => resolve(window.kakao))
-      })
+      existingScript.addEventListener('load', () => window.kakao.maps.load(() => resolve(window.kakao)))
       existingScript.addEventListener('error', () => reject(new Error('Failed to load Kakao Maps SDK')))
       return
     }
@@ -414,9 +422,7 @@ function loadKakaoMapsSdk() {
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false&libraries=services`
     script.async = true
     script.dataset.kakaoMaps = 'true'
-    script.onload = () => {
-      window.kakao.maps.load(() => resolve(window.kakao))
-    }
+    script.onload = () => window.kakao.maps.load(() => resolve(window.kakao))
     script.onerror = () => reject(new Error('Failed to load Kakao Maps SDK'))
     document.head.appendChild(script)
   })
@@ -426,7 +432,12 @@ function loadKakaoMapsSdk() {
 
 function App() {
   const [activeTab, setActiveTab] = useState('home')
-  const [selectedDayKey, setSelectedDayKey] = useState(itineraryDays[1].key)
+  const [selectedDayKey, setSelectedDayKey] = useState('may-16')
+  const [theme, setTheme] = useState(() => {
+    const stored = window.localStorage.getItem('korea-trip-theme')
+    return stored === 'dark' ? 'dark' : 'light'
+  })
+  const [searchQuery, setSearchQuery] = useState('')
   const [mapStatus, setMapStatus] = useState(KAKAO_JS_KEY ? 'idle' : 'missing-key')
   const [resolvedMapTargets, setResolvedMapTargets] = useState([])
   const [mapNotice, setMapNotice] = useState('')
@@ -437,9 +448,61 @@ function App() {
     [selectedDayKey],
   )
 
-  const loggedSpend = useMemo(() => {
-    return spend.reduce((sum, row) => sum + Number(row.amount.replace(/[$,]/g, '')), 0)
-  }, [])
+  const loggedSpend = useMemo(
+    () => spend.reduce((sum, row) => sum + Number(row.amount.replace(/[$,]/g, '')), 0),
+    [],
+  )
+
+  const pendingBookings = useMemo(
+    () => researchBoards.filter((board) => !board.status.toLowerCase().includes('confirmed')).length,
+    [],
+  )
+
+  const searchResults = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase()
+    if (!q) return []
+
+    const dayResults = itineraryDays.flatMap((day) => {
+      const inDay = [day.date, day.label, day.area, day.focus].join(' ').toLowerCase().includes(q)
+      const stopMatch = day.stops.find((stop) => [stop.title, stop.detail, stop.neighborhood].join(' ').toLowerCase().includes(q))
+      const placeMatch = day.mapTargets.find((target) => [target.name, target.reason].join(' ').toLowerCase().includes(q))
+
+      if (!inDay && !stopMatch && !placeMatch) return []
+
+      return [{
+        key: day.key,
+        type: 'Itinerary',
+        title: `${day.date} · ${day.label}`,
+        detail: stopMatch?.title || placeMatch?.name || day.focus,
+        action: () => {
+          setSelectedDayKey(day.key)
+          setActiveTab('itinerary')
+        },
+      }]
+    })
+
+    const bookingResults = researchBoards.flatMap((board) => {
+      const matchedOption = board.options.find((option) => [option.name, option.takeaway].join(' ').toLowerCase().includes(q))
+      const matchedBoard = [board.title, board.lead, board.recommendation].join(' ').toLowerCase().includes(q)
+
+      if (!matchedBoard && !matchedOption) return []
+
+      return [{
+        key: board.key,
+        type: 'Research',
+        title: board.title,
+        detail: matchedOption?.name || board.recommendation,
+        action: () => setActiveTab('bookings'),
+      }]
+    })
+
+    return [...dayResults, ...bookingResults].slice(0, 8)
+  }, [searchQuery])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    window.localStorage.setItem('korea-trip-theme', theme)
+  }, [theme])
 
   useEffect(() => {
     if (activeTab !== 'itinerary') return
@@ -476,51 +539,39 @@ function App() {
 
         const resolved = await Promise.all(
           selectedDay.mapTargets.map(
-            (target) =>
-              new Promise((resolve) => {
-                if (target.coords) {
-                  resolve({
-                    ...target,
-                    lat: target.coords.lat,
-                    lng: target.coords.lng,
-                    displayName: target.name,
-                    found: true,
-                  })
-                  return
-                }
+            (target) => new Promise((resolve) => {
+              if (target.coords) {
+                resolve({ ...target, lat: target.coords.lat, lng: target.coords.lng, displayName: target.name, found: true })
+                return
+              }
 
-                placesService.keywordSearch(
-                  target.query,
-                  (results, status) => {
-                    if (status === kakao.maps.services.Status.OK && results[0]) {
-                      resolve({
-                        ...target,
-                        lat: Number(results[0].y),
-                        lng: Number(results[0].x),
-                        displayName: results[0].place_name,
-                        address: results[0].road_address_name || results[0].address_name || '',
-                        found: true,
-                      })
-                      return
-                    }
-
+              placesService.keywordSearch(
+                target.query,
+                (results, status) => {
+                  if (status === kakao.maps.services.Status.OK && results[0]) {
                     resolve({
                       ...target,
-                      found: false,
+                      lat: Number(results[0].y),
+                      lng: Number(results[0].x),
+                      displayName: results[0].place_name,
+                      address: results[0].road_address_name || results[0].address_name || '',
+                      found: true,
                     })
-                  },
-                  { size: 1 },
-                )
-              }),
+                    return
+                  }
+
+                  resolve({ ...target, found: false })
+                },
+                { size: 1 },
+              )
+            }),
           ),
         )
 
         if (cancelled) return
-
         setResolvedMapTargets(resolved)
 
         const foundTargets = resolved.filter((target) => target.found)
-
         if (!foundTargets.length) {
           map.setCenter(center)
           setMapStatus('no-results')
@@ -532,23 +583,14 @@ function App() {
           const position = new kakao.maps.LatLng(target.lat, target.lng)
           bounds.extend(position)
 
-          const marker = new kakao.maps.Marker({
-            position,
-            map,
-            title: target.displayName,
-          })
-
+          const marker = new kakao.maps.Marker({ position, map, title: target.displayName })
           overlayItems.push({ setMap: marker.setMap.bind(marker) })
 
           const badge = document.createElement('div')
           badge.className = 'map-marker-badge'
           badge.textContent = String(index + 1)
 
-          const overlay = new kakao.maps.CustomOverlay({
-            position,
-            content: badge,
-            yAnchor: 1.8,
-          })
+          const overlay = new kakao.maps.CustomOverlay({ position, content: badge, yAnchor: 1.8 })
           overlay.setMap(map)
           overlayItems.push({ setMap: overlay.setMap.bind(overlay) })
 
@@ -587,44 +629,42 @@ function App() {
     <div className="app-shell">
       <div className="planner-frame">
         <aside className="sidebar-shell glass-card">
-          <div className="sidebar-top">
-            <div className="eyebrow">SJ + TH • Korea • May 15–26</div>
-            <h1>Korea Trip Together</h1>
-            <p>
-              Desktop-friendly now: each section is designed to fit in one wider view,
-              while still staying easy on iPhone.
-            </p>
+          <div className="sidebar-top-row">
+            <div className="sidebar-top">
+              <div className="eyebrow">SJ + TH • Korea • May 15–26</div>
+              <h1>Korea Trip Together</h1>
+              <p>Shared trip app for both of you — excitement on top, real logistics underneath.</p>
+            </div>
+            <button className="theme-toggle" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+              {theme === 'light' ? '☾ Dark' : '☀ Light'}
+            </button>
           </div>
 
-          <nav className="sidebar-nav">
+          <nav className="sidebar-nav desktop-only">
             {tabs.map((tab) => (
-              <button
-                key={tab}
-                className={activeTab === tab ? 'sidebar-btn active' : 'sidebar-btn'}
-                onClick={() => setActiveTab(tab)}
-              >
+              <button key={tab} className={activeTab === tab ? 'sidebar-btn active' : 'sidebar-btn'} onClick={() => setActiveTab(tab)}>
                 <span>{tab === 'home' ? 'Home' : tab === 'itinerary' ? 'Itinerary' : tab === 'bookings' ? 'Bookings' : 'Spend'}</span>
                 <small>
                   {tab === 'home'
-                    ? 'trip overview'
+                    ? 'landing + search'
                     : tab === 'itinerary'
                       ? 'hour-by-hour flow'
                       : tab === 'bookings'
-                        ? 'decision list'
+                        ? 'research boards'
                         : 'simple totals'}
                 </small>
               </button>
             ))}
           </nav>
 
-          <div className="sidebar-foot">
+          <div className="sidebar-foot desktop-only">
             <div className="metric-pill">
-              <span>Trip days shown</span>
-              <strong>{itineraryDays.length}</strong>
+              <span>Trip range</span>
+              <strong>May 15–26</strong>
             </div>
             <div className="metric-pill">
-              <span>Open items</span>
-              <strong>3</strong>
+              <span>Pending bookings</span>
+              <strong>{pendingBookings}</strong>
             </div>
           </div>
         </aside>
@@ -632,76 +672,119 @@ function App() {
         <main className="content-shell">
           {activeTab === 'home' && (
             <section className="content-screen home-screen">
-              <div className="hero-card glass-card">
-                <div className="section-kicker">Trip command center</div>
-                <div className="hero-grid-wide">
-                  <div>
-                    <h2>See the whole trip without living in mobile-scroll mode.</h2>
-                    <p>
-                      This version is meant to work better on desktop first: wider panels,
-                      less stacking, and cleaner anchors for actual logistics.
-                    </p>
+              <div className="hero-banner glass-card">
+                <div className="hero-copy">
+                  <div className="section-kicker">Korea countdown mode</div>
+                  <h2>Seoul, Jeju, late-night convenience stores, and finally having the trip feel real.</h2>
+                  <p>Use Home for excitement, quick search, and shared jumping-off points. Use the other tabs once you want details.</p>
+                  <div className="hero-badges">
+                    <span className="chip chip-dark">May 15–26</span>
+                    <span className="chip chip-soft">iPhone-friendly</span>
+                    <span className="chip chip-sage">Kakao map live</span>
                   </div>
-                  <div className="metrics-grid desktop-metrics">
-                    <div className="metric-card">
-                      <span>Confirmed anchors</span>
-                      <strong>2</strong>
+                </div>
+                <div className="hero-poster">
+                  <div className="poster-glow" />
+                  <div className="poster-stamp">서울 ↔ 제주</div>
+                  <div className="poster-mini-grid">
+                    <div>
+                      <span>Trip vibe</span>
+                      <strong>romantic + efficient</strong>
                     </div>
-                    <div className="metric-card">
-                      <span>Need booking</span>
-                      <strong>Headspa</strong>
+                    <div>
+                      <span>Main pressure</span>
+                      <strong>beauty bookings</strong>
                     </div>
-                    <div className="metric-card">
-                      <span>Logged spend</span>
-                      <strong>${loggedSpend.toLocaleString()}</strong>
+                    <div>
+                      <span>Best new feature</span>
+                      <strong>hourly planning</strong>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="overview-grid">
-                <section className="glass-card panel-card">
-                  <div className="section-header">
-                    <h3>Most urgent next</h3>
-                    <span>one-month-out mode</span>
+              <div className="search-card glass-card">
+                <div className="section-header stacked-mobile">
+                  <div>
+                    <h3>Search the trip</h3>
+                    <p>Find a day, place, booking theme, or route idea fast.</p>
                   </div>
-                  <div className="stack-list">
-                    <article className="stack-item">
-                      <strong>Arrival-day headspa</strong>
-                      <p>Book a realistic late-afternoon slot near 고덕 so landing day stays gentle.</p>
-                    </article>
-                    <article className="stack-item">
-                      <strong>Nail / eyebrow time</strong>
-                      <p>Once this is fixed, the Seongsu day becomes easy to structure.</p>
-                    </article>
-                    <article className="stack-item">
-                      <strong>Hour-by-hour route checks</strong>
-                      <p>Use the itinerary tab to pressure-test if a day is actually smooth.</p>
-                    </article>
+                </div>
+                <input
+                  className="trip-search"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  placeholder="Search Seongsu, headspa, Sofitel, Jeju, embassy, brow..."
+                />
+                {searchQuery.trim() ? (
+                  <div className="search-results">
+                    {searchResults.length ? (
+                      searchResults.map((result) => (
+                        <button key={result.key + result.type} className="search-result" onClick={result.action}>
+                          <span className="search-type">{result.type}</span>
+                          <strong>{result.title}</strong>
+                          <p>{result.detail}</p>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="empty-state">No matches yet — try a date, neighborhood, booking type, or specific place.</div>
+                    )}
                   </div>
+                ) : (
+                  <div className="search-hints">
+                    <span>Try: Seongsu</span>
+                    <span>Try: headspa</span>
+                    <span>Try: Jamsil</span>
+                    <span>Try: Jeju</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="home-grid">
+                <section className="glass-card panel-card telegram-card">
+                  <div className="section-header stacked-mobile">
+                    <div>
+                      <h3>Shared trip chat</h3>
+                      <p>Best shared surface is still a Telegram group with you, her, and me.</p>
+                    </div>
+                    <span className="chip chip-gold">shared planning</span>
+                  </div>
+                  <div className="telegram-box">
+                    {TRIP_TELEGRAM_URL ? (
+                      <>
+                        <p>Invite her with the trip group link, then use that chat for decisions, bookings, and itinerary discussion.</p>
+                        <a className="primary-link" href={TRIP_TELEGRAM_URL} target="_blank" rel="noreferrer">Open trip Telegram group</a>
+                      </>
+                    ) : (
+                      <>
+                        <p>No trip-group invite link is wired yet. Once you send me the invite URL, I can drop it here as the main CTA.</p>
+                        <div className="disabled-link">Waiting for Telegram invite link</div>
+                      </>
+                    )}
+                  </div>
+                  <small className="support-note">Embedded Telegram chat inside this app is not the fast/reliable path — it would require a custom backend, auth, and message syncing. The direct group link is the clean option.</small>
                 </section>
 
                 <section className="glass-card panel-card">
-                  <div className="section-header">
-                    <h3>Current anchors</h3>
-                    <span>already real</span>
+                  <div className="section-header stacked-mobile">
+                    <div>
+                      <h3>What feels exciting now</h3>
+                      <p>Home should make the trip feel close, not just administrative.</p>
+                    </div>
                   </div>
-                  <div className="anchor-grid">
-                    <div className="anchor-card soft-cream">
-                      <strong>May 21</strong>
-                      <p>Sofitel check-in</p>
-                      <span>Jamsil hotel base begins</span>
-                    </div>
-                    <div className="anchor-card soft-blue">
-                      <strong>May 21 • 19:00</strong>
-                      <p>본연 dinner</p>
-                      <span>Confirmed reservation</span>
-                    </div>
-                    <div className="anchor-card soft-sage">
-                      <strong>May 16</strong>
-                      <p>Arrival + family lunch</p>
-                      <span>Headspa should fit late afternoon</span>
-                    </div>
+                  <div className="excitement-grid">
+                    <article className="excitement-card soft-rose">
+                      <strong>Arrival day</strong>
+                      <p>Parents, home lunch, and a gentle first evening instead of chaos.</p>
+                    </article>
+                    <article className="excitement-card soft-blue">
+                      <strong>Seongsu day</strong>
+                      <p>Beauty booking + lunch + shopping loop with the logistics finally visible.</p>
+                    </article>
+                    <article className="excitement-card soft-sage">
+                      <strong>Jamsil reset</strong>
+                      <p>Sofitel check-in, nicer dinner, and the second-half Seoul mood shift.</p>
+                    </article>
                   </div>
                 </section>
               </div>
@@ -710,22 +793,18 @@ function App() {
 
           {activeTab === 'itinerary' && (
             <section className="content-screen itinerary-screen">
-              <header className="page-header wide-header">
+              <header className="page-header wide-header stacked-mobile">
                 <div>
                   <h2 className="page-title">Hourly itinerary</h2>
-                  <p>All trip dates are now visible, including open days, and each selected day can render on a live Kakao map.</p>
+                  <p>All trip dates are visible, the selected day stays detailed, and Kakao map keeps logistics intuitive.</p>
                 </div>
                 <span className="chip chip-gold">phase 2 map mode</span>
               </header>
 
-              <div className="itinerary-summary-row">
+              <div className="itinerary-summary-row two-up">
                 <div className="summary-mini glass-card">
                   <span>Visible trip range</span>
                   <strong>May 15–26</strong>
-                </div>
-                <div className="summary-mini glass-card">
-                  <span>Days loaded</span>
-                  <strong>{itineraryDays.length}</strong>
                 </div>
                 <div className="summary-mini glass-card">
                   <span>Selected day</span>
@@ -735,11 +814,7 @@ function App() {
 
               <div className="day-picker-row">
                 {itineraryDays.map((day) => (
-                  <button
-                    key={day.key}
-                    className={selectedDay.key === day.key ? 'day-chip active' : 'day-chip'}
-                    onClick={() => setSelectedDayKey(day.key)}
-                  >
+                  <button key={day.key} className={selectedDay.key === day.key ? 'day-chip active' : 'day-chip'} onClick={() => setSelectedDayKey(day.key)}>
                     <strong>{day.date}</strong>
                     <span>{day.label}</span>
                   </button>
@@ -748,7 +823,7 @@ function App() {
 
               <div className="itinerary-layout">
                 <section className="glass-card timeline-panel">
-                  <div className="section-header">
+                  <div className="section-header stacked-mobile">
                     <div>
                       <h3>{selectedDay.date} · {selectedDay.label}</h3>
                       <p>{selectedDay.focus}</p>
@@ -762,7 +837,7 @@ function App() {
                         <div className="hour-time">{stop.time}</div>
                         <div className="hour-dot" />
                         <div className="hour-card">
-                          <div className="hour-header">
+                          <div className="hour-header stacked-mobile">
                             <h4>{stop.title}</h4>
                             <span className="chip chip-soft">{stopTypeLabel(stop.type)}</span>
                           </div>
@@ -776,7 +851,7 @@ function App() {
 
                 <section className="side-panels">
                   <div className="glass-card logistics-card">
-                    <div className="section-header">
+                    <div className="section-header stacked-mobile">
                       <h3>Logistics</h3>
                       <span>{selectedDay.area}</span>
                     </div>
@@ -794,7 +869,7 @@ function App() {
                   </div>
 
                   <div className="glass-card logistics-card map-card">
-                    <div className="section-header">
+                    <div className="section-header stacked-mobile">
                       <h3>Live Kakao map</h3>
                       <span>{mapStatus === 'ready' ? 'interactive' : 'loading / fallback'}</span>
                     </div>
@@ -816,7 +891,7 @@ function App() {
                   </div>
 
                   <div className="glass-card logistics-card">
-                    <div className="section-header">
+                    <div className="section-header stacked-mobile">
                       <h3>Map links</h3>
                       <span>open in native map sites</span>
                     </div>
@@ -842,37 +917,50 @@ function App() {
 
           {activeTab === 'bookings' && (
             <section className="content-screen">
-              <header className="page-header wide-header">
+              <header className="page-header wide-header stacked-mobile">
                 <div>
-                  <h2 className="page-title">Bookings</h2>
-                  <p>Only the items that still matter or anchor the trip.</p>
+                  <h2 className="page-title">Bookings research board</h2>
+                  <p>Each card is a research theme. Your Discord comparison work should end up displayed here as the final shortlist and recommendation.</p>
                 </div>
-                <span className="chip chip-rose">3 open</span>
+                <span className="chip chip-gold">research-first</span>
               </header>
 
-              <div className="booking-grid-wide">
-                {bookings.map((item) => (
-                  <article className="glass-card booking-card-wide" key={item.title}>
-                    <div className="row-header">
+              <div className="research-grid">
+                {researchBoards.map((board) => (
+                  <article className="glass-card research-card" key={board.key}>
+                    <div className="section-header stacked-mobile">
                       <div>
-                        <h3>{item.title}</h3>
-                        <p>{item.meta}</p>
+                        <h3>{board.title}</h3>
+                        <p>{board.lead}</p>
                       </div>
-                      <span className={statusClass(item.state)}>{item.state}</span>
+                      <span className={statusClass(board.status)}>{board.status}</span>
                     </div>
-                    <div className="note-text">{item.note}</div>
+                    <div className="research-meta">{board.source}</div>
+                    <div className="research-recommendation">
+                      <span>Current recommendation</span>
+                      <strong>{board.recommendation}</strong>
+                    </div>
+                    <div className="option-list">
+                      {board.options.map((option) => (
+                        <div className="option-card" key={option.name}>
+                          <strong>{option.name}</strong>
+                          <p>{option.takeaway}</p>
+                        </div>
+                      ))}
+                    </div>
                   </article>
                 ))}
               </div>
+              <div className="support-note wide-note">Next upgrade path: wire this to a structured source so Discord research summaries can populate these cards automatically instead of manually.</div>
             </section>
           )}
 
           {activeTab === 'spend' && (
             <section className="content-screen">
-              <header className="page-header wide-header">
+              <header className="page-header wide-header stacked-mobile">
                 <div>
                   <h2 className="page-title">Spend</h2>
-                  <p>Still simple for now, but easier to scan on desktop.</p>
+                  <p>Still simple for now, but easier to scan on desktop and mobile.</p>
                 </div>
                 <span className="chip chip-sage">simple mode</span>
               </header>
@@ -907,6 +995,15 @@ function App() {
           )}
         </main>
       </div>
+
+      <nav className="mobile-bottom-nav">
+        {tabs.map((tab) => (
+          <button key={tab} className={activeTab === tab ? 'mobile-tab active' : 'mobile-tab'} onClick={() => setActiveTab(tab)}>
+            <span>{tab === 'home' ? '⌂' : tab === 'itinerary' ? '◫' : tab === 'bookings' ? '☰' : '₩'}</span>
+            <small>{tab === 'home' ? 'Home' : tab === 'itinerary' ? 'Plan' : tab === 'bookings' ? 'Book' : 'Spend'}</small>
+          </button>
+        ))}
+      </nav>
     </div>
   )
 }
