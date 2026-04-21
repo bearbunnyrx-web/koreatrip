@@ -131,24 +131,26 @@ const itineraryDays = [
     key: 'may-19',
     date: 'May 19',
     label: 'Jeju start day',
-    area: 'Seoul → Jeju',
+    area: 'Gimpo → Jeju',
     status: 'travel anchor',
     focus: 'This is the real Jeju start, even though the family-facing version of the plan keeps a broader May 19–24 “Jeju stretch” vibe.',
     logistics: {
-      start: 'Seoul',
-      end: 'Jeju',
-      note: 'Actual Jeju portion begins here and runs through May 21 before the trip shifts back to the Jamsil hotel base.',
+      start: 'Gimpo Airport',
+      end: 'Jeju rental-car pickup',
+      note: 'Jeju Air 7C115 departs GMP at 11:35 AM on Tue May 19. After landing, you need the airport shuttle to 특별한렌트카 before picking up the Kona EV at 1:00 PM.',
     },
     mapCenter: { lat: 33.4996, lng: 126.5312 },
     stops: [
-      { time: 'Morning', title: 'Airport / transfer rhythm', detail: 'Treat this as the real travel day into Jeju rather than a generic open Seoul day.', neighborhood: 'Seoul → airport', type: 'transit' },
-      { time: 'Flight block', title: 'Move into Jeju segment', detail: 'This is the actual start of the Jeju portion of the trip.', neighborhood: 'Seoul → Jeju', type: 'anchor' },
-      { time: 'After landing', title: 'Rental car + settle in', detail: 'Keep the first Jeju hours practical and low-friction.', neighborhood: 'Jeju', type: 'transit' },
-      { time: 'Evening', title: 'Simple Jeju first night', detail: 'Let the day stay easy after the transfer.', neighborhood: 'Jeju', type: 'meal' },
+      { time: 'Morning', title: 'Head to Gimpo', detail: 'Treat this as the real travel morning into the Jeju segment.', neighborhood: 'Seoul → GMP', type: 'transit' },
+      { time: '11:35', title: 'Jeju Air 7C115 departs Gimpo', detail: 'This is the actual start of the Jeju flight segment for both of you. Checked bag: 15 kg.', neighborhood: 'GMP → CJU', type: 'anchor' },
+      { time: 'After landing', title: 'Shuttle to 특별한렌트카', detail: 'Take the rental shuttle from Jeju Airport to the car pickup office at 제주특별자치도 제주시 공항로1길 38.', neighborhood: 'Jeju Airport → rental shuttle', type: 'transit' },
+      { time: '13:00', title: 'Pick up Kona 2nd gen EV', detail: 'Rental window begins here and runs until May 21 at 10:00 AM.', neighborhood: '특별한렌트카', type: 'anchor' },
+      { time: 'Evening', title: 'Simple Jeju first night', detail: 'Let the day stay easy after the transfer and car pickup.', neighborhood: 'Jeju', type: 'meal' },
     ],
     mapTargets: [
+      mapTarget('Gimpo International Airport', 'Jeju departure airport', { query: '김포국제공항', coords: { lat: 37.5583, lng: 126.7906 } }),
       mapTarget('Jeju International Airport', 'Jeju arrival anchor', { coords: { lat: 33.5104, lng: 126.4914 } }),
-      mapTarget('Jeju car rental', 'Likely first stop after landing', { query: '제주공항 렌터카' }),
+      mapTarget('특별한렌트카', 'Rental-car pickup office', { query: '제주특별자치도 제주시 공항로1길 38', coords: { lat: 33.5049, lng: 126.4926 } }),
     ],
   }),
   itineraryDay({
@@ -159,9 +161,9 @@ const itineraryDays = [
     status: 'travel logistics',
     focus: 'This is the only true full Jeju day in the middle of the trip, so it should feel distinct from the Seoul/Jamsil stretch that follows.',
     logistics: {
-      start: 'Jeju base',
+      start: 'Kona EV active rental window',
       end: 'Jeju evening',
-      note: 'Family-facing version may still sound like an extended Jeju stay, but the actual split remains Jeju through the 21st only.',
+      note: 'Kona 2nd gen EV is actively with you through this whole day; keep the island plan built around the car and charging realism.',
     },
     mapCenter: { lat: 33.4996, lng: 126.5312 },
     stops: [
@@ -185,18 +187,20 @@ const itineraryDays = [
     logistics: {
       start: 'Jeju',
       end: 'Jamsil / 본연 dinner',
-      note: 'Actual Jeju portion ends today. From tonight through the 24th, the real base is Sofitel in Jamsil.',
+      note: 'Jeju Air 7C114 departs CJU at 11:20 AM with checked bag 15 kg. Rental-car return needs to be completed by 10:00 AM before heading back through the airport flow.',
     },
     mapCenter: { lat: 37.5067, lng: 127.1022 },
     stops: [
-      { time: '11:30', title: 'Fly Jeju → Seoul', detail: 'This is the real island-to-Seoul handoff day.', neighborhood: 'Jeju / Gimpo', type: 'anchor' },
-      { time: '14:30', title: 'Move luggage + reset', detail: 'Do not overfill this middle window.', neighborhood: 'Transit to Jamsil', type: 'transit' },
+      { time: 'By 10:00', title: 'Return Kona EV', detail: 'Rental ends at 10:00 AM, so return the car before airport transfer.', neighborhood: '특별한렌트카 / Jeju', type: 'transit' },
+      { time: '11:20', title: 'Jeju Air 7C114 departs Jeju', detail: 'This is the real island-to-Seoul handoff flight for both of you. Checked bag: 15 kg.', neighborhood: 'CJU → GMP', type: 'anchor' },
+      { time: 'After landing', title: 'Move luggage + reset', detail: 'Do not overfill this middle window.', neighborhood: 'Transit to Jamsil', type: 'transit' },
       { time: '16:00', title: 'Sofitel check-in', detail: 'This begins the actual Jamsil hotel stretch from May 21–24.', neighborhood: 'Jamsil', type: 'hotel' },
-      { time: '19:00', title: '본연 dinner reservation', detail: 'Already confirmed — this is your real evening anchor.', neighborhood: 'Seoul', type: 'meal' },
+      { time: '19:00', title: '본연 dinner reservation', detail: 'Booked through Catch Table. Wine order required. 240,000 KRW course for 2 people.', neighborhood: 'Seoul', type: 'meal' },
     ],
     mapTargets: [
+      mapTarget('Jeju International Airport', 'Jeju departure airport', { coords: { lat: 33.5104, lng: 126.4914 } }),
       mapTarget('Sofitel Ambassador Seoul', 'Confirmed hotel anchor'),
-      mapTarget('본연 서울', 'Confirmed dinner reservation', { query: '본연 서울' }),
+      mapTarget('본연 서울', 'Catch Table reservation anchor', { query: '본연 서울' }),
       mapTarget('Jamsil', 'Neighborhood anchor', { query: '잠실', coords: { lat: 37.5133, lng: 127.1002 } }),
     ],
   }),
@@ -435,9 +439,9 @@ const researchBoards = [
 ]
 
 const spend = [
-  { item: 'Flights', detail: 'Long-haul + international legs', amount: '$960' },
-  { item: 'Jeju flight', detail: 'Seoul → Jeju', amount: '$200' },
-  { item: 'Rental car', detail: 'Jeju', amount: '$35' },
+  { item: 'Flights', detail: 'China Airlines long-haul roundtrip for both', amount: '$960' },
+  { item: 'Jeju flight', detail: 'Jeju Air 7C115 / 7C114 for both', amount: '$200' },
+  { item: 'Rental car', detail: 'Kona 2nd gen EV · 5/19 13:00 → 5/21 10:00', amount: '$35' },
   { item: 'Activity', detail: 'Imported activity / beach cost', amount: '$160' },
 ]
 
