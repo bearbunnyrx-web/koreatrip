@@ -434,6 +434,12 @@ a {
   font-size: 13px;
 }
 
+.countdown-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
 .countdown-card strong {
   font-size: clamp(48px, 10vw, 92px);
   line-height: 0.95;
@@ -442,6 +448,48 @@ a {
 
 .clean-search-card {
   padding: 18px;
+}
+
+.home-brief-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.mini-list-card {
+  border-radius: 24px;
+  padding: 18px;
+}
+
+.mini-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.mini-list-row {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.schedule-row {
+  grid-template-columns: 64px minmax(0, 1fr);
+}
+
+.schedule-row strong {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.mini-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--nav-active);
+  margin-top: 7px;
 }
 
 .trip-search {
@@ -942,6 +990,7 @@ a {
 @media (max-width: 1200px) {
   .hero-banner,
   .home-grid,
+  .home-brief-grid,
   .itinerary-layout,
   .spend-layout,
   .research-grid,

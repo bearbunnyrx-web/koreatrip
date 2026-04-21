@@ -446,6 +446,20 @@ const spend = [
   { item: 'Activity', detail: 'Imported activity / beach cost', amount: '$160' },
 ]
 
+const homeTodos = [
+  'Book arrival-day headspa',
+  'Finish nail / eyebrow shortlist',
+  'Confirm hair perm time',
+  'Narrow dermatology clinic options',
+]
+
+const nextSchedule = [
+  { date: 'May 15', item: 'Flight out' },
+  { date: 'May 16', item: 'Arrival + family lunch + headspa window' },
+  { date: 'May 17', item: 'Seongsu beauty + shopping day' },
+  { date: 'May 21', item: 'Sofitel check-in + 본연 dinner' },
+]
+
 function statusClass(value) {
   const lower = value.toLowerCase()
   if (lower.includes('booked') || lower.includes('confirmed')) return 'chip chip-dark'
@@ -551,7 +565,7 @@ function App() {
     })
 
     const bookingResults = researchBoards.flatMap((board) => {
-      const matchedOption = board.options.find((option) => [option.name, option.takeaway].join(' ').toLowerCase().includes(q))
+      const matchedOption = board.comparison.find((option) => [option.place, option.area, option.pricing, option.note].join(' ').toLowerCase().includes(q))
       const matchedBoard = [board.title, board.lead, board.recommendation].join(' ').toLowerCase().includes(q)
 
       if (!matchedBoard && !matchedOption) return []
@@ -560,7 +574,7 @@ function App() {
         key: board.key,
         type: 'Research',
         title: board.title,
-        detail: matchedOption?.name || board.recommendation,
+        detail: matchedOption?.place || board.recommendation,
         action: () => setActiveTab('bookings'),
       }]
     })
@@ -701,8 +715,7 @@ function App() {
           <div className="sidebar-top-row">
             <div className="sidebar-top">
               <div className="eyebrow">SJ + TH • Korea • May 15–26</div>
-              <h1>Korea Trip Together</h1>
-              <p>Shared trip app for both of you — excitement on top, real logistics underneath.</p>
+              <h1>Korea Trip May 15-26</h1>
             </div>
             <button className="theme-toggle" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
               {theme === 'light' ? '☾ Dark' : '☀ Light'}
@@ -742,8 +755,9 @@ function App() {
           {activeTab === 'home' && (
             <section className="content-screen home-screen clean-home-screen">
               <div className="countdown-card glass-card">
-                <span>Countdown</span>
+                <span>Almost Korea time</span>
                 <strong>D-{countdownDays}</strong>
+                <p>The trip is close enough to feel real now.</p>
               </div>
 
               <div className="search-card glass-card clean-search-card">
@@ -768,6 +782,36 @@ function App() {
                     )}
                   </div>
                 ) : null}
+              </div>
+
+              <div className="home-brief-grid">
+                <section className="glass-card mini-list-card">
+                  <div className="section-header">
+                    <h3>TODO</h3>
+                  </div>
+                  <div className="mini-list">
+                    {homeTodos.map((item) => (
+                      <div className="mini-list-row" key={item}>
+                        <span className="mini-dot" />
+                        <p>{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="glass-card mini-list-card">
+                  <div className="section-header">
+                    <h3>Next schedule</h3>
+                  </div>
+                  <div className="mini-list">
+                    {nextSchedule.map((entry) => (
+                      <div className="mini-list-row schedule-row" key={entry.date + entry.item}>
+                        <strong>{entry.date}</strong>
+                        <p>{entry.item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
               </div>
             </section>
           )}
