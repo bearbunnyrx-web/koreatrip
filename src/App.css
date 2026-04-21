@@ -417,6 +417,33 @@ a {
   margin-top: 18px;
 }
 
+.clean-home-screen {
+  max-width: 920px;
+}
+
+.countdown-card {
+  border-radius: 28px;
+  padding: 30px 24px;
+  display: grid;
+  gap: 8px;
+  background: var(--card-strong);
+}
+
+.countdown-card span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.countdown-card strong {
+  font-size: clamp(48px, 10vw, 92px);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.clean-search-card {
+  padding: 18px;
+}
+
 .trip-search {
   width: 100%;
   border-radius: 18px;
@@ -723,6 +750,93 @@ a {
 
 .research-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.research-accordion-list {
+  display: grid;
+  gap: 14px;
+}
+
+.research-accordion {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.research-summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px;
+  cursor: pointer;
+}
+
+.research-summary::-webkit-details-marker {
+  display: none;
+}
+
+.research-summary h3 {
+  margin: 0 0 6px;
+}
+
+.research-accordion-body {
+  display: grid;
+  gap: 14px;
+  padding: 0 18px 18px;
+}
+
+.research-lead {
+  margin: 0;
+  color: var(--muted);
+}
+
+.comparison-table-wrap {
+  overflow-x: auto;
+}
+
+.comparison-table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+}
+
+.comparison-table th,
+.comparison-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 12px 10px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.comparison-table th {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.comparison-thumb {
+  width: 96px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  background: var(--card-soft);
+}
+
+.comparison-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comparison-links a {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(127, 110, 96, 0.14);
 }
 
 .research-card {

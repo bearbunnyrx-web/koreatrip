@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 const tabs = ['home', 'itinerary', 'bookings', 'spend']
 const KAKAO_JS_KEY = import.meta.env.VITE_KAKAO_JS_KEY
-const TRIP_TELEGRAM_URL = import.meta.env.VITE_TRIP_TELEGRAM_URL || ''
 
 function mapTarget(name, reason, options = {}) {
   const query = options.query ?? name
@@ -330,48 +329,112 @@ const researchBoards = [
     key: 'nail-brow',
     title: 'Nail / eyebrow in Seongsu',
     status: 'research active',
-    lead: 'Build this from Discord comparison notes, then lock one beauty block and cluster lunch + shopping around it.',
+    lead: 'Default collapsed until the Discord comparison becomes decisive.',
     source: 'Discord research board → travel / korea-trip / bookings',
-    recommendation: 'Current recommendation should appear here after comparison is done.',
-    options: [
-      { name: 'Option A', takeaway: 'Best overall once price / portfolio / timing are compared.' },
-      { name: 'Option B', takeaway: 'Backup if timing is better or Korean booking is easier.' },
+    recommendation: 'Waiting for your real shortlist from Discord so this can become a real compare table instead of placeholders.',
+    comparison: [
+      {
+        place: 'Shop candidate A',
+        area: 'Seongsu',
+        pricing: 'TBD',
+        thumbnail: 'https://placehold.co/240x160/e8edf7/253247?text=Seongsu+Beauty+A',
+        youtube: 'https://www.youtube.com/results?search_query=Seongsu+nail+eyebrow+shop',
+        instagram: '',
+        note: 'Placeholder row until you feed in the actual shop names from Discord.',
+      },
+      {
+        place: 'Shop candidate B',
+        area: 'Seongsu',
+        pricing: 'TBD',
+        thumbnail: 'https://placehold.co/240x160/f6e8ef/4a2b3c?text=Seongsu+Beauty+B',
+        youtube: 'https://www.youtube.com/results?search_query=Seongsu+nail+brow+review',
+        instagram: '',
+        note: 'Use this row for the main backup once you narrow the shortlist.',
+      },
     ],
   },
   {
     key: 'headspa',
     title: 'Arrival-day headspa near 고덕',
     status: 'decision pending',
-    lead: 'This is close to resolved already, so the tab should make the final comparison feel obvious.',
-    source: 'Discord research board + arrival-day logistics',
-    recommendation: 'Likely 숱하다헤드스파 unless an exact slot or commute makes another option cleaner.',
-    options: [
-      { name: '숱하다헤드스파', takeaway: 'Late-afternoon friendly and easier to fit after landing + family lunch.' },
-      { name: '단비 헤드스파앤컬러', takeaway: 'Cozier backup if the timing lines up better.' },
+    lead: 'This one already has real place data, so it can work like a true compare board now.',
+    source: 'Naver place details + arrival-day logistics',
+    recommendation: '숱하다헤드스파 still looks like the cleaner default because the hours and timing are friendlier after landing.',
+    comparison: [
+      {
+        place: '숱하다헤드스파',
+        area: '강동구 고덕동 · 고덕역권',
+        pricing: '미니스파(35분) 50,000 KRW · AI 두피진단 0 KRW',
+        thumbnail: 'https://search.pstatic.net/sunny?src=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAA5AbUAL1PRqBDei8IhAxtLBYdRZ_q6T-edzfNF5PCglbZNJF6RMgWyeiH8JqwWqLZXiS4tnc6RRgU_JDbvlKmz_RTAw524osd_bp_3eWtAuyVh9S0n01UXGLWeqjDtITk6KLmJ51C7oK9O0bZP4UI1kLEjI6l6x-rk3uLGrWbPVzAcl2EgVcoNW7Uf4hUGS4W_YfIgPpmfpEi6izXcL3CtxpjxtjpVraWigz5DM%3Dw1280&type=fff208_208_ar',
+        youtube: 'https://www.youtube.com/results?search_query=%EC%88%B1%ED%95%98%EB%8B%A4%ED%97%A4%EB%93%9C%EC%8A%A4%ED%8C%8C',
+        instagram: '',
+        note: 'Open until 22:00, which gives you much more margin on arrival day.',
+      },
+      {
+        place: '단비 헤드스파앤컬러',
+        area: '강동구 · 고덕 인접',
+        pricing: '첫방문 힐링스파(70분) 60,000 KRW',
+        thumbnail: 'https://placehold.co/240x160/e7efe7/244032?text=Danbi+Headspa',
+        youtube: 'https://www.youtube.com/results?search_query=%EB%8B%A8%EB%B9%84+%ED%97%A4%EB%93%9C%EC%8A%A4%ED%8C%8C%EC%95%A4%EC%BB%AC%EB%9F%AC',
+        instagram: '',
+        note: 'Cozier-feeling backup, but the tighter hours make it less forgiving.',
+      },
     ],
   },
   {
     key: 'hair-perm',
     title: 'Hair perm day structure',
     status: 'to confirm',
-    lead: 'This theme is less about choosing a salon and more about protecting the day around the confirmed perm time.',
+    lead: 'This compare board is more about day-shape than about a finalized salon list.',
     source: 'Discord comparison + itinerary timing',
-    recommendation: 'Once the exact time is fixed, the itinerary should update and this card can collapse to one chosen plan.',
-    options: [
-      { name: 'Morning-heavy version', takeaway: 'Best if embassy + salon stay in one clean sequence.' },
-      { name: 'Late-morning version', takeaway: 'Better if transit and lunch feel too compressed early.' },
+    recommendation: 'Once the exact appointment time is fixed, one row should win and the other should probably disappear.',
+    comparison: [
+      {
+        place: 'Morning-heavy version',
+        area: 'Embassy area → salon area',
+        pricing: 'TBD',
+        thumbnail: 'https://placehold.co/240x160/e9ecf7/2d3750?text=Morning+Version',
+        youtube: 'https://www.youtube.com/results?search_query=%EC%88%9C%EC%8B%9C%ED%82%A4+%ED%97%A4%EC%96%B4',
+        instagram: '',
+        note: 'Better if embassy and salon can be handled in one clean push.',
+      },
+      {
+        place: 'Late-morning version',
+        area: 'Salon-first buffer',
+        pricing: 'TBD',
+        thumbnail: 'https://placehold.co/240x160/f2e9de/5a4032?text=Late+Morning',
+        youtube: 'https://www.youtube.com/results?search_query=Soonsiki+hair+seoul',
+        instagram: '',
+        note: 'Safer if the morning feels too compressed with transport.',
+      },
     ],
   },
   {
     key: 'derm',
     title: 'Dermatology clinic shortlist',
     status: 'research active',
-    lead: 'Use this for treatment comparison, neighborhood fit, price, and how easy the booking flow is for both of you.',
+    lead: 'This is ready for a proper table once you drop the actual clinic names from Discord.',
     source: 'Discord research board → future compare view',
-    recommendation: 'Chosen clinic should appear here with why it won.',
-    options: [
-      { name: 'Clinic option 1', takeaway: 'Placeholder until you drop real comparison notes into Discord.' },
-      { name: 'Clinic option 2', takeaway: 'Placeholder until real research is available.' },
+    recommendation: 'Waiting for real clinic shortlist.',
+    comparison: [
+      {
+        place: 'Clinic option 1',
+        area: 'TBD',
+        pricing: 'TBD',
+        thumbnail: 'https://placehold.co/240x160/e9f2ee/234236?text=Derm+Option+1',
+        youtube: 'https://www.youtube.com/results?search_query=Seoul+dermatology+clinic+review',
+        instagram: '',
+        note: 'Replace with actual clinic details once research is narrowed.',
+      },
+      {
+        place: 'Clinic option 2',
+        area: 'TBD',
+        pricing: 'TBD',
+        thumbnail: 'https://placehold.co/240x160/f3e8e8/5e3535?text=Derm+Option+2',
+        youtube: 'https://www.youtube.com/results?search_query=Korea+dermatology+clinic+review',
+        instagram: '',
+        note: 'Backup row for second clinic candidate.',
+      },
     ],
   },
 ]
@@ -452,6 +515,12 @@ function App() {
     () => spend.reduce((sum, row) => sum + Number(row.amount.replace(/[$,]/g, '')), 0),
     [],
   )
+
+  const countdownDays = useMemo(() => {
+    const today = new Date()
+    const tripStart = new Date('2026-05-15T00:00:00-07:00')
+    return Math.max(0, Math.ceil((tripStart.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)))
+  }, [])
 
   const pendingBookings = useMemo(
     () => researchBoards.filter((board) => !board.status.toLowerCase().includes('confirmed')).length,
@@ -671,45 +740,13 @@ function App() {
 
         <main className="content-shell">
           {activeTab === 'home' && (
-            <section className="content-screen home-screen">
-              <div className="hero-banner glass-card">
-                <div className="hero-copy">
-                  <div className="section-kicker">Korea countdown mode</div>
-                  <h2>Seoul, Jeju, late-night convenience stores, and finally having the trip feel real.</h2>
-                  <p>Use Home for excitement, quick search, and shared jumping-off points. Use the other tabs once you want details.</p>
-                  <div className="hero-badges">
-                    <span className="chip chip-dark">May 15–26</span>
-                    <span className="chip chip-soft">iPhone-friendly</span>
-                    <span className="chip chip-sage">Kakao map live</span>
-                  </div>
-                </div>
-                <div className="hero-poster">
-                  <div className="poster-glow" />
-                  <div className="poster-stamp">서울 ↔ 제주</div>
-                  <div className="poster-mini-grid">
-                    <div>
-                      <span>Trip vibe</span>
-                      <strong>romantic + efficient</strong>
-                    </div>
-                    <div>
-                      <span>Main pressure</span>
-                      <strong>beauty bookings</strong>
-                    </div>
-                    <div>
-                      <span>Best new feature</span>
-                      <strong>hourly planning</strong>
-                    </div>
-                  </div>
-                </div>
+            <section className="content-screen home-screen clean-home-screen">
+              <div className="countdown-card glass-card">
+                <span>Countdown</span>
+                <strong>D-{countdownDays}</strong>
               </div>
 
-              <div className="search-card glass-card">
-                <div className="section-header stacked-mobile">
-                  <div>
-                    <h3>Search the trip</h3>
-                    <p>Find a day, place, booking theme, or route idea fast.</p>
-                  </div>
-                </div>
+              <div className="search-card glass-card clean-search-card">
                 <input
                   className="trip-search"
                   value={searchQuery}
@@ -730,63 +767,7 @@ function App() {
                       <div className="empty-state">No matches yet — try a date, neighborhood, booking type, or specific place.</div>
                     )}
                   </div>
-                ) : (
-                  <div className="search-hints">
-                    <span>Try: Seongsu</span>
-                    <span>Try: headspa</span>
-                    <span>Try: Jamsil</span>
-                    <span>Try: Jeju</span>
-                  </div>
-                )}
-              </div>
-
-              <div className="home-grid">
-                <section className="glass-card panel-card telegram-card">
-                  <div className="section-header stacked-mobile">
-                    <div>
-                      <h3>Shared trip chat</h3>
-                      <p>Best shared surface is still a Telegram group with you, her, and me.</p>
-                    </div>
-                    <span className="chip chip-gold">shared planning</span>
-                  </div>
-                  <div className="telegram-box">
-                    {TRIP_TELEGRAM_URL ? (
-                      <>
-                        <p>Invite her with the trip group link, then use that chat for decisions, bookings, and itinerary discussion.</p>
-                        <a className="primary-link" href={TRIP_TELEGRAM_URL} target="_blank" rel="noreferrer">Open trip Telegram group</a>
-                      </>
-                    ) : (
-                      <>
-                        <p>No trip-group invite link is wired yet. Once you send me the invite URL, I can drop it here as the main CTA.</p>
-                        <div className="disabled-link">Waiting for Telegram invite link</div>
-                      </>
-                    )}
-                  </div>
-                  <small className="support-note">Embedded Telegram chat inside this app is not the fast/reliable path — it would require a custom backend, auth, and message syncing. The direct group link is the clean option.</small>
-                </section>
-
-                <section className="glass-card panel-card">
-                  <div className="section-header stacked-mobile">
-                    <div>
-                      <h3>What feels exciting now</h3>
-                      <p>Home should make the trip feel close, not just administrative.</p>
-                    </div>
-                  </div>
-                  <div className="excitement-grid">
-                    <article className="excitement-card soft-rose">
-                      <strong>Arrival day</strong>
-                      <p>Parents, home lunch, and a gentle first evening instead of chaos.</p>
-                    </article>
-                    <article className="excitement-card soft-blue">
-                      <strong>Seongsu day</strong>
-                      <p>Beauty booking + lunch + shopping loop with the logistics finally visible.</p>
-                    </article>
-                    <article className="excitement-card soft-sage">
-                      <strong>Jamsil reset</strong>
-                      <p>Sofitel check-in, nicer dinner, and the second-half Seoul mood shift.</p>
-                    </article>
-                  </div>
-                </section>
+                ) : null}
               </div>
             </section>
           )}
@@ -920,38 +901,69 @@ function App() {
               <header className="page-header wide-header stacked-mobile">
                 <div>
                   <h2 className="page-title">Bookings research board</h2>
-                  <p>Each card is a research theme. Your Discord comparison work should end up displayed here as the final shortlist and recommendation.</p>
+                  <p>Each item stays collapsed by default, then opens into a comparison view with thumbnail, area, pricing, and external links.</p>
                 </div>
                 <span className="chip chip-gold">research-first</span>
               </header>
 
-              <div className="research-grid">
+              <div className="research-accordion-list">
                 {researchBoards.map((board) => (
-                  <article className="glass-card research-card" key={board.key}>
-                    <div className="section-header stacked-mobile">
+                  <details className="glass-card research-accordion" key={board.key}>
+                    <summary className="research-summary">
                       <div>
                         <h3>{board.title}</h3>
-                        <p>{board.lead}</p>
+                        <p>{board.recommendation}</p>
                       </div>
                       <span className={statusClass(board.status)}>{board.status}</span>
+                    </summary>
+
+                    <div className="research-accordion-body">
+                      <div className="research-meta">{board.source}</div>
+                      <p className="research-lead">{board.lead}</p>
+
+                      <div className="research-recommendation">
+                        <span>Current recommendation</span>
+                        <strong>{board.recommendation}</strong>
+                      </div>
+
+                      <div className="comparison-table-wrap">
+                        <table className="comparison-table">
+                          <thead>
+                            <tr>
+                              <th>Preview</th>
+                              <th>Place</th>
+                              <th>Location</th>
+                              <th>Pricing</th>
+                              <th>Links</th>
+                              <th>Notes</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {board.comparison.map((option) => (
+                              <tr key={board.key + option.place}>
+                                <td>
+                                  <img className="comparison-thumb" src={option.thumbnail} alt={option.place} />
+                                </td>
+                                <td>{option.place}</td>
+                                <td>{option.area}</td>
+                                <td>{option.pricing}</td>
+                                <td>
+                                  <div className="comparison-links">
+                                    {option.instagram ? <a href={option.instagram} target="_blank" rel="noreferrer">Instagram</a> : null}
+                                    {option.youtube ? <a href={option.youtube} target="_blank" rel="noreferrer">YouTube</a> : null}
+                                  </div>
+                                </td>
+                                <td>{option.note}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                    <div className="research-meta">{board.source}</div>
-                    <div className="research-recommendation">
-                      <span>Current recommendation</span>
-                      <strong>{board.recommendation}</strong>
-                    </div>
-                    <div className="option-list">
-                      {board.options.map((option) => (
-                        <div className="option-card" key={option.name}>
-                          <strong>{option.name}</strong>
-                          <p>{option.takeaway}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </article>
+                  </details>
                 ))}
               </div>
-              <div className="support-note wide-note">Next upgrade path: wire this to a structured source so Discord research summaries can populate these cards automatically instead of manually.</div>
+              <div className="support-note wide-note">For headspa, I filled in real location/pricing data. For the other themes, the compare tables are ready but still need your actual Discord shortlist to replace the placeholders.</div>
             </section>
           )}
 
