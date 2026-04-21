@@ -484,12 +484,31 @@ a {
   line-height: 1.5;
 }
 
+.mini-list-row small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .mini-dot {
   width: 8px;
   height: 8px;
   border-radius: 999px;
   background: var(--nav-active);
   margin-top: 7px;
+}
+
+.mini-dot-overdue {
+  background: #c75b4a;
+}
+
+.mini-dot-soon {
+  background: #c5962f;
+}
+
+.mini-dot-upcoming {
+  background: #4f7e62;
 }
 
 .trip-search {

@@ -446,18 +446,42 @@ const spend = [
   { item: 'Activity', detail: 'Imported activity / beach cost', amount: '$160' },
 ]
 
-const homeTodos = [
-  'Book arrival-day headspa',
-  'Finish nail / eyebrow shortlist',
-  'Confirm hair perm time',
-  'Narrow dermatology clinic options',
+const todoItems = [
+  {
+    key: 'headspa-booking',
+    label: 'Book arrival-day headspa',
+    dueDate: '2026-05-10',
+    priority: 1,
+    done: false,
+  },
+  {
+    key: 'nail-brow-shortlist',
+    label: 'Finish nail / eyebrow shortlist',
+    dueDate: '2026-05-11',
+    priority: 2,
+    done: false,
+  },
+  {
+    key: 'hair-time',
+    label: 'Confirm hair perm time',
+    dueDate: '2026-05-12',
+    priority: 3,
+    done: false,
+  },
+  {
+    key: 'derm-shortlist',
+    label: 'Narrow dermatology clinic options',
+    dueDate: '2026-05-13',
+    priority: 4,
+    done: false,
+  },
 ]
 
-const nextSchedule = [
-  { date: 'May 15', item: 'Flight out' },
-  { date: 'May 16', item: 'Arrival + family lunch + headspa window' },
-  { date: 'May 17', item: 'Seongsu beauty + shopping day' },
-  { date: 'May 21', item: 'Sofitel check-in + 본연 dinner' },
+const scheduleItems = [
+  { key: 'flight-out', date: '2026-05-15', label: 'Flight out' },
+  { key: 'arrival', date: '2026-05-16', label: 'Arrival + family lunch + headspa window' },
+  { key: 'seongsu', date: '2026-05-17', label: 'Seongsu beauty + shopping day' },
+  { key: 'sofitel-dinner', date: '2026-05-21', label: 'Sofitel check-in + 본연 dinner' },
 ]
 
 function statusClass(value) {
@@ -534,6 +558,44 @@ function App() {
     const today = new Date()
     const tripStart = new Date('2026-05-15T00:00:00-07:00')
     return Math.max(0, Math.ceil((tripStart.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)))
+  }, [])
+
+  const smartTodos = useMemo(() => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    return todoItems
+      .filter((item) => !item.done)
+      .map((item) => {
+        const due = new Date(`${item.dueDate}T00:00:00-07:00`)
+        const diffDays = Math.ceil((due.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+        const urgency = diffDays < 0 ? 'overdue' : diffDays <= 2 ? 'soon' : 'upcoming'
+        const meta = diffDays < 0 ? `${Math.abs(diffDays)}d late` : diffDays === 0 ? 'today' : `due in ${diffDays}d`
+        return { ...item, urgency, meta, diffDays }
+      })
+      .sort((a, b) => a.diffDays - b.diffDays || a.priority - b.priority)
+      .slice(0, 4)
+  }, [])
+
+  const smartSchedule = useMemo(() => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const upcoming = scheduleItems
+      .map((item) => {
+        const dateObj = new Date(`${item.date}T00:00:00-07:00`)
+        const diffDays = Math.ceil((dateObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+        return {
+          ...item,
+          diffDays,
+          shortDate: dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+          meta: diffDays === 0 ? 'today' : diffDays === 1 ? 'tomorrow' : diffDays > 1 ? `in ${diffDays}d` : `${Math.abs(diffDays)}d ago`,
+        }
+      })
+      .filter((item) => item.diffDays >= 0)
+      .sort((a, b) => a.diffDays - b.diffDays)
+
+    return (upcoming.length ? upcoming : scheduleItems.map((item) => ({ ...item, shortDate: item.date, meta: 'passed' }))).slice(0, 3)
   }, [])
 
   const pendingBookings = useMemo(
@@ -790,10 +852,13 @@ function App() {
                     <h3>TODO</h3>
                   </div>
                   <div className="mini-list">
-                    {homeTodos.map((item) => (
-                      <div className="mini-list-row" key={item}>
-                        <span className="mini-dot" />
-                        <p>{item}</p>
+                    {smartTodos.map((item) => (
+                      <div className="mini-list-row" key={item.key}>
+                        <span className={`mini-dot mini-dot-${item.urgency}`} />
+                        <div>
+                          <p>{item.label}</p>
+                          <small>{item.meta}</small>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -804,10 +869,13 @@ function App() {
                     <h3>Next schedule</h3>
                   </div>
                   <div className="mini-list">
-                    {nextSchedule.map((entry) => (
-                      <div className="mini-list-row schedule-row" key={entry.date + entry.item}>
-                        <strong>{entry.date}</strong>
-                        <p>{entry.item}</p>
+                    {smartSchedule.map((entry) => (
+                      <div className="mini-list-row schedule-row" key={entry.key}>
+                        <div>
+                          <strong>{entry.shortDate}</strong>
+                          <small>{entry.meta}</small>
+                        </div>
+                        <p>{entry.label}</p>
                       </div>
                     ))}
                   </div>
