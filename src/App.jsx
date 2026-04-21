@@ -1,10 +1,54 @@
 import './App.css'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const tabs = ['home', 'itinerary', 'bookings', 'spend']
+const KAKAO_JS_KEY = import.meta.env.VITE_KAKAO_JS_KEY
+
+function mapTarget(name, reason, options = {}) {
+  const query = options.query ?? name
+
+  return {
+    name,
+    reason,
+    query,
+    coords: options.coords,
+    naverUrl: `https://map.naver.com/p/search/${encodeURIComponent(query)}`,
+    kakaoUrl: `https://map.kakao.com/?q=${encodeURIComponent(query)}`,
+  }
+}
+
+function itineraryDay(config) {
+  return {
+    mapLevel: 6,
+    ...config,
+  }
+}
 
 const itineraryDays = [
-  {
+  itineraryDay({
+    key: 'may-15',
+    date: 'May 15',
+    label: 'Flight out',
+    area: 'Travel day',
+    status: 'travel anchor',
+    focus: 'Keep this day simple: airport, flight, and sleep. Nothing else should compete with it.',
+    logistics: {
+      start: 'LAX',
+      end: 'Overnight flight to Korea',
+      note: 'This is mostly a hard travel day, so the main job is buffer, food, and avoiding unnecessary stress before departure.',
+    },
+    mapCenter: { lat: 33.9416, lng: -118.4085 },
+    stops: [
+      { time: 'AM', title: 'Final pack + document check', detail: 'Passport, cards, chargers, eSIM plan, and medication all checked once before leaving.', neighborhood: 'Home', type: 'anchor' },
+      { time: '3–4 hrs before flight', title: 'Head to LAX', detail: 'Treat this as a buffer block, not as tightly scheduled time.', neighborhood: 'Los Angeles', type: 'transit' },
+      { time: 'Flight block', title: 'Depart for Korea', detail: 'Once this starts, the only goal is getting there rested enough for arrival day.', neighborhood: 'LAX → ICN', type: 'anchor' },
+    ],
+    mapTargets: [
+      mapTarget('LAX Airport', 'Departure anchor', { query: 'Los Angeles International Airport', coords: { lat: 33.9416, lng: -118.4085 } }),
+      mapTarget('Incheon International Airport', 'Arrival anchor in Korea', { coords: { lat: 37.4602, lng: 126.4407 } }),
+    ],
+  }),
+  itineraryDay({
     key: 'may-16',
     date: 'May 16',
     label: 'Arrival day',
@@ -16,65 +60,21 @@ const itineraryDays = [
       end: 'Dinner near family / easy night',
       note: 'Parents likely pick you up, lunch at home first, then late-afternoon outing makes the most sense.',
     },
+    mapCenter: { lat: 37.5557, lng: 127.1542 },
     stops: [
-      {
-        time: '11:30',
-        title: 'Land at ICN',
-        detail: 'Immigration, bags, and regroup without rushing.',
-        neighborhood: 'Incheon Airport',
-        type: 'anchor',
-      },
-      {
-        time: '12:30–13:30',
-        title: 'Meet parents + drive out',
-        detail: 'Let your parents take the lead and avoid stacking commitments too close to landing.',
-        neighborhood: 'Airport pickup',
-        type: 'transit',
-      },
-      {
-        time: '14:00',
-        title: 'Lunch at parents’ house',
-        detail: 'Use this as the true recovery block before going back out.',
-        neighborhood: '고덕역 home base',
-        type: 'meal',
-      },
-      {
-        time: '16:30 or 17:30',
-        title: 'Headspa window',
-        detail: 'Late-afternoon slot feels safer than trying to force an early appointment after the airport.',
-        neighborhood: '고덕 / nearby east Seoul',
-        type: 'beauty',
-      },
-      {
-        time: '19:00',
-        title: 'Easy dinner / family time',
-        detail: 'Stay local, keep the first night soft, and don’t overschedule.',
-        neighborhood: '고덕 / family area',
-        type: 'meal',
-      },
+      { time: '11:30', title: 'Land at ICN', detail: 'Immigration, bags, and regroup without rushing.', neighborhood: 'Incheon Airport', type: 'anchor' },
+      { time: '12:30–13:30', title: 'Meet parents + drive out', detail: 'Let your parents take the lead and avoid stacking commitments too close to landing.', neighborhood: 'Airport pickup', type: 'transit' },
+      { time: '14:00', title: 'Lunch at parents’ house', detail: 'Use this as the true recovery block before going back out.', neighborhood: '고덕역 home base', type: 'meal' },
+      { time: '16:30 or 17:30', title: 'Headspa window', detail: 'Late-afternoon slot feels safer than trying to force an early appointment after the airport.', neighborhood: '고덕 / nearby east Seoul', type: 'beauty' },
+      { time: '19:00', title: 'Easy dinner / family time', detail: 'Stay local, keep the first night soft, and don’t overschedule.', neighborhood: '고덕 / family area', type: 'meal' },
     ],
     mapTargets: [
-      {
-        name: 'Parents’ house / 고덕역 area',
-        reason: 'Home base after landing',
-        naverUrl: 'https://map.naver.com/p/search/%EA%B3%A0%EB%8D%95%EC%97%AD',
-        kakaoUrl: 'https://map.kakao.com/?q=%EA%B3%A0%EB%8D%95%EC%97%AD',
-      },
-      {
-        name: '숱하다헤드스파',
-        reason: 'Flexible late-afternoon headspa candidate',
-        naverUrl: 'https://map.naver.com/p/search/%EC%88%B1%ED%95%98%EB%8B%A4%ED%97%A4%EB%93%9C%EC%8A%A4%ED%8C%8C',
-        kakaoUrl: 'https://map.kakao.com/?q=%EC%88%B1%ED%95%98%EB%8B%A4%20%ED%97%A4%EB%93%9C%EC%8A%A4%ED%8C%8C',
-      },
-      {
-        name: '단비 헤드스파앤컬러',
-        reason: 'Cozier backup if timing works',
-        naverUrl: 'https://map.naver.com/p/search/%EB%8B%A8%EB%B9%84%20%ED%97%A4%EB%93%9C%EC%8A%A4%ED%8C%8C%EC%95%A4%EC%BB%AC%EB%9F%AC',
-        kakaoUrl: 'https://map.kakao.com/?q=%EB%8B%A8%EB%B9%84%20%ED%97%A4%EB%93%9C%EC%8A%A4%ED%8C%8C%EC%95%A4%EC%BB%AC%EB%9F%AC',
-      },
+      mapTarget('Parents’ house / 고덕역 area', 'Home base after landing', { query: '고덕역', coords: { lat: 37.5557, lng: 127.1542 } }),
+      mapTarget('숱하다헤드스파', 'Flexible late-afternoon headspa candidate'),
+      mapTarget('단비 헤드스파앤컬러', 'Cozier backup if timing works'),
     ],
-  },
-  {
+  }),
+  itineraryDay({
     key: 'may-17',
     date: 'May 17',
     label: 'Seongsu beauty + shopping',
@@ -84,61 +84,97 @@ const itineraryDays = [
     logistics: {
       start: '고덕 / east Seoul',
       end: 'Dinner back in Seoul',
-      note: 'This is the kind of day where a live map will help the most because everything should be clustered by walking blocks, not districts.',
+      note: 'This is the kind of day where a live map helps most because everything should be grouped by walking blocks, not districts.',
     },
+    mapCenter: { lat: 37.5446, lng: 127.0557 },
     stops: [
-      {
-        time: '10:00',
-        title: 'Leave home base',
-        detail: 'Give yourselves a soft start so the day still feels like vacation.',
-        neighborhood: '고덕 → Seongsu',
-        type: 'transit',
-      },
-      {
-        time: '11:00',
-        title: 'Nail / eyebrow appointment',
-        detail: 'Anchor the day with the fixed beauty booking first.',
-        neighborhood: 'Seongsu',
-        type: 'beauty',
-      },
-      {
-        time: '13:00',
-        title: 'Lunch',
-        detail: 'Keep lunch nearby so you do not break the neighborhood flow.',
-        neighborhood: 'Seongsu',
-        type: 'meal',
-      },
-      {
-        time: '14:00–17:00',
-        title: 'Shopping block',
-        detail: 'Gentle Monster, Tamburins, Olive Young, and anything else worth bundling in one walking loop.',
-        neighborhood: 'Seongsu',
-        type: 'shopping',
-      },
-      {
-        time: '18:30',
-        title: 'Dinner',
-        detail: 'Either stay in Seongsu or move once with purpose.',
-        neighborhood: 'Seoul',
-        type: 'meal',
-      },
+      { time: '10:00', title: 'Leave home base', detail: 'Give yourselves a soft start so the day still feels like vacation.', neighborhood: '고덕 → Seongsu', type: 'transit' },
+      { time: '11:00', title: 'Nail / eyebrow appointment', detail: 'Anchor the day with the fixed beauty booking first.', neighborhood: 'Seongsu', type: 'beauty' },
+      { time: '13:00', title: 'Lunch', detail: 'Keep lunch nearby so you do not break the neighborhood flow.', neighborhood: 'Seongsu', type: 'meal' },
+      { time: '14:00–17:00', title: 'Shopping block', detail: 'Gentle Monster, Tamburins, Olive Young, and anything else worth bundling in one walking loop.', neighborhood: 'Seongsu', type: 'shopping' },
+      { time: '18:30', title: 'Dinner', detail: 'Either stay in Seongsu or move once with purpose.', neighborhood: 'Seoul', type: 'meal' },
     ],
     mapTargets: [
-      {
-        name: 'Seongsu anchor area',
-        reason: 'Main shopping + beauty cluster',
-        naverUrl: 'https://map.naver.com/p/search/%EC%84%B1%EC%88%98%EB%8F%99',
-        kakaoUrl: 'https://map.kakao.com/?q=%EC%84%B1%EC%88%98%EB%8F%99',
-      },
-      {
-        name: 'Gentle Monster Seongsu',
-        reason: 'Potential anchor stop',
-        naverUrl: 'https://map.naver.com/p/search/%EC%A0%A0%ED%8B%80%EB%AA%AC%EC%8A%A4%ED%84%B0%20%EC%84%B1%EC%88%98',
-        kakaoUrl: 'https://map.kakao.com/?q=%EC%A0%A0%ED%8B%80%EB%AA%AC%EC%8A%A4%ED%84%B0%20%EC%84%B1%EC%88%98',
-      },
+      mapTarget('Seongsu anchor area', 'Main shopping + beauty cluster', { query: '성수동', coords: { lat: 37.5446, lng: 127.0557 } }),
+      mapTarget('Gentle Monster Seongsu', 'Potential anchor stop'),
+      mapTarget('Tamburins Seongsu', 'Likely same walking cluster'),
+      mapTarget('Olive Young Seongsu', 'Useful practical stop'),
     ],
-  },
-  {
+  }),
+  itineraryDay({
+    key: 'may-18',
+    date: 'May 18',
+    label: 'Embassy + hair perm',
+    area: 'Seoul',
+    status: 'to confirm',
+    focus: 'This day should stay structured around fixed appointments and not become a random errand spiral.',
+    logistics: {
+      start: 'Morning appointment zone',
+      end: 'Flexible afternoon in Seoul',
+      note: 'Once the exact perm time is confirmed, the lunch and afternoon window become much easier to place realistically.',
+    },
+    mapCenter: { lat: 37.5665, lng: 126.978 },
+    stops: [
+      { time: '08:30', title: 'Embassy task', detail: 'Treat this as the non-negotiable first anchor.', neighborhood: 'Embassy area', type: 'anchor' },
+      { time: '09:30–12:30', title: 'Hair perm window', detail: 'Build the rest of the day around the real salon timing once confirmed.', neighborhood: 'Soonsiki / salon area', type: 'beauty' },
+      { time: '13:00', title: 'Late lunch', detail: 'Do not overbook right after hair; leave a recovery block.', neighborhood: 'Nearby Seoul neighborhood', type: 'meal' },
+      { time: 'Afternoon', title: 'Open Seoul block', detail: 'Use this only after fixed appointments are locked in.', neighborhood: 'Seoul', type: 'shopping' },
+    ],
+    mapTargets: [
+      mapTarget('Soonsiki Hair', 'Hair appointment anchor', { query: '순시키 헤어' }),
+      mapTarget('US Embassy Seoul', 'Morning fixed task', { query: '주한미국대사관' }),
+    ],
+  }),
+  itineraryDay({
+    key: 'may-19',
+    date: 'May 19',
+    label: 'Open Seoul day',
+    area: 'Seoul',
+    status: 'open planning day',
+    focus: 'This is still mostly open, so the app should show the full date even when the details are not locked yet.',
+    logistics: {
+      start: 'TBD',
+      end: 'TBD',
+      note: 'Use this day for whichever neighborhood cluster becomes the best fit after beauty and reservation timing are finalized.',
+    },
+    mapCenter: { lat: 37.5665, lng: 126.978 },
+    stops: [
+      { time: 'Morning', title: 'Neighborhood choice', detail: 'Pick one area, not three scattered areas.', neighborhood: 'TBD', type: 'anchor' },
+      { time: 'Lunch', title: 'Book around the chosen area', detail: 'This should follow the neighborhood choice, not fight it.', neighborhood: 'TBD', type: 'meal' },
+      { time: 'Afternoon', title: 'Flexible date block', detail: 'Use for shopping, cafe time, or a reservation that fits the neighborhood.', neighborhood: 'TBD', type: 'shopping' },
+      { time: 'Evening', title: 'Dinner anchor if needed', detail: 'Can stay flexible unless a must-have reservation appears.', neighborhood: 'Seoul', type: 'meal' },
+    ],
+    mapTargets: [
+      mapTarget('Seoul City Hall', 'Neutral central Seoul fallback', { query: '서울시청', coords: { lat: 37.5663, lng: 126.9779 } }),
+      mapTarget('Seongsu', 'Option if you want another east-side cluster', { query: '성수동' }),
+      mapTarget('Jamsil', 'Option if you want a southeast cluster', { query: '잠실' }),
+    ],
+  }),
+  itineraryDay({
+    key: 'may-20',
+    date: 'May 20',
+    label: 'Jeju transfer day',
+    area: 'Travel / Jeju',
+    status: 'travel logistics',
+    focus: 'Transfer days need more buffer than ambition.',
+    logistics: {
+      start: 'Seoul',
+      end: 'Jeju',
+      note: 'This should be treated as a travel-and-settle day first, with only low-friction extras afterwards.',
+    },
+    mapCenter: { lat: 33.4996, lng: 126.5312 },
+    stops: [
+      { time: 'Morning', title: 'Airport transfer', detail: 'Pad more buffer than a normal city day.', neighborhood: 'Seoul → airport', type: 'transit' },
+      { time: 'Flight block', title: 'Fly to Jeju', detail: 'Make this the main anchor of the day.', neighborhood: 'GMP/CJU', type: 'anchor' },
+      { time: 'After landing', title: 'Rental car + check-in flow', detail: 'Do not squeeze a hard reservation too close to arrival.', neighborhood: 'Jeju', type: 'transit' },
+      { time: 'Evening', title: 'Simple first-night plan', detail: 'Keep the first Jeju night easy unless you already have a must-do booking.', neighborhood: 'Jeju', type: 'meal' },
+    ],
+    mapTargets: [
+      mapTarget('Jeju International Airport', 'Flight anchor', { coords: { lat: 33.5104, lng: 126.4914 } }),
+      mapTarget('Jeju car rental', 'Likely first stop after landing', { query: '제주공항 렌터카' }),
+    ],
+  }),
+  itineraryDay({
     key: 'may-21',
     date: 'May 21',
     label: 'Jeju → Seoul + Sofitel + dinner',
@@ -150,51 +186,142 @@ const itineraryDays = [
       end: 'Jamsil / 본연 dinner',
       note: 'Flights and hotel are the fixed skeleton. Luggage flow and dinner pacing matter more than adding new stops.',
     },
+    mapCenter: { lat: 37.5067, lng: 127.1022 },
     stops: [
-      {
-        time: '11:30',
-        title: 'Fly Jeju → Seoul',
-        detail: 'Keep the whole day loose around the airport block.',
-        neighborhood: 'Jeju / Gimpo',
-        type: 'anchor',
-      },
-      {
-        time: '14:30',
-        title: 'Move luggage + reset',
-        detail: 'Do not overfill this middle window.',
-        neighborhood: 'Transit to Jamsil',
-        type: 'transit',
-      },
-      {
-        time: '16:00',
-        title: 'Sofitel check-in',
-        detail: 'This is the second-half Seoul anchor.',
-        neighborhood: 'Jamsil',
-        type: 'hotel',
-      },
-      {
-        time: '19:00',
-        title: '본연 dinner reservation',
-        detail: 'Already confirmed — this is your real evening anchor.',
-        neighborhood: 'Seoul',
-        type: 'meal',
-      },
+      { time: '11:30', title: 'Fly Jeju → Seoul', detail: 'Keep the whole day loose around the airport block.', neighborhood: 'Jeju / Gimpo', type: 'anchor' },
+      { time: '14:30', title: 'Move luggage + reset', detail: 'Do not overfill this middle window.', neighborhood: 'Transit to Jamsil', type: 'transit' },
+      { time: '16:00', title: 'Sofitel check-in', detail: 'This is the second-half Seoul anchor.', neighborhood: 'Jamsil', type: 'hotel' },
+      { time: '19:00', title: '본연 dinner reservation', detail: 'Already confirmed — this is your real evening anchor.', neighborhood: 'Seoul', type: 'meal' },
     ],
     mapTargets: [
-      {
-        name: 'Sofitel Ambassador Seoul',
-        reason: 'Confirmed hotel anchor',
-        naverUrl: 'https://map.naver.com/p/search/%EC%86%8C%ED%94%BC%ED%85%94%20%EC%95%B0%EB%B0%B0%EC%84%9C%EB%8D%94%20%EC%84%9C%EC%9A%B8',
-        kakaoUrl: 'https://map.kakao.com/?q=%EC%86%8C%ED%94%BC%ED%85%94%20%EC%95%B0%EB%B0%B0%EC%84%9C%EB%8D%94%20%EC%84%9C%EC%9A%B8',
-      },
-      {
-        name: '본연',
-        reason: 'Confirmed dinner reservation',
-        naverUrl: 'https://map.naver.com/p/search/%EB%B3%B8%EC%97%B0%20%EC%84%9C%EC%9A%B8',
-        kakaoUrl: 'https://map.kakao.com/?q=%EB%B3%B8%EC%97%B0%20%EC%84%9C%EC%9A%B8',
-      },
+      mapTarget('Sofitel Ambassador Seoul', 'Confirmed hotel anchor'),
+      mapTarget('본연 서울', 'Confirmed dinner reservation', { query: '본연 서울' }),
+      mapTarget('Jamsil', 'Neighborhood anchor', { query: '잠실', coords: { lat: 37.5133, lng: 127.1002 } }),
     ],
-  },
+  }),
+  itineraryDay({
+    key: 'may-22',
+    date: 'May 22',
+    label: 'Jamsil-based Seoul day',
+    area: 'Jamsil / southeast Seoul',
+    status: 'open planning day',
+    focus: 'Now that the hotel is fixed, this day should be optimized by area around the Jamsil base.',
+    logistics: {
+      start: 'Sofitel / Jamsil',
+      end: 'Seoul evening',
+      note: 'A Jamsil-based day works best if you keep the first half near the hotel rather than bouncing across Seoul immediately.',
+    },
+    mapCenter: { lat: 37.5133, lng: 127.1002 },
+    stops: [
+      { time: 'Morning', title: 'Easy hotel-area start', detail: 'Good morning for nearby cafe, shopping, or a reserved experience.', neighborhood: 'Jamsil', type: 'hotel' },
+      { time: 'Lunch', title: 'Anchor one neighborhood lunch', detail: 'Use lunch to reinforce the day’s area, not scatter it.', neighborhood: 'Jamsil / Songpa', type: 'meal' },
+      { time: 'Afternoon', title: 'One main Seoul block', detail: 'Choose one major direction for the afternoon.', neighborhood: 'Seoul', type: 'shopping' },
+      { time: 'Evening', title: 'Dinner or walk', detail: 'Can stay near Jamsil if you want a low-friction evening.', neighborhood: 'Jamsil', type: 'meal' },
+    ],
+    mapTargets: [
+      mapTarget('Sofitel Ambassador Seoul', 'Hotel base'),
+      mapTarget('Lotte World Mall', 'Easy nearby anchor'),
+      mapTarget('Seokchon Lake', 'Walkable nearby option'),
+    ],
+  }),
+  itineraryDay({
+    key: 'may-23',
+    date: 'May 23',
+    label: 'Open Seoul day',
+    area: 'Seoul',
+    status: 'open planning day',
+    focus: 'This is another flexible date, so showing it in the app prevents the middle of the trip from disappearing from view.',
+    logistics: {
+      start: 'TBD',
+      end: 'TBD',
+      note: 'This is where a side-by-side compare of neighborhoods becomes useful once you know what type of day you both want.',
+    },
+    mapCenter: { lat: 37.5665, lng: 126.978 },
+    stops: [
+      { time: 'Morning', title: 'Choose the day type', detail: 'Food-focused, shopping-focused, slow day, or one big reservation.', neighborhood: 'TBD', type: 'anchor' },
+      { time: 'Midday', title: 'Lock lunch around the area', detail: 'Avoid choosing lunch first and area second.', neighborhood: 'TBD', type: 'meal' },
+      { time: 'Afternoon', title: 'Main activity block', detail: 'Cluster by neighborhood and transit realism.', neighborhood: 'Seoul', type: 'shopping' },
+      { time: 'Evening', title: 'Dinner or reset', detail: 'Can be a reservation or just a flexible close to the day.', neighborhood: 'Seoul', type: 'meal' },
+    ],
+    mapTargets: [
+      mapTarget('Ikseondong', 'Possible date-style area', { query: '익선동' }),
+      mapTarget('Seongsu', 'Possible shopping repeat', { query: '성수동' }),
+      mapTarget('Apgujeong Rodeo', 'Possible beauty/shopping cluster', { query: '압구정로데오' }),
+    ],
+  }),
+  itineraryDay({
+    key: 'may-24',
+    date: 'May 24',
+    label: 'Flexible Seoul day',
+    area: 'Seoul',
+    status: 'open planning day',
+    focus: 'Keep the whole date visible even if the exact hotel or neighborhood flow changes later.',
+    logistics: {
+      start: 'Current Seoul base',
+      end: 'Seoul evening',
+      note: 'If any lodging transition or reservation shift happens around here, this day should absorb the complexity rather than pretending it is already fixed.',
+    },
+    mapCenter: { lat: 37.5665, lng: 126.978 },
+    stops: [
+      { time: 'Morning', title: 'Hotel / luggage decision', detail: 'Make sure any check-out or movement is visible in the schedule if applicable.', neighborhood: 'Seoul', type: 'hotel' },
+      { time: 'Lunch', title: 'Keep lunch nearby', detail: 'This day gets messy fast if transit and food are not aligned.', neighborhood: 'TBD', type: 'meal' },
+      { time: 'Afternoon', title: 'Open block', detail: 'Good candidate for one reservation plus one nearby backup option.', neighborhood: 'Seoul', type: 'shopping' },
+      { time: 'Evening', title: 'Dinner', detail: 'Stay flexible unless this becomes a must-book dinner day.', neighborhood: 'Seoul', type: 'meal' },
+    ],
+    mapTargets: [
+      mapTarget('Myeongdong', 'Possible central shopping cluster', { query: '명동' }),
+      mapTarget('Jamsil', 'Fallback around the hotel base', { query: '잠실' }),
+      mapTarget('Hannam-dong', 'Possible dining/date area', { query: '한남동' }),
+    ],
+  }),
+  itineraryDay({
+    key: 'may-25',
+    date: 'May 25',
+    label: 'Last full Korea day',
+    area: 'Seoul',
+    status: 'last full day',
+    focus: 'This should feel intentional, not accidentally overstuffed because it is the final full day.',
+    logistics: {
+      start: 'Seoul',
+      end: 'Final Korea night',
+      note: 'Best used for one meaningful plan cluster plus packing buffer, rather than trying to use every last hour.',
+    },
+    mapCenter: { lat: 37.5665, lng: 126.978 },
+    stops: [
+      { time: 'Morning', title: 'Last-day priority block', detail: 'Choose the one thing that would feel worst to miss.', neighborhood: 'TBD', type: 'anchor' },
+      { time: 'Lunch', title: 'Memorable meal block', detail: 'Could be casual or special, but should fit the chosen area.', neighborhood: 'Seoul', type: 'meal' },
+      { time: 'Afternoon', title: 'Wrap-up shopping / packing buffer', detail: 'Leave enough margin so departure day is not chaotic.', neighborhood: 'Seoul', type: 'shopping' },
+      { time: 'Evening', title: 'Final Korea night', detail: 'Good slot for a nicer dinner or gentle walk depending on energy.', neighborhood: 'Seoul', type: 'meal' },
+    ],
+    mapTargets: [
+      mapTarget('Your Seoul hotel base', 'Use whichever hotel is active here', { query: '서울 호텔' }),
+      mapTarget('Olive Young Flagship Seoul', 'Typical last-day practical stop', { query: '올리브영 서울' }),
+      mapTarget('Myeongdong', 'Common final shopping fallback', { query: '명동' }),
+    ],
+  }),
+  itineraryDay({
+    key: 'may-26',
+    date: 'May 26',
+    label: 'Fly home',
+    area: 'Departure day',
+    status: 'travel anchor',
+    focus: 'Departure day should be visibly protected from last-minute plan creep.',
+    logistics: {
+      start: 'Seoul',
+      end: 'Airport / flight home',
+      note: 'Protect packing, checkout, airport transfer, and buffer. Anything optional should be clearly optional.',
+    },
+    mapCenter: { lat: 37.4602, lng: 126.4407 },
+    stops: [
+      { time: 'Morning', title: 'Final pack + hotel checkout', detail: 'Do the boring parts early so the airport block stays calm.', neighborhood: 'Seoul', type: 'hotel' },
+      { time: 'Airport buffer', title: 'Transfer to ICN', detail: 'Treat this as a serious anchor, not flexible time.', neighborhood: 'Seoul → ICN', type: 'transit' },
+      { time: 'Flight block', title: 'Depart Korea', detail: 'The trip closes here, so leave margin rather than squeezing in one last errand.', neighborhood: 'ICN', type: 'anchor' },
+    ],
+    mapTargets: [
+      mapTarget('Incheon International Airport', 'Departure anchor', { coords: { lat: 37.4602, lng: 126.4407 } }),
+      mapTarget('Airport Railroad Seoul Station', 'Fallback transfer anchor', { query: '서울역 공항철도' }),
+    ],
+  }),
 ]
 
 const bookings = [
@@ -242,7 +369,8 @@ function statusClass(value) {
   if (lower.includes('booked') || lower.includes('confirmed')) return 'chip chip-dark'
   if (lower.includes('decision')) return 'chip chip-rose'
   if (lower.includes('research')) return 'chip chip-gold'
-  if (lower.includes('set') || lower.includes('anchor')) return 'chip chip-sage'
+  if (lower.includes('set') || lower.includes('anchor') || lower.includes('logistics')) return 'chip chip-sage'
+  if (lower.includes('open')) return 'chip chip-mist'
   return 'chip chip-mist'
 }
 
@@ -256,9 +384,53 @@ function stopTypeLabel(type) {
   return type
 }
 
+let kakaoMapsPromise
+
+function loadKakaoMapsSdk() {
+  if (!KAKAO_JS_KEY) {
+    return Promise.reject(new Error('Missing Kakao JavaScript key'))
+  }
+
+  if (window.kakao?.maps) {
+    return Promise.resolve(window.kakao)
+  }
+
+  if (kakaoMapsPromise) {
+    return kakaoMapsPromise
+  }
+
+  kakaoMapsPromise = new Promise((resolve, reject) => {
+    const existingScript = document.querySelector('script[data-kakao-maps="true"]')
+
+    if (existingScript) {
+      existingScript.addEventListener('load', () => {
+        window.kakao.maps.load(() => resolve(window.kakao))
+      })
+      existingScript.addEventListener('error', () => reject(new Error('Failed to load Kakao Maps SDK')))
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false&libraries=services`
+    script.async = true
+    script.dataset.kakaoMaps = 'true'
+    script.onload = () => {
+      window.kakao.maps.load(() => resolve(window.kakao))
+    }
+    script.onerror = () => reject(new Error('Failed to load Kakao Maps SDK'))
+    document.head.appendChild(script)
+  })
+
+  return kakaoMapsPromise
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState('home')
-  const [selectedDayKey, setSelectedDayKey] = useState(itineraryDays[0].key)
+  const [selectedDayKey, setSelectedDayKey] = useState(itineraryDays[1].key)
+  const [mapStatus, setMapStatus] = useState(KAKAO_JS_KEY ? 'idle' : 'missing-key')
+  const [resolvedMapTargets, setResolvedMapTargets] = useState([])
+  const [mapNotice, setMapNotice] = useState('')
+  const mapCanvasRef = useRef(null)
 
   const selectedDay = useMemo(
     () => itineraryDays.find((day) => day.key === selectedDayKey) ?? itineraryDays[0],
@@ -268,6 +440,148 @@ function App() {
   const loggedSpend = useMemo(() => {
     return spend.reduce((sum, row) => sum + Number(row.amount.replace(/[$,]/g, '')), 0)
   }, [])
+
+  useEffect(() => {
+    if (activeTab !== 'itinerary') return
+
+    let cancelled = false
+    const overlayItems = []
+
+    async function renderKakaoMap() {
+      if (!KAKAO_JS_KEY) {
+        setMapStatus('missing-key')
+        setMapNotice('Missing Kakao JavaScript key.')
+        setResolvedMapTargets([])
+        return
+      }
+
+      if (!mapCanvasRef.current) return
+
+      setMapStatus('loading')
+      setMapNotice('Loading Kakao map…')
+      setResolvedMapTargets([])
+
+      try {
+        const kakao = await loadKakaoMapsSdk()
+        if (cancelled || !mapCanvasRef.current) return
+
+        const center = new kakao.maps.LatLng(selectedDay.mapCenter.lat, selectedDay.mapCenter.lng)
+        const map = new kakao.maps.Map(mapCanvasRef.current, {
+          center,
+          level: selectedDay.mapLevel,
+        })
+
+        const placesService = new kakao.maps.services.Places()
+        const bounds = new kakao.maps.LatLngBounds()
+
+        const resolved = await Promise.all(
+          selectedDay.mapTargets.map(
+            (target) =>
+              new Promise((resolve) => {
+                if (target.coords) {
+                  resolve({
+                    ...target,
+                    lat: target.coords.lat,
+                    lng: target.coords.lng,
+                    displayName: target.name,
+                    found: true,
+                  })
+                  return
+                }
+
+                placesService.keywordSearch(
+                  target.query,
+                  (results, status) => {
+                    if (status === kakao.maps.services.Status.OK && results[0]) {
+                      resolve({
+                        ...target,
+                        lat: Number(results[0].y),
+                        lng: Number(results[0].x),
+                        displayName: results[0].place_name,
+                        address: results[0].road_address_name || results[0].address_name || '',
+                        found: true,
+                      })
+                      return
+                    }
+
+                    resolve({
+                      ...target,
+                      found: false,
+                    })
+                  },
+                  { size: 1 },
+                )
+              }),
+          ),
+        )
+
+        if (cancelled) return
+
+        setResolvedMapTargets(resolved)
+
+        const foundTargets = resolved.filter((target) => target.found)
+
+        if (!foundTargets.length) {
+          map.setCenter(center)
+          setMapStatus('no-results')
+          setMapNotice('The Kakao map loaded, but none of the places resolved yet for this day.')
+          return
+        }
+
+        foundTargets.forEach((target, index) => {
+          const position = new kakao.maps.LatLng(target.lat, target.lng)
+          bounds.extend(position)
+
+          const marker = new kakao.maps.Marker({
+            position,
+            map,
+            title: target.displayName,
+          })
+
+          overlayItems.push({ setMap: marker.setMap.bind(marker) })
+
+          const badge = document.createElement('div')
+          badge.className = 'map-marker-badge'
+          badge.textContent = String(index + 1)
+
+          const overlay = new kakao.maps.CustomOverlay({
+            position,
+            content: badge,
+            yAnchor: 1.8,
+          })
+          overlay.setMap(map)
+          overlayItems.push({ setMap: overlay.setMap.bind(overlay) })
+
+          kakao.maps.event.addListener(marker, 'click', () => {
+            window.open(target.kakaoUrl, '_blank', 'noopener,noreferrer')
+          })
+        })
+
+        if (foundTargets.length === 1) {
+          map.setCenter(new kakao.maps.LatLng(foundTargets[0].lat, foundTargets[0].lng))
+          map.setLevel(Math.max(4, selectedDay.mapLevel - 1))
+        } else {
+          map.setBounds(bounds, 60, 60, 60, 60)
+        }
+
+        setMapStatus('ready')
+        setMapNotice(`${foundTargets.length} place${foundTargets.length > 1 ? 's' : ''} mapped for ${selectedDay.date}. Tap a marker to open Kakao Map.`)
+      } catch (error) {
+        if (cancelled) return
+        setMapStatus('error')
+        setMapNotice('Kakao map did not load. If the key is valid, the remaining common cause is Kakao domain allowlist setup.')
+        setResolvedMapTargets([])
+        console.error(error)
+      }
+    }
+
+    renderKakaoMap()
+
+    return () => {
+      cancelled = true
+      overlayItems.forEach((item) => item.setMap(null))
+    }
+  }, [activeTab, selectedDay])
 
   return (
     <div className="app-shell">
@@ -305,8 +619,8 @@ function App() {
 
           <div className="sidebar-foot">
             <div className="metric-pill">
-              <span>Countdown</span>
-              <strong>29d</strong>
+              <span>Trip days shown</span>
+              <strong>{itineraryDays.length}</strong>
             </div>
             <div className="metric-pill">
               <span>Open items</span>
@@ -399,10 +713,25 @@ function App() {
               <header className="page-header wide-header">
                 <div>
                   <h2 className="page-title">Hourly itinerary</h2>
-                  <p>Choose a day, then see the actual rhythm by time instead of only by date.</p>
+                  <p>All trip dates are now visible, including open days, and each selected day can render on a live Kakao map.</p>
                 </div>
-                <span className="chip chip-gold">desktop planning mode</span>
+                <span className="chip chip-gold">phase 2 map mode</span>
               </header>
+
+              <div className="itinerary-summary-row">
+                <div className="summary-mini glass-card">
+                  <span>Visible trip range</span>
+                  <strong>May 15–26</strong>
+                </div>
+                <div className="summary-mini glass-card">
+                  <span>Days loaded</span>
+                  <strong>{itineraryDays.length}</strong>
+                </div>
+                <div className="summary-mini glass-card">
+                  <span>Selected day</span>
+                  <strong>{selectedDay.date}</strong>
+                </div>
+              </div>
 
               <div className="day-picker-row">
                 {itineraryDays.map((day) => (
@@ -464,10 +793,32 @@ function App() {
                     <p className="logistics-note">{selectedDay.logistics.note}</p>
                   </div>
 
+                  <div className="glass-card logistics-card map-card">
+                    <div className="section-header">
+                      <h3>Live Kakao map</h3>
+                      <span>{mapStatus === 'ready' ? 'interactive' : 'loading / fallback'}</span>
+                    </div>
+                    <div ref={mapCanvasRef} className="map-canvas" />
+                    <p className="map-footnote">{mapNotice}</p>
+                    <div className="resolved-list">
+                      {(resolvedMapTargets.length ? resolvedMapTargets : selectedDay.mapTargets).map((target, index) => (
+                        <article className="resolved-item" key={target.name}>
+                          <div className="resolved-index">{index + 1}</div>
+                          <div>
+                            <strong>{target.displayName || target.name}</strong>
+                            <p>{target.reason}</p>
+                            {target.address && <small>{target.address}</small>}
+                            {'found' in target && !target.found && <small>Could not auto-resolve this place yet on Kakao.</small>}
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  </div>
+
                   <div className="glass-card logistics-card">
                     <div className="section-header">
-                      <h3>Map-ready places</h3>
-                      <span>tap out to compare</span>
+                      <h3>Map links</h3>
+                      <span>open in native map sites</span>
                     </div>
                     <div className="map-list">
                       {selectedDay.mapTargets.map((target) => (
@@ -483,10 +834,6 @@ function App() {
                         </article>
                       ))}
                     </div>
-                    <p className="map-footnote">
-                      Interactive Naver/Kakao maps are possible, but for a true embedded map we’ll need a developer app key
-                      and allowed-domain setup on the live deployment.
-                    </p>
                   </div>
                 </section>
               </div>

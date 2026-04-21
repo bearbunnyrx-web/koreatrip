@@ -200,6 +200,32 @@ a {
   margin-bottom: 16px;
 }
 
+.itinerary-summary-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.summary-mini {
+  border-radius: 22px;
+  padding: 14px 16px;
+}
+
+.summary-mini span,
+.resolved-item small {
+  display: block;
+  color: #6d675f;
+  font-size: 12px;
+}
+
+.summary-mini strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
 .hero-card,
 .panel-card,
 .timeline-panel,
@@ -327,16 +353,16 @@ a {
 }
 
 .day-picker-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 10px;
-  overflow-x: auto;
   padding-bottom: 4px;
   margin-bottom: 16px;
 }
 
 .day-chip {
   border: 0;
-  min-width: 156px;
+  min-width: 0;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.72);
   padding: 14px;
@@ -462,6 +488,61 @@ a {
   background: rgba(24, 23, 21, 0.06);
 }
 
+.map-card {
+  display: grid;
+  gap: 14px;
+}
+
+.map-canvas {
+  width: 100%;
+  height: 300px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #eef2f6, #dfe6ee);
+  border: 1px solid rgba(24, 23, 21, 0.08);
+}
+
+.resolved-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.resolved-item {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(24, 23, 21, 0.08);
+}
+
+.resolved-item:last-child {
+  border-bottom: none;
+}
+
+.resolved-item p {
+  margin: 4px 0 0;
+}
+
+.resolved-index,
+.map-marker-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #23211d;
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 8px 16px rgba(35, 33, 29, 0.16);
+}
+
+.map-marker-badge {
+  border: 2px solid rgba(255, 255, 255, 0.92);
+}
+
 .chip-soft {
   background: rgba(255, 255, 255, 0.92);
   color: #5c5650;
@@ -561,6 +642,11 @@ a {
   .sidebar-nav {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .day-picker-row,
+  .itinerary-summary-row {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 640px) {
@@ -601,6 +687,18 @@ a {
 
   .content-screen {
     padding: 0 14px 18px;
+  }
+
+  .day-picker-row {
+    grid-template-columns: 1fr;
+  }
+
+  .itinerary-summary-row {
+    grid-template-columns: 1fr;
+  }
+
+  .map-canvas {
+    height: 240px;
   }
 
   .hour-row {
