@@ -355,29 +355,20 @@ const researchBoards = [
   },
   {
     key: 'headspa',
-    title: 'Arrival-day headspa near 고덕',
+    title: 'EcoJardin headspa in Jamsil',
     status: 'decision pending',
-    lead: 'This one already has real place data, so it can work like a true compare board now.',
-    source: 'Naver place details + arrival-day logistics',
-    recommendation: '숱하다헤드스파 still looks like the cleaner default because the hours and timing are friendlier after landing.',
+    lead: 'This now reflects the likely shift toward Jamsil instead of staying near 고덕.',
+    source: 'Naver / travel listings for 에코자르뎅 잠실롯데타워점',
+    recommendation: 'EcoJardin in Jamsil is now the lead headspa option if you want the experience anchored around Jamsil logistics.',
     comparison: [
       {
-        place: '숱하다헤드스파',
-        area: '강동구 고덕동 · 고덕역권',
-        pricing: '미니스파(35분) 50,000 KRW · AI 두피진단 0 KRW',
-        thumbnail: 'https://search.pstatic.net/sunny?src=https%3A%2F%2Flh3.googleusercontent.com%2Fsitesv%2FAA5AbUAL1PRqBDei8IhAxtLBYdRZ_q6T-edzfNF5PCglbZNJF6RMgWyeiH8JqwWqLZXiS4tnc6RRgU_JDbvlKmz_RTAw524osd_bp_3eWtAuyVh9S0n01UXGLWeqjDtITk6KLmJ51C7oK9O0bZP4UI1kLEjI6l6x-rk3uLGrWbPVzAcl2EgVcoNW7Uf4hUGS4W_YfIgPpmfpEi6izXcL3CtxpjxtjpVraWigz5DM%3Dw1280&type=fff208_208_ar',
-        youtube: 'https://www.youtube.com/results?search_query=%EC%88%B1%ED%95%98%EB%8B%A4%ED%97%A4%EB%93%9C%EC%8A%A4%ED%8C%8C',
+        place: '에코자르뎅 잠실롯데타워점',
+        area: '잠실 롯데월드타워몰 B1',
+        pricing: '줄기세포/프리미엄 헤드스파 roughly 114,000 KRW class from public listings',
+        thumbnail: 'https://search.pstatic.net/common?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTAxMjFfMTI4%2FMDAxNzM3NDY3OTI3ODg5.bNyn2W3mUwfMW-lLi6U-VXlM8w6vwsdZ5zeH6sKAz78g.Abdi5halhiy0F3ZyHevB2fpZo_106PU4GlIlDOAfnh4g.JPEG%2Foutput_1540197840.jpg&type=fff208_208_ar',
+        youtube: 'https://www.youtube.com/results?search_query=%EC%97%90%EC%BD%94%EC%9E%90%EB%A5%B4%EB%8E%85+%EC%9E%A0%EC%8B%A4',
         instagram: '',
-        note: 'Open until 22:00, which gives you much more margin on arrival day.',
-      },
-      {
-        place: '단비 헤드스파앤컬러',
-        area: '강동구 · 고덕 인접',
-        pricing: '첫방문 힐링스파(70분) 60,000 KRW',
-        thumbnail: 'https://placehold.co/240x160/e7efe7/244032?text=Danbi+Headspa',
-        youtube: 'https://www.youtube.com/results?search_query=%EB%8B%A8%EB%B9%84+%ED%97%A4%EB%93%9C%EC%8A%A4%ED%8C%8C%EC%95%A4%EC%BB%AC%EB%9F%AC',
-        instagram: '',
-        note: 'Cozier-feeling backup, but the tighter hours make it less forgiving.',
+        note: 'Public listings describe it as a premium scalp-spa experience in the Jamsil / Lotte Tower area with late hours around 10:30–22:00.',
       },
     ],
   },
@@ -531,6 +522,16 @@ function App() {
     () => itineraryDays.find((day) => day.key === selectedDayKey) ?? itineraryDays[0],
     [selectedDayKey],
   )
+
+  const itineraryCalendarDays = useMemo(() => {
+    return itineraryDays.map((day) => {
+      const dateObj = parseTripDate(`2026-${day.key.replace('may-', '05-')}`)
+      return {
+        ...day,
+        weekday: dateObj.toLocaleDateString('en-US', { weekday: 'short' }),
+      }
+    })
+  }, [])
 
   const loggedSpend = useMemo(
     () => spend.reduce((sum, row) => sum + Number(row.amount.replace(/[$,]/g, '')), 0),
@@ -895,20 +896,10 @@ function App() {
                 <span className="chip chip-gold">phase 2 map mode</span>
               </header>
 
-              <div className="itinerary-summary-row two-up">
-                <div className="summary-mini glass-card">
-                  <span>Visible trip range</span>
-                  <strong>May 15–26</strong>
-                </div>
-                <div className="summary-mini glass-card">
-                  <span>Selected day</span>
-                  <strong>{selectedDay.date}</strong>
-                </div>
-              </div>
-
-              <div className="day-picker-row">
-                {itineraryDays.map((day) => (
+              <div className="day-picker-row calendar-day-grid">
+                {itineraryCalendarDays.map((day) => (
                   <button key={day.key} className={selectedDay.key === day.key ? 'day-chip active' : 'day-chip'} onClick={() => setSelectedDayKey(day.key)}>
+                    <span className="day-chip-weekday">{day.weekday}</span>
                     <strong>{day.date}</strong>
                     <span>{day.label}</span>
                   </button>
