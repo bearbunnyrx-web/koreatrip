@@ -1049,6 +1049,58 @@ const placeGroups = [
     ],
     mapTargets: [mapTarget('ReOne Global', 'Korea glow up provider from Instagram reel', { query: '리원피부과의원 청담' })],
   },
+
+  {
+    key: 'ig-seongsu-bag-stand-oil',
+    themeKey: 'seongsu-bag-shopping',
+    themeTitle: 'Seongsu bag shopping',
+    title: 'Stand Oil',
+    area: 'Seongsu / Seoul',
+    status: 'tax-refund shopping save',
+    lead: 'Saved from Genevive Laurenn’s Korean designer bag shopping reel.',
+    source: 'Instagram reel DU54kkljfYC / visible overlay + caption',
+    importNote: 'Mushy Bag shown around $120 CAD in Korea vs $200+ CAD abroad',
+    thumbnail: 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu shopping loop', end: 'Assign after deciding shopping density', note: 'Korean designer bag stop; combine with Seongsu brand/showroom route and remember tax refund timing.' },
+    entries: [
+      { place: 'Stand Oil', area: 'Seongsu / Seoul', vibe: 'Korean designer bag store', note: 'First bag brand visible in the reel. Good fit for a Seongsu shopping loop because the reel frames it as cheaper in Korea with tax refund. Verify exact branch and current stock before routing.', thumbnail: 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DU54kkljfYC/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EC%8A%A4%ED%83%A0%EB%93%9C%EC%98%A4%EC%9D%BC%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EC%8A%A4%ED%83%A0%EB%93%9C%EC%98%A4%EC%9D%BC%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Stand Oil', 'Korean designer bag store from Instagram reel', { query: '스탠드오일 성수' })],
+  },
+  {
+    key: 'ig-seongsu-bag-marge-sherwood',
+    themeKey: 'seongsu-bag-shopping',
+    themeTitle: 'Seongsu bag shopping',
+    title: 'Marge Sherwood',
+    area: 'Seongsu / Seoul',
+    status: 'tax-refund shopping save',
+    lead: 'Saved from Genevive Laurenn’s Korean designer bag shopping reel.',
+    source: 'Instagram reel DU54kkljfYC / visible overlay + caption',
+    importNote: 'Boston Bag shown around $380 CAD in Korea vs $450+ CAD; Shoulder Brocle Mini around $300 CAD vs $450 CAD + tax',
+    thumbnail: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu shopping loop', end: 'Assign after deciding shopping density', note: 'Korean designer bag stop; combine with Seongsu brand/showroom route and remember tax refund timing.' },
+    entries: [
+      { place: 'Marge Sherwood', area: 'Seongsu / Seoul', vibe: 'Korean designer bag store', note: 'Main highlighted brand from the reel and hashtag. Storefront signage visible; reel mentions a second floor filled with more bags. Strong shopping candidate if she likes Korean designer bags.', thumbnail: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DU54kkljfYC/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EB%A7%88%EC%A7%80%EC%85%94%EC%9A%B0%EB%93%9C%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EB%A7%88%EC%A7%80%EC%85%94%EC%9A%B0%EB%93%9C%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Marge Sherwood', 'Korean designer bag store from Instagram reel', { query: '마지셔우드 성수' })],
+  },
+  {
+    key: 'ig-seongsu-bag-osoi',
+    themeKey: 'seongsu-bag-shopping',
+    themeTitle: 'Seongsu bag shopping',
+    title: 'OSOI',
+    area: 'Seongsu / Seoul',
+    status: 'tax-refund shopping save',
+    lead: 'Saved from Genevive Laurenn’s Korean designer bag shopping reel.',
+    source: 'Instagram reel DU54kkljfYC / visible overlay + caption',
+    importNote: 'No exact price visible; reel says go to OSOI if you want to shop more bags',
+    thumbnail: 'https://images.unsplash.com/photo-1590739225281-70ed3d5d50fa?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu shopping loop', end: 'Assign after deciding shopping density', note: 'Korean designer bag stop; combine with Seongsu brand/showroom route and remember tax refund timing.' },
+    entries: [
+      { place: 'OSOI', area: 'Seongsu / Seoul', vibe: 'Korean designer bag store', note: 'Third bag-brand stop visible near the end of the reel. Keep as an optional continuation after Stand Oil / Marge Sherwood if the shopping energy is high.', thumbnail: 'https://images.unsplash.com/photo-1590739225281-70ed3d5d50fa?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DU54kkljfYC/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EC%98%A4%EC%86%8C%EC%9D%B4%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EC%98%A4%EC%86%8C%EC%9D%B4%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('OSOI', 'Korean designer bag store from Instagram reel', { query: '오소이 성수' })],
+  },
 ]
 
 const stepOnePlaceThemes = [
@@ -1087,6 +1139,12 @@ const stepOnePlaceThemes = [
     title: 'Korea glow up beauty saves',
     status: 'Instagram reel',
     lead: 'Beauty-treatment providers tagged in Bianca Montalvo’s Korea glow up reel.',
+  },
+  {
+    key: 'seongsu-bag-shopping',
+    title: 'Seongsu bag shopping',
+    status: 'Instagram reel',
+    lead: 'Korean designer bag stores from Genevive Laurenn’s reel; useful for tax-refund shopping in Seongsu.',
   },
 ]
 

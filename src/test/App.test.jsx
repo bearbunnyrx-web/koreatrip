@@ -202,6 +202,20 @@ describe('Korea trip app v2 concept', () => {
     expect(within(glowUpTheme).getByRole('button', { name: /yes to brow gyeol/i })).toBeInTheDocument()
   })
 
+  test('Seongsu bag shopping reel imports Korean designer bag stores into step 1', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+
+    fireEvent.click(screen.getByRole('button', { name: /open seongsu bag shopping theme/i }))
+    const bagTheme = screen.getByTestId('step-one-theme-seongsu-bag-shopping')
+
+    expect(within(bagTheme).getAllByText(/stand oil/i).length).toBeGreaterThan(0)
+    expect(within(bagTheme).getAllByText(/marge sherwood/i).length).toBeGreaterThan(0)
+    expect(within(bagTheme).getByText(/osoi/i)).toBeInTheDocument()
+    expect(within(bagTheme).getByRole('button', { name: /yes to marge sherwood/i })).toBeInTheDocument()
+  })
+
   test('step 1 place yes selections feed step 2 scheduling', () => {
     render(<App />)
 
