@@ -2275,7 +2275,6 @@ function App() {
                     >
                       <img src={theme.previewImages[0]} alt="" loading="lazy" />
                       <span>{theme.title}</span>
-                      <small>{yesCount}</small>
                     </button>
                   )
                 })}

@@ -1082,7 +1082,18 @@ a {
 }
 
 .editable-theme-title {
+  position: relative;
   cursor: text;
+}
+
+.editable-theme-title::after {
+  content: ' edit';
+  margin-left: 8px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  opacity: 0.64;
 }
 
 .editable-theme-title:hover {
