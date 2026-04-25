@@ -76,8 +76,9 @@ describe('Korea trip app v2 concept', () => {
     fireEvent.click(screen.getByText(/hongdae hair.?perm shortlist/i))
 
     expect(screen.getByText(/shortlist saved/i)).toBeInTheDocument()
-    expect(screen.getAllByText(/current winner/i).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/all contenders/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/current pick/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('heading', { name: /shortlist/i }).length).toBeGreaterThan(0)
+    expect(screen.getByAltText(/SOONSIKI Hair Hongdae preview/i)).toBeInTheDocument()
   })
 
   test('schedule shows an inbox list and day dropzones for drag and drop assignment', () => {

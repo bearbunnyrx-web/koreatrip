@@ -392,7 +392,7 @@ const researchBoards = [
         place: '단니네일',
         area: '성수 / 연무장5가길 7 1층 121호',
         pricing: '손젤 20,000원~ · 일 10:30–21:00 · 방문자 리뷰 379',
-        thumbnail: 'https://placehold.co/240x160/f4ebe4/5f4636?text=Danni+Nail',
+        thumbnail: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=800&q=80',
         youtube: '',
         instagram: '',
         note: 'Best safe pick for 5/17. Sunday hours were expanded and verified on Naver, reservation is live, and it is easy to anchor first before the rest of the Seongsu loop. English support is not explicitly stated, so send a short English 가능? note when booking.',
@@ -401,7 +401,7 @@ const researchBoards = [
         place: '여리빈네일 성수점',
         area: '성수 / 왕십리로4길 23-1 3층 2호',
         pricing: '젤기본 35,000원~ · 매일 11:00–21:00 · 방문자 리뷰 2,663',
-        thumbnail: 'https://placehold.co/240x160/e8edf7/253247?text=Yeoribin',
+        thumbnail: 'https://images.unsplash.com/photo-1607779097040-26e80aa78e66?auto=format&fit=crop&w=800&q=80',
         youtube: '',
         instagram: '',
         note: 'Strongest review-volume option among the Sunday-open shortlist and both reservation + inquiry are surfaced on Naver. Best if she wants the safest mainstream pick with lots of proof, even if it feels a little less low-key than 단니네일.',
@@ -410,7 +410,7 @@ const researchBoards = [
         place: '오호네일 성수',
         area: '성수 / 둘레9나길 7 1층',
         pricing: '손젤 40,000원 · 일 10:00–22:00 · 방문자 리뷰 222',
-        thumbnail: 'https://placehold.co/240x160/f2e9de/5a4032?text=OHHO+Nail',
+        thumbnail: 'https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=800&q=80',
         youtube: '',
         instagram: 'https://www.instagram.com/ohho_nail',
         note: 'Design-forward backup with the latest closing time in the shortlist, so it is useful if you want a slower morning before heading to Seongsu. Smaller review base than 여리빈, but Sunday hours are clearly open and the public Instagram link is easy to share.',
@@ -482,7 +482,7 @@ const researchBoards = [
         place: 'SOONSIKI Hair Hongdae',
         area: '홍대 / 양화로 164 8층',
         pricing: '콜드펌 180,000원 · 디지털/세팅펌 210,000원',
-        thumbnail: 'https://placehold.co/240x160/f3e9ee/6f4361?text=SOONSIKI+Hongdae',
+        thumbnail: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/results?search_query=%EC%88%9C%EC%8B%9C%ED%82%A4%ED%97%A4%EC%96%B4+%ED%99%8D%EB%8C%80%EC%A0%90',
         instagram: 'https://www.instagram.com/soonsiki.official/',
         note: 'Most branded / trend-forward option. Strong Korean local review signal too, not just foreigner traffic. Best if she wants the full Hongdae salon experience.',
@@ -491,7 +491,7 @@ const researchBoards = [
         place: 'Park Seung Chol Hair Studio Hongdae',
         area: '홍대 / 어울마당로 135 3층',
         pricing: '앞머리펌 25,000원 · 앞머리열펌 30,000원 · earlier search also showed overall 펌 63,000원~',
-        thumbnail: 'https://placehold.co/240x160/e8edf7/274060?text=Park+Seung+Chol',
+        thumbnail: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/results?search_query=%EB%B0%95%EC%8A%B9%EC%B2%A0%ED%97%A4%EC%96%B4%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4+%ED%99%8D%EB%8C%80%EC%A0%90',
         instagram: '',
         note: 'Safest mainstream backup. Review volume is huge and women’s perm tags are strong. Best value-looking option of the group.',
@@ -500,7 +500,7 @@ const researchBoards = [
         place: 'AMTON Main Branch',
         area: '홍대 / 잔다리로3안길 40',
         pricing: '펌 150,000원',
-        thumbnail: 'https://placehold.co/240x160/ebe6f4/55477a?text=AMTON',
+        thumbnail: 'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/results?search_query=%EC%97%90%EC%9D%B4%EC%97%A0%ED%86%A4+%EB%B3%B8%EC%A0%90',
         instagram: 'https://www.instagram.com/am.ton_bnm/',
         note: 'High-volume premium backup with the strongest review count among the alternatives. Good when safety / validation matters more than saving money.',
@@ -509,7 +509,7 @@ const researchBoards = [
         place: 'Aechae Hapjeong',
         area: '합정 / 양화로7안길 12 1층',
         pricing: '일반펌 100,000원',
-        thumbnail: 'https://placehold.co/240x160/e7f0ea/40604a?text=Aechae+Hapjeong',
+        thumbnail: 'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/results?search_query=%EC%95%A0%EC%B1%84+%ED%95%A9%EC%A0%95',
         instagram: 'https://www.instagram.com/aechae.hwany',
         note: 'Best style / price compromise. Strong C컬 and 빌드펌 tags make it a very reasonable backup if SOONSIKI feels too expensive.',
@@ -528,7 +528,7 @@ const researchBoards = [
         place: '리원피부과의원',
         area: '청담 / 도산대로 327 SGF청담타워',
         pricing: 'Premium consult pricing not clearly public; expect direct inquiry',
-        thumbnail: 'https://placehold.co/240x160/e9f2ee/234236?text=ReOne',
+        thumbnail: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/@reoneskin',
         instagram: 'https://www.instagram.com/reone__dermatology/',
         note: 'Most trust-building social footprint. IG ~5.6K / 296 posts, multiple doctor-led YouTube channels, and public reviews repeatedly mention Sofwave / lifting satisfaction, texture improvement, and a quiet premium feel. Best if you want “real doctor vibe” over pure hype.',
@@ -537,7 +537,7 @@ const researchBoards = [
         place: '룬피부과의원 청담',
         area: '청담 / 선릉로 822 5층',
         pricing: 'Premium consult pricing not clearly public; expect direct inquiry',
-        thumbnail: 'https://placehold.co/240x160/e8edf7/253247?text=LUNN',
+        thumbnail: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=800&q=80',
         youtube: '',
         instagram: 'https://www.instagram.com/lunnclinic_official/',
         note: 'More boutique and quieter than the others. IG ~1.4K / 57 posts. Public read is “specialist-led, tidy, precise, not overly loud.” Less mass-review proof than ReOne / Rest / Laurel, but strongest hidden-gem / non-factory energy.',
@@ -546,7 +546,7 @@ const researchBoards = [
         place: '레스트의원',
         area: '청담 / 선릉로158길 12 3-4층',
         pricing: 'Premium consult pricing not clearly public; expect direct inquiry',
-        thumbnail: 'https://placehold.co/240x160/f3efe6/5a4032?text=REST',
+        thumbnail: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/@REST_clinic',
         instagram: 'https://www.instagram.com/rest_clinic_/',
         note: 'Best consult-experience read from public reviews. IG ~2.45K / 113 posts. Repeated comments mention 20-minute consults, doctor-direct explanations, kind staff, hotel-like interior, and premium service. Slightly busier than a tiny boutique, but still reads more bespoke than factory.',
@@ -555,7 +555,7 @@ const researchBoards = [
         place: '로렐의원',
         area: '청담 / 선릉로152길 17 7층',
         pricing: 'Premium consult pricing not clearly public; expect direct inquiry',
-        thumbnail: 'https://placehold.co/240x160/f3e8e8/5e3535?text=Laurel',
+        thumbnail: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/results?search_query=%EB%A1%9C%EB%A0%90%EC%9D%98%EC%9B%90+%EC%B2%AD%EB%8B%B4',
         instagram: 'https://www.instagram.com/laurelclinic/',
         note: 'Strongest luxury / viral branding. IG ~10K / 49 posts. Public reviews often say it feels less factory-like because staff focus is attentive and the environment feels elevated, but it is also the most brand-forward and “hot clinic” coded of the four.',
@@ -583,7 +583,7 @@ const researchBoards = [
         place: 'Sat 5/23 — main execution window',
         area: 'Best shot for follow-up treatment',
         pricing: 'Timing priority',
-        thumbnail: 'https://placehold.co/240x160/e7f3ea/2f5b3f?text=May+23',
+        thumbnail: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=800&q=80',
         youtube: '',
         instagram: '',
         note: 'Best day to act if ReOne gives a clear diagnosis and a simple standardized plan. This is the day to decide after a cafe debrief, not immediately after the consult chair.',
@@ -592,7 +592,7 @@ const researchBoards = [
         place: '톡스앤필의원 강남본점',
         area: '강남역 10번 출구 122m / 강남대로 415',
         pricing: 'Event/pricing pages public + reservation flow available',
-        thumbnail: 'https://placehold.co/240x160/e9eef7/274060?text=Toxnfill',
+        thumbnail: 'https://images.unsplash.com/photo-1666214280557-f1b5022eb634?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/results?search_query=%ED%86%A1%EC%8A%A4%EC%95%A4%ED%95%84+%EA%B0%95%EB%82%A8%EB%B3%B8%EC%A0%90',
         instagram: 'https://www.gangnamunni.com/hospitals/3702',
         note: 'Best practical follow-up option. Reservation button visible, dedicated reservation page, Modoodoc 178 certified reviews / 4.1, GangnamUnni 992 reviews. Good for botox, skin booster, toning, and other more standardized treatments after the consult.',
@@ -601,7 +601,7 @@ const researchBoards = [
         place: '청담 밴스의원',
         area: '압구정로데오역 4번 출구 바로 앞 / 선릉로 822 3층',
         pricing: 'Reservation open; public event-style pricing flow likely',
-        thumbnail: 'https://placehold.co/240x160/f2ece3/6a5337?text=Vands',
+        thumbnail: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/results?search_query=%EC%B2%AD%EB%8B%B4+%EB%B0%B4%EC%8A%A4%EC%9D%98%EC%9B%90',
         instagram: 'https://cheongdam.vandsclinic.co.kr/',
         note: 'Cleaner-feeling high-volume clinic. Reservation visible, weekday 10–8, weekend 10–6, no lunch break, and public search shows ~662 visitor reviews / 3,734 blog reviews. Strong if you want a last-minute slot without going fully bargain-factory.',
@@ -610,7 +610,7 @@ const researchBoards = [
         place: 'Sun 5/24 — Buddha’s Birthday holiday backup',
         area: 'Use only if Saturday misses',
         pricing: 'Holiday / Sunday availability may narrow options',
-        thumbnail: 'https://placehold.co/240x160/f3eee6/6b5640?text=May+24',
+        thumbnail: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80',
         youtube: '',
         instagram: '',
         note: 'May 24 is confirmed as 부처님 오신 날. Cheongdam Vands is the best live backup from current research because Sunday hours are publicly shown; other clinics may be less predictable.',
@@ -619,7 +619,7 @@ const researchBoards = [
         place: 'BLS의원 본점',
         area: '청담권',
         pricing: 'Likely premium-volume mix; direct inquiry still best',
-        thumbnail: 'https://placehold.co/240x160/efe8f4/5a4068?text=BLS',
+        thumbnail: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/results?search_query=BLS%EC%9D%98%EC%9B%90+%EB%B3%B8%EC%A0%90',
         instagram: '',
         note: 'Bigger-volume but still not random/dirty-feeling. Public search showed ~2,290 visitor reviews and 5,443 blog reviews. Better for efficient execution than for delicate first-time aesthetic judgment.',
@@ -628,7 +628,7 @@ const researchBoards = [
         place: '리더스피부과 청담도산대로점',
         area: '청담 도산대로권',
         pricing: 'Direct inquiry recommended',
-        thumbnail: 'https://placehold.co/240x160/e6edf0/36505b?text=Leaders',
+        thumbnail: 'https://images.unsplash.com/photo-1581093458791-9d15482442f6?auto=format&fit=crop&w=800&q=80',
         youtube: 'https://www.youtube.com/results?search_query=%EB%A6%AC%EB%8D%94%EC%8A%A4%ED%94%BC%EB%B6%80%EA%B3%BC+%EC%B2%AD%EB%8B%B4',
         instagram: '',
         note: 'Middle-ground option: chain/system feel but a little less raw-factory than the cheapest volume clinics. Better if you want a safer brand shell without going fully boutique.',
@@ -1804,12 +1804,13 @@ function App() {
 
           {activeTab === 'bookings' && (
             <section className="content-screen">
-              <header className="page-header wide-header stacked-mobile">
+              <header className="page-header wide-header stacked-mobile compare-page-header glass-card">
                 <div>
-                  <h2 className="page-title">Compare options</h2>
-                  <p>Use this tab only when one theme still has multiple contenders and you need to decide which option wins.</p>
+                  <span className="search-type">Shortlist-first</span>
+                  <h2 className="page-title">Compare</h2>
+                  <p>Quickly scan the current winner, photo cards, and tap-to-vote options.</p>
                 </div>
-                <span className="chip chip-gold">compare by theme</span>
+                <span className="chip chip-gold">clean shortlist</span>
               </header>
 
               <div className="research-accordion-list">
@@ -1828,32 +1829,17 @@ function App() {
                     </summary>
 
                     <div className="research-accordion-body">
-                      <div className="research-meta">{board.source}</div>
-                      <p className="research-lead">{board.lead}</p>
-
                       <div className="research-recommendation compare-winner-card">
-                        <span>Current winner</span>
+                        <span>Current pick</span>
                         <strong>{board.recommendation}</strong>
+                        <p>{board.lead}</p>
                       </div>
-
-                      {board.spotlights?.length ? (
-                        <div className="option-list booking-shortlist-grid compare-spotlight-grid">
-                          {board.spotlights.map((spotlight) => (
-                            <article className="option-card shortlist-card compare-spotlight-card" key={board.key + spotlight.title}>
-                              <span className="chip chip-soft">{spotlight.tag}</span>
-                              <strong>{spotlight.title}</strong>
-                              <p>{spotlight.verdict}</p>
-                              <small>{spotlight.price}</small>
-                            </article>
-                          ))}
-                        </div>
-                      ) : null}
 
                       <div className="compare-contenders-block">
                         <div className="section-header stacked-mobile compare-contenders-header">
                           <div>
-                            <h3>All contenders</h3>
-                            <p>Scan the full shortlist as cards first, then vote directly on the option you want to keep alive.</p>
+                            <h3>Shortlist</h3>
+                            <p>Photo cards with the practical reason to pick or skip each option.</p>
                           </div>
                         </div>
 
@@ -1865,14 +1851,17 @@ function App() {
 
                             return (
                               <article className="comparison-option-card" key={board.key + option.place}>
-                                <img className="comparison-thumb comparison-card-thumb" src={option.thumbnail} alt={option.place} />
+                                <div className="comparison-image-wrap">
+                                  <img className="comparison-card-thumb" src={option.thumbnail} alt={`${option.place} preview`} loading="lazy" />
+                                  <div className="comparison-image-overlay">
+                                    <span>{option.area}</span>
+                                    <small>{option.pricing}</small>
+                                  </div>
+                                </div>
+
                                 <div className="comparison-option-main">
                                   <div className="comparison-option-header">
-                                    <div>
-                                      <strong>{option.place}</strong>
-                                      <p>{option.area}</p>
-                                    </div>
-                                    <span className="chip chip-soft comparison-price-chip">{option.pricing}</span>
+                                    <strong>{option.place}</strong>
                                   </div>
 
                                   <p className="comparison-option-note">{option.note}</p>
@@ -1911,7 +1900,9 @@ function App() {
                       </div>
 
                       {board.mapTargets && selectedBookingBoard.key === board.key ? (
-                        <div className="research-map-stack">
+                        <details className="compare-map-details">
+                          <summary>Map + source links</summary>
+                          <div className="research-map-stack">
                           <div className="glass-card logistics-card map-card">
                             <div className="section-header stacked-mobile">
                               <h3>Kakao map</h3>
@@ -1954,7 +1945,8 @@ function App() {
                               ))}
                             </div>
                           </div>
-                        </div>
+                          </div>
+                        </details>
                       ) : null}
                     </div>
                   </details>

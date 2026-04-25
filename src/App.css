@@ -910,16 +910,42 @@ a {
   color: var(--muted);
 }
 
+.compare-page-header {
+  padding: 20px;
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, rgba(255, 251, 246, 0.92), rgba(245, 238, 255, 0.74)),
+    var(--card);
+}
+
 .compare-winner-card {
-  background: linear-gradient(135deg, rgba(255, 248, 250, 0.98), rgba(255, 239, 245, 0.96));
+  padding: 16px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(255, 248, 250, 0.98), rgba(255, 239, 245, 0.92));
+}
+
+.compare-winner-card p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.45;
 }
 
 .compare-spotlight-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .compare-spotlight-card {
-  background: linear-gradient(180deg, rgba(255, 250, 248, 0.98), rgba(255, 242, 246, 0.95));
+  min-height: auto;
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(255, 250, 248, 0.98), rgba(255, 242, 246, 0.9));
+}
+
+.compare-spotlight-card p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .compare-contenders-block {
@@ -933,43 +959,98 @@ a {
 
 .comparison-card-grid {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
 
 .comparison-option-card {
-  display: grid;
-  grid-template-columns: 132px minmax(0, 1fr);
-  gap: 14px;
-  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  min-height: 430px;
+  overflow: hidden;
+  padding: 0 0 16px;
   border-radius: 24px;
-  background: var(--card-strong);
+  background: linear-gradient(180deg, var(--card-strong), rgba(255, 247, 239, 0.72));
   border: 1px solid var(--border);
-  box-shadow: 0 16px 32px rgba(124, 91, 166, 0.06);
+  box-shadow: 0 16px 34px rgba(124, 91, 166, 0.07);
+}
+
+.comparison-image-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--card-soft);
+}
+
+.comparison-image-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(25, 18, 13, 0.02), rgba(25, 18, 13, 0.64));
+  pointer-events: none;
 }
 
 .comparison-card-thumb {
-  width: 132px;
-  height: 132px;
-  border-radius: 18px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  object-fit: cover;
+  transform: scale(1.01);
+}
+
+.comparison-image-overlay {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.comparison-image-overlay span,
+.comparison-image-overlay small {
+  padding: 7px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.25;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
+.comparison-image-overlay span {
+  max-width: 58%;
+  color: white;
+  background: rgba(54, 45, 38, 0.84);
+}
+
+.comparison-image-overlay small {
+  max-width: 52%;
+  color: #4f3d2f;
+  background: rgba(255, 250, 242, 0.92);
+  text-align: right;
 }
 
 .comparison-option-main {
-  display: grid;
-  gap: 12px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px 16px 0;
 }
 
 .comparison-option-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
+  display: block;
 }
 
 .comparison-option-header strong {
   display: block;
-  margin-bottom: 4px;
-  font-size: 18px;
-  letter-spacing: -0.03em;
+  margin-bottom: 0;
+  font-size: 19px;
+  letter-spacing: -0.04em;
 }
 
 .comparison-price-chip {
@@ -978,14 +1059,19 @@ a {
 }
 
 .comparison-option-note {
+  display: -webkit-box;
+  overflow: hidden;
   margin: 0;
-  color: var(--text);
-  line-height: 1.55;
+  color: var(--muted);
+  line-height: 1.48;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .comparison-option-footer {
   display: grid;
   gap: 10px;
+  margin-top: auto;
 }
 
 .comparison-links-row {
@@ -995,6 +1081,30 @@ a {
 
 .comparison-vote-stack {
   min-width: 0;
+}
+
+.compare-map-details {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.compare-map-details > summary {
+  list-style: none;
+  padding: 13px 15px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.compare-map-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.compare-map-details .research-map-stack {
+  margin: 0;
+  padding: 0 12px 12px;
 }
 
 .comparison-table-wrap {
@@ -2058,17 +2168,18 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .compare-spotlight-grid {
+  .compare-spotlight-grid,
+  .comparison-card-grid {
     grid-template-columns: 1fr;
   }
 
   .comparison-option-card {
-    grid-template-columns: 1fr;
+    min-height: auto;
   }
 
   .comparison-card-thumb {
     width: 100%;
-    height: 180px;
+    height: 100%;
   }
 
   .map-planner-meta {
