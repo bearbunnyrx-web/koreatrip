@@ -69,27 +69,29 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('button', { name: /confirm olive young \+ musinsa/i })).toBeInTheDocument()
   })
 
-  test('compare renders shortlist cards instead of only a dense table', () => {
+  test('compare shows image cards immediately without opening accordions', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^compare$/i })[0])
-    fireEvent.click(screen.getByText(/hongdae hair.?perm shortlist/i))
 
-    expect(screen.getByText(/shortlist saved/i)).toBeInTheDocument()
-    expect(screen.getAllByText(/current pick/i).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('heading', { name: /shortlist/i }).length).toBeGreaterThan(0)
+    expect(screen.getByRole('heading', { name: /^compare$/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /hongdae hair.?perm/i })).toBeInTheDocument()
+    expect(screen.getByText(/current pick/i)).toBeInTheDocument()
     expect(screen.getByAltText(/SOONSIKI Hair Hongdae preview/i)).toBeInTheDocument()
+    expect(screen.queryByText(/photo cards with the practical reason/i)).not.toBeInTheDocument()
   })
 
-  test('schedule shows an inbox list and day dropzones for drag and drop assignment', () => {
+  test('schedule shows a compact assignment board without explanatory paragraphs', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^schedule$/i })[0])
 
-    expect(screen.getByRole('heading', { name: /schedule sorter/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: /unscheduled list/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /^schedule$/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /unscheduled/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /day buckets/i })).toBeInTheDocument()
     expect(screen.getByText(/may 17 seongsu viral loop/i)).toBeInTheDocument()
+    expect(screen.queryByText(/anything from compare/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/drop a place group/i)).not.toBeInTheDocument()
   })
 
   test('schedule drag and drop assigns a place to a day and surfaces it in itinerary', () => {

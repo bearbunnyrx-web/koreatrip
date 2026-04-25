@@ -1694,36 +1694,33 @@ function App() {
           )}
 
           {activeTab === 'places' && (
-            <section className="content-screen places-screen">
-              <header className="page-header wide-header stacked-mobile">
+            <section className="content-screen places-screen compact-schedule-screen">
+              <header className="page-header wide-header stacked-mobile compact-page-header">
                 <div>
-                  <h2 className="page-title">Schedule sorter</h2>
-                  <p>Keep this tab simple: drag unscheduled items into a day bucket. That is the whole job.</p>
+                  <span className="search-type">Assign dates</span>
+                  <h2 className="page-title">Schedule</h2>
                 </div>
-                <span className="chip chip-gold">drag to assign</span>
+                <span className="chip chip-gold">drag cards</span>
               </header>
 
-              <section className="schedule-sorter-layout">
+              <section className="schedule-sorter-layout compact-schedule-layout">
                 <div
                   className="glass-card schedule-inbox-panel"
                   aria-label="Drop places back into unscheduled list"
                   onDragOver={(event) => event.preventDefault()}
                   onDrop={(event) => handleScheduleDrop('', event)}
                 >
-                  <div className="section-header stacked-mobile">
-                    <div>
-                      <h3>Unscheduled list</h3>
-                      <p>Anything from Compare or viral saves can live here until a date feels obvious.</p>
-                    </div>
-                    <span className="chip chip-soft">{unscheduledPlaceGroups.length} waiting</span>
+                  <div className="compact-section-title">
+                    <h3>Unscheduled</h3>
+                    <span>{unscheduledPlaceGroups.length}</span>
                   </div>
 
-                  <div className="schedule-group-list">
+                  <div className="schedule-group-list compact-card-list">
                     {unscheduledPlaceGroups.length ? (
                       unscheduledPlaceGroups.map((group) => (
                         <article
                           key={group.key}
-                          className="schedule-group-card"
+                          className="schedule-group-card compact-schedule-card"
                           aria-label={`Drag ${group.title}`}
                           draggable
                           onDragStart={(event) => handleScheduleDragStart(group.key, event)}
@@ -1731,49 +1728,43 @@ function App() {
                           <div className="schedule-group-handle" aria-hidden="true">⋮⋮</div>
                           <div>
                             <strong>{group.title}</strong>
-                            <p>{group.lead}</p>
-                            <small>{group.area} · {group.entries.length} saved item{group.entries.length > 1 ? 's' : ''}</small>
+                            <small>{group.area} · {group.entries.length} saved</small>
                           </div>
                         </article>
                       ))
                     ) : (
-                      <div className="empty-state">Everything has a day right now. Drag an item back here anytime if you want to unschedule it.</div>
+                      <div className="empty-state compact-empty-state">All assigned.</div>
                     )}
                   </div>
                 </div>
 
                 <div className="glass-card schedule-buckets-panel">
-                  <div className="section-header stacked-mobile">
-                    <div>
-                      <h3>Day buckets</h3>
-                      <p>Drop a place group into the day you want. It will then appear in Itinerary for that date.</p>
-                    </div>
-                    <span className="chip chip-soft">simple assignment board</span>
+                  <div className="compact-section-title">
+                    <h3>Day buckets</h3>
+                    <span>{dayBucketGroups.filter((day) => day.groups.length).length} active</span>
                   </div>
 
-                  <div className="schedule-day-buckets">
+                  <div className="schedule-day-buckets compact-day-buckets">
                     {dayBucketGroups.map((day) => (
                       <section
                         key={day.key}
-                        className="schedule-day-bucket"
+                        className="schedule-day-bucket compact-day-bucket"
                         aria-label={`Drop places into ${day.date}`}
                         onDragOver={(event) => event.preventDefault()}
                         onDrop={(event) => handleScheduleDrop(day.key, event)}
                       >
-                        <div className="schedule-day-header">
-                          <div>
-                            <span>{day.weekday}</span>
-                            <h4>{day.date}</h4>
-                          </div>
+                        <div className="schedule-day-header compact-day-header">
                           <button
-                            className="bucket-open-btn"
+                            className="compact-day-open-btn"
                             onClick={() => {
                               setSelectedDayKey(day.key)
                               setActiveTab('itinerary')
                             }}
                           >
-                            Open Itinerary
+                            <span>{day.weekday}</span>
+                            <strong>{day.date}</strong>
                           </button>
+                          <small>{day.groups.length}</small>
                         </div>
 
                         <div className="schedule-day-items">
@@ -1781,17 +1772,17 @@ function App() {
                             day.groups.map((group) => (
                               <article
                                 key={group.key}
-                                className="schedule-day-card"
+                                className="schedule-day-card compact-schedule-card"
                                 aria-label={`Drag ${group.title}`}
                                 draggable
                                 onDragStart={(event) => handleScheduleDragStart(group.key, event)}
                               >
                                 <strong>{group.title}</strong>
-                                <p>{group.area}</p>
+                                <small>{group.area}</small>
                               </article>
                             ))
                           ) : (
-                            <div className="empty-state compact-empty-state">Drop here to assign this day.</div>
+                            <div className="empty-state compact-empty-state">Drop</div>
                           )}
                         </div>
                       </section>
@@ -1803,156 +1794,149 @@ function App() {
           )}
 
           {activeTab === 'bookings' && (
-            <section className="content-screen">
+            <section className="content-screen compare-screen-v3">
               <header className="page-header wide-header stacked-mobile compare-page-header glass-card">
                 <div>
-                  <span className="search-type">Shortlist-first</span>
+                  <span className="search-type">Pick fast</span>
                   <h2 className="page-title">Compare</h2>
-                  <p>Quickly scan the current winner, photo cards, and tap-to-vote options.</p>
                 </div>
-                <span className="chip chip-gold">clean shortlist</span>
+                <span className="chip chip-gold">photos first</span>
               </header>
 
-              <div className="research-accordion-list">
+              <div className="compare-board-strip" aria-label="Compare boards">
                 {researchBoards.map((board) => (
-                  <details className="glass-card research-accordion" key={board.key} onToggle={(event) => {
-                    if (event.currentTarget.open) {
-                      setSelectedBookingKey(board.key)
-                    }
-                  }}>
-                    <summary className="research-summary">
-                      <div>
-                        <h3>{board.title}</h3>
-                        <p>{board.recommendation}</p>
-                      </div>
-                      <span className={statusClass(board.status)}>{board.status}</span>
-                    </summary>
-
-                    <div className="research-accordion-body">
-                      <div className="research-recommendation compare-winner-card">
-                        <span>Current pick</span>
-                        <strong>{board.recommendation}</strong>
-                        <p>{board.lead}</p>
-                      </div>
-
-                      <div className="compare-contenders-block">
-                        <div className="section-header stacked-mobile compare-contenders-header">
-                          <div>
-                            <h3>Shortlist</h3>
-                            <p>Photo cards with the practical reason to pick or skip each option.</p>
-                          </div>
-                        </div>
-
-                        <div className="comparison-card-grid">
-                          {board.comparison.map((option) => {
-                            const voteKey = `${board.key}::${option.place}`
-                            const activeVote = bookingVotes[voteKey]
-                            const activeVoteLabel = bookingVoteOptions.find((item) => item.value === activeVote)?.savedLabel
-
-                            return (
-                              <article className="comparison-option-card" key={board.key + option.place}>
-                                <div className="comparison-image-wrap">
-                                  <img className="comparison-card-thumb" src={option.thumbnail} alt={`${option.place} preview`} loading="lazy" />
-                                  <div className="comparison-image-overlay">
-                                    <span>{option.area}</span>
-                                    <small>{option.pricing}</small>
-                                  </div>
-                                </div>
-
-                                <div className="comparison-option-main">
-                                  <div className="comparison-option-header">
-                                    <strong>{option.place}</strong>
-                                  </div>
-
-                                  <p className="comparison-option-note">{option.note}</p>
-
-                                  <div className="comparison-option-footer">
-                                    <div className="comparison-links comparison-links-row">
-                                      {option.instagram ? <a href={option.instagram} target="_blank" rel="noreferrer">Instagram</a> : null}
-                                      {option.youtube ? <a href={option.youtube} target="_blank" rel="noreferrer">YouTube</a> : null}
-                                    </div>
-
-                                    <div className="vote-stack comparison-vote-stack">
-                                      <div className="vote-chip-row">
-                                        {bookingVoteOptions.map((vote) => {
-                                          const isActive = activeVote === vote.value
-
-                                          return (
-                                            <button
-                                              key={vote.value}
-                                              type="button"
-                                              className={`vote-chip${isActive ? ' active' : ''}`}
-                                              onClick={() => toggleBookingVote(board.key, option.place, vote.value)}
-                                            >
-                                              {vote.label}
-                                            </button>
-                                          )
-                                        })}
-                                      </div>
-                                      <small>{activeVoteLabel ? `Saved on this device: ${activeVoteLabel}` : 'Tap to mark a favorite.'}</small>
-                                    </div>
-                                  </div>
-                                </div>
-                              </article>
-                            )
-                          })}
-                        </div>
-                      </div>
-
-                      {board.mapTargets && selectedBookingBoard.key === board.key ? (
-                        <details className="compare-map-details">
-                          <summary>Map + source links</summary>
-                          <div className="research-map-stack">
-                          <div className="glass-card logistics-card map-card">
-                            <div className="section-header stacked-mobile">
-                              <h3>Kakao map</h3>
-                              <span>{mapStatus === 'ready' ? 'interactive' : 'loading / fallback'}</span>
-                            </div>
-                            <div ref={mapCanvasRef} className="map-canvas" />
-                            <p className="map-footnote">{mapNotice}</p>
-                            <div className="resolved-list">
-                              {(resolvedMapTargets.length ? resolvedMapTargets : board.mapTargets).map((target, index) => (
-                                <article className="resolved-item" key={target.name}>
-                                  <div className="resolved-index">{index + 1}</div>
-                                  <div>
-                                    <strong>{target.displayName || target.name}</strong>
-                                    <p>{target.reason}</p>
-                                    {target.address && <small>{target.address}</small>}
-                                    {'found' in target && !target.found && <small>Could not auto-resolve this place yet on Kakao.</small>}
-                                  </div>
-                                </article>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="glass-card logistics-card">
-                            <div className="section-header stacked-mobile">
-                              <h3>Map links</h3>
-                              <span>open in native map sites</span>
-                            </div>
-                            <div className="map-list">
-                              {board.mapTargets.map((target) => (
-                                <article className="map-item" key={target.name}>
-                                  <div>
-                                    <strong>{target.name}</strong>
-                                    <p>{target.reason}</p>
-                                  </div>
-                                  <div className="map-links">
-                                    <a href={target.naverUrl} target="_blank" rel="noreferrer">Naver</a>
-                                    <a href={target.kakaoUrl} target="_blank" rel="noreferrer">Kakao</a>
-                                  </div>
-                                </article>
-                              ))}
-                            </div>
-                          </div>
-                          </div>
-                        </details>
-                      ) : null}
+                  <button
+                    key={board.key}
+                    type="button"
+                    className={`compare-board-card ${selectedBookingBoard.key === board.key ? 'active' : ''}`}
+                    onClick={() => setSelectedBookingKey(board.key)}
+                  >
+                    <div className="compare-board-thumbs" aria-hidden="true">
+                      {board.comparison.slice(0, 3).map((option) => (
+                        <img key={option.place} src={option.thumbnail} alt="" loading="lazy" />
+                      ))}
                     </div>
-                  </details>
+                    <span>{board.status}</span>
+                    <strong>{board.title}</strong>
+                  </button>
                 ))}
               </div>
-              <div className="support-note wide-note">The hair-perm board is now a real Hongdae shortlist with pricing, map links, and tap-to-vote chips saved per device. Nail / eyebrow, headspa, and dermatology also have live comparison boards.</div>
+
+              <section className="glass-card compare-focus-board">
+                <div className="compare-focus-header">
+                  <div>
+                    <span className="search-type">Current pick</span>
+                    <h3>{selectedBookingBoard.title}</h3>
+                    <p>{selectedBookingBoard.recommendation}</p>
+                  </div>
+                  <span className={statusClass(selectedBookingBoard.status)}>{selectedBookingBoard.status}</span>
+                </div>
+
+                <div className="comparison-card-grid compare-photo-grid">
+                  {selectedBookingBoard.comparison.map((option) => {
+                    const voteKey = `${selectedBookingBoard.key}::${option.place}`
+                    const activeVote = bookingVotes[voteKey]
+                    const activeVoteLabel = bookingVoteOptions.find((item) => item.value === activeVote)?.savedLabel
+
+                    return (
+                      <article className="comparison-option-card compare-photo-card" key={selectedBookingBoard.key + option.place}>
+                        <div className="comparison-image-wrap">
+                          <img className="comparison-card-thumb" src={option.thumbnail} alt={`${option.place} preview`} loading="lazy" />
+                          <div className="comparison-image-overlay compact-image-overlay">
+                            <span>{option.area}</span>
+                            <small>{option.pricing}</small>
+                          </div>
+                        </div>
+
+                        <div className="comparison-option-main">
+                          <div className="comparison-option-header">
+                            <strong>{option.place}</strong>
+                          </div>
+
+                          <p className="comparison-option-note">{option.note}</p>
+
+                          <div className="comparison-option-footer">
+                            <div className="comparison-links comparison-links-row">
+                              {option.instagram ? <a href={option.instagram} target="_blank" rel="noreferrer">Instagram</a> : null}
+                              {option.youtube ? <a href={option.youtube} target="_blank" rel="noreferrer">YouTube</a> : null}
+                            </div>
+
+                            <div className="vote-stack comparison-vote-stack">
+                              <div className="vote-chip-row">
+                                {bookingVoteOptions.map((vote) => {
+                                  const isActive = activeVote === vote.value
+
+                                  return (
+                                    <button
+                                      key={vote.value}
+                                      type="button"
+                                      className={`vote-chip${isActive ? ' active' : ''}`}
+                                      onClick={() => toggleBookingVote(selectedBookingBoard.key, option.place, vote.value)}
+                                    >
+                                      {vote.label}
+                                    </button>
+                                  )
+                                })}
+                              </div>
+                              <small>{activeVoteLabel ? `Saved: ${activeVoteLabel}` : 'Tap to vote.'}</small>
+                            </div>
+                          </div>
+                        </div>
+                      </article>
+                    )
+                  })}
+                </div>
+
+                {selectedBookingBoard.mapTargets ? (
+                  <details className="compare-map-details">
+                    <summary>Map + links</summary>
+                    <div className="research-map-stack">
+                      <div className="glass-card logistics-card map-card">
+                        <div className="section-header stacked-mobile">
+                          <h3>Kakao map</h3>
+                          <span>{mapStatus === 'ready' ? 'interactive' : 'loading / fallback'}</span>
+                        </div>
+                        <div ref={mapCanvasRef} className="map-canvas" />
+                        <p className="map-footnote">{mapNotice}</p>
+                        <div className="resolved-list">
+                          {(resolvedMapTargets.length ? resolvedMapTargets : selectedBookingBoard.mapTargets).map((target, index) => (
+                            <article className="resolved-item" key={target.name}>
+                              <div className="resolved-index">{index + 1}</div>
+                              <div>
+                                <strong>{target.displayName || target.name}</strong>
+                                <p>{target.reason}</p>
+                                {target.address && <small>{target.address}</small>}
+                                {'found' in target && !target.found && <small>Could not auto-resolve this place yet on Kakao.</small>}
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="glass-card logistics-card">
+                        <div className="section-header stacked-mobile">
+                          <h3>Map links</h3>
+                          <span>open externally</span>
+                        </div>
+                        <div className="map-list">
+                          {selectedBookingBoard.mapTargets.map((target) => (
+                            <article className="map-item" key={target.name}>
+                              <div>
+                                <strong>{target.name}</strong>
+                                <p>{target.reason}</p>
+                              </div>
+                              <div className="map-links">
+                                <a href={target.naverUrl} target="_blank" rel="noreferrer">Naver</a>
+                                <a href={target.kakaoUrl} target="_blank" rel="noreferrer">Kakao</a>
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </details>
+                ) : null}
+              </section>
             </section>
           )}
 
