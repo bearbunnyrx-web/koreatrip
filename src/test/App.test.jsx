@@ -164,7 +164,22 @@ describe('Korea trip app v2 concept', () => {
     expect(within(wellnessTheme).getByRole('button', { name: /yes to cimer spa/i })).toBeInTheDocument()
   })
 
-  test('step 1 yes selections feed step 2 scheduling', () => {
+  test('Seongsu atmosphere reel imports individual spaces into step 1', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+
+    fireEvent.click(screen.getByRole('button', { name: /open seongsu mood spaces theme/i }))
+    const seongsuMoodTheme = screen.getByTestId('step-one-theme-seongsu-mood-spaces')
+
+    expect(within(seongsuMoodTheme).getByText(/glow seongsu/i)).toBeInTheDocument()
+    expect(within(seongsuMoodTheme).getByText(/dior seongsu/i)).toBeInTheDocument()
+    expect(within(seongsuMoodTheme).getByText(/dasique seongsu/i)).toBeInTheDocument()
+    expect(within(seongsuMoodTheme).getByText(/yongyong seonsaeng maradowon/i)).toBeInTheDocument()
+    expect(within(seongsuMoodTheme).getByRole('button', { name: /yes to glow seongsu/i })).toBeInTheDocument()
+  })
+
+  test('step 1 place yes selections feed step 2 scheduling', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
@@ -176,6 +191,17 @@ describe('Korea trip app v2 concept', () => {
 
     expect(screen.getAllByText(/haus nowhere/i).length).toBeGreaterThan(0)
     expect(screen.queryByText(/viral saves inbox/i)).not.toBeInTheDocument()
+  })
+
+  test('step 1 research board yes selections feed step 2 unscheduled items', () => {
+    window.localStorage.setItem('korea-trip-booking-votes', JSON.stringify({ 'hair-perm::SOONSIKI Hair Hongdae': 'yes' }))
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
+
+    expect(screen.getByRole('heading', { name: /^step 2: select date$/i })).toBeInTheDocument()
+    expect(screen.getAllByText(/soonsiki hair hongdae/i).length).toBeGreaterThan(0)
+    expect(screen.getByLabelText(/drag soonsiki hair hongdae/i)).toBeInTheDocument()
   })
 
   test('schedule shows a compact assignment board without explanatory paragraphs', () => {

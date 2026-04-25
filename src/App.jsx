@@ -860,6 +860,143 @@ const placeGroups = [
     ],
     mapTargets: [mapTarget('Cimer Spa', 'Incheon spa from Instagram reel', { query: '씨메르 인천 파라다이스시티' })],
   },
+
+  {
+    key: 'ig-seongsu-mood-glow',
+    themeKey: 'seongsu-mood-spaces',
+    themeTitle: 'Seongsu mood spaces',
+    title: 'Glow Seongsu',
+    area: 'Seongsu / 성수이로16길 32',
+    status: 'Instagram save',
+    lead: 'Saved from _yh.yhh’s Seongsu atmosphere roundup reel.',
+    source: 'Instagram reel DSUHSP_Ee2T / caption list',
+    importNote: '11:00–23:00 daily · kids zone',
+    thumbnail: 'https://images.unsplash.com/photo-1493857671505-72967e2e2760?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Assign after choosing route density', note: 'Caption-sourced Seongsu stop; combine only if it fits the existing May 17 walking loop.' },
+    entries: [
+      { place: 'Glow Seongsu', area: 'Seongsu / 성수이로16길 32', vibe: 'cafe / mood space', note: 'Caption lists it as the first good-atmosphere Seongsu space; use as a flexible cafe/mood stop while walking the Seongsu loop.', thumbnail: 'https://images.unsplash.com/photo-1493857671505-72967e2e2760?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DSUHSP_Ee2T/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EA%B8%80%EB%A1%9C%EC%9A%B0%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EA%B8%80%EB%A1%9C%EC%9A%B0%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Glow Seongsu', 'Seongsu atmosphere roundup save', { query: '글로우 성수' })],
+  },
+  {
+    key: 'ig-seongsu-mood-dior',
+    themeKey: 'seongsu-mood-spaces',
+    themeTitle: 'Seongsu mood spaces',
+    title: 'Dior Seongsu',
+    area: 'Seongsu / 연무장5길 7',
+    status: 'Instagram save',
+    lead: 'Saved from _yh.yhh’s Seongsu atmosphere roundup reel.',
+    source: 'Instagram reel DSUHSP_Ee2T / caption list',
+    importNote: '11:00–20:00 daily',
+    thumbnail: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Assign after choosing route density', note: 'Caption-sourced Seongsu stop; combine only if it fits the existing May 17 walking loop.' },
+    entries: [
+      { place: 'Dior Seongsu', area: 'Seongsu / 연무장5길 7', vibe: 'showroom / luxury brand', note: 'High-aesthetic showroom stop from the reel; pairs naturally with Haus Nowhere, Tamburins, and beauty/shopping stops.', thumbnail: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DSUHSP_Ee2T/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EB%94%94%EC%98%AC%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EB%94%94%EC%98%AC%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Dior Seongsu', 'Seongsu atmosphere roundup save', { query: '디올 성수' })],
+  },
+  {
+    key: 'ig-seongsu-mood-dasique',
+    themeKey: 'seongsu-mood-spaces',
+    themeTitle: 'Seongsu mood spaces',
+    title: 'Dasique Seongsu',
+    area: 'Seongsu / 연무장5길 6',
+    status: 'Instagram save',
+    lead: 'Saved from _yh.yhh’s Seongsu atmosphere roundup reel.',
+    source: 'Instagram reel DSUHSP_Ee2T / caption list',
+    importNote: '11:00–20:30 · weekends until 21:00',
+    thumbnail: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Assign after choosing route density', note: 'Caption-sourced Seongsu stop; combine only if it fits the existing May 17 walking loop.' },
+    entries: [
+      { place: 'Dasique Seongsu', area: 'Seongsu / 연무장5길 6', vibe: 'beauty showroom', note: 'Beauty-brand stop from the reel; good girlfriend-facing add-on near the current Seongsu cosmetics loop.', thumbnail: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DSUHSP_Ee2T/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EB%8D%B0%EC%9D%B4%EC%A7%80%ED%81%AC%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EB%8D%B0%EC%9D%B4%EC%A7%80%ED%81%AC%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Dasique Seongsu', 'Seongsu atmosphere roundup save', { query: '데이지크 성수' })],
+  },
+  {
+    key: 'ig-seongsu-mood-sanrio-popup',
+    themeKey: 'seongsu-mood-spaces',
+    themeTitle: 'Seongsu mood spaces',
+    title: 'Sanrio Characters popup',
+    area: 'Seongsu / 성수이로7길 28',
+    status: 'Instagram save',
+    lead: 'Saved from _yh.yhh’s Seongsu atmosphere roundup reel.',
+    source: 'Instagram reel DSUHSP_Ee2T / caption list',
+    importNote: '2025-11-29 to 2025-12-28 in reel · on-site wait',
+    thumbnail: 'https://images.unsplash.com/photo-1563901935883-cb61f5d49be4?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Assign after choosing route density', note: 'Caption-sourced Seongsu stop; combine only if it fits the existing May 17 walking loop.' },
+    entries: [
+      { place: 'Sanrio Characters popup', area: 'Seongsu / 성수이로7길 28', vibe: 'popup / character goods', note: 'Reel-listed popup; date-specific and likely not relevant for May unless a new popup replaces it. Keep as low-confidence inspiration, not a committed stop.', thumbnail: 'https://images.unsplash.com/photo-1563901935883-cb61f5d49be4?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DSUHSP_Ee2T/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EC%82%B0%EB%A6%AC%EC%98%A4%20%EC%BA%90%EB%A6%AD%ED%84%B0%EC%A6%88%20%ED%8C%9D%EC%97%85%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EC%82%B0%EB%A6%AC%EC%98%A4%20%EC%BA%90%EB%A6%AD%ED%84%B0%EC%A6%88%20%ED%8C%9D%EC%97%85%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Sanrio Characters popup', 'Seongsu atmosphere roundup save', { query: '산리오 캐릭터즈 팝업 성수' })],
+  },
+  {
+    key: 'ig-seongsu-mood-yongyong',
+    themeKey: 'seongsu-mood-spaces',
+    themeTitle: 'Seongsu mood spaces',
+    title: 'Yongyong Seonsaeng Maradowon',
+    area: 'Seongsu / 성수동2가 277-56',
+    status: 'Instagram save',
+    lead: 'Saved from _yh.yhh’s Seongsu atmosphere roundup reel.',
+    source: 'Instagram reel DSUHSP_Ee2T / caption list',
+    importNote: '16:00–23:00 daily',
+    thumbnail: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Assign after choosing route density', note: 'Caption-sourced Seongsu stop; combine only if it fits the existing May 17 walking loop.' },
+    entries: [
+      { place: 'Yongyong Seonsaeng Maradowon', area: 'Seongsu / 성수동2가 277-56', vibe: 'restaurant / dinner', note: 'Dinner option from the Seongsu mood-space reel; useful if the shopping route needs a nearby meal anchor.', thumbnail: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DSUHSP_Ee2T/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EC%9A%A9%EC%9A%A9%EC%84%A0%EC%83%9D%20%EB%A7%88%EB%9D%BC%EB%8F%84%EC%9B%90%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EC%9A%A9%EC%9A%A9%EC%84%A0%EC%83%9D%20%EB%A7%88%EB%9D%BC%EB%8F%84%EC%9B%90%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Yongyong Seonsaeng Maradowon', 'Seongsu atmosphere roundup save', { query: '용용선생 마라도원 성수' })],
+  },
+  {
+    key: 'ig-seongsu-mood-medicube',
+    themeKey: 'seongsu-mood-spaces',
+    themeTitle: 'Seongsu mood spaces',
+    title: 'Medicube Seongsu',
+    area: 'Seongsu / 성수이로7길 40',
+    status: 'Instagram save',
+    lead: 'Saved from _yh.yhh’s Seongsu atmosphere roundup reel.',
+    source: 'Instagram reel DSUHSP_Ee2T / caption list',
+    importNote: '11:00–20:00 daily',
+    thumbnail: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Assign after choosing route density', note: 'Caption-sourced Seongsu stop; combine only if it fits the existing May 17 walking loop.' },
+    entries: [
+      { place: 'Medicube Seongsu', area: 'Seongsu / 성수이로7길 40', vibe: 'beauty tech showroom', note: 'Beauty-device showroom from the reel; good if the day leans K-beauty and product testing rather than only shopping.', thumbnail: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DSUHSP_Ee2T/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EB%A9%94%EB%94%94%ED%81%90%EB%B8%8C%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EB%A9%94%EB%94%94%ED%81%90%EB%B8%8C%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Medicube Seongsu', 'Seongsu atmosphere roundup save', { query: '메디큐브 성수' })],
+  },
+  {
+    key: 'ig-seongsu-mood-dalimmak',
+    themeKey: 'seongsu-mood-spaces',
+    themeTitle: 'Seongsu mood spaces',
+    title: 'Dalimmak',
+    area: 'Seongsu / 연무장길 38-2 1F',
+    status: 'Instagram save',
+    lead: 'Saved from _yh.yhh’s Seongsu atmosphere roundup reel.',
+    source: 'Instagram reel DSUHSP_Ee2T / caption list',
+    importNote: '09:00–22:00 daily',
+    thumbnail: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Assign after choosing route density', note: 'Caption-sourced Seongsu stop; combine only if it fits the existing May 17 walking loop.' },
+    entries: [
+      { place: 'Dalimmak', area: 'Seongsu / 연무장길 38-2 1F', vibe: 'cafe / dessert', note: 'Cafe/dessert stop from the reel; useful as a lower-commitment rest stop inside the Seongsu walk.', thumbnail: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DSUHSP_Ee2T/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EB%8B%AC%EC%9E%84%EB%A7%89%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EB%8B%AC%EC%9E%84%EB%A7%89%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Dalimmak', 'Seongsu atmosphere roundup save', { query: '달임막 성수' })],
+  },
+  {
+    key: 'ig-seongsu-mood-hanjeongsun',
+    themeKey: 'seongsu-mood-spaces',
+    themeTitle: 'Seongsu mood spaces',
+    title: 'Hanjeongsun',
+    area: 'Seongsu / 연무장길 43-1 1F',
+    status: 'Instagram save',
+    lead: 'Saved from _yh.yhh’s Seongsu atmosphere roundup reel.',
+    source: 'Instagram reel DSUHSP_Ee2T / caption list',
+    importNote: '10:30–22:00 daily',
+    thumbnail: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Assign after choosing route density', note: 'Caption-sourced Seongsu stop; combine only if it fits the existing May 17 walking loop.' },
+    entries: [
+      { place: 'Hanjeongsun', area: 'Seongsu / 연무장길 43-1 1F', vibe: 'dessert / cafe', note: 'Reel-listed Seongsu stop near the same walking corridor; keep as optional cafe/dessert backup.', thumbnail: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DSUHSP_Ee2T/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%ED%95%9C%EC%A0%95%EC%84%A0%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%ED%95%9C%EC%A0%95%EC%84%A0%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Hanjeongsun', 'Seongsu atmosphere roundup save', { query: '한정선 성수' })],
+  },
 ]
 
 const stepOnePlaceThemes = [
@@ -886,6 +1023,12 @@ const stepOnePlaceThemes = [
     title: 'Wellness / spa saves',
     status: 'Instagram reel',
     lead: 'Spa and recovery ideas kept separate until price, booking, and transport fit are checked.',
+  },
+  {
+    key: 'seongsu-mood-spaces',
+    title: 'Seongsu mood spaces',
+    status: 'Instagram roundup',
+    lead: 'Atmospheric Seongsu cafes, showrooms, beauty shops, popup, and dinner ideas from _yh.yhh’s reel.',
   },
 ]
 
@@ -935,8 +1078,8 @@ function buildPlannerItems(day) {
   }))
 }
 
-function buildAssignedPlaceItems(dayKey, assignments) {
-  return placeGroups
+function buildAssignedPlaceItems(dayKey, assignments, groups = placeGroups) {
+  return groups
     .filter((group) => assignments[group.key] === dayKey)
     .map((group) => ({
       id: `assigned-${group.key}`,
@@ -946,6 +1089,31 @@ function buildAssignedPlaceItems(dayKey, assignments) {
       type: 'candidate',
       targetNames: group.mapTargets.map((target) => target.name),
     }))
+}
+
+function scheduleKeyForResearchOption(boardKey, place) {
+  return `research-${boardKey}-${normalizeToken(place).replace(/[^a-z0-9]+/g, '-')}`
+}
+
+function buildSelectedResearchScheduleGroups(votes) {
+  return researchBoards.flatMap((board) => (
+    board.comparison
+      .filter((option) => votes[`${board.key}::${option.place}`] === 'yes')
+      .map((option) => {
+        const matchingTarget = board.mapTargets?.find((target) => target.name === option.place)
+        return {
+          key: scheduleKeyForResearchOption(board.key, option.place),
+          title: option.place,
+          area: option.area,
+          status: board.status,
+          themeKey: board.key,
+          themeTitle: board.title,
+          thumbnail: option.thumbnail,
+          entries: [{ ...option, vibe: option.pricing || board.status }],
+          mapTargets: matchingTarget ? [matchingTarget] : [mapTarget(option.place, board.title, { query: option.place })],
+        }
+      })
+  ))
 }
 
 function dedupeTargets(targets) {
@@ -1233,12 +1401,17 @@ function App() {
   )
 
   const selectedDayPlanner = useMemo(() => {
+    const selectedResearchScheduleGroups = buildSelectedResearchScheduleGroups(bookingVotes)
+    const scheduleGroups = [
+      ...placeGroups.filter((group) => selectedPlaceGroups[group.key]),
+      ...selectedResearchScheduleGroups,
+    ]
     const selectedAssignedPlaceDays = Object.fromEntries(
-      Object.entries(assignedPlaceDays).filter(([groupKey]) => selectedPlaceGroups[groupKey]),
+      Object.entries(assignedPlaceDays).filter(([groupKey]) => scheduleGroups.some((group) => group.key === groupKey)),
     )
     const baseItems = [
       ...buildPlannerItems(selectedDay),
-      ...buildAssignedPlaceItems(selectedDay.key, selectedAssignedPlaceDays),
+      ...buildAssignedPlaceItems(selectedDay.key, selectedAssignedPlaceDays, scheduleGroups),
     ]
     const orderIds = plannerOrder[selectedDay.key] ?? baseItems.map((item) => item.id)
     const orderedBaseItems = orderIds
@@ -1251,7 +1424,7 @@ function App() {
       ...item,
       type: overrideMap[item.id] ?? item.type,
     }))
-  }, [assignedPlaceDays, plannerOrder, plannerOverrides, selectedDay, selectedPlaceGroups])
+  }, [assignedPlaceDays, bookingVotes, plannerOrder, plannerOverrides, selectedDay, selectedPlaceGroups])
 
   const confirmedRouteTargets = useMemo(() => {
     return dedupeTargets(
@@ -1330,8 +1503,11 @@ function App() {
   }, [customThemeTitles, stepOnePlaceGroups])
 
   const selectedSchedulePlaceGroups = useMemo(
-    () => placeGroups.filter((group) => selectedPlaceGroups[group.key]),
-    [selectedPlaceGroups],
+    () => [
+      ...placeGroups.filter((group) => selectedPlaceGroups[group.key]),
+      ...buildSelectedResearchScheduleGroups(bookingVotes),
+    ],
+    [bookingVotes, selectedPlaceGroups],
   )
 
   const unscheduledPlaceGroups = useMemo(
@@ -2141,6 +2317,9 @@ function App() {
                                   return
                                 }
                                 toggleBookingVote(theme.key, option.place, value)
+                                if (value !== 'yes') {
+                                  assignPlaceGroupToDay(scheduleKeyForResearchOption(theme.key, option.place), '')
+                                }
                               }
 
                               return (
