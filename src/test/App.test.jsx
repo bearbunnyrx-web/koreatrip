@@ -18,22 +18,26 @@ describe('Korea trip app v2 concept', () => {
     window.localStorage.clear()
   })
 
-  test('renders the redesigned home screen with visual trip entry cards', () => {
-    render(<App />)
+  test('renders the redesigned home screen with cleaned chrome and soft search', () => {
+    const { container } = render(<App />)
 
     expect(screen.getByRole('heading', { name: /search the trip/i })).toBeInTheDocument()
     expect(screen.getByText(/seoul & jeju beauty trip in may/i)).toBeInTheDocument()
     expect(screen.getByText(/city of k-beauty & culture/i)).toBeInTheDocument()
     expect(screen.getByText(/island of nature & healing/i)).toBeInTheDocument()
     expect(screen.getByPlaceholderText(/search seongsu, jamsil, reone, headspa, jeju/i)).toBeInTheDocument()
+    expect(screen.queryByText(/sj \+ th • korea • may 15–26/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/suggested flow/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/compare → schedule → itinerary/i)).not.toBeInTheDocument()
+    expect(container.querySelector('.hero-search-card.search-card')).not.toBeInTheDocument()
   })
 
-  test('theme toggle uses quiet text labels instead of bright emoji icons', () => {
+  test('theme toggle uses a simple icon instead of text labels', () => {
     render(<App />)
 
-    expect(screen.getByRole('button', { name: /switch to dark mode/i })).toBeInTheDocument()
+    const themeButton = screen.getByRole('button', { name: /switch to dark mode/i })
+    expect(themeButton).toBeInTheDocument()
+    expect(themeButton).not.toHaveTextContent(/dark mode|light mode/i)
   })
 
   test('renders the itinerary planner with polished final-plan cues', () => {
@@ -89,13 +93,18 @@ describe('Korea trip app v2 concept', () => {
     expect(within(nailTheme).getByRole('button', { name: /no to 단니네일/i })).toBeInTheDocument()
   })
 
-  test('step 1 theme names can be adjusted and persist in the sticky icon rail', () => {
+  test('step 1 theme names can be adjusted by clicking the subtle title', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
     fireEvent.click(screen.getByRole('button', { name: /open may 17 seongsu viral loop theme/i }))
 
-    const nameInput = screen.getByLabelText(/theme name for may 17 seongsu viral loop/i)
+    expect(screen.queryByText(/ready to book/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/choose inside this box/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/theme name/i)).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /edit theme title may 17 seongsu viral loop/i }))
+    const nameInput = screen.getByLabelText(/theme title for may 17 seongsu viral loop/i)
     fireEvent.change(nameInput, { target: { value: 'Seongsu IG loop' } })
 
     expect(screen.getByRole('button', { name: /open seongsu ig loop theme/i })).toBeInTheDocument()
@@ -179,6 +188,20 @@ describe('Korea trip app v2 concept', () => {
     expect(within(seongsuMoodTheme).getByRole('button', { name: /yes to glow seongsu/i })).toBeInTheDocument()
   })
 
+  test('Korea glow up reel imports beauty providers into step 1', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+
+    fireEvent.click(screen.getByRole('button', { name: /open korea glow up beauty saves theme/i }))
+    const glowUpTheme = screen.getByTestId('step-one-theme-korea-glow-up-beauty')
+
+    expect(within(glowUpTheme).getByText(/brow gyeol/i)).toBeInTheDocument()
+    expect(within(glowUpTheme).getByText(/artlab nail/i)).toBeInTheDocument()
+    expect(within(glowUpTheme).getByText(/reone global/i)).toBeInTheDocument()
+    expect(within(glowUpTheme).getByRole('button', { name: /yes to brow gyeol/i })).toBeInTheDocument()
+  })
+
   test('step 1 place yes selections feed step 2 scheduling', () => {
     render(<App />)
 
@@ -204,14 +227,16 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByLabelText(/drag soonsiki hair hongdae/i)).toBeInTheDocument()
   })
 
-  test('schedule shows a compact assignment board without explanatory paragraphs', () => {
+  test('schedule shows one sticky Items rail and no duplicate unscheduled box', () => {
     const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
 
     expect(screen.getByRole('heading', { name: /^step 2: select date$/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: /unscheduled/i })).toBeInTheDocument()
+    expect(screen.getByText(/^items$/i)).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: /unscheduled/i })).not.toBeInTheDocument()
     expect(container.querySelector('.step-two-sticky-unscheduled')).toBeInTheDocument()
+    expect(container.querySelector('.schedule-inbox-panel')).not.toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /day buckets/i })).toBeInTheDocument()
     expect(screen.queryByText(/haus nowhere/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/anything from compare/i)).not.toBeInTheDocument()

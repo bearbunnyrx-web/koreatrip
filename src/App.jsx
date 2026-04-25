@@ -997,6 +997,58 @@ const placeGroups = [
     ],
     mapTargets: [mapTarget('Hanjeongsun', 'Seongsu atmosphere roundup save', { query: '한정선 성수' })],
   },
+
+  {
+    key: 'ig-korea-glow-up-brow-gyeol',
+    themeKey: 'korea-glow-up-beauty',
+    themeTitle: 'Korea glow up beauty saves',
+    title: 'Brow Gyeol',
+    area: 'Seoul / exact area TBD',
+    status: 'needs price + appointment check',
+    lead: 'Saved from Bianca Montalvo’s Korea glow up reel.',
+    source: 'Instagram reel DU5nD4_DrOC / caption tags',
+    importNote: 'Caption tagged eyebrow microblading, nails, and skin treatments; verify exact branch/location and pricing before routing.',
+    thumbnail: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Beauty provider candidate', end: 'Assign after appointment fit check', note: 'Beauty-treatment lead from a social reel; do not schedule without pricing, availability, and location verification.' },
+    entries: [
+      { place: 'Brow Gyeol', area: 'Seoul / exact area TBD', vibe: 'eyebrow microblading', note: 'Eyebrow microblading provider tagged in Bianca Montalvo’s Korea glow up reel. Comments ask about pain and one-vs-two appointments, so verify numbing, touch-up policy, English support, and total price before booking.', thumbnail: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DU5nD4_DrOC/?igsh=NTc4MTIwNjQ2YQ==', instagram: 'https://www.instagram.com/brow_gyeol/', naverUrl: 'https://map.naver.com/p/search/%EB%B8%8C%EB%A1%9C%EC%9A%B0%EA%B2%B0%20%EC%84%9C%EC%9A%B8', kakaoUrl: 'https://map.kakao.com/?q=%EB%B8%8C%EB%A1%9C%EC%9A%B0%EA%B2%B0%20%EC%84%9C%EC%9A%B8' },
+    ],
+    mapTargets: [mapTarget('Brow Gyeol', 'Korea glow up provider from Instagram reel', { query: '브로우결 서울' })],
+  },
+  {
+    key: 'ig-korea-glow-up-artlab-nail',
+    themeKey: 'korea-glow-up-beauty',
+    themeTitle: 'Korea glow up beauty saves',
+    title: 'Artlab Nail',
+    area: 'Seoul / exact area TBD',
+    status: 'needs price + appointment check',
+    lead: 'Saved from Bianca Montalvo’s Korea glow up reel.',
+    source: 'Instagram reel DU5nD4_DrOC / caption tags',
+    importNote: 'Caption tagged eyebrow microblading, nails, and skin treatments; verify exact branch/location and pricing before routing.',
+    thumbnail: 'https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Beauty provider candidate', end: 'Assign after appointment fit check', note: 'Beauty-treatment lead from a social reel; do not schedule without pricing, availability, and location verification.' },
+    entries: [
+      { place: 'Artlab Nail', area: 'Seoul / exact area TBD', vibe: 'nails / nail art', note: 'Nail provider tagged in the Korea glow up reel. Keep as an inspiration/backup nail option until area, menu, and appointment availability are verified against the Seongsu nail plan.', thumbnail: 'https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DU5nD4_DrOC/?igsh=NTc4MTIwNjQ2YQ==', instagram: 'https://www.instagram.com/artlab_nail/', naverUrl: 'https://map.naver.com/p/search/%EC%95%84%ED%8A%B8%EB%9E%A9%EB%84%A4%EC%9D%BC%20%EC%84%9C%EC%9A%B8', kakaoUrl: 'https://map.kakao.com/?q=%EC%95%84%ED%8A%B8%EB%9E%A9%EB%84%A4%EC%9D%BC%20%EC%84%9C%EC%9A%B8' },
+    ],
+    mapTargets: [mapTarget('Artlab Nail', 'Korea glow up provider from Instagram reel', { query: '아트랩네일 서울' })],
+  },
+  {
+    key: 'ig-korea-glow-up-reone-global',
+    themeKey: 'korea-glow-up-beauty',
+    themeTitle: 'Korea glow up beauty saves',
+    title: 'ReOne Global',
+    area: 'Cheongdam / Seoul',
+    status: 'already booked anchor',
+    lead: 'Saved from Bianca Montalvo’s Korea glow up reel.',
+    source: 'Instagram reel DU5nD4_DrOC / caption tags',
+    importNote: 'Caption tagged eyebrow microblading, nails, and skin treatments; verify exact branch/location and pricing before routing.',
+    thumbnail: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Beauty provider candidate', end: 'Assign after appointment fit check', note: 'Beauty-treatment lead from a social reel; do not schedule without pricing, availability, and location verification.' },
+    entries: [
+      { place: 'ReOne Global', area: 'Cheongdam / Seoul', vibe: 'skin treatments / dermatology', note: 'Skin treatment clinic tagged in the reel. This matches the existing ReOne dermatology anchor already saved/booked for May 22, so keep this card as social-proof context rather than a separate new clinic decision.', thumbnail: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DU5nD4_DrOC/?igsh=NTc4MTIwNjQ2YQ==', instagram: 'https://www.instagram.com/reone_global/', naverUrl: 'https://map.naver.com/p/search/%EB%A6%AC%EC%9B%90%ED%94%BC%EB%B6%80%EA%B3%BC%EC%9D%98%EC%9B%90%20%EC%B2%AD%EB%8B%B4', kakaoUrl: 'https://map.kakao.com/?q=%EB%A6%AC%EC%9B%90%ED%94%BC%EB%B6%80%EA%B3%BC%EC%9D%98%EC%9B%90%20%EC%B2%AD%EB%8B%B4' },
+    ],
+    mapTargets: [mapTarget('ReOne Global', 'Korea glow up provider from Instagram reel', { query: '리원피부과의원 청담' })],
+  },
 ]
 
 const stepOnePlaceThemes = [
@@ -1029,6 +1081,12 @@ const stepOnePlaceThemes = [
     title: 'Seongsu mood spaces',
     status: 'Instagram roundup',
     lead: 'Atmospheric Seongsu cafes, showrooms, beauty shops, popup, and dinner ideas from _yh.yhh’s reel.',
+  },
+  {
+    key: 'korea-glow-up-beauty',
+    title: 'Korea glow up beauty saves',
+    status: 'Instagram reel',
+    lead: 'Beauty-treatment providers tagged in Bianca Montalvo’s Korea glow up reel.',
   },
 ]
 
@@ -1208,6 +1266,7 @@ function App() {
   const [selectedDayKey, setSelectedDayKey] = useState('may-17')
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
   const [selectedBookingKey, setSelectedBookingKey] = useState('hair-perm')
+  const [editingThemeKey, setEditingThemeKey] = useState('')
   const [assignedPlaceDays, setAssignedPlaceDays] = useState(() => {
     const stored = window.localStorage.getItem('korea-trip-place-days')
 
@@ -1853,7 +1912,6 @@ function App() {
         <aside className="sidebar-shell glass-card">
           <div className="sidebar-top-row">
             <div className="sidebar-top">
-              <div className="eyebrow">SJ + TH • Korea • May 15–26</div>
               <h1>Korea Trip May 15-26</h1>
             </div>
             <button
@@ -1861,7 +1919,7 @@ function App() {
               aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
             >
-              {theme === 'light' ? 'Dark mode' : 'Light mode'}
+              {theme === 'light' ? '◐' : '☼'}
             </button>
           </div>
 
@@ -1900,7 +1958,7 @@ function App() {
                     <p className="search-hero-copy">Choose the places you like, select dates, then shape the final itinerary.</p>
                   </div>
 
-                  <div className="search-card hero-search-card">
+                  <div className="hero-search-card">
                     <input
                       className="trip-search"
                       value={searchQuery}
@@ -2111,7 +2169,7 @@ function App() {
                 onDrop={(event) => handleScheduleDrop('', event)}
               >
                 <div className="sticky-rail-title">
-                  <span>Unscheduled</span>
+                  <span>Items</span>
                   <strong>{unscheduledPlaceGroups.length}</strong>
                 </div>
                 <div className="step-two-unscheduled-rail">
@@ -2120,7 +2178,7 @@ function App() {
                       <article
                         key={`sticky-${group.key}`}
                         className="sticky-unscheduled-chip"
-                        aria-label={`Pinned ${group.title}`}
+                        aria-label={`Drag ${group.title}`}
                         draggable
                         onDragStart={(event) => handleScheduleDragStart(group.key, event)}
                       >
@@ -2134,41 +2192,7 @@ function App() {
                 </div>
               </div>
 
-              <section className="schedule-sorter-layout compact-schedule-layout">
-                <div
-                  className="glass-card schedule-inbox-panel"
-                  aria-label="Drop places back into unscheduled list"
-                  onDragOver={(event) => event.preventDefault()}
-                  onDrop={(event) => handleScheduleDrop('', event)}
-                >
-                  <div className="compact-section-title">
-                    <h3>Unscheduled</h3>
-                    <span>{unscheduledPlaceGroups.length}</span>
-                  </div>
-
-                  <div className="schedule-group-list compact-card-list">
-                    {unscheduledPlaceGroups.length ? (
-                      unscheduledPlaceGroups.map((group) => (
-                        <article
-                          key={group.key}
-                          className="schedule-group-card compact-schedule-card"
-                          aria-label={`Drag ${group.title}`}
-                          draggable
-                          onDragStart={(event) => handleScheduleDragStart(group.key, event)}
-                        >
-                          <div className="schedule-group-handle" aria-hidden="true">⋮⋮</div>
-                          <div>
-                            <strong>{group.title}</strong>
-                            <small>{group.area} · {group.entries.length} saved</small>
-                          </div>
-                        </article>
-                      ))
-                    ) : (
-                      <div className="empty-state compact-empty-state">All assigned.</div>
-                    )}
-                  </div>
-                </div>
-
+              <section className="schedule-sorter-layout compact-schedule-layout compact-schedule-layout-single">
                 <div className="glass-card schedule-buckets-panel">
                   <div className="compact-section-title">
                     <h3>Day buckets</h3>
@@ -2270,37 +2294,32 @@ function App() {
                       data-testid={`step-one-theme-${theme.key}`}
                       key={theme.key}
                     >
-                      <button
-                        type="button"
-                        className="step-one-theme-trigger"
-                        aria-label={`Expand ${theme.title} card`}
-                        aria-expanded={isOpen}
-                        onClick={() => setSelectedBookingKey(theme.key)}
-                      >
-                        <div className="compare-board-thumbs" aria-hidden="true">
-                          {theme.previewImages.slice(0, 3).map((image, index) => (
-                            <img key={`${theme.key}-${index}`} src={image} alt="" loading="lazy" />
-                          ))}
-                        </div>
-                        <span>{theme.status}</span>
-                        <strong>{theme.title}</strong>
-                        <small>{yesCount} yes</small>
-                      </button>
-
                       {isOpen ? (
                         <div className="step-one-inline-panel">
                           <div className="compare-focus-header step-one-inline-header">
                             <div>
-                              <span className="search-type">Choose inside this box</span>
-                              <label className="theme-name-editor">
-                                <small>Theme name</small>
+                              {editingThemeKey === theme.key ? (
                                 <input
-                                  aria-label={`Theme name for ${theme.originalTitle}`}
+                                  className="theme-title-input"
+                                  aria-label={`Theme title for ${theme.originalTitle}`}
                                   value={theme.title}
+                                  autoFocus
+                                  onBlur={() => setEditingThemeKey('')}
                                   onChange={(event) => updateThemeTitle(theme.key, event.target.value)}
+                                  onKeyDown={(event) => {
+                                    if (event.key === 'Enter') setEditingThemeKey('')
+                                  }}
                                 />
-                              </label>
-                              <h3>{theme.title}</h3>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className="editable-theme-title"
+                                  aria-label={`Edit theme title ${theme.title}`}
+                                  onClick={() => setEditingThemeKey(theme.key)}
+                                >
+                                  {theme.title}
+                                </button>
+                              )}
                               <p>{theme.lead || theme.recommendation}</p>
                             </div>
                           </div>
