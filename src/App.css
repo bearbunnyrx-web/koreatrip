@@ -990,6 +990,64 @@ a {
   gap: 10px;
 }
 
+.step-one-theme-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.step-one-theme-card {
+  min-height: auto;
+  padding: 10px;
+  cursor: default;
+}
+
+.step-one-theme-card.active {
+  grid-column: 1 / -1;
+}
+
+.step-one-theme-trigger {
+  display: grid;
+  width: 100%;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.step-one-theme-trigger small {
+  justify-self: flex-start;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(127, 110, 96, 0.12);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.step-one-inline-panel {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.step-one-inline-header h3 {
+  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+}
+
+.step-one-inline-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.inline-choice-row {
+  margin-top: 10px;
+}
+
 .compare-board-card {
   display: grid;
   gap: 8px;
@@ -2477,6 +2535,8 @@ a {
   .schedule-sorter-layout,
   .planner-overview-strip,
   .compare-board-strip,
+  .step-one-theme-list,
+  .step-one-inline-grid,
   .compact-day-buckets {
     grid-template-columns: 1fr;
   }

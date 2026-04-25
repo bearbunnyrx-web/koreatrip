@@ -4,14 +4,13 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 const tabs = ['home', 'bookings', 'places', 'itinerary']
 const tabMeta = {
   home: { label: 'Home', short: 'H', helper: 'search + trip overview' },
-  bookings: { label: 'Step 1: Book', short: '1', helper: 'select places' },
+  bookings: { label: 'Step 1: Choose Places', short: '1', helper: 'choose places' },
   places: { label: 'Step 2: Select Date', short: '2', helper: 'assign dates' },
   itinerary: { label: 'Step 3: Itinerary', short: '3', helper: 'final route' },
 }
 const bookingVoteOptions = [
-  { value: 'love', label: '💗 Love', savedLabel: 'Love' },
-  { value: 'maybe', label: '🤔 Maybe', savedLabel: 'Maybe' },
-  { value: 'pass', label: '✖ Pass', savedLabel: 'Pass' },
+  { value: 'yes', label: 'Yes', savedLabel: 'Yes' },
+  { value: 'no', label: 'No', savedLabel: 'No' },
 ]
 const plannerFilters = ['all', 'candidates', 'confirmed']
 const KAKAO_JS_KEY = import.meta.env.VITE_KAKAO_JS_KEY
@@ -654,63 +653,145 @@ const researchBoards = [
 
 const placeGroups = [
   {
-    key: 'seongsu-viral-loop',
-    title: 'May 17 Seongsu viral loop',
+    key: 'seongsu-haus-nowhere',
+    themeKey: 'seongsu-viral-loop',
+    themeTitle: 'May 17 Seongsu viral loop',
+    title: 'Haus Nowhere',
     area: 'Seongsu',
     status: 'ready to route',
-    lead: 'Core Seongsu saves for the May 17 beauty + shopping day.',
+    lead: 'Gentle Monster anchor stop from the Seongsu viral loop.',
+    source: 'Instagram save / Seongsu brand loop',
+    importNote: 'Use as the first anchor after the beauty appointment.',
+    thumbnail: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80',
     logistics: {
       start: 'Seongsu arrival after beauty appointment',
-      end: 'Dinner from the same side of the city',
-      note: 'This cluster is best handled as one walking loop. The main goal is to keep the viral/brand stops dense so you are not bouncing across Seoul.',
+      end: 'Walking loop toward beauty/shopping saves',
+      note: 'Good first stop in the Seongsu brand loop.',
     },
-    source: 'Shared saved list / Instagram-inspired brand stops',
-    importNote: 'Best first real Places board because it already belongs to a fixed itinerary day.',
-    mapCenter: { lat: 37.5446, lng: 127.0557 },
-    mapLevel: 5,
     entries: [
-      { place: 'Haus Nowhere', area: 'Seongsu', vibe: 'Gentle Monster anchor stop', note: 'Good first stop in the Seongsu brand loop.', naverUrl: 'https://map.naver.com/p/search/%ED%95%98%EC%9A%B0%EC%8A%A4%20%EB%82%98%EC%9A%B0%EC%9B%A8%EC%96%B4%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%ED%95%98%EC%9A%B0%EC%8A%A4%20%EB%82%98%EC%9A%B0%EC%9B%A8%EC%96%B4%20%EC%84%B1%EC%88%98' },
-      { place: 'Olive Young Flagship', area: 'Seongsu', vibe: 'Beauty / practical haul', note: 'Easy mid-loop beauty stop.', naverUrl: 'https://map.naver.com/p/search/%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81N%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81N%20%EC%84%B1%EC%88%98' },
-      { place: 'Tamburins', area: 'Seongsu', vibe: 'Beauty brand stop', note: 'Pairs naturally with the Gentle Monster side.', naverUrl: 'https://map.naver.com/p/search/%ED%83%AC%EB%B2%84%EB%A6%B0%EC%A6%88%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%ED%83%AC%EB%B2%84%EB%A6%B0%EC%A6%88%20%EC%84%B1%EC%88%98' },
-      { place: 'Blue Elephant', area: 'Seongsu', vibe: 'Eyewear stop', note: 'Keep as flex depending on time and try-on energy.', naverUrl: 'https://map.naver.com/p/search/%EB%B8%94%EB%A3%A8%EC%97%98%EB%A6%AC%ED%8E%80%ED%8A%B8%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EB%B8%94%EB%A3%A8%EC%97%98%EB%A6%AC%ED%8E%80%ED%8A%B8%20%EC%84%B1%EC%88%98' },
-      { place: 'Musinsa Standard', area: 'Seongsu', vibe: 'Core shopping stop', note: 'Useful basics / browsing block.', naverUrl: 'https://map.naver.com/p/search/%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%8A%A4%ED%83%A0%EB%8B%A4%EB%93%9C%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%8A%A4%ED%83%A0%EB%8B%A4%EB%93%9C%20%EC%84%B1%EC%88%98' },
-      { place: 'Tir Tir', area: 'Seongsu', vibe: 'Beauty stop', note: 'Fold into the same walking sequence as Olive Young if possible.', naverUrl: 'https://map.naver.com/p/search/%ED%8B%B0%EB%A5%B4%ED%8B%B0%EB%A5%B4%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%ED%8B%B0%EB%A5%B4%ED%8B%B0%EB%A5%B4%20%EC%84%B1%EC%88%98' },
+      { place: 'Haus Nowhere', area: 'Seongsu', vibe: 'Gentle Monster anchor stop', note: 'Good first stop in the Seongsu brand loop.', thumbnail: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80', naverUrl: 'https://map.naver.com/p/search/%ED%95%98%EC%9A%B0%EC%8A%A4%20%EB%82%98%EC%9A%B0%EC%9B%A8%EC%96%B4%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%ED%95%98%EC%9A%B0%EC%8A%A4%20%EB%82%98%EC%9A%B0%EC%9B%A8%EC%96%B4%20%EC%84%B1%EC%88%98' },
     ],
-    mapTargets: [
-      mapTarget('Haus Nowhere Seongsu', 'Gentle Monster anchor stop', { query: '하우스 나우웨어 성수' }),
-      mapTarget('Tamburins Seongsu', 'Beauty brand stop', { query: '탬버린즈 성수' }),
-      mapTarget('Olive Young N Seongsu', 'Flagship beauty stop', { query: '올리브영N 성수' }),
-      mapTarget('Musinsa Standard Seongsu', 'Clothing/basic shopping stop', { query: '무신사 스탠다드 성수' }),
-      mapTarget('TIRTIR Seongsu', 'Beauty stop', { query: '티르티르 성수' }),
-      mapTarget('Blue Elephant Seongsu', 'Eyewear stop', { query: '블루엘리펀트 성수' }),
+    mapTargets: [mapTarget('Haus Nowhere Seongsu', 'Gentle Monster anchor stop', { query: '하우스 나우웨어 성수' })],
+  },
+  {
+    key: 'seongsu-olive-young-flagship',
+    themeKey: 'seongsu-viral-loop',
+    themeTitle: 'May 17 Seongsu viral loop',
+    title: 'Olive Young Flagship',
+    area: 'Seongsu',
+    status: 'ready to route',
+    lead: 'Beauty haul stop from the Seongsu saved loop.',
+    source: 'Instagram save / Seongsu brand loop',
+    importNote: 'Pairs naturally with Tamburins and TIRTIR.',
+    thumbnail: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Nearby beauty brand stops', note: 'Easy mid-loop beauty stop.' },
+    entries: [
+      { place: 'Olive Young Flagship', area: 'Seongsu', vibe: 'Beauty / practical haul', note: 'Easy mid-loop beauty stop.', thumbnail: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80', naverUrl: 'https://map.naver.com/p/search/%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81N%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81N%20%EC%84%B1%EC%88%98' },
     ],
+    mapTargets: [mapTarget('Olive Young N Seongsu', 'Flagship beauty stop', { query: '올리브영N 성수' })],
+  },
+  {
+    key: 'seongsu-tamburins',
+    themeKey: 'seongsu-viral-loop',
+    themeTitle: 'May 17 Seongsu viral loop',
+    title: 'Tamburins',
+    area: 'Seongsu',
+    status: 'ready to route',
+    lead: 'Beauty brand stop near the Gentle Monster side.',
+    source: 'Instagram save / Seongsu brand loop',
+    importNote: 'Keep in the same walking sequence as Olive Young.',
+    thumbnail: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Haus Nowhere side', end: 'Olive Young / TIRTIR side', note: 'Pairs naturally with the Gentle Monster side.' },
+    entries: [
+      { place: 'Tamburins', area: 'Seongsu', vibe: 'Beauty brand stop', note: 'Pairs naturally with the Gentle Monster side.', thumbnail: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80', naverUrl: 'https://map.naver.com/p/search/%ED%83%AC%EB%B2%84%EB%A6%B0%EC%A6%88%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%ED%83%AC%EB%B2%84%EB%A6%B0%EC%A6%88%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Tamburins Seongsu', 'Beauty brand stop', { query: '탬버린즈 성수' })],
+  },
+  {
+    key: 'seongsu-blue-elephant',
+    themeKey: 'seongsu-viral-loop',
+    themeTitle: 'May 17 Seongsu viral loop',
+    title: 'Blue Elephant',
+    area: 'Seongsu',
+    status: 'flex',
+    lead: 'Eyewear try-on stop for the Seongsu loop.',
+    source: 'Instagram save / Seongsu brand loop',
+    importNote: 'Good flex stop depending on energy.',
+    thumbnail: 'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Dinner side of city', note: 'Keep as flex depending on time and try-on energy.' },
+    entries: [
+      { place: 'Blue Elephant', area: 'Seongsu', vibe: 'Eyewear stop', note: 'Keep as flex depending on time and try-on energy.', thumbnail: 'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=800&q=80', naverUrl: 'https://map.naver.com/p/search/%EB%B8%94%EB%A3%A8%EC%97%98%EB%A6%AC%ED%8E%80%ED%8A%B8%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EB%B8%94%EB%A3%A8%EC%97%98%EB%A6%AC%ED%8E%80%ED%8A%B8%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Blue Elephant Seongsu', 'Eyewear stop', { query: '블루엘리펀트 성수' })],
+  },
+  {
+    key: 'seongsu-musinsa-standard',
+    themeKey: 'seongsu-viral-loop',
+    themeTitle: 'May 17 Seongsu viral loop',
+    title: 'Musinsa Standard',
+    area: 'Seongsu',
+    status: 'ready to route',
+    lead: 'Core clothing / basics shopping stop.',
+    source: 'Instagram save / Seongsu brand loop',
+    importNote: 'Useful browsing block in the Seongsu route.',
+    thumbnail: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu shopping route', end: 'Beauty stops / dinner', note: 'Useful basics / browsing block.' },
+    entries: [
+      { place: 'Musinsa Standard', area: 'Seongsu', vibe: 'Core shopping stop', note: 'Useful basics / browsing block.', thumbnail: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80', naverUrl: 'https://map.naver.com/p/search/%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%8A%A4%ED%83%A0%EB%8B%A4%EB%93%9C%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%8A%A4%ED%83%A0%EB%8B%A4%EB%93%9C%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Musinsa Standard Seongsu', 'Clothing/basic shopping stop', { query: '무신사 스탠다드 성수' })],
+  },
+  {
+    key: 'seongsu-tirtir',
+    themeKey: 'seongsu-viral-loop',
+    themeTitle: 'May 17 Seongsu viral loop',
+    title: 'Tir Tir',
+    area: 'Seongsu',
+    status: 'flex',
+    lead: 'Beauty stop from the Seongsu saved loop.',
+    source: 'Instagram save / Seongsu brand loop',
+    importNote: 'Fold into the same walking sequence as Olive Young.',
+    thumbnail: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu beauty route', end: 'Dinner / next cluster', note: 'Fold into the same walking sequence as Olive Young if possible.' },
+    entries: [
+      { place: 'Tir Tir', area: 'Seongsu', vibe: 'Beauty stop', note: 'Fold into the same walking sequence as Olive Young if possible.', thumbnail: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=800&q=80', naverUrl: 'https://map.naver.com/p/search/%ED%8B%B0%EB%A5%B4%ED%8B%B0%EB%A5%B4%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%ED%8B%B0%EB%A5%B4%ED%8B%B0%EB%A5%B4%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('TIRTIR Seongsu', 'Beauty stop', { query: '티르티르 성수' })],
+  },
+  {
+    key: 'inbox-foundation-match',
+    themeKey: 'viral-saves-inbox',
+    themeTitle: 'Viral saves inbox',
+    title: 'K-beauty foundation match',
+    area: 'Seoul / Korea TBD',
+    status: 'needs venue ID',
+    lead: 'Beauty consult lead from Mandy Serafina reel.',
+    source: 'Instagram reel',
+    importNote: 'Exact venue still needs the shared caption/link details before final booking.',
+    thumbnail: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Unsorted saved place', end: 'Assign once exact clinic/studio is known', note: 'Public reel suggests a bookable foundation shade-match / beauty consult; exact venue not readable yet.' },
+    entries: [
+      { place: 'K-beauty foundation match', area: 'Seoul / Korea TBD', vibe: 'Beauty booking lead', note: 'From Mandy Serafina reel. Exact clinic/studio still needs confirmation from the shared source.', thumbnail: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DUHKa4LEw7E/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EB%B7%B0%ED%8B%B0', kakaoUrl: 'https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EB%B7%B0%ED%8B%B0' },
+    ],
+    mapTargets: [mapTarget('Seoul beauty consult', 'Default anchor until exact reel venue is confirmed', { query: '서울 뷰티' })],
+  },
+]
+
+const stepOnePlaceThemes = [
+  {
+    key: 'seongsu-viral-loop',
+    title: 'May 17 Seongsu viral loop',
+    status: 'Instagram saves',
+    lead: 'Broken into individual Seongsu saved places so each one can be Yes / No.',
   },
   {
     key: 'viral-saves-inbox',
     title: 'Viral saves inbox',
-    area: 'Seoul / Jeju',
-    status: 'ready for import',
-    lead: 'A holding board for places pulled from Instagram posts and reels before they are assigned to a day.',
-    logistics: {
-      start: 'Unsorted saved places',
-      end: 'Sorted by neighborhood / day',
-      note: 'Use this as the intake layer first, then move places into a real cluster once enough saves collect in one neighborhood.',
-    },
-    source: 'Instagram posts / reels / manual paste',
-    importNote: 'Next step: I can turn pasted reel links, captions, or copied lists into place cards here and keep them map-linked.',
-    mapCenter: { lat: 37.5665, lng: 126.978 },
-    mapLevel: 8,
-    entries: [
-      { place: 'Paste reels or captions here later', area: 'Any neighborhood', vibe: 'Import queue', note: 'Jin can parse saved place names out of lists, captions, or links and drop them into this tab.', naverUrl: 'https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8', kakaoUrl: 'https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8' },
-      { place: 'K-beauty foundation match (exact venue TBD)', area: 'Seoul / Korea TBD', vibe: 'Beauty booking lead', note: 'From Mandy Serafina reel. Public caption suggests a Korea bookable foundation shade-match / beauty consult, but the exact clinic or studio name is not readable yet from the public reel page.', instagramUrl: 'https://www.instagram.com/reel/DUHKa4LEw7E/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EB%B7%B0%ED%8B%B0', kakaoUrl: 'https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EB%B7%B0%ED%8B%B0' },
-      { place: 'Then regroup by area', area: 'Seongsu / Jamsil / Jeju / etc.', vibe: 'Logistics pass', note: 'Once a cluster is obvious, it can become its own board with a dedicated map.', naverUrl: 'https://map.naver.com/p/search/%EC%A0%9C%EC%A3%BC', kakaoUrl: 'https://map.kakao.com/?q=%EC%A0%9C%EC%A3%BC' },
-    ],
-    mapTargets: [
-      mapTarget('Seoul', 'Default city anchor for unsorted Seoul saves', { query: '서울', coords: { lat: 37.5665, lng: 126.978 } }),
-      mapTarget('Jeju', 'Default island anchor for unsorted Jeju saves', { query: '제주', coords: { lat: 33.4996, lng: 126.5312 } }),
-    ],
+    status: 'Reels inbox',
+    lead: 'Imported reel leads that still need venue cleanup before routing.',
   },
 ]
+
 
 const spend = [
   { item: 'Flights', detail: 'China Airlines long-haul roundtrip for both', amount: '$960' },
@@ -1108,6 +1189,27 @@ function App() {
     [selectedPlaceGroups],
   )
 
+  const stepOneThemeBoards = useMemo(() => {
+    const researchThemes = researchBoards.map((board) => ({
+      ...board,
+      type: 'research',
+      previewImages: board.comparison.map((option) => option.thumbnail),
+    }))
+
+    const placeThemes = stepOnePlaceThemes.map((theme) => {
+      const groups = stepOnePlaceGroups.filter((group) => group.themeKey === theme.key)
+      return {
+        ...theme,
+        type: 'places',
+        comparison: groups.flatMap((group) => group.entries.map((entry) => ({ ...entry, groupKey: group.key, place: group.title, pricing: group.status, thumbnail: entry.thumbnail || group.thumbnail }))),
+        groups,
+        previewImages: groups.map((group) => group.thumbnail),
+      }
+    })
+
+    return [...researchThemes, ...placeThemes]
+  }, [stepOnePlaceGroups])
+
   const selectedSchedulePlaceGroups = useMemo(
     () => placeGroups.filter((group) => selectedPlaceGroups[group.key]),
     [selectedPlaceGroups],
@@ -1496,7 +1598,7 @@ function App() {
                     <span className="search-hero-kicker">Korea Trip</span>
                     <p className="search-hero-tagline">Seoul & Jeju beauty trip in May</p>
                     <h2 className="search-hero-title">Search the trip</h2>
-                    <p className="search-hero-copy">Book the ideas you like, select dates, then shape the final itinerary.</p>
+                    <p className="search-hero-copy">Choose the places you like, select dates, then shape the final itinerary.</p>
                   </div>
 
                   <div className="search-card hero-search-card">
@@ -1524,7 +1626,7 @@ function App() {
                   </div>
 
                   <div className="search-home-chip-row">
-                    <button className="hero-pill" onClick={() => setActiveTab('bookings')}>Step 1: Book</button>
+                    <button className="hero-pill" onClick={() => setActiveTab('bookings')}>Step 1: Choose Places</button>
                     <button className="hero-pill" onClick={() => setActiveTab('places')}>Step 2: Select Date</button>
                     <button className="hero-pill" onClick={() => setActiveTab('itinerary')}>Step 3: Itinerary</button>
                   </div>
@@ -1797,181 +1899,118 @@ function App() {
             <section className="content-screen compare-screen-v3">
               <header className="page-header wide-header stacked-mobile compare-page-header glass-card">
                 <div>
-                  <span className="search-type">Select places</span>
-                  <h2 className="page-title">Step 1: Book</h2>
+                  <span className="search-type">photo-first shortlists</span>
+                  <h2 className="page-title">Step 1: Choose Places</h2>
                 </div>
                 <span className="chip chip-gold">yes → step 2</span>
               </header>
 
-              <section className="glass-card step-one-places-panel">
-                <div className="compact-section-title">
-                  <h3>Select places</h3>
-                  <span>{stepOnePlaceGroups.filter((group) => group.selectedForSchedule).length} yes</span>
-                </div>
-                <div className="step-one-place-grid">
-                  {stepOnePlaceGroups.map((group) => (
-                    <article className={`step-one-place-card ${group.selectedForSchedule ? 'selected' : ''}`} key={group.key}>
-                      <div>
-                        <strong>{group.title}</strong>
-                        <small>{group.area} · {group.entries.length} saved</small>
-                      </div>
-                      <div className="step-one-choice-row">
-                        <button
-                          type="button"
-                          aria-label={`Move ${group.title} to step 2`}
-                          className={group.selectedForSchedule ? 'active' : ''}
-                          onClick={() => setPlaceGroupSelected(group.key, true)}
-                        >
-                          Yes
-                        </button>
-                        <button
-                          type="button"
-                          aria-label={`Keep ${group.title} in step 1`}
-                          className={!group.selectedForSchedule ? 'active' : ''}
-                          onClick={() => setPlaceGroupSelected(group.key, false)}
-                        >
-                          No
-                        </button>
-                      </div>
+              <div className="step-one-theme-list" aria-label="Choose place themes">
+                {stepOneThemeBoards.map((theme) => {
+                  const isOpen = selectedBookingKey === theme.key
+                  const yesCount = theme.type === 'places'
+                    ? theme.groups.filter((group) => selectedPlaceGroups[group.key]).length
+                    : theme.comparison.filter((option) => bookingVotes[`${theme.key}::${option.place}`] === 'yes').length
+
+                  return (
+                    <article
+                      className={`glass-card compare-board-card step-one-theme-card ${isOpen ? 'active' : ''}`}
+                      data-testid={`step-one-theme-${theme.key}`}
+                      key={theme.key}
+                    >
+                      <button
+                        type="button"
+                        className="step-one-theme-trigger"
+                        aria-expanded={isOpen}
+                        onClick={() => setSelectedBookingKey(theme.key)}
+                      >
+                        <div className="compare-board-thumbs" aria-hidden="true">
+                          {theme.previewImages.slice(0, 3).map((image, index) => (
+                            <img key={`${theme.key}-${index}`} src={image} alt="" loading="lazy" />
+                          ))}
+                        </div>
+                        <span>{theme.status}</span>
+                        <strong>{theme.title}</strong>
+                        <small>{yesCount} yes</small>
+                      </button>
+
+                      {isOpen ? (
+                        <div className="step-one-inline-panel">
+                          <div className="compare-focus-header step-one-inline-header">
+                            <div>
+                              <span className="search-type">Choose inside this box</span>
+                              <h3>{theme.title}</h3>
+                              <p>{theme.lead || theme.recommendation}</p>
+                            </div>
+                          </div>
+
+                          <div className="comparison-card-grid compare-photo-grid step-one-inline-grid">
+                            {theme.comparison.map((option) => {
+                              const voteKey = `${theme.key}::${option.place}`
+                              const activeVote = theme.type === 'places'
+                                ? selectedPlaceGroups[option.groupKey] ? 'yes' : 'no'
+                                : bookingVotes[voteKey] || 'no'
+                              const setOptionVote = (value) => {
+                                if (theme.type === 'places') {
+                                  setPlaceGroupSelected(option.groupKey, value === 'yes')
+                                  return
+                                }
+                                toggleBookingVote(theme.key, option.place, value)
+                              }
+
+                              return (
+                                <article className="comparison-option-card compare-photo-card" key={`${theme.key}-${option.place}`}>
+                                  <div className="comparison-image-wrap">
+                                    <img className="comparison-card-thumb" src={option.thumbnail} alt={`${option.place} preview`} loading="lazy" />
+                                    <div className="comparison-image-overlay compact-image-overlay">
+                                      <span>{option.area}</span>
+                                      <small>{option.pricing || option.vibe}</small>
+                                    </div>
+                                  </div>
+
+                                  <div className="comparison-option-main">
+                                    <div className="comparison-option-header">
+                                      <strong>{option.place}</strong>
+                                    </div>
+                                    <p className="comparison-option-note">{option.note}</p>
+                                    <div className="comparison-option-footer">
+                                      <div className="comparison-links comparison-links-row">
+                                        {option.instagram ? <a href={option.instagram} target="_blank" rel="noreferrer">Instagram</a> : null}
+                                        {option.instagramUrl ? <a href={option.instagramUrl} target="_blank" rel="noreferrer">Instagram</a> : null}
+                                        {option.youtube ? <a href={option.youtube} target="_blank" rel="noreferrer">YouTube</a> : null}
+                                        {option.naverUrl ? <a href={option.naverUrl} target="_blank" rel="noreferrer">Naver</a> : null}
+                                      </div>
+
+                                      <div className="step-one-choice-row inline-choice-row">
+                                        <button
+                                          type="button"
+                                          aria-label={`Yes to ${option.place}`}
+                                          className={activeVote === 'yes' ? 'active' : ''}
+                                          onClick={() => setOptionVote('yes')}
+                                        >
+                                          Yes
+                                        </button>
+                                        <button
+                                          type="button"
+                                          aria-label={`No to ${option.place}`}
+                                          className={activeVote !== 'yes' ? 'active' : ''}
+                                          onClick={() => setOptionVote('no')}
+                                        >
+                                          No
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </article>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      ) : null}
                     </article>
-                  ))}
-                </div>
-              </section>
-
-              <div className="compare-board-strip" aria-label="Compare boards">
-                {researchBoards.map((board) => (
-                  <button
-                    key={board.key}
-                    type="button"
-                    className={`compare-board-card ${selectedBookingBoard.key === board.key ? 'active' : ''}`}
-                    onClick={() => setSelectedBookingKey(board.key)}
-                  >
-                    <div className="compare-board-thumbs" aria-hidden="true">
-                      {board.comparison.slice(0, 3).map((option) => (
-                        <img key={option.place} src={option.thumbnail} alt="" loading="lazy" />
-                      ))}
-                    </div>
-                    <span>{board.status}</span>
-                    <strong>{board.title}</strong>
-                  </button>
-                ))}
+                  )
+                })}
               </div>
-
-              <section className="glass-card compare-focus-board">
-                <div className="compare-focus-header">
-                  <div>
-                    <span className="search-type">Current pick</span>
-                    <h3>{selectedBookingBoard.title}</h3>
-                    <p>{selectedBookingBoard.recommendation}</p>
-                  </div>
-                  <span className={statusClass(selectedBookingBoard.status)}>{selectedBookingBoard.status}</span>
-                </div>
-
-                <div className="comparison-card-grid compare-photo-grid">
-                  {selectedBookingBoard.comparison.map((option) => {
-                    const voteKey = `${selectedBookingBoard.key}::${option.place}`
-                    const activeVote = bookingVotes[voteKey]
-                    const activeVoteLabel = bookingVoteOptions.find((item) => item.value === activeVote)?.savedLabel
-
-                    return (
-                      <article className="comparison-option-card compare-photo-card" key={selectedBookingBoard.key + option.place}>
-                        <div className="comparison-image-wrap">
-                          <img className="comparison-card-thumb" src={option.thumbnail} alt={`${option.place} preview`} loading="lazy" />
-                          <div className="comparison-image-overlay compact-image-overlay">
-                            <span>{option.area}</span>
-                            <small>{option.pricing}</small>
-                          </div>
-                        </div>
-
-                        <div className="comparison-option-main">
-                          <div className="comparison-option-header">
-                            <strong>{option.place}</strong>
-                          </div>
-
-                          <p className="comparison-option-note">{option.note}</p>
-
-                          <div className="comparison-option-footer">
-                            <div className="comparison-links comparison-links-row">
-                              {option.instagram ? <a href={option.instagram} target="_blank" rel="noreferrer">Instagram</a> : null}
-                              {option.youtube ? <a href={option.youtube} target="_blank" rel="noreferrer">YouTube</a> : null}
-                            </div>
-
-                            <div className="vote-stack comparison-vote-stack">
-                              <div className="vote-chip-row">
-                                {bookingVoteOptions.map((vote) => {
-                                  const isActive = activeVote === vote.value
-
-                                  return (
-                                    <button
-                                      key={vote.value}
-                                      type="button"
-                                      className={`vote-chip${isActive ? ' active' : ''}`}
-                                      onClick={() => toggleBookingVote(selectedBookingBoard.key, option.place, vote.value)}
-                                    >
-                                      {vote.label}
-                                    </button>
-                                  )
-                                })}
-                              </div>
-                              <small>{activeVoteLabel ? `Saved: ${activeVoteLabel}` : 'Tap to vote.'}</small>
-                            </div>
-                          </div>
-                        </div>
-                      </article>
-                    )
-                  })}
-                </div>
-
-                {selectedBookingBoard.mapTargets ? (
-                  <details className="compare-map-details">
-                    <summary>Map + links</summary>
-                    <div className="research-map-stack">
-                      <div className="glass-card logistics-card map-card">
-                        <div className="section-header stacked-mobile">
-                          <h3>Kakao map</h3>
-                          <span>{mapStatus === 'ready' ? 'interactive' : 'loading / fallback'}</span>
-                        </div>
-                        <div ref={mapCanvasRef} className="map-canvas" />
-                        <p className="map-footnote">{mapNotice}</p>
-                        <div className="resolved-list">
-                          {(resolvedMapTargets.length ? resolvedMapTargets : selectedBookingBoard.mapTargets).map((target, index) => (
-                            <article className="resolved-item" key={target.name}>
-                              <div className="resolved-index">{index + 1}</div>
-                              <div>
-                                <strong>{target.displayName || target.name}</strong>
-                                <p>{target.reason}</p>
-                                {target.address && <small>{target.address}</small>}
-                                {'found' in target && !target.found && <small>Could not auto-resolve this place yet on Kakao.</small>}
-                              </div>
-                            </article>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="glass-card logistics-card">
-                        <div className="section-header stacked-mobile">
-                          <h3>Map links</h3>
-                          <span>open externally</span>
-                        </div>
-                        <div className="map-list">
-                          {selectedBookingBoard.mapTargets.map((target) => (
-                            <article className="map-item" key={target.name}>
-                              <div>
-                                <strong>{target.name}</strong>
-                                <p>{target.reason}</p>
-                              </div>
-                              <div className="map-links">
-                                <a href={target.naverUrl} target="_blank" rel="noreferrer">Naver</a>
-                                <a href={target.kakaoUrl} target="_blank" rel="noreferrer">Kakao</a>
-                              </div>
-                            </article>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </details>
-                ) : null}
-              </section>
             </section>
           )}
 
