@@ -122,6 +122,21 @@ describe('Korea trip app v2 concept', () => {
     expect(within(inboxTheme).queryByText(/then regroup by area/i)).not.toBeInTheDocument()
   })
 
+  test('culinary class war reel imports individual restaurants into step 1', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+
+    const culinaryTheme = screen.getByTestId('step-one-theme-culinary-class-war-restaurants')
+    fireEvent.click(within(culinaryTheme).getByRole('button', { name: /culinary class war restaurants/i }))
+
+    expect(within(culinaryTheme).getByText(/l’amant secret/i)).toBeInTheDocument()
+    expect(within(culinaryTheme).getByText(/osteria sam kim/i)).toBeInTheDocument()
+    expect(within(culinaryTheme).getByText(/choi dot/i)).toBeInTheDocument()
+    expect(within(culinaryTheme).getByText(/eatanic garden/i)).toBeInTheDocument()
+    expect(within(culinaryTheme).getByRole('button', { name: /yes to eatanic garden/i })).toBeInTheDocument()
+  })
+
   test('step 1 yes selections feed step 2 scheduling', () => {
     render(<App />)
 
