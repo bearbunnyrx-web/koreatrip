@@ -151,6 +151,19 @@ describe('Korea trip app v2 concept', () => {
     expect(within(culinaryTheme).getByRole('button', { name: /yes to eatanic garden/i })).toBeInTheDocument()
   })
 
+  test('wellness spa reel imports Cimer Spa into step 1', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+
+    fireEvent.click(screen.getByRole('button', { name: /open wellness \/ spa saves theme/i }))
+    const wellnessTheme = screen.getByTestId('step-one-theme-wellness-spa-saves')
+
+    expect(within(wellnessTheme).getByText(/cimer spa/i)).toBeInTheDocument()
+    expect(within(wellnessTheme).getByText(/incheon \/ paradise city/i)).toBeInTheDocument()
+    expect(within(wellnessTheme).getByRole('button', { name: /yes to cimer spa/i })).toBeInTheDocument()
+  })
+
   test('step 1 yes selections feed step 2 scheduling', () => {
     render(<App />)
 

@@ -843,6 +843,23 @@ const placeGroups = [
     ],
     mapTargets: [mapTarget('Eatanic Garden', 'Culinary Class War restaurant from Instagram reel', { query: '이타닉 가든 서울' })],
   },
+  {
+    key: 'ig-wellness-cimer-spa-incheon',
+    themeKey: 'wellness-spa-saves',
+    themeTitle: 'Wellness / spa saves',
+    title: 'Cimer Spa',
+    area: 'Incheon / Paradise City',
+    status: 'needs price + booking check',
+    lead: 'Affordable luxury spa save from Jeffrey Harnish’s Incheon reel.',
+    source: 'Instagram reel DTWK2I7E8Hf / visible overlay + metadata keywords',
+    importNote: 'Reel identifies Cimer Spa in Incheon; final frame did not show price, so verify current pricing, hours, and transport before assigning a trip day.',
+    thumbnail: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seoul or ICN-side transfer', end: 'Assign after transport check', note: 'Comment thread flags public transportation as inconvenient; best as an airport/Incheon-side spa block rather than a random Seoul detour.' },
+    entries: [
+      { place: 'Cimer Spa', area: 'Incheon / Paradise City', vibe: 'luxury spa / heated pools / sauna rooms', note: 'Reel shows pools, cabana-style relaxation, sauna/spa rooms, and labels it an affordable luxury spa. Needs current price, booking, luggage, and child/hijabi/ice-bath checks before committing.', thumbnail: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DTWK2I7E8Hf/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EC%94%A8%EB%A9%94%EB%A5%B4%20%EC%9D%B8%EC%B2%9C%20%ED%8C%8C%EB%9D%BC%EB%8B%A4%EC%9D%B4%EC%8A%A4%EC%8B%9C%ED%8B%B0', kakaoUrl: 'https://map.kakao.com/?q=%EC%94%A8%EB%A9%94%EB%A5%B4%20%EC%9D%B8%EC%B2%9C%20%ED%8C%8C%EB%9D%BC%EB%8B%A4%EC%9D%B4%EC%8A%A4%EC%8B%9C%ED%8B%B0' },
+    ],
+    mapTargets: [mapTarget('Cimer Spa', 'Incheon spa from Instagram reel', { query: '씨메르 인천 파라다이스시티' })],
+  },
 ]
 
 const stepOnePlaceThemes = [
@@ -863,6 +880,12 @@ const stepOnePlaceThemes = [
     title: 'Culinary Class War restaurants',
     status: 'Instagram reel',
     lead: 'Chef-restaurant saves from eating_forky’s Seoul reel, kept separate until reservations and dates are checked.',
+  },
+  {
+    key: 'wellness-spa-saves',
+    title: 'Wellness / spa saves',
+    status: 'Instagram reel',
+    lead: 'Spa and recovery ideas kept separate until price, booking, and transport fit are checked.',
   },
 ]
 
