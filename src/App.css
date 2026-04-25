@@ -923,6 +923,67 @@ a {
     var(--card);
 }
 
+.step-one-places-panel {
+  padding: 16px;
+  border-radius: 28px;
+}
+
+.step-one-place-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.step-one-place-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--card-soft);
+}
+
+.step-one-place-card.selected {
+  border-color: rgba(127, 110, 96, 0.44);
+  background: linear-gradient(180deg, rgba(255, 250, 248, 0.98), rgba(255, 242, 246, 0.94));
+}
+
+.step-one-place-card strong,
+.step-one-place-card small {
+  display: block;
+}
+
+.step-one-place-card small {
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+.step-one-choice-row {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.step-one-choice-row button {
+  min-width: 52px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 10px;
+  background: var(--card-strong);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.step-one-choice-row button.active {
+  background: var(--text);
+  color: white;
+  border-color: transparent;
+}
+
 .compare-board-strip {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1514,6 +1575,20 @@ a {
     grid-template-columns: 1fr;
   }
 
+  .compact-calendar-sticky {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .step-one-place-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-tab small {
+    font-size: 9px;
+    line-height: 1.05;
+  }
+
   .hour-row {
     grid-template-columns: 72px 14px minmax(0, 1fr);
   }
@@ -1998,9 +2073,35 @@ a {
 }
 
 .itinerary-header-card {
-  padding: 18px 20px;
-  border-radius: 28px;
+  padding: 14px 18px;
+  border-radius: 24px;
   background: linear-gradient(135deg, rgba(255, 251, 249, 0.98), rgba(255, 241, 246, 0.96));
+}
+
+.compact-calendar-sticky {
+  position: sticky;
+  top: 10px;
+  z-index: 12;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: rgba(255, 251, 249, 0.86);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 12px 30px rgba(124, 91, 166, 0.08);
+}
+
+.compact-date-chip {
+  min-height: 54px;
+  padding: 8px 6px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.compact-date-chip strong {
+  font-size: 1.08rem;
+  line-height: 1;
 }
 
 .planner-overview-strip {
@@ -2092,10 +2193,20 @@ a {
 }
 
 .planner-sheet {
-  margin-top: -1.1rem;
-  padding: 1.6rem 1.1rem 1.1rem;
-  border-radius: 2rem;
-  background: linear-gradient(180deg, rgba(255, 252, 249, 0.99), rgba(255, 246, 248, 0.98));
+  margin-top: -0.7rem;
+  padding: 1.2rem 1rem 1rem;
+  border-radius: 1.55rem;
+  background: linear-gradient(180deg, rgba(255, 252, 249, 0.99), rgba(255, 248, 249, 0.98));
+  border: 1px solid var(--border);
+}
+
+.trimmed-timeline-head {
+  padding: 0 0 0.35rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.trimmed-timeline-head h3 {
+  font-size: 1.25rem;
 }
 
 .planner-timeline {

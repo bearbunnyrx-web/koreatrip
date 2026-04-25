@@ -2,6 +2,12 @@ import './App.css'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 const tabs = ['home', 'bookings', 'places', 'itinerary']
+const tabMeta = {
+  home: { label: 'Home', short: 'H', helper: 'search + trip overview' },
+  bookings: { label: 'Step 1: Book', short: '1', helper: 'select places' },
+  places: { label: 'Step 2: Select Date', short: '2', helper: 'assign dates' },
+  itinerary: { label: 'Step 3: Itinerary', short: '3', helper: 'final route' },
+}
 const bookingVoteOptions = [
   { value: 'love', label: '💗 Love', savedLabel: 'Love' },
   { value: 'maybe', label: '🤔 Maybe', savedLabel: 'Maybe' },
@@ -867,6 +873,17 @@ function App() {
       return {}
     }
   })
+  const [selectedPlaceGroups, setSelectedPlaceGroups] = useState(() => {
+    const stored = window.localStorage.getItem('korea-trip-selected-place-groups')
+
+    if (!stored) return {}
+
+    try {
+      return JSON.parse(stored)
+    } catch {
+      return {}
+    }
+  })
   const [theme, setTheme] = useState(() => {
     const stored = window.localStorage.getItem('korea-trip-theme')
     return stored === 'dark' ? 'dark' : 'light'
@@ -927,6 +944,17 @@ function App() {
         [optionKey]: vote,
       }
     })
+  }
+
+  function setPlaceGroupSelected(groupKey, isSelected) {
+    setSelectedPlaceGroups((current) => ({
+      ...current,
+      [groupKey]: isSelected,
+    }))
+
+    if (!isSelected) {
+      assignPlaceGroupToDay(groupKey, '')
+    }
   }
 
   function updatePlannerItem(dayKey, itemId, nextType) {
@@ -1009,9 +1037,12 @@ function App() {
   )
 
   const selectedDayPlanner = useMemo(() => {
+    const selectedAssignedPlaceDays = Object.fromEntries(
+      Object.entries(assignedPlaceDays).filter(([groupKey]) => selectedPlaceGroups[groupKey]),
+    )
     const baseItems = [
       ...buildPlannerItems(selectedDay),
-      ...buildAssignedPlaceItems(selectedDay.key, assignedPlaceDays),
+      ...buildAssignedPlaceItems(selectedDay.key, selectedAssignedPlaceDays),
     ]
     const orderIds = plannerOrder[selectedDay.key] ?? baseItems.map((item) => item.id)
     const orderedBaseItems = orderIds
@@ -1024,7 +1055,7 @@ function App() {
       ...item,
       type: overrideMap[item.id] ?? item.type,
     }))
-  }, [assignedPlaceDays, plannerOrder, plannerOverrides, selectedDay])
+  }, [assignedPlaceDays, plannerOrder, plannerOverrides, selectedDay, selectedPlaceGroups])
 
   const confirmedRouteTargets = useMemo(() => {
     return dedupeTargets(
@@ -1069,17 +1100,30 @@ function App() {
     })
   }, [])
 
+  const stepOnePlaceGroups = useMemo(
+    () => placeGroups.map((group) => ({
+      ...group,
+      selectedForSchedule: Boolean(selectedPlaceGroups[group.key]),
+    })),
+    [selectedPlaceGroups],
+  )
+
+  const selectedSchedulePlaceGroups = useMemo(
+    () => placeGroups.filter((group) => selectedPlaceGroups[group.key]),
+    [selectedPlaceGroups],
+  )
+
   const unscheduledPlaceGroups = useMemo(
-    () => placeGroups.filter((group) => !assignedPlaceDays[group.key]),
-    [assignedPlaceDays],
+    () => selectedSchedulePlaceGroups.filter((group) => !assignedPlaceDays[group.key]),
+    [assignedPlaceDays, selectedSchedulePlaceGroups],
   )
 
   const dayBucketGroups = useMemo(
     () => itineraryCalendarDays.map((day) => ({
       ...day,
-      groups: placeGroups.filter((group) => assignedPlaceDays[group.key] === day.key),
+      groups: selectedSchedulePlaceGroups.filter((group) => assignedPlaceDays[group.key] === day.key),
     })),
-    [assignedPlaceDays, itineraryCalendarDays],
+    [assignedPlaceDays, itineraryCalendarDays, selectedSchedulePlaceGroups],
   )
 
   const loggedSpend = useMemo(
@@ -1237,6 +1281,10 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem('korea-trip-place-days', JSON.stringify(assignedPlaceDays))
   }, [assignedPlaceDays])
+
+  useEffect(() => {
+    window.localStorage.setItem('korea-trip-selected-place-groups', JSON.stringify(selectedPlaceGroups))
+  }, [selectedPlaceGroups])
 
   useEffect(() => {
     window.localStorage.setItem('korea-trip-planner-overrides', JSON.stringify(plannerOverrides))
@@ -1418,19 +1466,11 @@ function App() {
 
           <nav className="sidebar-nav desktop-only">
             {tabs.map((tab) => {
-              const tabLabel = tab === 'home' ? 'Home' : tab === 'bookings' ? 'Compare' : tab === 'places' ? 'Schedule' : 'Itinerary'
+              const tabLabel = tabMeta[tab].label
               return (
               <button key={tab} aria-label={tabLabel} className={activeTab === tab ? 'sidebar-btn active' : 'sidebar-btn'} onClick={() => setActiveTab(tab)}>
                 <span>{tabLabel}</span>
-                <small>
-                  {tab === 'home'
-                    ? 'search + trip overview'
-                    : tab === 'bookings'
-                      ? 'pick the best option'
-                      : tab === 'places'
-                        ? 'assign a day'
-                        : 'yes / no + flow'}
-                </small>
+                <small>{tabMeta[tab].helper}</small>
               </button>
             )})}
           </nav>
@@ -1456,7 +1496,7 @@ function App() {
                     <span className="search-hero-kicker">Korea Trip</span>
                     <p className="search-hero-tagline">Seoul & Jeju beauty trip in May</p>
                     <h2 className="search-hero-title">Search the trip</h2>
-                    <p className="search-hero-copy">Build the trip from Compare, sort it in Schedule, and turn it into a beautiful final Itinerary.</p>
+                    <p className="search-hero-copy">Book the ideas you like, select dates, then shape the final itinerary.</p>
                   </div>
 
                   <div className="search-card hero-search-card">
@@ -1484,9 +1524,9 @@ function App() {
                   </div>
 
                   <div className="search-home-chip-row">
-                    <button className="hero-pill" onClick={() => setActiveTab('bookings')}>Compare</button>
-                    <button className="hero-pill" onClick={() => setActiveTab('places')}>Schedule</button>
-                    <button className="hero-pill" onClick={() => setActiveTab('itinerary')}>Itinerary</button>
+                    <button className="hero-pill" onClick={() => setActiveTab('bookings')}>Step 1: Book</button>
+                    <button className="hero-pill" onClick={() => setActiveTab('places')}>Step 2: Select Date</button>
+                    <button className="hero-pill" onClick={() => setActiveTab('itinerary')}>Step 3: Itinerary</button>
                   </div>
                 </div>
               </div>
@@ -1509,48 +1549,6 @@ function App() {
                 </article>
               </div>
 
-              <div className="home-brief-grid search-home-grid">
-                <section className="glass-card decision-card home-flow-card">
-                  <div className="section-header stacked-mobile">
-                    <div>
-                      <span className="search-type">Suggested flow</span>
-                      <h3>Compare → Schedule → Itinerary</h3>
-                      <p>{candidateTargets.length} candidate stops are waiting in Itinerary once a day is assigned.</p>
-                    </div>
-                    <button
-                      className="primary-action-btn"
-                      onClick={() => {
-                        setSelectedDayKey(nextDecisionDay.key)
-                        setPlannerFilter('confirmed')
-                        setActiveTab('itinerary')
-                      }}
-                    >
-                      Open Itinerary
-                    </button>
-                  </div>
-                </section>
-
-                <section className="glass-card mini-list-card warm-card">
-                  <div className="section-header">
-                    <h3>Compare first</h3>
-                  </div>
-                  <p className="support-copy">Choose the best contender inside one theme before you start placing things into dates.</p>
-                </section>
-
-                <section className="glass-card mini-list-card cool-card">
-                  <div className="section-header">
-                    <h3>Schedule second</h3>
-                  </div>
-                  <p className="support-copy">Drag unscheduled ideas into a day bucket once the neighborhood and day feel right.</p>
-                </section>
-
-                <section className="glass-card mini-list-card blush-card">
-                  <div className="section-header">
-                    <h3>Itinerary last</h3>
-                  </div>
-                  <p className="support-copy">Shape the final day flow with yes / no decisions, timing, and map-aware route order.</p>
-                </section>
-              </div>
             </section>
           )}
 
@@ -1560,17 +1558,20 @@ function App() {
                 <div>
                   <span className="search-type">Final day plan</span>
                   <h2 className="page-title">{selectedDay.date} · {selectedDay.area}</h2>
-                  <p>Itinerary is where dated items become a real yes / no plan with map order.</p>
                 </div>
-                <span className="chip chip-gold">itinerary planner</span>
+                <span className="chip chip-gold">step 3</span>
               </header>
 
-              <div className="day-picker-row calendar-day-grid">
+              <div className="day-picker-row calendar-day-grid compact-calendar-sticky">
                 {itineraryCalendarDays.map((day) => (
-                  <button key={day.key} className={selectedDay.key === day.key ? 'day-chip active' : 'day-chip'} onClick={() => setSelectedDayKey(day.key)}>
+                  <button
+                    key={day.key}
+                    aria-label={day.date}
+                    className={selectedDay.key === day.key ? 'day-chip compact-date-chip active' : 'day-chip compact-date-chip'}
+                    onClick={() => setSelectedDayKey(day.key)}
+                  >
                     <span className="day-chip-weekday">{day.weekday}</span>
-                    <strong>{day.date}</strong>
-                    <span>{day.label}</span>
+                    <strong>{day.date.replace('May ', '')}</strong>
                   </button>
                 ))}
               </div>
@@ -1620,10 +1621,10 @@ function App() {
                 </div>
 
                 <div className="planner-sheet">
-                  <div className="section-header stacked-mobile">
+                  <div className="section-header stacked-mobile trimmed-timeline-head">
                     <div>
-                      <h3>Timeline + toggle list</h3>
-                      <p>Swipe right for Yes, swipe left for No, or drag rows up and down to change the time order. The map auto-syncs immediately.</p>
+                      <span className="search-type">Route order</span>
+                      <h3>Timeline</h3>
                     </div>
                     <span className={statusClass(selectedDay.status)}>{selectedDay.status}</span>
                   </div>
@@ -1649,7 +1650,6 @@ function App() {
                       >
                         <div className="planner-time">
                           <span>{item.time}</span>
-                          <small>Drag to reorder</small>
                         </div>
                         <div className="planner-axis" />
                         {item.type === 'candidate' ? (
@@ -1698,7 +1698,7 @@ function App() {
               <header className="page-header wide-header stacked-mobile compact-page-header">
                 <div>
                   <span className="search-type">Assign dates</span>
-                  <h2 className="page-title">Schedule</h2>
+                  <h2 className="page-title">Step 2: Select Date</h2>
                 </div>
                 <span className="chip chip-gold">drag cards</span>
               </header>
@@ -1797,11 +1797,46 @@ function App() {
             <section className="content-screen compare-screen-v3">
               <header className="page-header wide-header stacked-mobile compare-page-header glass-card">
                 <div>
-                  <span className="search-type">Pick fast</span>
-                  <h2 className="page-title">Compare</h2>
+                  <span className="search-type">Select places</span>
+                  <h2 className="page-title">Step 1: Book</h2>
                 </div>
-                <span className="chip chip-gold">photos first</span>
+                <span className="chip chip-gold">yes → step 2</span>
               </header>
+
+              <section className="glass-card step-one-places-panel">
+                <div className="compact-section-title">
+                  <h3>Select places</h3>
+                  <span>{stepOnePlaceGroups.filter((group) => group.selectedForSchedule).length} yes</span>
+                </div>
+                <div className="step-one-place-grid">
+                  {stepOnePlaceGroups.map((group) => (
+                    <article className={`step-one-place-card ${group.selectedForSchedule ? 'selected' : ''}`} key={group.key}>
+                      <div>
+                        <strong>{group.title}</strong>
+                        <small>{group.area} · {group.entries.length} saved</small>
+                      </div>
+                      <div className="step-one-choice-row">
+                        <button
+                          type="button"
+                          aria-label={`Move ${group.title} to step 2`}
+                          className={group.selectedForSchedule ? 'active' : ''}
+                          onClick={() => setPlaceGroupSelected(group.key, true)}
+                        >
+                          Yes
+                        </button>
+                        <button
+                          type="button"
+                          aria-label={`Keep ${group.title} in step 1`}
+                          className={!group.selectedForSchedule ? 'active' : ''}
+                          onClick={() => setPlaceGroupSelected(group.key, false)}
+                        >
+                          No
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
 
               <div className="compare-board-strip" aria-label="Compare boards">
                 {researchBoards.map((board) => (
@@ -1983,10 +2018,10 @@ function App() {
 
       <nav className="mobile-bottom-nav">
         {tabs.map((tab) => {
-          const tabLabel = tab === 'home' ? 'Home' : tab === 'bookings' ? 'Compare' : tab === 'places' ? 'Schedule' : 'Itinerary'
+          const tabLabel = tabMeta[tab].label
           return (
           <button key={tab} aria-label={tabLabel} className={activeTab === tab ? 'mobile-tab active' : 'mobile-tab'} onClick={() => setActiveTab(tab)}>
-            <span>{tab === 'home' ? 'H' : tab === 'bookings' ? 'C' : tab === 'places' ? 'S' : 'I'}</span>
+            <span>{tabMeta[tab].short}</span>
             <small>{tabLabel}</small>
           </button>
         )})}

@@ -26,8 +26,8 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/city of k-beauty & culture/i)).toBeInTheDocument()
     expect(screen.getByText(/island of nature & healing/i)).toBeInTheDocument()
     expect(screen.getByPlaceholderText(/search seongsu, jamsil, reone, headspa, jeju/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /open itinerary/i })).toBeInTheDocument()
-    expect(screen.getByText(/compare → schedule → itinerary/i)).toBeInTheDocument()
+    expect(screen.queryByText(/suggested flow/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/compare → schedule → itinerary/i)).not.toBeInTheDocument()
   })
 
   test('theme toggle uses quiet text labels instead of bright emoji icons', () => {
@@ -39,19 +39,19 @@ describe('Korea trip app v2 concept', () => {
   test('renders the itinerary planner with polished final-plan cues', () => {
     render(<App />)
 
-    fireEvent.click(screen.getAllByRole('button', { name: /^itinerary$/i })[0])
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 3: itinerary$/i })[0])
 
     expect(screen.getByText(/final day plan/i)).toBeInTheDocument()
     expect(screen.getAllByText(/route check/i).length).toBeGreaterThan(0)
-    expect(screen.getByRole('heading', { name: /timeline \+ toggle list/i })).toBeInTheDocument()
-    expect(screen.getByText(/itinerary is where dated items become a real yes \/ no plan/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /^timeline$/i })).toBeInTheDocument()
+    expect(screen.queryByText(/itinerary is where dated items become a real yes \/ no plan/i)).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /confirm haus nowhere/i })).toBeInTheDocument()
   })
 
   test('confirming a candidate updates the itinerary summary', () => {
     render(<App />)
 
-    fireEvent.click(screen.getAllByRole('button', { name: /^itinerary$/i })[0])
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 3: itinerary$/i })[0])
 
     expect(screen.getByText(/3 confirmed route stops/i)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /confirm haus nowhere/i }))
@@ -61,7 +61,7 @@ describe('Korea trip app v2 concept', () => {
   test('confirmed items can be moved back out of the itinerary', () => {
     render(<App />)
 
-    fireEvent.click(screen.getAllByRole('button', { name: /^itinerary$/i })[0])
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 3: itinerary$/i })[0])
 
     expect(screen.getByText(/3 confirmed route stops/i)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /remove olive young \+ musinsa from itinerary/i }))
@@ -69,27 +69,33 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('button', { name: /confirm olive young \+ musinsa/i })).toBeInTheDocument()
   })
 
-  test('compare shows image cards immediately without opening accordions', () => {
+  test('step 1 selects place groups before step 2 scheduling', () => {
     render(<App />)
 
-    fireEvent.click(screen.getAllByRole('button', { name: /^compare$/i })[0])
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: book$/i })[0])
 
-    expect(screen.getByRole('heading', { name: /^compare$/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /hongdae hair.?perm/i })).toBeInTheDocument()
-    expect(screen.getByText(/current pick/i)).toBeInTheDocument()
-    expect(screen.getByAltText(/SOONSIKI Hair Hongdae preview/i)).toBeInTheDocument()
-    expect(screen.queryByText(/photo cards with the practical reason/i)).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /^step 1: book$/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /select places/i })).toBeInTheDocument()
+    expect(screen.getByLabelText(/move may 17 seongsu viral loop to step 2/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/keep viral saves inbox in step 1/i)).toBeInTheDocument()
+
+    fireEvent.click(screen.getByLabelText(/move may 17 seongsu viral loop to step 2/i))
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
+
+    expect(screen.getByRole('heading', { name: /^step 2: select date$/i })).toBeInTheDocument()
+    expect(screen.getByText(/may 17 seongsu viral loop/i)).toBeInTheDocument()
+    expect(screen.queryByText(/viral saves inbox/i)).not.toBeInTheDocument()
   })
 
   test('schedule shows a compact assignment board without explanatory paragraphs', () => {
     render(<App />)
 
-    fireEvent.click(screen.getAllByRole('button', { name: /^schedule$/i })[0])
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
 
-    expect(screen.getByRole('heading', { name: /^schedule$/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /^step 2: select date$/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /unscheduled/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /day buckets/i })).toBeInTheDocument()
-    expect(screen.getByText(/may 17 seongsu viral loop/i)).toBeInTheDocument()
+    expect(screen.queryByText(/may 17 seongsu viral loop/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/anything from compare/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/drop a place group/i)).not.toBeInTheDocument()
   })
@@ -97,7 +103,9 @@ describe('Korea trip app v2 concept', () => {
   test('schedule drag and drop assigns a place to a day and surfaces it in itinerary', () => {
     render(<App />)
 
-    fireEvent.click(screen.getAllByRole('button', { name: /^schedule$/i })[0])
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: book$/i })[0])
+    fireEvent.click(screen.getByLabelText(/move may 17 seongsu viral loop to step 2/i))
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
 
     const draggedCard = screen.getByLabelText(/drag may 17 seongsu viral loop/i)
     const may16Bucket = screen.getByLabelText(/drop places into may 16/i)
@@ -109,7 +117,7 @@ describe('Korea trip app v2 concept', () => {
 
     expect(within(may16Bucket).getByText(/may 17 seongsu viral loop/i)).toBeInTheDocument()
 
-    fireEvent.click(screen.getAllByRole('button', { name: /^itinerary$/i })[0])
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 3: itinerary$/i })[0])
     fireEvent.click(screen.getByRole('button', { name: /may 16/i }))
     expect(screen.getByText(/may 17 seongsu viral loop/i)).toBeInTheDocument()
   })
