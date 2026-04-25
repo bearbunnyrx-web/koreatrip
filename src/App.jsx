@@ -1039,6 +1039,17 @@ function App() {
       return {}
     }
   })
+  const [customThemeTitles, setCustomThemeTitles] = useState(() => {
+    const stored = window.localStorage.getItem('korea-trip-theme-titles')
+
+    if (!stored) return {}
+
+    try {
+      return JSON.parse(stored)
+    } catch {
+      return {}
+    }
+  })
   const [theme, setTheme] = useState(() => {
     const stored = window.localStorage.getItem('korea-trip-theme')
     return stored === 'dark' ? 'dark' : 'light'
@@ -1110,6 +1121,13 @@ function App() {
     if (!isSelected) {
       assignPlaceGroupToDay(groupKey, '')
     }
+  }
+
+  function updateThemeTitle(themeKey, title) {
+    setCustomThemeTitles((current) => ({
+      ...current,
+      [themeKey]: title,
+    }))
   }
 
   function updatePlannerItem(dayKey, itemId, nextType) {
@@ -1266,6 +1284,8 @@ function App() {
   const stepOneThemeBoards = useMemo(() => {
     const researchThemes = researchBoards.map((board) => ({
       ...board,
+      originalTitle: board.title,
+      title: customThemeTitles[board.key] || board.title,
       type: 'research',
       previewImages: board.comparison.map((option) => option.thumbnail),
     }))
@@ -1274,6 +1294,8 @@ function App() {
       const groups = stepOnePlaceGroups.filter((group) => group.themeKey === theme.key)
       return {
         ...theme,
+        originalTitle: theme.title,
+        title: customThemeTitles[theme.key] || theme.title,
         type: 'places',
         comparison: groups.flatMap((group) => group.entries.map((entry) => ({ ...entry, groupKey: group.key, place: group.title, pricing: group.status, thumbnail: entry.thumbnail || group.thumbnail }))),
         groups,
@@ -1282,7 +1304,7 @@ function App() {
     })
 
     return [...researchThemes, ...placeThemes]
-  }, [stepOnePlaceGroups])
+  }, [customThemeTitles, stepOnePlaceGroups])
 
   const selectedSchedulePlaceGroups = useMemo(
     () => placeGroups.filter((group) => selectedPlaceGroups[group.key]),
@@ -1461,6 +1483,10 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem('korea-trip-selected-place-groups', JSON.stringify(selectedPlaceGroups))
   }, [selectedPlaceGroups])
+
+  useEffect(() => {
+    window.localStorage.setItem('korea-trip-theme-titles', JSON.stringify(customThemeTitles))
+  }, [customThemeTitles])
 
   useEffect(() => {
     window.localStorage.setItem('korea-trip-planner-overrides', JSON.stringify(plannerOverrides))
@@ -1879,6 +1905,36 @@ function App() {
                 <span className="chip chip-gold">drag cards</span>
               </header>
 
+              <div
+                className="step-two-sticky-unscheduled"
+                aria-label="Sticky unscheduled items"
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={(event) => handleScheduleDrop('', event)}
+              >
+                <div className="sticky-rail-title">
+                  <span>Unscheduled</span>
+                  <strong>{unscheduledPlaceGroups.length}</strong>
+                </div>
+                <div className="step-two-unscheduled-rail">
+                  {unscheduledPlaceGroups.length ? (
+                    unscheduledPlaceGroups.map((group) => (
+                      <article
+                        key={`sticky-${group.key}`}
+                        className="sticky-unscheduled-chip"
+                        aria-label={`Pinned ${group.title}`}
+                        draggable
+                        onDragStart={(event) => handleScheduleDragStart(group.key, event)}
+                      >
+                        <span>{group.title}</span>
+                        <small>{group.area}</small>
+                      </article>
+                    ))
+                  ) : (
+                    <div className="sticky-unscheduled-empty">All assigned</div>
+                  )}
+                </div>
+              </div>
+
               <section className="schedule-sorter-layout compact-schedule-layout">
                 <div
                   className="glass-card schedule-inbox-panel"
@@ -1979,8 +2035,31 @@ function App() {
                 <span className="chip chip-gold">yes → step 2</span>
               </header>
 
-              <div className="step-one-theme-list" aria-label="Choose place themes">
+              <div className="step-one-sticky-theme-rail" aria-label="Sticky place theme icons">
                 {stepOneThemeBoards.map((theme) => {
+                  const isOpen = selectedBookingKey === theme.key
+                  const yesCount = theme.type === 'places'
+                    ? theme.groups.filter((group) => selectedPlaceGroups[group.key]).length
+                    : theme.comparison.filter((option) => bookingVotes[`${theme.key}::${option.place}`] === 'yes').length
+
+                  return (
+                    <button
+                      key={`sticky-${theme.key}`}
+                      type="button"
+                      className={`step-one-icon-chip ${isOpen ? 'active' : ''}`}
+                      aria-label={`Open ${theme.title} theme`}
+                      onClick={() => setSelectedBookingKey(theme.key)}
+                    >
+                      <img src={theme.previewImages[0]} alt="" loading="lazy" />
+                      <span>{theme.title}</span>
+                      <small>{yesCount}</small>
+                    </button>
+                  )
+                })}
+              </div>
+
+              <div className="step-one-theme-list" aria-label="Choose place themes">
+                {stepOneThemeBoards.filter((theme) => selectedBookingKey === theme.key).map((theme) => {
                   const isOpen = selectedBookingKey === theme.key
                   const yesCount = theme.type === 'places'
                     ? theme.groups.filter((group) => selectedPlaceGroups[group.key]).length
@@ -1995,6 +2074,7 @@ function App() {
                       <button
                         type="button"
                         className="step-one-theme-trigger"
+                        aria-label={`Expand ${theme.title} card`}
                         aria-expanded={isOpen}
                         onClick={() => setSelectedBookingKey(theme.key)}
                       >
@@ -2013,6 +2093,14 @@ function App() {
                           <div className="compare-focus-header step-one-inline-header">
                             <div>
                               <span className="search-type">Choose inside this box</span>
+                              <label className="theme-name-editor">
+                                <small>Theme name</small>
+                                <input
+                                  aria-label={`Theme name for ${theme.originalTitle}`}
+                                  value={theme.title}
+                                  onChange={(event) => updateThemeTitle(theme.key, event.target.value)}
+                                />
+                              </label>
                               <h3>{theme.title}</h3>
                               <p>{theme.lead || theme.recommendation}</p>
                             </div>

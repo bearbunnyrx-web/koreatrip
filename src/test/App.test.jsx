@@ -70,22 +70,36 @@ describe('Korea trip app v2 concept', () => {
   })
 
   test('step 1 opens each theme box with inline yes no place controls', () => {
-    render(<App />)
+    const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
 
     expect(screen.getByRole('heading', { name: /^step 1: choose places$/i })).toBeInTheDocument()
+    expect(container.querySelector('.step-one-sticky-theme-rail')).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: /select places/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /love/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /maybe/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /pass/i })).not.toBeInTheDocument()
 
+    fireEvent.click(screen.getByRole('button', { name: /open may 17 seongsu nail shortlist theme/i }))
     const nailTheme = screen.getByTestId('step-one-theme-nail-brow')
-    fireEvent.click(within(nailTheme).getByRole('button', { name: /may 17 seongsu nail shortlist/i }))
 
     expect(within(nailTheme).getAllByText(/단니네일/i).length).toBeGreaterThan(0)
     expect(within(nailTheme).getByRole('button', { name: /yes to 단니네일/i })).toBeInTheDocument()
     expect(within(nailTheme).getByRole('button', { name: /no to 단니네일/i })).toBeInTheDocument()
+  })
+
+  test('step 1 theme names can be adjusted and persist in the sticky icon rail', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+    fireEvent.click(screen.getByRole('button', { name: /open may 17 seongsu viral loop theme/i }))
+
+    const nameInput = screen.getByLabelText(/theme name for may 17 seongsu viral loop/i)
+    fireEvent.change(nameInput, { target: { value: 'Seongsu IG loop' } })
+
+    expect(screen.getByRole('button', { name: /open seongsu ig loop theme/i })).toBeInTheDocument()
+    expect(window.localStorage.getItem('korea-trip-theme-titles')).toContain('Seongsu IG loop')
   })
 
   test('step 1 moves individual instagram saved places into step 2', () => {
@@ -93,8 +107,8 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
 
+    fireEvent.click(screen.getByRole('button', { name: /open may 17 seongsu viral loop theme/i }))
     const seongsuTheme = screen.getByTestId('step-one-theme-seongsu-viral-loop')
-    fireEvent.click(within(seongsuTheme).getByRole('button', { name: /may 17 seongsu viral loop/i }))
 
     expect(within(seongsuTheme).getByText(/haus nowhere/i)).toBeInTheDocument()
     expect(within(seongsuTheme).getByText(/olive young flagship/i)).toBeInTheDocument()
@@ -103,7 +117,7 @@ describe('Korea trip app v2 concept', () => {
     fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
 
     expect(screen.getByRole('heading', { name: /^step 2: select date$/i })).toBeInTheDocument()
-    expect(screen.getByText(/haus nowhere/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/haus nowhere/i).length).toBeGreaterThan(0)
     expect(screen.queryByText(/^may 17 seongsu viral loop$/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/viral saves inbox/i)).not.toBeInTheDocument()
   })
@@ -113,8 +127,8 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
 
+    fireEvent.click(screen.getByRole('button', { name: /open viral saves inbox theme/i }))
     const inboxTheme = screen.getByTestId('step-one-theme-viral-saves-inbox')
-    fireEvent.click(within(inboxTheme).getByRole('button', { name: /viral saves inbox/i }))
 
     expect(within(inboxTheme).getByText(/k-beauty foundation match/i)).toBeInTheDocument()
     expect(within(inboxTheme).getByRole('button', { name: /yes to k-beauty foundation match/i })).toBeInTheDocument()
@@ -127,8 +141,8 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
 
+    fireEvent.click(screen.getByRole('button', { name: /open culinary class war restaurants theme/i }))
     const culinaryTheme = screen.getByTestId('step-one-theme-culinary-class-war-restaurants')
-    fireEvent.click(within(culinaryTheme).getByRole('button', { name: /culinary class war restaurants/i }))
 
     expect(within(culinaryTheme).getByText(/l’amant secret/i)).toBeInTheDocument()
     expect(within(culinaryTheme).getByText(/osteria sam kim/i)).toBeInTheDocument()
@@ -142,22 +156,23 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
 
+    fireEvent.click(screen.getByRole('button', { name: /open may 17 seongsu viral loop theme/i }))
     const seongsuTheme = screen.getByTestId('step-one-theme-seongsu-viral-loop')
-    fireEvent.click(within(seongsuTheme).getByRole('button', { name: /may 17 seongsu viral loop/i }))
     fireEvent.click(within(seongsuTheme).getByRole('button', { name: /yes to haus nowhere/i }))
     fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
 
-    expect(screen.getByText(/haus nowhere/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/haus nowhere/i).length).toBeGreaterThan(0)
     expect(screen.queryByText(/viral saves inbox/i)).not.toBeInTheDocument()
   })
 
   test('schedule shows a compact assignment board without explanatory paragraphs', () => {
-    render(<App />)
+    const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
 
     expect(screen.getByRole('heading', { name: /^step 2: select date$/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /unscheduled/i })).toBeInTheDocument()
+    expect(container.querySelector('.step-two-sticky-unscheduled')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /day buckets/i })).toBeInTheDocument()
     expect(screen.queryByText(/haus nowhere/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/anything from compare/i)).not.toBeInTheDocument()
@@ -168,8 +183,8 @@ describe('Korea trip app v2 concept', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+    fireEvent.click(screen.getByRole('button', { name: /open may 17 seongsu viral loop theme/i }))
     const seongsuTheme = screen.getByTestId('step-one-theme-seongsu-viral-loop')
-    fireEvent.click(within(seongsuTheme).getByRole('button', { name: /may 17 seongsu viral loop/i }))
     fireEvent.click(within(seongsuTheme).getByRole('button', { name: /yes to haus nowhere/i }))
     fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
 
