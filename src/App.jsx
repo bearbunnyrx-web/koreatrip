@@ -1377,26 +1377,54 @@ function buildSelectedResearchScheduleGroups(votes) {
 }
 
 const stepOneThemeCategories = [
-  { key: 'seongsu', label: 'Seongsu' },
-  { key: 'beauty', label: 'Beauty' },
-  { key: 'food', label: 'Food & cafes' },
-  { key: 'shopping', label: 'Shopping' },
-  { key: 'wellness', label: 'Wellness' },
-  { key: 'other', label: 'Other' },
+  {
+    key: 'beauty',
+    label: 'Beauty',
+    title: 'Beauty',
+    status: 'Hair · nails · skin · spa',
+    lead: 'All beauty, glow-up, clinic, nail, hair, and recovery options in one place.',
+  },
+  {
+    key: 'food-cafe',
+    label: 'Food & cafe',
+    title: 'Food & cafe',
+    status: 'Restaurants · cafes · dessert',
+    lead: 'Restaurants, cafes, bakeries, desserts, markets, BBQ, izakaya, and tea stops together.',
+  },
+  {
+    key: 'others',
+    label: 'Others',
+    title: 'Others',
+    status: 'Shopping · places · flex',
+    lead: 'Shopping, popups, mood spaces, viral saves, and anything not mainly beauty or food.',
+  },
 ]
 
-function categorizeStepOneTheme(theme) {
-  const text = [theme.key, theme.originalTitle, theme.title, theme.status, theme.lead]
+function categorizeStepOneItem(item) {
+  const text = [
+    item.key,
+    item.themeKey,
+    item.themeTitle,
+    item.sourceThemeKey,
+    item.sourceThemeTitle,
+    item.originalTitle,
+    item.title,
+    item.place,
+    item.area,
+    item.vibe,
+    item.pricing,
+    item.status,
+    item.lead,
+    item.note,
+  ]
     .filter(Boolean)
     .join(' ')
     .toLowerCase()
 
-  if (text.includes('seongsu') || text.includes('성수')) return 'seongsu'
-  if (/(wellness|spa|headspa|cimer|recovery)/.test(text)) return 'wellness'
-  if (/(nail|hair|derm|clinic|beauty|glow|brow|foundation|follow-up|reone)/.test(text)) return 'beauty'
-  if (/(food|restaurant|cafe|café|dessert|bbq|izakaya|culinary|seafood|market|yeonnam|yongsan|gangnam bbq|popups?|tea)/.test(text)) return 'food'
-  if (/(shopping|bag|designer|store|brand)/.test(text)) return 'shopping'
-  return 'other'
+  if (/(seongsu-viral-loop|seongsu-mood-spaces|seongsu-bag-shopping)/.test(text)) return 'others'
+  if (/(nail|네일|hair|헤어|derm|피부|clinic|의원|beauty|뷰티|brow|foundation|follow-up|reone|wellness|spa|스파|headspa|cimer|recovery)/.test(text)) return 'beauty'
+  if (/(food|restaurant|cafe|café|dessert|bbq|izakaya|culinary|seafood|market|yeonnam|yongsan|gangnam bbq|popups?|tea|brunch|bakery|toast|matcha|parfait|chicken|kaisendon|unagi|pasta|sashimi|cake|ice cream)/.test(text)) return 'food-cafe'
+  return 'others'
 }
 
 function dedupeTargets(targets) {
@@ -1490,7 +1518,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('home')
   const [selectedDayKey, setSelectedDayKey] = useState('may-17')
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
-  const [selectedBookingKey, setSelectedBookingKey] = useState('hair-perm')
+  const [selectedBookingKey, setSelectedBookingKey] = useState('beauty')
   const [editingThemeKey, setEditingThemeKey] = useState('')
   const [assignedPlaceDays, setAssignedPlaceDays] = useState(() => {
     const stored = window.localStorage.getItem('korea-trip-place-days')
@@ -1762,45 +1790,65 @@ function App() {
   )
 
   const stepOneThemeBoards = useMemo(() => {
-    const researchThemes = researchBoards.map((board) => {
-      const theme = {
-        ...board,
-        originalTitle: board.title,
-        title: customThemeTitles[board.key] || board.title,
-        type: 'research',
-        previewImages: board.comparison.map((option) => option.thumbnail),
-      }
-      return {
-        ...theme,
-        category: categorizeStepOneTheme(theme),
-      }
+    const categorizedOptions = stepOneThemeCategories.reduce((acc, category) => ({
+      ...acc,
+      [category.key]: [],
+    }), {})
+
+    researchBoards.forEach((board) => {
+      board.comparison.forEach((option) => {
+        const enrichedOption = {
+          ...option,
+          sourceType: 'research',
+          sourceThemeKey: board.key,
+          sourceThemeTitle: board.title,
+          sourceStatus: board.status,
+          place: option.place,
+          pricing: option.pricing || board.status,
+          thumbnail: option.thumbnail,
+        }
+        categorizedOptions[categorizeStepOneItem(enrichedOption)].push(enrichedOption)
+      })
     })
 
-    const placeThemes = stepOnePlaceThemes.map((theme) => {
+    stepOnePlaceThemes.forEach((theme) => {
       const groups = stepOnePlaceGroups.filter((group) => group.themeKey === theme.key)
-      const normalizedTheme = {
-        ...theme,
-        originalTitle: theme.title,
-        title: customThemeTitles[theme.key] || theme.title,
-        type: 'places',
-        comparison: groups.flatMap((group) => group.entries.map((entry) => ({ ...entry, groupKey: group.key, place: group.title, pricing: group.status, thumbnail: entry.thumbnail || group.thumbnail }))),
-        groups,
-        previewImages: groups.map((group) => group.thumbnail),
-      }
-      return {
-        ...normalizedTheme,
-        category: categorizeStepOneTheme(normalizedTheme),
-      }
+      groups.forEach((group) => {
+        group.entries.forEach((entry) => {
+          const enrichedOption = {
+            ...entry,
+            sourceType: 'places',
+            sourceThemeKey: theme.key,
+            sourceThemeTitle: theme.title,
+            groupKey: group.key,
+            place: group.title,
+            area: entry.area || group.area,
+            pricing: group.status,
+            status: group.status,
+            note: entry.note || group.lead,
+            thumbnail: entry.thumbnail || group.thumbnail,
+          }
+          categorizedOptions[categorizeStepOneItem(enrichedOption)].push(enrichedOption)
+        })
+      })
     })
 
-    return [...researchThemes, ...placeThemes]
+    return stepOneThemeCategories.map((category) => {
+      const comparison = categorizedOptions[category.key]
+      return {
+        ...category,
+        originalTitle: category.title,
+        title: customThemeTitles[category.key] || category.title,
+        type: 'collection',
+        comparison,
+        groups: [],
+        previewImages: comparison.map((option) => option.thumbnail).filter(Boolean),
+      }
+    })
   }, [customThemeTitles, stepOnePlaceGroups])
 
   const stepOneGroupedThemeBoards = useMemo(
-    () => stepOneThemeCategories.map((category) => ({
-      ...category,
-      themes: stepOneThemeBoards.filter((theme) => theme.category === category.key),
-    })).filter((category) => category.themes.length),
+    () => [{ key: 'simple', label: 'Themes', themes: stepOneThemeBoards.filter((theme) => theme.comparison.length) }],
     [stepOneThemeBoards],
   )
 
@@ -1935,13 +1983,20 @@ function App() {
 
       if (!matchedBoard && !matchedOption) return []
 
+      const categoryKey = categorizeStepOneItem({
+        ...board,
+        ...(matchedOption || {}),
+        sourceThemeKey: board.key,
+        sourceThemeTitle: board.title,
+      })
+
       return [{
         key: board.key,
         type: 'Research',
         title: board.title,
         detail: matchedOption?.place || board.recommendation,
         action: () => {
-          setSelectedBookingKey(board.key)
+          setSelectedBookingKey(categoryKey)
           setActiveTab('bookings')
         },
       }]
@@ -2535,9 +2590,6 @@ function App() {
               <div className="step-one-theme-list" aria-label="Choose place themes">
                 {stepOneThemeBoards.filter((theme) => selectedBookingKey === theme.key).map((theme) => {
                   const isOpen = selectedBookingKey === theme.key
-                  const yesCount = theme.type === 'places'
-                    ? theme.groups.filter((group) => selectedPlaceGroups[group.key]).length
-                    : theme.comparison.filter((option) => bookingVotes[`${theme.key}::${option.place}`] === 'yes').length
 
                   return (
                     <article
@@ -2577,18 +2629,17 @@ function App() {
 
                           <div className="comparison-card-grid compare-photo-grid step-one-inline-grid">
                             {theme.comparison.map((option) => {
-                              const voteKey = `${theme.key}::${option.place}`
-                              const activeVote = theme.type === 'places'
+                              const activeVote = option.sourceType === 'places'
                                 ? selectedPlaceGroups[option.groupKey] ? 'yes' : 'no'
-                                : bookingVotes[voteKey] || 'no'
+                                : bookingVotes[`${option.sourceThemeKey}::${option.place}`] || 'no'
                               const setOptionVote = (value) => {
-                                if (theme.type === 'places') {
+                                if (option.sourceType === 'places') {
                                   setPlaceGroupSelected(option.groupKey, value === 'yes')
                                   return
                                 }
-                                toggleBookingVote(theme.key, option.place, value)
+                                toggleBookingVote(option.sourceThemeKey, option.place, value)
                                 if (value !== 'yes') {
-                                  assignPlaceGroupToDay(scheduleKeyForResearchOption(theme.key, option.place), '')
+                                  assignPlaceGroupToDay(scheduleKeyForResearchOption(option.sourceThemeKey, option.place), '')
                                 }
                               }
 
