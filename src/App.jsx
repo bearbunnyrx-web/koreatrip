@@ -1376,6 +1376,29 @@ function buildSelectedResearchScheduleGroups(votes) {
   ))
 }
 
+const stepOneThemeCategories = [
+  { key: 'seongsu', label: 'Seongsu' },
+  { key: 'beauty', label: 'Beauty' },
+  { key: 'food', label: 'Food & cafes' },
+  { key: 'shopping', label: 'Shopping' },
+  { key: 'wellness', label: 'Wellness' },
+  { key: 'other', label: 'Other' },
+]
+
+function categorizeStepOneTheme(theme) {
+  const text = [theme.key, theme.originalTitle, theme.title, theme.status, theme.lead]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
+
+  if (text.includes('seongsu') || text.includes('성수')) return 'seongsu'
+  if (/(wellness|spa|headspa|cimer|recovery)/.test(text)) return 'wellness'
+  if (/(nail|hair|derm|clinic|beauty|glow|brow|foundation|follow-up|reone)/.test(text)) return 'beauty'
+  if (/(food|restaurant|cafe|café|dessert|bbq|izakaya|culinary|seafood|market|yeonnam|yongsan|gangnam bbq|popups?|tea)/.test(text)) return 'food'
+  if (/(shopping|bag|designer|store|brand)/.test(text)) return 'shopping'
+  return 'other'
+}
+
 function dedupeTargets(targets) {
   const seen = new Set()
   return targets.filter((target) => {
@@ -1739,17 +1762,23 @@ function App() {
   )
 
   const stepOneThemeBoards = useMemo(() => {
-    const researchThemes = researchBoards.map((board) => ({
-      ...board,
-      originalTitle: board.title,
-      title: customThemeTitles[board.key] || board.title,
-      type: 'research',
-      previewImages: board.comparison.map((option) => option.thumbnail),
-    }))
+    const researchThemes = researchBoards.map((board) => {
+      const theme = {
+        ...board,
+        originalTitle: board.title,
+        title: customThemeTitles[board.key] || board.title,
+        type: 'research',
+        previewImages: board.comparison.map((option) => option.thumbnail),
+      }
+      return {
+        ...theme,
+        category: categorizeStepOneTheme(theme),
+      }
+    })
 
     const placeThemes = stepOnePlaceThemes.map((theme) => {
       const groups = stepOnePlaceGroups.filter((group) => group.themeKey === theme.key)
-      return {
+      const normalizedTheme = {
         ...theme,
         originalTitle: theme.title,
         title: customThemeTitles[theme.key] || theme.title,
@@ -1758,10 +1787,22 @@ function App() {
         groups,
         previewImages: groups.map((group) => group.thumbnail),
       }
+      return {
+        ...normalizedTheme,
+        category: categorizeStepOneTheme(normalizedTheme),
+      }
     })
 
     return [...researchThemes, ...placeThemes]
   }, [customThemeTitles, stepOnePlaceGroups])
+
+  const stepOneGroupedThemeBoards = useMemo(
+    () => stepOneThemeCategories.map((category) => ({
+      ...category,
+      themes: stepOneThemeBoards.filter((theme) => theme.category === category.key),
+    })).filter((category) => category.themes.length),
+    [stepOneThemeBoards],
+  )
 
   const selectedSchedulePlaceGroups = useMemo(
     () => [
@@ -2461,25 +2502,34 @@ function App() {
               </header>
 
               <div className="step-one-sticky-theme-rail" aria-label="Sticky place theme icons">
-                {stepOneThemeBoards.map((theme) => {
-                  const isOpen = selectedBookingKey === theme.key
-                  const yesCount = theme.type === 'places'
-                    ? theme.groups.filter((group) => selectedPlaceGroups[group.key]).length
-                    : theme.comparison.filter((option) => bookingVotes[`${theme.key}::${option.place}`] === 'yes').length
+                {stepOneGroupedThemeBoards.map((category) => (
+                  <section
+                    key={category.key}
+                    className={`step-one-theme-cluster step-one-theme-cluster-${category.key}`}
+                    role="group"
+                    aria-label={`${category.label} themes`}
+                  >
+                    <span className="theme-cluster-label">{category.label}</span>
+                    <div className="theme-cluster-row">
+                      {category.themes.map((theme) => {
+                        const isOpen = selectedBookingKey === theme.key
 
-                  return (
-                    <button
-                      key={`sticky-${theme.key}`}
-                      type="button"
-                      className={`step-one-icon-chip ${isOpen ? 'active' : ''}`}
-                      aria-label={`Open ${theme.title} theme`}
-                      onClick={() => setSelectedBookingKey(theme.key)}
-                    >
-                      <img src={theme.previewImages[0]} alt="" loading="lazy" />
-                      <span>{theme.title}</span>
-                    </button>
-                  )
-                })}
+                        return (
+                          <button
+                            key={`sticky-${theme.key}`}
+                            type="button"
+                            className={`step-one-icon-chip ${isOpen ? 'active' : ''}`}
+                            aria-label={`Open ${theme.title} theme`}
+                            onClick={() => setSelectedBookingKey(theme.key)}
+                          >
+                            <img src={theme.previewImages[0]} alt="" loading="lazy" />
+                            <span>{theme.title}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </section>
+                ))}
               </div>
 
               <div className="step-one-theme-list" aria-label="Choose place themes">

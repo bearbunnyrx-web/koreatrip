@@ -1000,19 +1000,51 @@ a {
   top: 10px;
   z-index: 12;
   display: grid;
-  grid-template-columns: repeat(8, minmax(74px, 1fr));
-  gap: 6px;
+  gap: 8px;
+  max-height: 34vh;
+  overflow: auto;
   padding: 8px;
   border: 1px solid var(--border);
   border-radius: 22px;
   background: rgba(255, 251, 249, 0.88);
   backdrop-filter: blur(18px);
   box-shadow: 0 12px 30px rgba(124, 91, 166, 0.08);
+  scrollbar-width: none;
+}
+
+.step-one-sticky-theme-rail::-webkit-scrollbar,
+.theme-cluster-row::-webkit-scrollbar {
+  display: none;
+}
+
+.step-one-theme-cluster {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.theme-cluster-label {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.theme-cluster-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
 .step-one-icon-chip {
   position: relative;
   display: grid;
+  min-width: 136px;
   min-height: 58px;
   grid-template-columns: 34px minmax(0, 1fr);
   align-items: center;

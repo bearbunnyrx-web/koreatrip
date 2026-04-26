@@ -93,6 +93,25 @@ describe('Korea trip app v2 concept', () => {
     expect(within(nailTheme).getByRole('button', { name: /no to 단니네일/i })).toBeInTheDocument()
   })
 
+  test('step 1 theme rail is regrouped by location and topic', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+
+    const seongsuGroup = screen.getByRole('group', { name: /seongsu themes/i })
+    const beautyGroup = screen.getByRole('group', { name: /beauty themes/i })
+    const foodGroup = screen.getByRole('group', { name: /food & cafes themes/i })
+    const wellnessGroup = screen.getByRole('group', { name: /wellness themes/i })
+
+    expect(within(seongsuGroup).getByRole('button', { name: /open may 17 seongsu viral loop theme/i })).toBeInTheDocument()
+    expect(within(seongsuGroup).getByRole('button', { name: /open seongsu bag shopping theme/i })).toBeInTheDocument()
+    expect(within(beautyGroup).getByRole('button', { name: /open hongdae hair-perm shortlist theme/i })).toBeInTheDocument()
+    expect(within(beautyGroup).getByRole('button', { name: /open follow-up clinic \+ weekend backup after reone consult theme/i })).toBeInTheDocument()
+    expect(within(foodGroup).getByRole('button', { name: /open culinary class war restaurants theme/i })).toBeInTheDocument()
+    expect(within(wellnessGroup).getByRole('button', { name: /open ecojardin headspa in jamsil theme/i })).toBeInTheDocument()
+    expect(within(wellnessGroup).getByRole('button', { name: /open wellness \/ spa saves theme/i })).toBeInTheDocument()
+  })
+
   test('step 1 theme names can be adjusted by clicking the subtle title', () => {
     render(<App />)
 
