@@ -231,6 +231,29 @@ describe('Korea trip app v2 concept', () => {
     expect(within(foodTheme).getByRole('button', { name: /yes to kyetanzip/i })).toBeInTheDocument()
   })
 
+  test('April Instagram batch imports the latest reel places into Step 1', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+
+    fireEvent.click(screen.getByRole('button', { name: /open seongsu cafe guide theme/i }))
+    const cafeTheme = screen.getByTestId('step-one-theme-seongsu-cafe-guide')
+    expect(within(cafeTheme).getAllByText(/être bake house/i).length).toBeGreaterThan(0)
+    expect(within(cafeTheme).getAllByText(/standard bread/i).length).toBeGreaterThan(0)
+    expect(within(cafeTheme).getByRole('button', { name: /yes to standard bread/i })).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /open seoul dessert cafe saves theme/i }))
+    const dessertTheme = screen.getByTestId('step-one-theme-seoul-dessert-cafes')
+    expect(within(dessertTheme).getAllByText(/mochibang/i).length).toBeGreaterThan(0)
+    expect(within(dessertTheme).getAllByText(/mil toast house/i).length).toBeGreaterThan(0)
+    expect(within(dessertTheme).getAllByText(/rafre fruit/i).length).toBeGreaterThan(0)
+
+    fireEvent.click(screen.getByRole('button', { name: /open korea nail salon saves theme/i }))
+    const nailSavesTheme = screen.getByTestId('step-one-theme-korea-nail-salon-saves')
+    expect(within(nailSavesTheme).getByText(/gonggan nails hongdae/i)).toBeInTheDocument()
+    expect(within(nailSavesTheme).getByText(/the newall/i)).toBeInTheDocument()
+  })
+
   test('step 1 place yes selections feed step 2 scheduling', () => {
     render(<App />)
 

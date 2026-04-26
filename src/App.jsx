@@ -1223,6 +1223,75 @@ const stepOnePlaceThemes = [
   },
 ]
 
+const aprilInstagramBatchThemes = [
+  ['seongsu-cafe-guide', 'Seongsu cafe guide', 'Instagram batch', 'Seongsu cafe stops recovered by frame sampling from ice_dwhite’s reel.'],
+  ['yongsan-food-saves', 'Yongsan food saves', 'Instagram batch', 'Yongsan/Yongridan-gil food saves from Korean reels.'],
+  ['seoul-seafood-izakaya', 'Seoul seafood izakaya saves', 'Instagram batch', 'Seafood and sashimi-focused dinner candidates.'],
+  ['seoul-dessert-cafes', 'Seoul dessert cafe saves', 'Instagram batch', 'Dessert cafes, bakeries, and sweet halls from the April reel batch.'],
+  ['gangnam-bbq-saves', 'Gangnam BBQ saves', 'Instagram batch', 'Gangnam meat / BBQ ideas to compare against other dinner anchors.'],
+  ['korea-nail-salon-saves', 'Korea nail salon saves', 'Instagram batch', 'Foreigner-friendly nail salon leads, kept separate from the existing booked/shortlisted nail plan.'],
+  ['seoul-food-market-saves', 'Seoul food market saves', 'Instagram batch', 'Traditional-market food saves that need exact-hours and stall checks.'],
+  ['seongsu-tea-design', 'Seongsu tea design saves', 'Instagram batch', 'Quiet tea/design experiences for a softer Seongsu stop.'],
+  ['limited-food-popups', 'Limited food promos / re-check', 'Needs re-check', 'Date-limited food promos saved only for availability verification.'],
+  ['yeonnam-food-saves', 'Yeonnam food saves', 'Instagram batch', 'Yeonnam/Hongdae-area food ideas from reels.'],
+]
+
+const batchThumbs = {
+  cafe: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80',
+  bakery: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
+  food: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80',
+  seafood: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=800&q=80',
+  dessert: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80',
+  bbq: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80',
+  nails: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=800&q=80',
+  shopping: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
+  tea: 'https://images.unsplash.com/photo-1547825407-2d060104b7f8?auto=format&fit=crop&w=800&q=80',
+}
+
+const aprilInstagramBatchPlaces = [
+  ['ig-seongsu-cafe-etre', 'seongsu-cafe-guide', 'Seongsu cafe guide', 'Être Bake House', 'Seongsu', 'cafe / bakery', 'Reel frame showed Être Bake House at 37-5 Yeonmujang-gil; good pastry/cafe stop for a Seongsu walking loop.', 'Instagram reel DUzUdqHktkF / frame sampling', '37-5 Yeonmujang-gil visible', batchThumbs.bakery, 'https://www.instagram.com/reel/DUzUdqHktkF/?igsh=NTc4MTIwNjQ2YQ==', '에트르 베이크하우스 성수'],
+  ['ig-seongsu-cafe-darak', 'seongsu-cafe-guide', 'Seongsu cafe guide', 'Seongsu Darak / 성수다락', 'Seongsu', 'cafe / brunch', 'Frame overlay identified Seongsu Darak on Ttukseom-ro 9-gil, 2F. Save as a cafe/brunch candidate if nearby.', 'Instagram reel DUzUdqHktkF / frame sampling', 'Ttukseom-ro 9-gil 2F visible', batchThumbs.cafe, 'https://www.instagram.com/reel/DUzUdqHktkF/?igsh=NTc4MTIwNjQ2YQ==', '성수다락'],
+  ['ig-seongsu-cafe-noci', 'seongsu-cafe-guide', 'Seongsu cafe guide', 'Cafe Noci / 카페 노시', 'Seongsu', 'cafe / dessert', 'Frame showed Cafe Noci / noci signage; exact Korean listing and branch should be verified before routing.', 'Instagram reel DUzUdqHktkF / frame sampling', 'exact address partially blurry · verify listing', batchThumbs.cafe, 'https://www.instagram.com/reel/DUzUdqHktkF/?igsh=NTc4MTIwNjQ2YQ==', 'Cafe Noci 성수'],
+  ['ig-seongsu-cafe-standard-bread', 'seongsu-cafe-guide', 'Seongsu cafe guide', 'Standard Bread / 스탠다드브레드', 'Seongsu', 'bakery cafe', 'Frame showed Standard Bread at 37 Seongsui-ro 18-gil; bakery counter / bread-focused stop.', 'Instagram reel DUzUdqHktkF / frame sampling', '37 Seongsui-ro 18-gil visible', batchThumbs.bakery, 'https://www.instagram.com/reel/DUzUdqHktkF/?igsh=NTc4MTIwNjQ2YQ==', '스탠다드브레드 성수'],
+  ['ig-yongsan-gorogoro', 'yongsan-food-saves', 'Yongsan food saves', 'Gorogoro / 고로고로', 'Yongsan', 'kaisendon / unagi don', 'Yongsan date-course seafood rice bowl spot. Caption highlights premium gorogoro kaisendon with salmon, tuna belly, sweet shrimp, snow crab, uni, ikura, plus special unagi don and ochazuke finish.', 'Instagram reel DU-WLy7E3QD / caption', 'ad reel · verify reservation/wait', batchThumbs.seafood, 'https://www.instagram.com/reel/DU-WLy7E3QD/?igsh=NTc4MTIwNjQ2YQ==', '고로고로 용산 한강대로11길 27'],
+  ['ig-jungnang-okinara', 'seoul-seafood-izakaya', 'Seoul seafood izakaya saves', 'Okinara / 오키나라', 'Jungnang-gu / Junghwa Station', 'seafood izakaya', 'Hidden Jungnang seafood izakaya. Caption says owner buys premium seasonal seafood at Noryangjin dawn auction; highlights the “Geukrak” platter in the 50,000 KRW range and crab soup.', 'Instagram reel DTNX_1bD-QG / caption', 'seasonal seafood · price/menu should be rechecked', batchThumbs.seafood, 'https://www.instagram.com/reel/DTNX_1bD-QG/?igsh=NTc4MTIwNjQ2YQ==', '오키나라 중랑구 중랑역로 69'],
+  ['ig-gangnam-mochibang', 'seoul-dessert-cafes', 'Seoul dessert cafe saves', 'Mochibang / 모찌방', 'Gangnam / Seolleung', 'matcha parfait cafe', 'Best Matcha Parfait in Seoul reel. Caption highlights Jeju organic matcha soft serve with pudding, red bean yokan, mochi, matcha tuile, plus matcha latte/pudding/handmade mochi.', 'Instagram reel DVvila8E5Mk / caption', 'hours shown 11:30-19:00 · closed Monday', batchThumbs.dessert, 'https://www.instagram.com/reel/DVvila8E5Mk/?igsh=NTc4MTIwNjQ2YQ==', '모찌방 강남구 삼성로75길 41'],
+  ['ig-seoul-mil-toast', 'seoul-dessert-cafes', 'Seoul dessert cafe saves', 'Mil Toast House / 밀토스트집', 'Seoul / branch TBD', 'steamed bread cafe', 'Creator finally tried the famous steamed bread at @miltoasthouse. Save as a cafe/dessert candidate; exact branch should be chosen by route.', 'Instagram reel DVx3ExsE2td / caption', 'verify branch and wait time', batchThumbs.bakery, 'https://www.instagram.com/reel/DVx3ExsE2td/?igsh=NTc4MTIwNjQ2YQ==', '밀토스트집 서울'],
+  ['ig-gangnam-sanjang', 'gangnam-bbq-saves', 'Gangnam BBQ saves', 'Sanjang Jangjak-gui / 산장 장작구이', 'Yeoksam / Gangnam', 'wood-fired pork BBQ', 'Yeoksam Station 1-minute wood-fire BBQ spot. Caption highlights mountain-lodge mood, oak firewood + rotating pre-grill, smoky black pork, green onion kimchi, and soju/beer fit.', 'Instagram reel DVV0w7ukw6p / caption', 'ad reel · hours shown Mon-Sat 11-23, break 15-17, Sunday closed', batchThumbs.bbq, 'https://www.instagram.com/reel/DVV0w7ukw6p/?igsh=NTc4MTIwNjQ2YQ==', '산장 장작구이 역삼'],
+  ['ig-sweetpark', 'seoul-dessert-cafes', 'Seoul dessert cafe saves', 'Shinsegae Sweet Park / 신세계 스위트파크', 'Gangnam / Express Bus Terminal', 'department store dessert hall', 'B1 of Shinsegae Department Store Gangnam; direct connection to Express Bus Terminal. Useful dessert/shopping cluster; weekday recommended because weekends are crowded.', 'Instagram reel DWK85qdkqxU / caption', 'hours 10:30-20:00/20:30 · department-store holiday closures', batchThumbs.dessert, 'https://www.instagram.com/reel/DWK85qdkqxU/?igsh=NTc4MTIwNjQ2YQ==', '신세계 스위트파크 강남'],
+  ['ig-seongsu-cafe-onion', 'seoul-dessert-cafes', 'Seoul dessert cafe saves', 'Cafe Onion Seongsu / 어니언 성수', 'Seongsu', 'cafe / bakery', 'Appears in Seongsu vlog and Catherine dessert ranking. Save as famous atmosphere + bakery stop, but likely crowded.', 'Instagram reels DQo76JYkkCr + DUKCSvmkgrV / frame sampling', 'popular/crowded · verify wait', batchThumbs.bakery, 'https://www.instagram.com/reel/DQo76JYkkCr/?igsh=NTc4MTIwNjQ2YQ==', '어니언 성수'],
+  ['ig-seongsu-loe', 'seongsu-mood-spaces', 'Seongsu mood spaces', 'LOE', 'Seongsu', 'fragrance / lifestyle store', 'Seongsu vlog frame showed LOE fragrance/product experience with forest scent notes. Save as optional mood-space stop if nearby.', 'Instagram reel DQo76JYkkCr / frame sampling', 'exact listing/branch needs verification', batchThumbs.shopping, 'https://www.instagram.com/reel/DQo76JYkkCr/?igsh=NTc4MTIwNjQ2YQ==', 'LOE 성수'],
+  ['ig-hongdae-gonggan-nails', 'korea-nail-salon-saves', 'Korea nail salon saves', 'Gonggan Nails Hongdae / 공간네일 홍대', 'Hongdae', 'nail salon', 'Nancy’s Korea nail-care reel: she went to Gonggan Nails in Hongdae; notes Korean nail salons have strong cuticle care/monthly designs and often require deposits.', 'Instagram reel DFT8V6JAsGB / caption', 'foreigner-friendly mention · deposit/payment logistics need check', batchThumbs.nails, 'https://www.instagram.com/reel/DFT8V6JAsGB/?igsh=NTc4MTIwNjQ2YQ==', '공간네일 홍대'],
+  ['ig-nails-b-dalkom', 'korea-nail-salon-saves', 'Korea nail salon saves', 'B Dalkom / 비달콤', 'Seoul / branch TBD', 'nail salon', 'Listed as a foreigner-friendly honorable mention in Nancy’s Korea nail reel.', 'Instagram reel DFT8V6JAsGB / caption', 'verify exact location, English support, deposit', batchThumbs.nails, 'https://www.instagram.com/reel/DFT8V6JAsGB/?igsh=NTc4MTIwNjQ2YQ==', '비달콤 네일 서울'],
+  ['ig-nails-thenewall', 'korea-nail-salon-saves', 'Korea nail salon saves', 'The Newall / 더뉴얼', 'Seoul / branch TBD', 'nail salon', 'Honorable mention; caption says limited English but works with foreigners.', 'Instagram reel DFT8V6JAsGB / caption', 'limited English · verify booking method/deposit', batchThumbs.nails, 'https://www.instagram.com/reel/DFT8V6JAsGB/?igsh=NTc4MTIwNjQ2YQ==', '더뉴얼 네일 서울'],
+  ['ig-nails-ounailshop', 'korea-nail-salon-saves', 'Korea nail salon saves', 'Ounailshop / 오유네일샵', 'Seoul / branch TBD', 'nail salon', 'Foreigner-friendly honorable mention from the reel; keep as backup to compare with existing nail plan.', 'Instagram reel DFT8V6JAsGB / caption', 'verify exact branch, menu, reservation', batchThumbs.nails, 'https://www.instagram.com/reel/DFT8V6JAsGB/?igsh=NTc4MTIwNjQ2YQ==', '오유네일샵 서울'],
+  ['ig-namdaemun-maknae', 'seoul-food-market-saves', 'Seoul food market saves', 'Maknae Hoejip / 막내회집', 'Namdaemun Market', 'sashimi / market restaurant', 'Korean food reel points to 막내회집 in Namdaemun Market for sashimi. Good traditional-market food candidate.', 'Instagram reel DWG4IbfDk_W / caption', 'verify exact stall/branch and hours', batchThumbs.seafood, 'https://www.instagram.com/reel/DWG4IbfDk_W/?igsh=NTc4MTIwNjQ2YQ==', '막내회집 남대문시장'],
+  ['ig-seocho-rafre-fruit', 'seoul-dessert-cafes', 'Seoul dessert cafe saves', 'Rafre Fruit / 라프레플루트', 'Seocho', 'fruit cake / dessert cafe', 'Catherine dessert ranking frame identified Rafre Fruit, Seocho; cake was highlighted as genuinely strong.', 'Instagram reel DUKCSvmkgrV / frame sampling', 'branch/details to verify', batchThumbs.dessert, 'https://www.instagram.com/reel/DUKCSvmkgrV/?igsh=NTc4MTIwNjQ2YQ==', '라프레플루트 서초'],
+  ['ig-gangnam-baskin-workshop', 'seoul-dessert-cafes', 'Seoul dessert cafe saves', 'Baskin Robbins Workshop / 배스킨라빈스 워크샵', 'Gangnam', 'ice cream / dessert workshop', 'Catherine dessert ranking final frame identified Baskin Robbins Workshop, Gangnam; visually unusual dessert/ice cream stop.', 'Instagram reel DUKCSvmkgrV / frame sampling', 'check if it is worth prioritizing vs indie cafes', batchThumbs.dessert, 'https://www.instagram.com/reel/DUKCSvmkgrV/?igsh=NTc4MTIwNjQ2YQ==', '배스킨라빈스 워크샵 강남'],
+  ['ig-seongsu-teathology', 'seongsu-tea-design', 'Seongsu tea design saves', 'TEA•THOLOGY', 'Seongsu', 'tea tasting / design experience', 'Curated tea experience blending tea, storytelling, design, and small bites; quiet ritual rather than a normal drink stop.', 'Instagram reel DWPfECwjtU- / caption', 'verify reservation/course format and exact spelling/listing', batchThumbs.tea, 'https://www.instagram.com/reel/DWPfECwjtU-/?igsh=NTc4MTIwNjQ2YQ==', 'TEA THOLOGY 성수'],
+  ['ig-samduk-potato-chicken', 'limited-food-popups', 'Limited food promos / re-check', 'Samduk Chicken potato chicken / 삼덕통닭 쫀감치', 'Sinchon or Bangi', 'limited fried chicken promo', 'Potato-coated chicken reel. Caption says 1,000 KRW event was only Mar 23-29, 5-6pm at Samduk Chicken Sinchon/Bangi, so save only as a trend/availability re-check.', 'Instagram reel DWLpTO-E2-F / caption', 'event date passed · verify if menu still exists in May', batchThumbs.food, 'https://www.instagram.com/reel/DWLpTO-E2-F/?igsh=NTc4MTIwNjQ2YQ==', '삼덕통닭 쫀감치'],
+  ['ig-yeonnam-chwihyang', 'yeonnam-food-saves', 'Yeonnam food saves', 'Yeonnam Chwihyang / 연남취향', 'Yeonnam / Hongdae', 'Korean fusion / pasta', 'Hidden-gem Yeonnam restaurant; reel specifically recommends steak truffle cream pasta. Address shown: Mapo-gu Yeonhui-ro 1-gil 36.', 'Instagram reel DXg7dR7ic-z / caption', 'verify reservation and exact Naver listing', batchThumbs.food, 'https://www.instagram.com/reel/DXg7dR7ic-z/?igsh=NTc4MTIwNjQ2YQ==', '연남취향 연희로1길 36'],
+]
+
+stepOnePlaceThemes.push(...aprilInstagramBatchThemes.map(([key, title, status, lead]) => ({ key, title, status, lead })))
+placeGroups.push(...aprilInstagramBatchPlaces.map(([key, themeKey, themeTitle, title, area, vibe, note, source, importNote, thumbnail, instagramUrl, query]) => ({
+  key,
+  themeKey,
+  themeTitle,
+  title,
+  area,
+  status: 'Instagram save',
+  lead: 'Imported from Dr. Cho’s April Instagram reel batch.',
+  source,
+  importNote,
+  thumbnail,
+  logistics: { start: 'Step 1 saved place', end: 'Assign after Yes / No and area clustering', note: 'Batch Instagram intake; confirm current hours, booking, and route fit before Step 2.' },
+  entries: [
+    { place: title, area, vibe, note, thumbnail, instagramUrl, naverUrl: `https://map.naver.com/p/search/${encodeURIComponent(query)}`, kakaoUrl: `https://map.kakao.com/?q=${encodeURIComponent(query)}` },
+  ],
+  mapTargets: [mapTarget(title, `${vibe} from Instagram reel batch`, { query })],
+})))
+
 
 const spend = [
   { item: 'Flights', detail: 'China Airlines long-haul roundtrip for both', amount: '$960' },
