@@ -1101,6 +1101,75 @@ const placeGroups = [
     ],
     mapTargets: [mapTarget('OSOI', 'Korean designer bag store from Instagram reel', { query: '오소이 성수' })],
   },
+
+  {
+    key: 'ig-seoul-food-hanmiok',
+    themeKey: 'seoul-food-guide-part-2',
+    themeTitle: 'Seoul food guide — Part 2',
+    title: 'Han Mi Ok / 한미옥',
+    area: 'Gangnam',
+    status: 'food save',
+    lead: 'Saved from mandaviola’s Seoul food guide Part 2 reel.',
+    source: 'Instagram reel DVi2DggjLVh / visible overlay',
+    importNote: 'famous for gujeolpan · sharing meal',
+    thumbnail: 'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Unscheduled Seoul food candidate', end: 'Assign after area clustering', note: 'Food spot from Seoul food guide reel; creator mentions Naver map links by DM/comment.' },
+    entries: [
+      { place: 'Han Mi Ok / 한미옥', area: 'Gangnam', vibe: 'Korean platter / gujeolpan', note: 'Famous for gujeolpan, a traditional Korean platter. Reel notes tender/flavorful meat and says it is perfect for sharing with friends.', thumbnail: 'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DVi2DggjLVh/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%ED%95%9C%EB%AF%B8%EC%98%A5%20%EA%B0%95%EB%82%A8', kakaoUrl: 'https://map.kakao.com/?q=%ED%95%9C%EB%AF%B8%EC%98%A5%20%EA%B0%95%EB%82%A8' },
+    ],
+    mapTargets: [mapTarget('Han Mi Ok / 한미옥', 'Seoul food guide Part 2 save', { query: '한미옥 강남' })],
+  },
+  {
+    key: 'ig-seoul-food-kyetanzip',
+    themeKey: 'seoul-food-guide-part-2',
+    themeTitle: 'Seoul food guide — Part 2',
+    title: 'Kyetanzip / 계탄집',
+    area: 'Jayang-dong',
+    status: 'food save',
+    lead: 'Saved from mandaviola’s Seoul food guide Part 2 reel.',
+    source: 'Instagram reel DVi2DggjLVh / visible overlay',
+    importNote: 'open until 3:30am · late-night hangout',
+    thumbnail: 'https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Unscheduled Seoul food candidate', end: 'Assign after area clustering', note: 'Food spot from Seoul food guide reel; creator mentions Naver map links by DM/comment.' },
+    entries: [
+      { place: 'Kyetanzip / 계탄집', area: 'Jayang-dong', vibe: 'grilled chicken / beer', note: 'Celeb-favorite grilled chicken spot. Reel recommends ordering both salt and spicy marinated chicken plus jumeokbap; good with cold beer and late-night hangout energy.', thumbnail: 'https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DVi2DggjLVh/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EA%B3%84%ED%83%84%EC%A7%91%20%EC%9E%90%EC%96%91%EB%8F%99', kakaoUrl: 'https://map.kakao.com/?q=%EA%B3%84%ED%83%84%EC%A7%91%20%EC%9E%90%EC%96%91%EB%8F%99' },
+    ],
+    mapTargets: [mapTarget('Kyetanzip / 계탄집', 'Seoul food guide Part 2 save', { query: '계탄집 자양동' })],
+  },
+  {
+    key: 'ig-seoul-food-norunsan-tteokbokki',
+    themeKey: 'seoul-food-guide-part-2',
+    themeTitle: 'Seoul food guide — Part 2',
+    title: 'Norunsan Tteokbokki / 노룬산떡볶이',
+    area: 'Jayang-dong',
+    status: 'food save',
+    lead: 'Saved from mandaviola’s Seoul food guide Part 2 reel.',
+    source: 'Instagram reel DVi2DggjLVh / visible overlay',
+    importNote: 'celeb-approved tteokbokki · expanded from street stall',
+    thumbnail: 'https://images.unsplash.com/photo-1635363638580-c2809d049eee?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Unscheduled Seoul food candidate', end: 'Assign after area clustering', note: 'Food spot from Seoul food guide reel; creator mentions Naver map links by DM/comment.' },
+    entries: [
+      { place: 'Norunsan Tteokbokki / 노룬산떡볶이', area: 'Jayang-dong', vibe: 'tteokbokki / casual snack', note: 'Celeb-approved tteokbokki. Reel says it started as a tiny street stall, people queued on the street, and it expanded to a bigger store because it got popular.', thumbnail: 'https://images.unsplash.com/photo-1635363638580-c2809d049eee?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DVi2DggjLVh/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EB%85%B8%EB%A3%AC%EC%82%B0%EB%96%A1%EB%B3%B6%EC%9D%B4%20%EC%9E%90%EC%96%91%EB%8F%99', kakaoUrl: 'https://map.kakao.com/?q=%EB%85%B8%EB%A3%AC%EC%82%B0%EB%96%A1%EB%B3%B6%EC%9D%B4%20%EC%9E%90%EC%96%91%EB%8F%99' },
+    ],
+    mapTargets: [mapTarget('Norunsan Tteokbokki / 노룬산떡볶이', 'Seoul food guide Part 2 save', { query: '노룬산떡볶이 자양동' })],
+  },
+  {
+    key: 'ig-seoul-food-grandmothers-recipe',
+    themeKey: 'seoul-food-guide-part-2',
+    themeTitle: 'Seoul food guide — Part 2',
+    title: 'Grandmother’s Recipe / 할머니의 레시피',
+    area: 'Seongsu',
+    status: 'food save',
+    lead: 'Saved from mandaviola’s Seoul food guide Part 2 reel.',
+    source: 'Instagram reel DVi2DggjLVh / visible overlay',
+    importNote: 'order one set · banchan-heavy',
+    thumbnail: 'https://images.unsplash.com/photo-1609501676725-7186f017a4b7?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Unscheduled Seoul food candidate', end: 'Assign after area clustering', note: 'Food spot from Seoul food guide reel; creator mentions Naver map links by DM/comment.' },
+    entries: [
+      { place: 'Grandmother’s Recipe / 할머니의 레시피', area: 'Seongsu', vibe: 'Korean home-style meal', note: 'Authentic Korean home-style meal in Seongsu. Reel says simply order one set, banchan is delicious, and it feels like eating at grandma’s house.', thumbnail: 'https://images.unsplash.com/photo-1609501676725-7186f017a4b7?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DVi2DggjLVh/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%ED%95%A0%EB%A8%B8%EB%8B%88%EC%9D%98%20%EB%A0%88%EC%8B%9C%ED%94%BC%20%EC%84%B1%EC%88%98', kakaoUrl: 'https://map.kakao.com/?q=%ED%95%A0%EB%A8%B8%EB%8B%88%EC%9D%98%20%EB%A0%88%EC%8B%9C%ED%94%BC%20%EC%84%B1%EC%88%98' },
+    ],
+    mapTargets: [mapTarget('Grandmother’s Recipe / 할머니의 레시피', 'Seoul food guide Part 2 save', { query: '할머니의 레시피 성수' })],
+  },
 ]
 
 const stepOnePlaceThemes = [
@@ -1145,6 +1214,12 @@ const stepOnePlaceThemes = [
     title: 'Seongsu bag shopping',
     status: 'Instagram reel',
     lead: 'Korean designer bag stores from Genevive Laurenn’s reel; useful for tax-refund shopping in Seongsu.',
+  },
+  {
+    key: 'seoul-food-guide-part-2',
+    title: 'Seoul food guide — Part 2',
+    status: 'Instagram reel',
+    lead: 'Mandaviola food spots saved as individual restaurant cards before date assignment.',
   },
 ]
 

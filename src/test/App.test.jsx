@@ -216,6 +216,21 @@ describe('Korea trip app v2 concept', () => {
     expect(within(bagTheme).getByRole('button', { name: /yes to marge sherwood/i })).toBeInTheDocument()
   })
 
+  test('Seoul food guide Part 2 reel imports individual restaurants into step 1', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+
+    fireEvent.click(screen.getByRole('button', { name: /open seoul food guide — part 2 theme/i }))
+    const foodTheme = screen.getByTestId('step-one-theme-seoul-food-guide-part-2')
+
+    expect(within(foodTheme).getByText(/han mi ok/i)).toBeInTheDocument()
+    expect(within(foodTheme).getByText(/kyetanzip/i)).toBeInTheDocument()
+    expect(within(foodTheme).getByText(/norunsan tteokbokki/i)).toBeInTheDocument()
+    expect(within(foodTheme).getByText(/grandmother’s recipe/i)).toBeInTheDocument()
+    expect(within(foodTheme).getByRole('button', { name: /yes to kyetanzip/i })).toBeInTheDocument()
+  })
+
   test('step 1 place yes selections feed step 2 scheduling', () => {
     render(<App />)
 
