@@ -1355,15 +1355,35 @@ function scheduleKeyForResearchOption(boardKey, place) {
   return `research-${boardKey}-${normalizeToken(place).replace(/[^a-z0-9]+/g, '-')}`
 }
 
-function buildSelectedResearchScheduleGroups(votes) {
+function itemTitleKeyForPlaceGroup(groupKey) {
+  return `place::${groupKey}`
+}
+
+function itemTitleKeyForResearchOption(boardKey, place) {
+  return `research::${boardKey}::${place}`
+}
+
+function itemTitleKeyForStepOneOption(option) {
+  if (option.sourceType === 'places') return itemTitleKeyForPlaceGroup(option.groupKey)
+  return itemTitleKeyForResearchOption(option.sourceThemeKey, option.place)
+}
+
+function displayTitleForItem(customItemTitles, itemKey, fallback) {
+  const customTitle = customItemTitles[itemKey]
+  return customTitle && customTitle.trim() ? customTitle.trim() : fallback
+}
+
+function buildSelectedResearchScheduleGroups(votes, customItemTitles = {}) {
   return researchBoards.flatMap((board) => (
     board.comparison
       .filter((option) => votes[`${board.key}::${option.place}`] === 'yes')
       .map((option) => {
         const matchingTarget = board.mapTargets?.find((target) => target.name === option.place)
+        const itemTitleKey = itemTitleKeyForResearchOption(board.key, option.place)
         return {
           key: scheduleKeyForResearchOption(board.key, option.place),
-          title: option.place,
+          title: displayTitleForItem(customItemTitles, itemTitleKey, option.place),
+          originalTitle: option.place,
           area: option.area,
           status: board.status,
           themeKey: board.key,
@@ -1520,6 +1540,7 @@ function App() {
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
   const [selectedBookingKey, setSelectedBookingKey] = useState('beauty')
   const [editingThemeKey, setEditingThemeKey] = useState('')
+  const [editingItemKey, setEditingItemKey] = useState('')
   const [assignedPlaceDays, setAssignedPlaceDays] = useState(() => {
     const stored = window.localStorage.getItem('korea-trip-place-days')
 
@@ -1544,6 +1565,17 @@ function App() {
   })
   const [customThemeTitles, setCustomThemeTitles] = useState(() => {
     const stored = window.localStorage.getItem('korea-trip-theme-titles')
+
+    if (!stored) return {}
+
+    try {
+      return JSON.parse(stored)
+    } catch {
+      return {}
+    }
+  })
+  const [customItemTitles, setCustomItemTitles] = useState(() => {
+    const stored = window.localStorage.getItem('korea-trip-item-titles')
 
     if (!stored) return {}
 
@@ -1633,6 +1665,27 @@ function App() {
     }))
   }
 
+  function updateItemTitle(itemKey, title) {
+    setCustomItemTitles((current) => {
+      const next = { ...current }
+      if (!title.trim()) {
+        delete next[itemKey]
+        return next
+      }
+      next[itemKey] = title
+      return next
+    })
+  }
+
+  function placeGroupWithCustomTitle(group) {
+    const itemTitleKey = itemTitleKeyForPlaceGroup(group.key)
+    return {
+      ...group,
+      originalTitle: group.originalTitle || group.title,
+      title: displayTitleForItem(customItemTitles, itemTitleKey, group.title),
+    }
+  }
+
   function updatePlannerItem(dayKey, itemId, nextType) {
     setPlannerOverrides((current) => ({
       ...current,
@@ -1713,9 +1766,9 @@ function App() {
   )
 
   const selectedDayPlanner = useMemo(() => {
-    const selectedResearchScheduleGroups = buildSelectedResearchScheduleGroups(bookingVotes)
+    const selectedResearchScheduleGroups = buildSelectedResearchScheduleGroups(bookingVotes, customItemTitles)
     const scheduleGroups = [
-      ...placeGroups.filter((group) => selectedPlaceGroups[group.key]),
+      ...placeGroups.filter((group) => selectedPlaceGroups[group.key]).map(placeGroupWithCustomTitle),
       ...selectedResearchScheduleGroups,
     ]
     const selectedAssignedPlaceDays = Object.fromEntries(
@@ -1736,7 +1789,7 @@ function App() {
       ...item,
       type: overrideMap[item.id] ?? item.type,
     }))
-  }, [assignedPlaceDays, bookingVotes, plannerOrder, plannerOverrides, selectedDay, selectedPlaceGroups])
+  }, [assignedPlaceDays, bookingVotes, customItemTitles, plannerOrder, plannerOverrides, selectedDay, selectedPlaceGroups])
 
   const confirmedRouteTargets = useMemo(() => {
     return dedupeTargets(
@@ -1854,10 +1907,10 @@ function App() {
 
   const selectedSchedulePlaceGroups = useMemo(
     () => [
-      ...placeGroups.filter((group) => selectedPlaceGroups[group.key]),
-      ...buildSelectedResearchScheduleGroups(bookingVotes),
+      ...placeGroups.filter((group) => selectedPlaceGroups[group.key]).map(placeGroupWithCustomTitle),
+      ...buildSelectedResearchScheduleGroups(bookingVotes, customItemTitles),
     ],
-    [bookingVotes, selectedPlaceGroups],
+    [bookingVotes, customItemTitles, selectedPlaceGroups],
   )
 
   const unscheduledPlaceGroups = useMemo(
@@ -2043,6 +2096,10 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem('korea-trip-theme-titles', JSON.stringify(customThemeTitles))
   }, [customThemeTitles])
+
+  useEffect(() => {
+    window.localStorage.setItem('korea-trip-item-titles', JSON.stringify(customItemTitles))
+  }, [customItemTitles])
 
   useEffect(() => {
     window.localStorage.setItem('korea-trip-planner-overrides', JSON.stringify(plannerOverrides))
@@ -2632,6 +2689,8 @@ function App() {
                               const activeVote = option.sourceType === 'places'
                                 ? selectedPlaceGroups[option.groupKey] ? 'yes' : 'no'
                                 : bookingVotes[`${option.sourceThemeKey}::${option.place}`] || 'no'
+                              const itemTitleKey = itemTitleKeyForStepOneOption(option)
+                              const displayItemTitle = displayTitleForItem(customItemTitles, itemTitleKey, option.place)
                               const setOptionVote = (value) => {
                                 if (option.sourceType === 'places') {
                                   setPlaceGroupSelected(option.groupKey, value === 'yes')
@@ -2644,7 +2703,7 @@ function App() {
                               }
 
                               return (
-                                <article className="comparison-option-card compare-photo-card" key={`${theme.key}-${option.place}`}>
+                                <article className="comparison-option-card compare-photo-card" key={`${theme.key}-${itemTitleKey}`}>
                                   <div className="comparison-image-wrap">
                                     <img className="comparison-card-thumb" src={option.thumbnail} alt={`${option.place} preview`} loading="lazy" />
                                     <div className="comparison-image-overlay compact-image-overlay">
@@ -2655,7 +2714,29 @@ function App() {
 
                                   <div className="comparison-option-main">
                                     <div className="comparison-option-header">
-                                      <strong>{option.place}</strong>
+                                      {editingItemKey === itemTitleKey ? (
+                                        <input
+                                          className="item-title-input"
+                                          aria-label={`Item name for ${option.place}`}
+                                          value={displayItemTitle}
+                                          autoFocus
+                                          onChange={(event) => updateItemTitle(itemTitleKey, event.target.value)}
+                                          onBlur={() => setEditingItemKey('')}
+                                          onKeyDown={(event) => {
+                                            if (event.key === 'Enter') event.currentTarget.blur()
+                                            if (event.key === 'Escape') setEditingItemKey('')
+                                          }}
+                                        />
+                                      ) : (
+                                        <button
+                                          type="button"
+                                          className="editable-item-title"
+                                          aria-label={`Edit item name ${displayItemTitle}`}
+                                          onClick={() => setEditingItemKey(itemTitleKey)}
+                                        >
+                                          {displayItemTitle}
+                                        </button>
+                                      )}
                                     </div>
                                     <p className="comparison-option-note">{option.note}</p>
                                     <div className="comparison-option-footer">
@@ -2669,7 +2750,7 @@ function App() {
                                       <div className="step-one-choice-row inline-choice-row">
                                         <button
                                           type="button"
-                                          aria-label={`Yes to ${option.place}`}
+                                          aria-label={`Yes to ${displayItemTitle}`}
                                           className={activeVote === 'yes' ? 'active' : ''}
                                           onClick={() => setOptionVote('yes')}
                                         >
@@ -2677,7 +2758,7 @@ function App() {
                                         </button>
                                         <button
                                           type="button"
-                                          aria-label={`No to ${option.place}`}
+                                          aria-label={`No to ${displayItemTitle}`}
                                           className={activeVote !== 'yes' ? 'active' : ''}
                                           onClick={() => setOptionVote('no')}
                                         >

@@ -308,6 +308,46 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByLabelText(/drag soonsiki hair hongdae/i)).toBeInTheDocument()
   })
 
+  test('step 1 place item names can be edited and sync into step 2 items', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+    fireEvent.click(screen.getByRole('button', { name: /open others theme/i }))
+    const othersTheme = screen.getByTestId('step-one-theme-others')
+
+    fireEvent.click(within(othersTheme).getByRole('button', { name: /edit item name haus nowhere/i }))
+    const nameInput = within(othersTheme).getByLabelText(/item name for haus nowhere/i)
+    fireEvent.change(nameInput, { target: { value: 'Haus Nowhere — Seongsu flagship' } })
+    fireEvent.blur(nameInput)
+    fireEvent.click(within(othersTheme).getByRole('button', { name: /yes to haus nowhere — seongsu flagship/i }))
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
+
+    expect(screen.getAllByText(/haus nowhere — seongsu flagship/i).length).toBeGreaterThan(0)
+    expect(screen.getByLabelText(/drag haus nowhere — seongsu flagship/i)).toBeInTheDocument()
+    expect(window.localStorage.getItem('korea-trip-item-titles')).toContain('Haus Nowhere — Seongsu flagship')
+  })
+
+  test('step 1 research item names can be edited and sync into step 2 items', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+    fireEvent.click(screen.getByRole('button', { name: /open beauty theme/i }))
+    const beautyTheme = screen.getByTestId('step-one-theme-beauty')
+
+    fireEvent.click(within(beautyTheme).getByRole('button', { name: /edit item name soonsiki hair hongdae/i }))
+    const nameInput = within(beautyTheme).getByLabelText(/item name for soonsiki hair hongdae/i)
+    fireEvent.change(nameInput, { target: { value: 'SOONSIKI Hair — Hongdae consult' } })
+    fireEvent.blur(nameInput)
+    fireEvent.click(within(beautyTheme).getByRole('button', { name: /yes to soonsiki hair — hongdae consult/i }))
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
+
+    expect(screen.getAllByText(/soonsiki hair — hongdae consult/i).length).toBeGreaterThan(0)
+    expect(screen.getByLabelText(/drag soonsiki hair — hongdae consult/i)).toBeInTheDocument()
+    expect(window.localStorage.getItem('korea-trip-item-titles')).toContain('SOONSIKI Hair — Hongdae consult')
+  })
+
   test('schedule shows one sticky Items rail and no duplicate unscheduled box', () => {
     const { container } = render(<App />)
 
