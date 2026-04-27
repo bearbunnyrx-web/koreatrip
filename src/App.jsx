@@ -1,5 +1,7 @@
 import './App.css'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createSupabaseClient } from './lib/supabaseClient'
+import { createTripStateStore } from './lib/tripStateStore'
 
 const tabs = ['home', 'bookings', 'places', 'itinerary']
 const tabMeta = {
@@ -1627,8 +1629,15 @@ function App() {
   const [mapStatus, setMapStatus] = useState(KAKAO_JS_KEY ? 'idle' : 'missing-key')
   const [resolvedMapTargets, setResolvedMapTargets] = useState([])
   const [mapNotice, setMapNotice] = useState('')
+  const [sharedStoreReady, setSharedStoreReady] = useState(false)
+  const [tripStateStore] = useState(() => createTripStateStore({
+    env: import.meta.env,
+    storage: window.localStorage,
+    createClient: createSupabaseClient,
+  }))
   const mapCanvasRef = useRef(null)
   const swipeStartRef = useRef({})
+  const applyingSharedStateRef = useRef(false)
 
   function toggleBookingVote(boardKey, place, vote) {
     const optionKey = `${boardKey}::${place}`
@@ -2075,6 +2084,69 @@ function App() {
 
     return [...dayResults, ...bookingResults, ...placeResults].slice(0, 8)
   }, [searchQuery])
+
+  useEffect(() => {
+    let cancelled = false
+
+    function applySharedState(snapshot) {
+      applyingSharedStateRef.current = true
+      setAssignedPlaceDays(snapshot.assignedPlaceDays)
+      setSelectedPlaceGroups(snapshot.selectedPlaceGroups)
+      setCustomThemeTitles(snapshot.customThemeTitles)
+      setCustomItemTitles(snapshot.customItemTitles)
+      setTheme(snapshot.theme === 'dark' ? 'dark' : 'light')
+      setBookingVotes(snapshot.bookingVotes)
+      setPlannerOverrides(snapshot.plannerOverrides)
+      setPlannerOrder(snapshot.plannerOrder)
+      window.setTimeout(() => {
+        applyingSharedStateRef.current = false
+      }, 0)
+    }
+
+    async function hydrateSharedState() {
+      const snapshot = await tripStateStore.load()
+      if (cancelled) return
+      applySharedState(snapshot)
+      setSharedStoreReady(true)
+    }
+
+    hydrateSharedState()
+    const unsubscribe = tripStateStore.subscribe((snapshot) => {
+      if (cancelled) return
+      applySharedState(snapshot)
+    })
+
+    return () => {
+      cancelled = true
+      unsubscribe()
+    }
+  }, [tripStateStore])
+
+  useEffect(() => {
+    if (!sharedStoreReady || !tripStateStore.syncEnabled || applyingSharedStateRef.current) return
+
+    tripStateStore.save({
+      assignedPlaceDays,
+      selectedPlaceGroups,
+      customThemeTitles,
+      customItemTitles,
+      theme,
+      bookingVotes,
+      plannerOverrides,
+      plannerOrder,
+    })
+  }, [
+    assignedPlaceDays,
+    bookingVotes,
+    customItemTitles,
+    customThemeTitles,
+    plannerOrder,
+    plannerOverrides,
+    selectedPlaceGroups,
+    sharedStoreReady,
+    theme,
+    tripStateStore,
+  ])
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
