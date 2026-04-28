@@ -298,14 +298,14 @@ describe('Korea trip app v2 concept', () => {
   })
 
   test('step 1 research board yes selections feed step 2 unscheduled items', () => {
-    window.localStorage.setItem('korea-trip-booking-votes', JSON.stringify({ 'hair-perm::SOONSIKI Hair Hongdae': 'yes' }))
+    window.localStorage.setItem('korea-trip-booking-votes', JSON.stringify({ 'hair-perm::Chahong Room Myeongdong': 'yes' }))
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
 
     expect(screen.getByRole('heading', { name: /^step 2: select date$/i })).toBeInTheDocument()
-    expect(screen.getAllByText(/soonsiki hair hongdae/i).length).toBeGreaterThan(0)
-    expect(screen.getByLabelText(/drag soonsiki hair hongdae/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/chahong room myeongdong/i).length).toBeGreaterThan(0)
+    expect(screen.getByLabelText(/drag chahong room myeongdong/i)).toBeInTheDocument()
   })
 
   test('step 1 place item names can be edited and sync into step 2 items', () => {
@@ -335,17 +335,17 @@ describe('Korea trip app v2 concept', () => {
     fireEvent.click(screen.getByRole('button', { name: /open beauty theme/i }))
     const beautyTheme = screen.getByTestId('step-one-theme-beauty')
 
-    fireEvent.click(within(beautyTheme).getByRole('button', { name: /edit item name soonsiki hair hongdae/i }))
-    const nameInput = within(beautyTheme).getByLabelText(/item name for soonsiki hair hongdae/i)
-    fireEvent.change(nameInput, { target: { value: 'SOONSIKI Hair — Hongdae consult' } })
+    fireEvent.click(within(beautyTheme).getByRole('button', { name: /edit item name chahong room myeongdong/i }))
+    const nameInput = within(beautyTheme).getByLabelText(/item name for chahong room myeongdong/i)
+    fireEvent.change(nameInput, { target: { value: 'Chahong Myeongdong — booked perm' } })
     fireEvent.blur(nameInput)
-    fireEvent.click(within(beautyTheme).getByRole('button', { name: /yes to soonsiki hair — hongdae consult/i }))
+    fireEvent.click(within(beautyTheme).getByRole('button', { name: /yes to chahong myeongdong — booked perm/i }))
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
 
-    expect(screen.getAllByText(/soonsiki hair — hongdae consult/i).length).toBeGreaterThan(0)
-    expect(screen.getByLabelText(/drag soonsiki hair — hongdae consult/i)).toBeInTheDocument()
-    expect(window.localStorage.getItem('korea-trip-item-titles')).toContain('SOONSIKI Hair — Hongdae consult')
+    expect(screen.getAllByText(/chahong myeongdong — booked perm/i).length).toBeGreaterThan(0)
+    expect(screen.getByLabelText(/drag chahong myeongdong — booked perm/i)).toBeInTheDocument()
+    expect(window.localStorage.getItem('korea-trip-item-titles')).toContain('Chahong Myeongdong — booked perm')
   })
 
   test('schedule shows one sticky Items rail and no duplicate unscheduled box', () => {
