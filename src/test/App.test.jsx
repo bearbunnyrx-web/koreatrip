@@ -57,9 +57,9 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 3: itinerary$/i })[0])
 
-    expect(screen.getByText(/3 confirmed route stops/i)).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /confirm haus nowhere/i }))
     expect(screen.getByText(/4 confirmed route stops/i)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /confirm haus nowhere/i }))
+    expect(screen.getByText(/5 confirmed route stops/i)).toBeInTheDocument()
   })
 
   test('confirmed items can be moved back out of the itinerary', () => {
@@ -67,9 +67,9 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 3: itinerary$/i })[0])
 
-    expect(screen.getByText(/3 confirmed route stops/i)).toBeInTheDocument()
+    expect(screen.getByText(/4 confirmed route stops/i)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /remove olive young \+ musinsa from itinerary/i }))
-    expect(screen.getByText(/0 confirmed route stops/i)).toBeInTheDocument()
+    expect(screen.getByText(/1 confirmed route stops/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /confirm olive young \+ musinsa/i })).toBeInTheDocument()
   })
 
