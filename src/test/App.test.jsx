@@ -276,6 +276,8 @@ describe('Korea trip app v2 concept', () => {
     expect(within(dessertTheme).getAllByText(/mochibang/i).length).toBeGreaterThan(0)
     expect(within(dessertTheme).getAllByText(/mil toast house/i).length).toBeGreaterThan(0)
     expect(within(dessertTheme).getAllByText(/rafre fruit/i).length).toBeGreaterThan(0)
+    expect(within(dessertTheme).getAllByText(/seochon geumsang goroke/i).length).toBeGreaterThan(0)
+    expect(within(dessertTheme).getByRole('button', { name: /yes to seochon geumsang goroke/i })).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: /open beauty theme/i }))
     const nailSavesTheme = screen.getByTestId('step-one-theme-beauty')
