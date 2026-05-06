@@ -270,6 +270,8 @@ describe('Korea trip app v2 concept', () => {
     expect(within(cafeTheme).getAllByText(/être bake house/i).length).toBeGreaterThan(0)
     expect(within(cafeTheme).getAllByText(/standard bread/i).length).toBeGreaterThan(0)
     expect(within(cafeTheme).getByRole('button', { name: /yes to standard bread/i })).toBeInTheDocument()
+    expect(within(cafeTheme).getAllByText(/ikseon chwihyang/i).length).toBeGreaterThan(0)
+    expect(within(cafeTheme).getByRole('button', { name: /yes to ikseon chwihyang/i })).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: /open food & cafe theme/i }))
     const dessertTheme = screen.getByTestId('step-one-theme-food-cafe')
