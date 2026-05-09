@@ -1530,6 +1530,45 @@ function itineraryDayRelation(day, today = new Date()) {
   return 'future'
 }
 
+function optionSourceUrl(option) {
+  return option.instagramUrl || option.instagram || option.youtube || option.naverUrl || option.kakaoUrl || ''
+}
+
+function optionSourceLabel(option) {
+  if (option.instagramUrl || option.instagram) return 'IG source ↗'
+  if (option.youtube) return 'YouTube ↗'
+  if (option.naverUrl) return 'Naver ↗'
+  if (option.kakaoUrl) return 'Kakao ↗'
+  return 'Source ↗'
+}
+
+function slotForStop(stop) {
+  const time = stop.time.toLowerCase()
+  if (time.includes('morning') || time.includes('before') || /\b0?[6-9]:|\b10:|\b11:/.test(time)) return 'morning'
+  if (time.includes('afternoon') || /\b12:|\b13:|\b14:|\b15:|\b16:/.test(time)) return 'afternoon'
+  if (time.includes('evening') || time.includes('late') || /\b17:|\b18:|\b19:|\b20:|\b21:/.test(time)) return 'evening'
+  return 'afternoon'
+}
+
+function daySlotSummary(day) {
+  const slots = [
+    { key: 'morning', label: 'Morning' },
+    { key: 'afternoon', label: 'Afternoon' },
+    { key: 'evening', label: 'Evening' },
+  ]
+
+  return slots.map((slot) => {
+    const stops = day.stops.filter((stop) => slotForStop(stop) === slot.key)
+    if (!stops.length) return { ...slot, state: 'Open', title: 'empty' }
+    const fixed = stops.find((stop) => ['anchor', 'hotel', 'beauty', 'meal'].includes(stop.type))
+    return {
+      ...slot,
+      state: fixed ? 'Set' : 'Flex',
+      title: '',
+    }
+  })
+}
+
 function stopTypeLabel(type) {
   if (type === 'anchor') return 'hard anchor'
   if (type === 'beauty') return 'beauty'
@@ -1900,6 +1939,8 @@ function App() {
       return {
         ...day,
         weekday: dateObj.toLocaleDateString('en-US', { weekday: 'short' }),
+        slots: daySlotSummary(day),
+        openSlotCount: daySlotSummary(day).filter((slot) => slot.state === 'Open' || slot.state === 'Flex').length,
       }
     })
   }, [])
@@ -2653,10 +2694,11 @@ function App() {
 
           {activeTab === 'places' && (
             <section className="content-screen places-screen compact-schedule-screen">
-              <header className="page-header wide-header stacked-mobile compact-page-header">
+              <h2 className="sr-only">Step 2: Select Date</h2>
+              <header className="page-header wide-header stacked-mobile compact-page-header one-sight-date-header">
                 <div>
-                  <span className="search-type">Assign dates</span>
-                  <h2 className="page-title">Step 2: Select Date</h2>
+                  <span className="search-type">empty windows</span>
+                  <h2 className="page-title">Trip slots at a glance</h2>
                 </div>
                 <span className="chip chip-gold">drag cards</span>
               </header>
@@ -2718,10 +2760,19 @@ function App() {
                             <span>{day.weekday}</span>
                             <strong>{day.date}</strong>
                           </button>
-                          <small>{day.groups.length}</small>
+                          <small>{day.openSlotCount} open/flex</small>
                         </div>
 
                         <div className="schedule-day-items">
+                          <div className="day-slot-strip" aria-label={`${day.date} empty time slots`}>
+                            {day.slots.map((slot) => (
+                              <div className={`day-slot-pill day-slot-${slot.state.toLowerCase()}`} key={`${day.key}-${slot.key}`}>
+                                <span>{slot.label}</span>
+                                <strong>{slot.state}</strong>
+                                {slot.title ? <small>{slot.title}</small> : null}
+                              </div>
+                            ))}
+                          </div>
                           {day.groups.length ? (
                             day.groups.map((group) => (
                               <article
@@ -2749,12 +2800,13 @@ function App() {
 
           {activeTab === 'bookings' && (
             <section className="content-screen compare-screen-v3">
-              <header className="page-header wide-header stacked-mobile compare-page-header glass-card">
+              <h2 className="sr-only">Step 1: Choose Places</h2>
+              <header className="page-header wide-header stacked-mobile compare-page-header glass-card one-sight-options-header">
                 <div>
-                  <span className="search-type">photo-first shortlists</span>
-                  <h2 className="page-title">Step 1: Choose Places</h2>
+                  <span className="search-type">tiny cards</span>
+                  <h2 className="page-title">Options at a glance</h2>
                 </div>
-                <span className="chip chip-gold">yes → step 2</span>
+                <span className="chip chip-gold">source first</span>
               </header>
 
               <div className="step-one-sticky-theme-rail" aria-label="Sticky place theme icons">
@@ -2828,7 +2880,7 @@ function App() {
                             </div>
                           </div>
 
-                          <div className="comparison-card-grid compare-photo-grid step-one-inline-grid">
+                          <div className="one-sight-options-grid" aria-label={`${theme.title} one sight options`}>
                             {theme.comparison.map((option) => {
                               const activeVote = option.sourceType === 'places'
                                 ? selectedPlaceGroups[option.groupKey] ? 'yes' : 'no'
@@ -2837,6 +2889,7 @@ function App() {
                               const displayItemTitle = displayTitleForItem(customItemTitles, itemTitleKey, option.place)
                               const swipeDelta = bookingSwipeDrag.key === itemTitleKey ? bookingSwipeDrag.deltaX : 0
                               const voteStatusLabel = activeVote === 'yes' ? 'Pending ⏳' : activeVote === 'no' ? 'TBD 🔲' : 'TBD 🔲'
+                              const sourceUrl = optionSourceUrl(option)
                               const setOptionVote = (value) => {
                                 if (option.sourceType === 'places') {
                                   setPlaceGroupSelected(option.groupKey, value === 'yes')
@@ -2850,10 +2903,10 @@ function App() {
 
                               return (
                                 <article
-                                  className={`comparison-option-card compare-photo-card swipe-vote-card ${swipeDelta > 20 ? 'swiping-right' : swipeDelta < -20 ? 'swiping-left' : ''}`}
+                                  className={`one-sight-option-card swipe-vote-card ${activeVote === 'yes' ? 'selected' : ''} ${swipeDelta > 20 ? 'swiping-right' : swipeDelta < -20 ? 'swiping-left' : ''}`}
                                   key={`${theme.key}-${itemTitleKey}`}
                                   data-testid={`swipe-card-${option.place}`}
-                                  style={swipeDelta ? { transform: `translateX(${Math.max(-90, Math.min(90, swipeDelta))}px) rotate(${Math.max(-8, Math.min(8, swipeDelta / 14))}deg)` } : undefined}
+                                  style={swipeDelta ? { transform: `translateX(${Math.max(-70, Math.min(70, swipeDelta))}px) rotate(${Math.max(-5, Math.min(5, swipeDelta / 18))}deg)` } : undefined}
                                   onTouchStart={(event) => {
                                     bookingSwipeRef.current[itemTitleKey] = event.changedTouches[0].clientX
                                   }}
@@ -2872,69 +2925,61 @@ function App() {
                                     if (deltaX < -80) setOptionVote('no')
                                   }}
                                 >
-                                  <div className="comparison-image-wrap">
-                                    <img className="comparison-card-thumb" src={option.thumbnail} alt={`${option.place} preview`} loading="lazy" />
-                                    <div className="comparison-image-overlay compact-image-overlay">
-                                      <span>{option.area}</span>
-                                      <small>{option.pricing || option.vibe}</small>
-                                    </div>
+                                  <div className="source-thumb" aria-hidden="true">
+                                    <img src={option.thumbnail} alt="" loading="lazy" />
                                   </div>
-
-                                  <div className="comparison-option-main">
-                                    <div className="comparison-option-header">
+                                  <div className="one-sight-option-main">
+                                    <div className="option-line-top">
                                       <span className={statusClass(voteStatusLabel)}>{voteStatusLabel}</span>
-                                      {editingItemKey === itemTitleKey ? (
-                                        <input
-                                          className="item-title-input"
-                                          aria-label={`Item name for ${option.place}`}
-                                          value={displayItemTitle}
-                                          autoFocus
-                                          onChange={(event) => updateItemTitle(itemTitleKey, event.target.value)}
-                                          onBlur={() => setEditingItemKey('')}
-                                          onKeyDown={(event) => {
-                                            if (event.key === 'Enter') event.currentTarget.blur()
-                                            if (event.key === 'Escape') setEditingItemKey('')
-                                          }}
-                                        />
-                                      ) : (
-                                        <button
-                                          type="button"
-                                          className="editable-item-title"
-                                          aria-label={`Edit item name ${displayItemTitle}`}
-                                          onClick={() => setEditingItemKey(itemTitleKey)}
-                                        >
-                                          {displayItemTitle}
-                                        </button>
-                                      )}
+                                      <span className="source-pill">Source</span>
+                                      {sourceUrl ? <a className="source-link" href={sourceUrl} target="_blank" rel="noreferrer" aria-label={`Open Instagram source for ${displayItemTitle}`}>{optionSourceLabel(option)}</a> : null}
                                     </div>
-                                    <p className="comparison-option-note">{option.note}</p>
-                                    <div className="comparison-option-footer">
-                                      <div className="comparison-links comparison-links-row">
-                                        {option.instagram ? <a href={option.instagram} target="_blank" rel="noreferrer">Instagram</a> : null}
-                                        {option.instagramUrl ? <a href={option.instagramUrl} target="_blank" rel="noreferrer">Instagram</a> : null}
-                                        {option.youtube ? <a href={option.youtube} target="_blank" rel="noreferrer">YouTube</a> : null}
-                                        {option.naverUrl ? <a href={option.naverUrl} target="_blank" rel="noreferrer">Naver</a> : null}
-                                      </div>
-
-                                      <div className="step-one-choice-row inline-choice-row">
-                                        <button
-                                          type="button"
-                                          aria-label={`Yes to ${displayItemTitle}`}
-                                          className={activeVote === 'yes' ? 'active' : ''}
-                                          onClick={() => setOptionVote('yes')}
-                                        >
-                                          Yes
-                                        </button>
-                                        <button
-                                          type="button"
-                                          aria-label={`No to ${displayItemTitle}`}
-                                          className={activeVote !== 'yes' ? 'active' : ''}
-                                          onClick={() => setOptionVote('no')}
-                                        >
-                                          No
-                                        </button>
-                                      </div>
+                                    {editingItemKey === itemTitleKey ? (
+                                      <input
+                                        className="item-title-input"
+                                        aria-label={`Item name for ${option.place}`}
+                                        value={displayItemTitle}
+                                        autoFocus
+                                        onChange={(event) => updateItemTitle(itemTitleKey, event.target.value)}
+                                        onBlur={() => setEditingItemKey('')}
+                                        onKeyDown={(event) => {
+                                          if (event.key === 'Enter') event.currentTarget.blur()
+                                          if (event.key === 'Escape') setEditingItemKey('')
+                                        }}
+                                      />
+                                    ) : (
+                                      <button
+                                        type="button"
+                                        className="editable-item-title compact-option-title"
+                                        aria-label={`Edit item name ${displayItemTitle}`}
+                                        onClick={() => setEditingItemKey(itemTitleKey)}
+                                      >
+                                        {displayItemTitle}
+                                      </button>
+                                    )}
+                                    <div className="one-sight-meta">
+                                      <span>{option.area}</span>
+                                      <span>{option.pricing || option.vibe}</span>
                                     </div>
+                                    <p className="one-sight-note">{option.note}</p>
+                                  </div>
+                                  <div className="step-one-choice-row inline-choice-row compact-choice-row">
+                                    <button
+                                      type="button"
+                                      aria-label={`Yes to ${displayItemTitle}`}
+                                      className={activeVote === 'yes' ? 'active' : ''}
+                                      onClick={() => setOptionVote('yes')}
+                                    >
+                                      Yes
+                                    </button>
+                                    <button
+                                      type="button"
+                                      aria-label={`No to ${displayItemTitle}`}
+                                      className={activeVote !== 'yes' ? 'active' : ''}
+                                      onClick={() => setOptionVote('no')}
+                                    >
+                                      No
+                                    </button>
                                   </div>
                                 </article>
                               )

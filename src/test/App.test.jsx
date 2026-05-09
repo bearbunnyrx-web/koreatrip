@@ -48,6 +48,32 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('heading', { name: /^step 1: choose places$/i })).toBeInTheDocument()
   })
 
+  test('step 1 opens as a dense one-sight options board with source-first cards', () => {
+    const { container } = render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+
+    expect(screen.getByRole('heading', { name: /options at a glance/i })).toBeInTheDocument()
+    expect(screen.getByText(/tiny cards/i)).toBeInTheDocument()
+    expect(container.querySelector('.one-sight-options-grid')).toBeInTheDocument()
+    expect(container.querySelector('.comparison-image-wrap')).not.toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: /open instagram source/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/source/i).length).toBeGreaterThan(0)
+  })
+
+  test('step 2 shows a one-sight trip slots board with open time windows', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 2: select date$/i })[0])
+
+    expect(screen.getByRole('heading', { name: /trip slots at a glance/i })).toBeInTheDocument()
+    expect(screen.getByText(/empty windows/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/morning/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/afternoon/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/evening/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/open|flex|set/i).length).toBeGreaterThan(5)
+  })
+
   test('step 1 cards can be swiped right for yes and show status chips', () => {
     render(<App />)
 
