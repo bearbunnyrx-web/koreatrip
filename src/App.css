@@ -78,7 +78,7 @@ a {
 
 .app-shell {
   min-height: 100vh;
-  padding: 24px 24px 32px;
+  padding: 24px 24px 104px;
 }
 
 .planner-frame {
@@ -280,6 +280,65 @@ a {
 
 .content-screen {
   animation: fadeIn 180ms ease;
+}
+
+.trip-countdown-card {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding: 18px;
+  border-radius: 28px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255, 236, 225, 0.92), rgba(244, 231, 255, 0.86)), var(--card);
+}
+
+.trip-countdown-card span,
+.trip-countdown-card small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.trip-countdown-card strong {
+  font-size: clamp(1.45rem, 4vw, 2.35rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+:root[data-theme='dark'] .trip-countdown-card {
+  background: linear-gradient(135deg, rgba(110, 65, 76, 0.38), rgba(49, 61, 86, 0.44)), var(--card);
+}
+
+.day-chip.today {
+  outline: 2px solid color-mix(in srgb, var(--nav-active) 70%, white);
+  outline-offset: 2px;
+}
+
+.day-chip.past {
+  opacity: 0.62;
+}
+
+.itinerary-day-today .itinerary-header-card {
+  border-color: color-mix(in srgb, var(--nav-active) 55%, var(--border));
+  box-shadow: 0 18px 42px rgba(124, 91, 166, 0.18);
+}
+
+.swipe-vote-card {
+  touch-action: pan-y;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.swipe-vote-card.swiping-right {
+  border-color: rgba(73, 155, 101, 0.6);
+  box-shadow: 0 18px 36px rgba(73, 155, 101, 0.16);
+}
+
+.swipe-vote-card.swiping-left {
+  border-color: rgba(194, 82, 82, 0.56);
+  box-shadow: 0 18px 36px rgba(194, 82, 82, 0.14);
 }
 
 @keyframes fadeIn {
@@ -1712,7 +1771,38 @@ a {
 }
 
 .mobile-bottom-nav {
-  display: none;
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  z-index: 60;
+  display: grid;
+  width: min(520px, calc(100% - 24px));
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 10px;
+  border-radius: 24px;
+  background: var(--bottom-nav);
+  border: 1px solid var(--bottom-nav-border);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(18px);
+  transform: translateX(-50%);
+}
+
+.mobile-tab {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  align-items: center;
+  padding: 10px 6px;
+  border-radius: 18px;
+  background: transparent;
+  color: var(--text);
+}
+
+.mobile-tab-icon {
+  font-size: 17px;
+  line-height: 1;
+  font-weight: 900;
 }
 
 @media (max-width: 1200px) {
@@ -1754,6 +1844,8 @@ a {
     bottom: 12px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    width: auto;
+    transform: none;
     gap: 8px;
     padding: 10px;
     border-radius: 24px;

@@ -1,14 +1,37 @@
 import './App.css'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import BottomNav from './components/BottomNav'
 import { createSupabaseClient } from './lib/supabaseClient'
 import { createTripStateStore } from './lib/tripStateStore'
 
 const tabs = ['home', 'bookings', 'places', 'itinerary']
 const tabMeta = {
-  home: { label: 'Home', short: 'H', helper: 'search + trip overview' },
-  bookings: { label: 'Step 1: Choose Places', short: '1', helper: 'choose places' },
-  places: { label: 'Step 2: Select Date', short: '2', helper: 'assign dates' },
-  itinerary: { label: 'Step 3: Itinerary', short: '3', helper: 'final route' },
+  home: { label: 'Home', navLabel: 'Home', icon: '⌂', short: 'H', helper: 'search + trip overview' },
+  bookings: { label: 'Step 1: Choose Places', navLabel: 'Choose', icon: '♡', short: '1', helper: 'choose places' },
+  places: { label: 'Step 2: Select Date', navLabel: 'Date', icon: '◇', short: '2', helper: 'assign dates' },
+  itinerary: { label: 'Step 3: Itinerary', navLabel: 'Itinerary', icon: '☑', short: '3', helper: 'final route' },
+}
+const TRIP_START = new Date('2026-05-16T00:00:00')
+const TRIP_END = new Date('2026-05-27T23:59:59')
+const DAY_MS = 1000 * 60 * 60 * 24
+
+function tripCountdownLabel(today = new Date()) {
+  const current = new Date(today)
+  const dayStart = new Date(current.getFullYear(), current.getMonth(), current.getDate())
+  const tripStart = new Date(TRIP_START.getFullYear(), TRIP_START.getMonth(), TRIP_START.getDate())
+  const tripEnd = new Date(TRIP_END.getFullYear(), TRIP_END.getMonth(), TRIP_END.getDate())
+
+  if (dayStart < tripStart) {
+    const daysUntil = Math.ceil((tripStart.getTime() - dayStart.getTime()) / DAY_MS)
+    return `${daysUntil} days until Korea 🇰🇷`
+  }
+
+  if (dayStart <= tripEnd) {
+    const tripDay = Math.floor((dayStart.getTime() - tripStart.getTime()) / DAY_MS) + 1
+    return `Day ${tripDay} of Korea trip 🇰🇷`
+  }
+
+  return 'Back home — great trip! 🏠'
 }
 const bookingVoteOptions = [
   { value: 'yes', label: 'Yes', savedLabel: 'Yes' },
@@ -1333,6 +1356,7 @@ function buildPlannerItems(day) {
     time: stop.time,
     title: stop.title,
     note: stop.type === 'anchor' || stop.type === 'hotel' ? 'Fixed anchor' : stop.type === 'transit' ? 'Transit / keep flexible' : 'Candidate → confirm',
+    status: stop.status || day.status || (stop.type === 'anchor' || stop.type === 'hotel' ? 'confirmed anchor' : 'TBD'),
     type: stop.type === 'anchor' || stop.type === 'hotel' || stop.type === 'meal' ? 'confirmed' : 'candidate',
     targetNames: day.mapTargets
       .filter((target) => normalizeToken(stop.title).includes(normalizeToken(target.name).split(' ')[0]))
@@ -1348,6 +1372,7 @@ function buildAssignedPlaceItems(dayKey, assignments, groups = placeGroups) {
       time: 'Flex',
       title: group.title,
       note: `Assigned from Schedule · ${group.area}`,
+      status: group.status || 'TBD',
       type: 'candidate',
       targetNames: group.mapTargets.map((target) => target.name),
     }))
@@ -1482,6 +1507,27 @@ function statusClass(value) {
   if (lower.includes('research') || lower.includes('pending') || lower.includes('confirm')) return 'chip chip-gold'
   if (lower.includes('travel') || lower.includes('set') || lower.includes('anchor')) return 'chip chip-sage'
   return 'chip chip-mist'
+}
+
+function statusChipLabel(value = '') {
+  const lower = value.toLowerCase()
+  if (lower.includes('booked') || lower.includes('confirmed') || lower.includes('set') || lower.includes('anchor')) return 'Confirmed ✅'
+  if (lower.includes('pending') || lower.includes('research') || lower.includes('confirm') || lower.includes('shortlist')) return 'Pending ⏳'
+  return 'TBD 🔲'
+}
+
+function dateKeyForToday(today = new Date()) {
+  const month = today.toLocaleString('en-US', { month: 'short' }).toLowerCase()
+  return `${month}-${today.getDate()}`
+}
+
+function itineraryDayRelation(day, today = new Date()) {
+  const dayNumber = Number(day.key.split('-')[1])
+  const dayDate = new Date(2026, 4, dayNumber)
+  const current = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  if (dayDate.toDateString() === current.toDateString()) return 'today'
+  if (dayDate < current) return 'past'
+  return 'future'
 }
 
 function stopTypeLabel(type) {
@@ -1637,6 +1683,8 @@ function App() {
   }))
   const mapCanvasRef = useRef(null)
   const swipeStartRef = useRef({})
+  const bookingSwipeRef = useRef({})
+  const [bookingSwipeDrag, setBookingSwipeDrag] = useState({ key: '', deltaX: 0 })
   const applyingSharedStateRef = useRef(false)
 
   function toggleBookingVote(boardKey, place, vote) {
@@ -1773,6 +1821,19 @@ function App() {
     () => itineraryDays.find((day) => day.key === selectedDayKey) ?? itineraryDays[0],
     [selectedDayKey],
   )
+  const todayDayKey = useMemo(() => dateKeyForToday(new Date()), [])
+  const todayItineraryDay = useMemo(
+    () => itineraryDays.find((day) => day.key === todayDayKey),
+    [todayDayKey],
+  )
+
+  useEffect(() => {
+    if (activeTab !== 'itinerary' || !todayItineraryDay) return
+    setSelectedDayKey(todayItineraryDay.key)
+    window.requestAnimationFrame(() => {
+      document.getElementById(`day-${todayItineraryDay.key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }, [activeTab, todayItineraryDay])
 
   const selectedDayPlanner = useMemo(() => {
     const selectedResearchScheduleGroups = buildSelectedResearchScheduleGroups(bookingVotes, customItemTitles)
@@ -2376,6 +2437,12 @@ function App() {
         <main className="content-shell">
           {activeTab === 'home' && (
             <section className="content-screen search-home-screen">
+              <div className="trip-countdown-card glass-card" aria-label="Trip countdown">
+                <span>Korea countdown</span>
+                <strong>{tripCountdownLabel()}</strong>
+                <small>May 16–27, 2026</small>
+              </div>
+
               <div className="search-hero-card glass-card">
                 <div className="search-hero-overlay">
                   <div className="search-hero-copy-block">
@@ -2439,7 +2506,10 @@ function App() {
           )}
 
           {activeTab === 'itinerary' && (
-            <section className="content-screen map-planner-screen">
+            <section
+              id={`day-${selectedDay.key}`}
+              className={`content-screen map-planner-screen itinerary-day-${itineraryDayRelation(selectedDay)}`}
+            >
               <header className="page-header wide-header stacked-mobile itinerary-header-card glass-card">
                 <div>
                   <span className="search-type">Final day plan</span>
@@ -2453,7 +2523,7 @@ function App() {
                   <button
                     key={day.key}
                     aria-label={day.date}
-                    className={selectedDay.key === day.key ? 'day-chip compact-date-chip active' : 'day-chip compact-date-chip'}
+                    className={`${selectedDay.key === day.key ? 'day-chip compact-date-chip active' : 'day-chip compact-date-chip'} ${day.key === todayDayKey ? 'today' : ''} ${itineraryDayRelation(day)}`.trim()}
                     onClick={() => setSelectedDayKey(day.key)}
                   >
                     <span className="day-chip-weekday">{day.weekday}</span>
@@ -2542,6 +2612,7 @@ function App() {
                           <>
                             <div className="planner-card planner-card-candidate">
                               <span className="planner-state-label">No</span>
+                              <span className={statusClass(item.status || 'TBD')}>{statusChipLabel(item.status)}</span>
                               <h4>{item.title}</h4>
                               <p>{item.note}</p>
                             </div>
@@ -2558,6 +2629,7 @@ function App() {
                           <>
                             <div className="planner-card planner-card-confirmed">
                               <span className="planner-state-label">Yes</span>
+                              <span className={statusClass(item.status || 'confirmed')}>{statusChipLabel(item.status || 'confirmed')}</span>
                               <h4>{item.title}</h4>
                               <p>{item.note}</p>
                               {item.targetNames.length ? <small>{item.targetNames.length} mapped stop{item.targetNames.length > 1 ? 's' : ''}</small> : null}
@@ -2763,6 +2835,8 @@ function App() {
                                 : bookingVotes[`${option.sourceThemeKey}::${option.place}`] || 'no'
                               const itemTitleKey = itemTitleKeyForStepOneOption(option)
                               const displayItemTitle = displayTitleForItem(customItemTitles, itemTitleKey, option.place)
+                              const swipeDelta = bookingSwipeDrag.key === itemTitleKey ? bookingSwipeDrag.deltaX : 0
+                              const voteStatusLabel = activeVote === 'yes' ? 'Pending ⏳' : activeVote === 'no' ? 'TBD 🔲' : 'TBD 🔲'
                               const setOptionVote = (value) => {
                                 if (option.sourceType === 'places') {
                                   setPlaceGroupSelected(option.groupKey, value === 'yes')
@@ -2775,7 +2849,29 @@ function App() {
                               }
 
                               return (
-                                <article className="comparison-option-card compare-photo-card" key={`${theme.key}-${itemTitleKey}`}>
+                                <article
+                                  className={`comparison-option-card compare-photo-card swipe-vote-card ${swipeDelta > 20 ? 'swiping-right' : swipeDelta < -20 ? 'swiping-left' : ''}`}
+                                  key={`${theme.key}-${itemTitleKey}`}
+                                  data-testid={`swipe-card-${option.place}`}
+                                  style={swipeDelta ? { transform: `translateX(${Math.max(-90, Math.min(90, swipeDelta))}px) rotate(${Math.max(-8, Math.min(8, swipeDelta / 14))}deg)` } : undefined}
+                                  onTouchStart={(event) => {
+                                    bookingSwipeRef.current[itemTitleKey] = event.changedTouches[0].clientX
+                                  }}
+                                  onTouchMove={(event) => {
+                                    const startX = bookingSwipeRef.current[itemTitleKey]
+                                    if (typeof startX !== 'number') return
+                                    setBookingSwipeDrag({ key: itemTitleKey, deltaX: event.changedTouches[0].clientX - startX })
+                                  }}
+                                  onTouchEnd={(event) => {
+                                    const startX = bookingSwipeRef.current[itemTitleKey]
+                                    delete bookingSwipeRef.current[itemTitleKey]
+                                    setBookingSwipeDrag({ key: '', deltaX: 0 })
+                                    if (typeof startX !== 'number') return
+                                    const deltaX = event.changedTouches[0].clientX - startX
+                                    if (deltaX > 80) setOptionVote('yes')
+                                    if (deltaX < -80) setOptionVote('no')
+                                  }}
+                                >
                                   <div className="comparison-image-wrap">
                                     <img className="comparison-card-thumb" src={option.thumbnail} alt={`${option.place} preview`} loading="lazy" />
                                     <div className="comparison-image-overlay compact-image-overlay">
@@ -2786,6 +2882,7 @@ function App() {
 
                                   <div className="comparison-option-main">
                                     <div className="comparison-option-header">
+                                      <span className={statusClass(voteStatusLabel)}>{voteStatusLabel}</span>
                                       {editingItemKey === itemTitleKey ? (
                                         <input
                                           className="item-title-input"
@@ -2893,19 +2990,10 @@ function App() {
         </main>
       </div>
 
-      <nav className="mobile-bottom-nav">
-        {tabs.map((tab) => {
-          const tabLabel = tabMeta[tab].label
-          return (
-          <button key={tab} aria-label={tabLabel} className={activeTab === tab ? 'mobile-tab active' : 'mobile-tab'} onClick={() => setActiveTab(tab)}>
-            <span>{tabMeta[tab].short}</span>
-            <small>{tabLabel}</small>
-          </button>
-        )})}
-      </nav>
+      <BottomNav tabs={tabs} tabMeta={tabMeta} activeTab={activeTab} onSelect={setActiveTab} />
     </div>
   )
 }
 
-export { reorderPlannerItems }
+export { reorderPlannerItems, tripCountdownLabel }
 export default App

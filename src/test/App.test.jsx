@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
-import { beforeEach, describe, expect, test } from 'vitest'
-import App, { reorderPlannerItems } from '../App'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import App, { reorderPlannerItems, tripCountdownLabel } from '../App'
 
 function buildDataTransfer() {
   const store = {}
@@ -16,6 +16,73 @@ function buildDataTransfer() {
 describe('Korea trip app v2 concept', () => {
   beforeEach(() => {
     window.localStorage.clear()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  test('home shows a trip countdown banner before the search hero', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-05-09T12:00:00'))
+
+    const { container } = render(<App />)
+
+    expect(screen.getByText(/7 days until Korea 🇰🇷/i)).toBeInTheDocument()
+    expect(tripCountdownLabel(new Date('2026-05-16T12:00:00'))).toBe('Day 1 of Korea trip 🇰🇷')
+    expect(tripCountdownLabel(new Date('2026-05-28T12:00:00'))).toBe('Back home — great trip! 🏠')
+    expect(container.querySelector('.search-home-screen')?.firstElementChild).toHaveClass('trip-countdown-card')
+  })
+
+  test('bottom navigation is fixed with short Home Choose Date Itinerary labels and switches tabs', () => {
+    const { container } = render(<App />)
+    const bottomNav = container.querySelector('.mobile-bottom-nav')
+
+    expect(bottomNav).toBeInTheDocument()
+    expect(within(bottomNav).getByText('Home')).toBeInTheDocument()
+    expect(within(bottomNav).getByText('Choose')).toBeInTheDocument()
+    expect(within(bottomNav).getByText('Date')).toBeInTheDocument()
+    expect(within(bottomNav).getByText('Itinerary')).toBeInTheDocument()
+
+    fireEvent.click(within(bottomNav).getByRole('button', { name: /step 1: choose places/i }))
+    expect(screen.getByRole('heading', { name: /^step 1: choose places$/i })).toBeInTheDocument()
+  })
+
+  test('step 1 cards can be swiped right for yes and show status chips', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 1: choose places$/i })[0])
+    fireEvent.click(screen.getByRole('button', { name: /open beauty theme/i }))
+
+    const beautyTheme = screen.getByTestId('step-one-theme-beauty')
+    const card = within(beautyTheme).getByTestId('swipe-card-Chahong Room Myeongdong')
+    expect(within(card).getAllByText(/tbd|pending|confirmed/i).length).toBeGreaterThan(0)
+
+    fireEvent.touchStart(card, { changedTouches: [{ clientX: 10 }], touches: [{ clientX: 10 }] })
+    fireEvent.touchEnd(card, { changedTouches: [{ clientX: 140 }] })
+
+    expect(window.localStorage.getItem('korea-trip-booking-votes')).toContain('Chahong Room Myeongdong')
+    expect(window.localStorage.getItem('korea-trip-booking-votes')).toContain('yes')
+  })
+
+  test('itinerary marks today, renders stop status chips, and persists drag reorder', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-05-17T12:00:00'))
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^step 3: itinerary$/i })[0])
+
+    expect(screen.getByRole('button', { name: /may 17/i })).toHaveClass('today')
+    expect(screen.getAllByText(/confirmed ✅|pending ⏳|tbd 🔲/i).length).toBeGreaterThan(0)
+
+    const dinner = screen.getByText('Donghwa Gook parent dinner target').closest('article')
+    const oliveYoung = screen.getByText('Olive Young + Musinsa').closest('article')
+    const dataTransfer = buildDataTransfer()
+    fireEvent.dragStart(dinner, { dataTransfer })
+    fireEvent.dragOver(oliveYoung, { dataTransfer })
+    fireEvent.drop(oliveYoung, { dataTransfer })
+
+    expect(window.localStorage.getItem('korea-trip-planner-order')).toContain('dinner')
   })
 
   test('renders the redesigned home screen with cleaned chrome and soft search', () => {
