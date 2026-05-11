@@ -34,18 +34,40 @@ describe('Korea trip app v2 concept', () => {
     expect(container.querySelector('.search-home-screen')?.firstElementChild).toHaveClass('trip-countdown-card')
   })
 
-  test('bottom navigation is fixed with short Home Choose Date Itinerary labels and switches tabs', () => {
+  test('bottom navigation is fixed with short Home Choose Derm Date Itinerary labels and switches tabs', () => {
     const { container } = render(<App />)
     const bottomNav = container.querySelector('.mobile-bottom-nav')
 
     expect(bottomNav).toBeInTheDocument()
     expect(within(bottomNav).getByText('Home')).toBeInTheDocument()
     expect(within(bottomNav).getByText('Choose')).toBeInTheDocument()
+    expect(within(bottomNav).getByText('Derm')).toBeInTheDocument()
     expect(within(bottomNav).getByText('Date')).toBeInTheDocument()
     expect(within(bottomNav).getByText('Itinerary')).toBeInTheDocument()
 
     fireEvent.click(within(bottomNav).getByRole('button', { name: /step 1: choose places/i }))
     expect(screen.getByRole('heading', { name: /^step 1: choose places$/i })).toBeInTheDocument()
+  })
+
+  test('derm tab compares Korean 피부과 procedures for early 30s', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /derm procedures/i })[0])
+
+    expect(screen.getByRole('heading', { name: /korean derm procedure guide/i })).toBeInTheDocument()
+    expect(screen.getAllByText(/early 30s/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/small nodules underneath the eyes/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/비립종 제거|한관종/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/unbalanced facial color/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/pico toning|피코토닝/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/double chin/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/inmode|인모드/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/mole removal/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/co2 laser|CO2 레이저/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/general skin tone/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/pricing/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/pain/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/downtime/i).length).toBeGreaterThan(0)
   })
 
   test('step 1 opens as a dense one-sight options board with source-first cards', () => {

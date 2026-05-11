@@ -4,10 +4,11 @@ import BottomNav from './components/BottomNav'
 import { createSupabaseClient } from './lib/supabaseClient'
 import { createTripStateStore } from './lib/tripStateStore'
 
-const tabs = ['home', 'bookings', 'places', 'itinerary']
+const tabs = ['home', 'bookings', 'derm', 'places', 'itinerary']
 const tabMeta = {
   home: { label: 'Home', navLabel: 'Home', icon: '⌂', short: 'H', helper: 'search + trip overview' },
   bookings: { label: 'Step 1: Choose Places', navLabel: 'Choose', icon: '♡', short: '1', helper: 'choose places' },
+  derm: { label: 'Derm Procedures', navLabel: 'Derm', icon: 'D', short: 'D', helper: 'skin procedure guide' },
   places: { label: 'Step 2: Select Date', navLabel: 'Date', icon: '◇', short: '2', helper: 'assign dates' },
   itinerary: { label: 'Step 3: Itinerary', navLabel: 'Itinerary', icon: '☑', short: '3', helper: 'final route' },
 }
@@ -38,6 +39,63 @@ const bookingVoteOptions = [
   { value: 'no', label: 'No', savedLabel: 'No' },
 ]
 const plannerFilters = ['all', 'candidates', 'confirmed']
+const dermProcedures = [
+  {
+    goal: 'Small nodules underneath the eyes',
+    korean: '눈밑 작은 돌기: 비립종 / 한관종 / 눈밑지방 감별',
+    bestFor: 'Tiny white bumps, syringoma-like bumps, or under-eye fat bags that need diagnosis first.',
+    options: '비립종 제거, CO2 / Er:YAG laser, Agnes RF / needle RF, oculoplastic consult if it is fat repositioning.',
+    howItWorks: 'Extraction opens milia; ablative laser or RF targets raised/glandular lesions. Fat bags are surgical, not a toner issue.',
+    pricing: 'Usually ₩10k–50k per simple milia / mole-like lesion; syringoma RF or laser often ₩100k–500k+ per session depending on count.',
+    pain: 'Low–moderate with numbing cream; under-eye RF/laser can sting.',
+    downtime: 'Tiny scabs/redness 3–10 days; pigment control and sunscreen matter.',
+    ask: '“이게 비립종인지 한관종인지, 아니면 눈밑지방인지 먼저 진단해 주세요.”',
+  },
+  {
+    goal: 'Unbalanced facial color',
+    korean: '얼굴톤 불균형: 잡티 / 기미 / 홍조 / 여드름자국 구분',
+    bestFor: 'Brown spots, redness, post-acne marks, dullness, or mixed uneven tone.',
+    options: '피코토닝 / pico toning, laser toning, IPL / BBL, Excel V / V-beam for redness, LDM as calming support.',
+    howItWorks: 'Pigment lasers fragment melanin; vascular lasers target redness; IPL/BBL broadly treats brown + red but must be cautious with melasma.',
+    pricing: 'Commonly ₩80k–300k per toning/IPL session; Excel V/V-beam often ₩150k–500k depending on area and clinic.',
+    pain: 'Low–moderate: snapping heat for IPL/laser, vascular lasers can sting more.',
+    downtime: 'Usually none to 3 days for toning; IPL/BBL spots may darken/flake 3–7 days; vascular redness/bruising can last longer.',
+    ask: '“기미인지 잡티인지 홍조인지 구분해서 레이저를 추천해 주세요.”',
+  },
+  {
+    goal: 'Double chin',
+    korean: '이중턱: 지방 vs 피부처짐 vs 턱선 구조 감별',
+    bestFor: 'Submental fullness, softer jawline, mild laxity, or true fat pocket.',
+    options: '인모드 FX/Forma, 슈링크 / 리프테라 / 울쎄라, 윤곽주사 / 지방분해주사, 턱밑 지방흡입 consult for stronger fat removal.',
+    howItWorks: 'RF/ultrasound heats fat and collagen layers for contouring/tightening; injections dissolve small fat pads; liposuction physically removes fat.',
+    pricing: 'InMode/Shurink-style sessions often ₩100k–500k; Ulthera higher ₩500k–1.5M+; injections often ₩50k–300k/session; lipo much higher.',
+    pain: 'Moderate for RF/ultrasound heat; injections are quick pinches; liposuction requires procedural anesthesia/recovery.',
+    downtime: 'InMode can bruise/swell 2–7 days; lifting minimal to a few days; injections swell 2–5 days; lipo 1–2+ weeks.',
+    ask: '“제 이중턱이 지방인지, 피부 처짐인지, 턱선 구조 문제인지 먼저 봐주세요.”',
+  },
+  {
+    goal: 'Mole removal',
+    korean: '점 제거: CO2 레이저 전 더마스코피 확인',
+    bestFor: 'Small benign moles, raised benign spots, and cosmetic spot cleanup.',
+    options: 'CO2 laser mole removal, Er:YAG laser for superficial lesions, excision / biopsy if suspicious.',
+    howItWorks: 'Ablative lasers shave/vaporize benign mole tissue layer by layer; suspicious changing moles should be excised and sent for pathology.',
+    pricing: 'Often ₩10k–50k per small mole; larger/deeper lesions or excision/biopsy cost more.',
+    pain: 'Low with numbing injection/cream; brief burning smell and pinpoint discomfort.',
+    downtime: 'Scab/oozing care 5–10 days; redness can linger weeks; strict sunscreen/tape care reduces PIH.',
+    ask: '“점 제거 전에 악성 가능성 없는지 더마스코피로 봐주세요.”',
+  },
+  {
+    goal: 'General skin tone',
+    korean: '전체 피부톤 / 결 / 광채 관리',
+    bestFor: 'Early-30s prevention, glow, pores/texture, fine lines, and maintenance tone.',
+    options: 'Pico/laser toning, Rejuran / 리쥬란, Juvelook / 쥬베룩, 물광주사, Potenza/Secret RF/Fraxel for pores/scars, Aqua peel/Lhala peel for light maintenance.',
+    howItWorks: 'Toning improves pigment uniformity; boosters hydrate or stimulate collagen; microneedle RF/fractional lasers remodel texture.',
+    pricing: 'Light peels ₩50k–150k; toning ₩80k–300k; boosters often ₩200k–700k+; RF/fractional lasers vary widely ₩200k–800k+.',
+    pain: 'Low for toning/peels; moderate for boosters and needle RF even with numbing.',
+    downtime: 'Toning/peels 0–2 days; boosters swelling/bumps 1–3 days; RF/fraxel redness/roughness 3–7+ days.',
+    ask: '“다운타임 적은 순서와 효과 좋은 순서로 옵션을 나눠서 설명해 주세요.”',
+  },
+]
 const KAKAO_JS_KEY = import.meta.env.VITE_KAKAO_JS_KEY
 
 function mapTarget(name, reason, options = {}) {
@@ -2519,6 +2577,7 @@ function App() {
 
                   <div className="search-home-chip-row">
                     <button className="hero-pill" onClick={() => setActiveTab('bookings')}>Step 1: Choose Places</button>
+                    <button className="hero-pill" onClick={() => setActiveTab('derm')}>Derm Procedures</button>
                     <button className="hero-pill" onClick={() => setActiveTab('places')}>Step 2: Select Date</button>
                     <button className="hero-pill" onClick={() => setActiveTab('itinerary')}>Step 3: Itinerary</button>
                   </div>
@@ -2795,6 +2854,77 @@ function App() {
                   </div>
                 </div>
               </section>
+            </section>
+          )}
+
+          {activeTab === 'derm' && (
+            <section className="content-screen derm-screen">
+              <header className="page-header wide-header stacked-mobile derm-page-header glass-card">
+                <div>
+                  <span className="search-type">피부과 consult prep</span>
+                  <h2 className="page-title">Korean derm procedure guide</h2>
+                  <p>실제 한국 피부과 상담에서 물어볼 만한 early 30s procedure shortlist — how it works, pricing, pain, and downtime.</p>
+                </div>
+                <span className="chip chip-gold">early 30s</span>
+              </header>
+
+              <div className="derm-summary-grid">
+                <article className="glass-card derm-summary-card">
+                  <span>Strategy</span>
+                  <strong>Diagnose first, package second</strong>
+                  <p>Ask whether each issue is pigment, vascular redness, fat, laxity, or a benign lesion before buying bundled lasers.</p>
+                </article>
+                <article className="glass-card derm-summary-card">
+                  <span>Trip timing</span>
+                  <strong>Do scabby treatments early</strong>
+                  <p>Mole removal and under-eye lesion laser should happen away from photos/events; toning and LDM are easier maintenance options.</p>
+                </article>
+                <article className="glass-card derm-summary-card">
+                  <span>Safety</span>
+                  <strong>Suspicious moles need dermoscopy</strong>
+                  <p>Do not laser changing, asymmetric, or irregular dark lesions without derm evaluation and possible biopsy.</p>
+                </article>
+              </div>
+
+              <div className="derm-procedure-grid" aria-label="Derm procedure comparison cards">
+                {dermProcedures.map((procedure) => (
+                  <article className="glass-card derm-procedure-card" key={procedure.goal}>
+                    <div className="derm-card-head">
+                      <div>
+                        <span className="search-type">{procedure.korean}</span>
+                        <h3>{procedure.goal}</h3>
+                      </div>
+                    </div>
+                    <p className="derm-best-for">{procedure.bestFor}</p>
+                    <div className="derm-option-strip">
+                      <span>Recommended options</span>
+                      <strong>{procedure.options}</strong>
+                    </div>
+                    <dl className="derm-compare-list">
+                      <div>
+                        <dt>How it works</dt>
+                        <dd>{procedure.howItWorks}</dd>
+                      </div>
+                      <div>
+                        <dt>Pricing</dt>
+                        <dd>{procedure.pricing}</dd>
+                      </div>
+                      <div>
+                        <dt>Pain</dt>
+                        <dd>{procedure.pain}</dd>
+                      </div>
+                      <div>
+                        <dt>Downtime</dt>
+                        <dd>{procedure.downtime}</dd>
+                      </div>
+                    </dl>
+                    <div className="derm-ask-box">
+                      <span>Ask in Korean</span>
+                      <p>{procedure.ask}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </section>
           )}
 

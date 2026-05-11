@@ -3212,3 +3212,143 @@ a {
     width: 38px;
   }
 }
+
+
+.derm-screen {
+  display: grid;
+  gap: 16px;
+}
+
+.derm-page-header {
+  padding: 18px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 182, 193, 0.22), transparent 34%),
+    var(--card);
+}
+
+.derm-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.derm-summary-card,
+.derm-procedure-card {
+  border-radius: 24px;
+  padding: 16px;
+}
+
+.derm-summary-card {
+  display: grid;
+  gap: 8px;
+}
+
+.derm-summary-card span,
+.derm-option-strip span,
+.derm-ask-box span,
+.derm-compare-list dt {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.derm-summary-card strong {
+  font-size: 1.02rem;
+  line-height: 1.15;
+}
+
+.derm-summary-card p,
+.derm-best-for,
+.derm-ask-box p,
+.derm-compare-list dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.derm-procedure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.derm-procedure-card {
+  display: grid;
+  gap: 14px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--card-strong) 90%, transparent), color-mix(in srgb, var(--card-soft) 72%, transparent));
+}
+
+.derm-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.derm-card-head h3 {
+  margin: 6px 0 0;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.derm-option-strip {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card-strong);
+}
+
+.derm-option-strip strong {
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.derm-compare-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.derm-compare-list div {
+  display: grid;
+  gap: 5px;
+  padding: 11px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--card-strong) 82%, transparent);
+}
+
+.derm-ask-box {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(127, 110, 96, 0.12);
+}
+
+@media (max-width: 960px) {
+  .derm-summary-grid,
+  .derm-procedure-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .derm-compare-list {
+    grid-template-columns: 1fr;
+  }
+
+  .derm-summary-card,
+  .derm-procedure-card {
+    padding: 14px;
+  }
+}
