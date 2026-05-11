@@ -31,7 +31,7 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/7 days until Korea 🇰🇷/i)).toBeInTheDocument()
     expect(tripCountdownLabel(new Date('2026-05-16T12:00:00'))).toBe('Day 1 of Korea trip 🇰🇷')
     expect(tripCountdownLabel(new Date('2026-05-28T12:00:00'))).toBe('Back home — great trip! 🏠')
-    expect(container.querySelector('.search-home-screen')?.firstElementChild).toHaveClass('trip-countdown-card')
+    expect(container.querySelector('.map-first-home-screen')?.firstElementChild).toHaveClass('home-map-surface')
   })
 
   test('bottom navigation is fixed with short Home Choose Derm Date Itinerary labels and switches tabs', () => {
@@ -147,18 +147,25 @@ describe('Korea trip app v2 concept', () => {
     expect(window.localStorage.getItem('korea-trip-planner-order')).toContain('dinner')
   })
 
-  test('renders the redesigned home screen with cleaned chrome and soft search', () => {
+  test('home is a map-first view with date strip, route markers, and marker drawer actions', () => {
     const { container } = render(<App />)
 
-    expect(screen.getByRole('heading', { name: /search the trip/i })).toBeInTheDocument()
-    expect(screen.getByText(/seoul & jeju beauty trip in may/i)).toBeInTheDocument()
-    expect(screen.getByText(/city of k-beauty & culture/i)).toBeInTheDocument()
-    expect(screen.getByText(/island of nature & healing/i)).toBeInTheDocument()
-    expect(screen.getByPlaceholderText(/search seongsu, jamsil, reone, headspa, jeju/i)).toBeInTheDocument()
-    expect(screen.queryByText(/sj \+ th • korea • may 15–26/i)).not.toBeInTheDocument()
-    expect(screen.queryByText(/suggested flow/i)).not.toBeInTheDocument()
-    expect(screen.queryByText(/compare → schedule → itinerary/i)).not.toBeInTheDocument()
-    expect(container.querySelector('.hero-search-card.search-card')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /sj korea map/i })).toBeInTheDocument()
+    expect(screen.getByText(/may 17 · seongsu beauty/i)).toBeInTheDocument()
+    expect(container.querySelector('.map-first-home-screen')).toBeInTheDocument()
+    expect(container.querySelector('.map-first-date-strip')).toBeInTheDocument()
+    expect(container.querySelector('.home-map-route-layer')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /map marker haus nowhere seongsu/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /map marker tamburins seongsu/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /may 20 gangnam/i })).toHaveClass('is-faded')
+    expect(screen.getByRole('button', { name: /may 17 seongsu beauty/i })).toHaveClass('active')
+
+    fireEvent.click(screen.getByRole('button', { name: /map marker tamburins seongsu/i }))
+
+    expect(screen.getByRole('heading', { name: /tamburins seongsu/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /assign tamburins seongsu to may 17/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /open tamburins seongsu in kakao maps/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /copy korean name for tamburins seongsu/i })).toBeInTheDocument()
   })
 
   test('theme toggle uses a simple icon instead of text labels', () => {

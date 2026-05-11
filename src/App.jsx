@@ -39,6 +39,41 @@ const bookingVoteOptions = [
   { value: 'no', label: 'No', savedLabel: 'No' },
 ]
 const plannerFilters = ['all', 'candidates', 'confirmed']
+const mapDayColors = {
+  'may-15': '#8d9dc3',
+  'may-16': '#6f9f80',
+  'may-17': '#d87a3c',
+  'may-18': '#b36a84',
+  'may-19': '#4f9ca8',
+  'may-20': '#8aa2c7',
+  'may-21': '#7b9f54',
+  'may-22': '#c59a45',
+  'may-23': '#a66fb2',
+  'may-24': '#dc6f6f',
+  'may-25': '#648c6f',
+  'may-26': '#7f7f86',
+  undecided: '#9a9690',
+}
+const mapMarkerPositions = {
+  'Haus Nowhere Seongsu': { left: '37%', top: '28%' },
+  'Tamburins Seongsu': { left: '47%', top: '33%' },
+  'Olive Young N Seongsu': { left: '56%', top: '39%' },
+  'Musinsa Standard Seongsu': { left: '63%', top: '46%' },
+  'TIRTIR Seongsu': { left: '51%', top: '53%' },
+  'Blue Elephant Seongsu': { left: '31%', top: '48%' },
+  '동화고옥 롯데월드몰점': { left: '72%', top: '69%' },
+  'Sofitel Ambassador Seoul': { left: '74%', top: '64%' },
+  'ReOne Dermatology': { left: '66%', top: '58%' },
+}
+const koreanPlaceNames = {
+  'Haus Nowhere Seongsu': '하우스 나우웨어 성수',
+  'Tamburins Seongsu': '탬버린즈 성수',
+  'Olive Young N Seongsu': '올리브영N 성수',
+  'Musinsa Standard Seongsu': '무신사 스탠다드 성수',
+  'TIRTIR Seongsu': '티르티르 성수',
+  'Blue Elephant Seongsu': '블루엘리펀트 성수',
+  '동화고옥 롯데월드몰점': '동화고옥 롯데월드몰점',
+}
 const dermProcedures = [
   {
     goal: 'Small nodules underneath the eyes',
@@ -1687,6 +1722,7 @@ function loadKakaoMapsSdk() {
 function App() {
   const [activeTab, setActiveTab] = useState('home')
   const [selectedDayKey, setSelectedDayKey] = useState('may-17')
+  const [selectedHomeMapTargetName, setSelectedHomeMapTargetName] = useState('Haus Nowhere Seongsu')
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
   const [selectedBookingKey, setSelectedBookingKey] = useState('beauty')
   const [editingThemeKey, setEditingThemeKey] = useState('')
@@ -2175,11 +2211,44 @@ function App() {
     [],
   )
 
-  const mapSource = activeTab === 'itinerary'
+  const homeMapTargets = useMemo(() => {
+    const routeNames = new Set(selectedDayPlanner.flatMap((item) => item.targetNames))
+    return selectedDay.mapTargets.map((target, index) => ({
+      ...target,
+      dayKey: selectedDay.key,
+      dayDate: selectedDay.date,
+      dayLabel: selectedDay.label,
+      mapColor: mapDayColors[selectedDay.key] ?? mapDayColors.undecided,
+      koreanName: koreanPlaceNames[target.name] || target.query || target.name,
+      position: mapMarkerPositions[target.name] || { left: `${28 + (index % 4) * 15}%`, top: `${28 + Math.floor(index / 4) * 18}%` },
+      markerType: routeNames.has(target.name) ? 'confirmed' : 'candidate',
+    }))
+  }, [selectedDay, selectedDayPlanner])
+
+  const selectedHomeMapTarget = useMemo(
+    () => homeMapTargets.find((target) => target.name === selectedHomeMapTargetName) ?? homeMapTargets[0],
+    [homeMapTargets, selectedHomeMapTargetName],
+  )
+
+  useEffect(() => {
+    if (!homeMapTargets.length) return
+    if (!homeMapTargets.some((target) => target.name === selectedHomeMapTargetName)) {
+      setSelectedHomeMapTargetName(homeMapTargets[0].name)
+    }
+  }, [homeMapTargets, selectedHomeMapTargetName])
+
+  function copyHomeMapKoreanName() {
+    if (!selectedHomeMapTarget) return
+    window.navigator.clipboard?.writeText(selectedHomeMapTarget.koreanName)
+  }
+
+  const mapSource = activeTab === 'home'
     ? selectedDay
-    : activeTab === 'bookings' && selectedBookingBoard?.mapTargets
-        ? selectedBookingBoard
-        : null
+    : activeTab === 'itinerary'
+      ? selectedDay
+      : activeTab === 'bookings' && selectedBookingBoard?.mapTargets
+          ? selectedBookingBoard
+          : null
 
   const searchResults = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
@@ -2475,7 +2544,7 @@ function App() {
         }
 
         setMapStatus('ready')
-        const mapContextLabel = activeTab === 'itinerary'
+        const mapContextLabel = activeTab === 'home' || activeTab === 'itinerary'
           ? mapSource.date
           : activeTab === 'places'
             ? mapSource.title
@@ -2540,73 +2609,82 @@ function App() {
 
         <main className="content-shell">
           {activeTab === 'home' && (
-            <section className="content-screen search-home-screen">
-              <div className="trip-countdown-card glass-card" aria-label="Trip countdown">
-                <span>Korea countdown</span>
-                <strong>{tripCountdownLabel()}</strong>
-                <small>May 16–27, 2026</small>
-              </div>
-
-              <div className="search-hero-card glass-card">
-                <div className="search-hero-overlay">
-                  <div className="search-hero-copy-block">
-                    <span className="search-hero-kicker">Korea Trip</span>
-                    <p className="search-hero-tagline">Seoul & Jeju beauty trip in May</p>
-                    <h2 className="search-hero-title">Search the trip</h2>
-                    <p className="search-hero-copy">Choose the places you like, select dates, then shape the final itinerary.</p>
-                  </div>
-
-                  <div className="hero-search-card">
-                    <input
-                      className="trip-search"
-                      value={searchQuery}
-                      onChange={(event) => setSearchQuery(event.target.value)}
-                      placeholder="Search Seongsu, Jamsil, ReOne, headspa, Jeju..."
-                    />
-                    {searchQuery.trim() ? (
-                      <div className="search-results">
-                        {searchResults.length ? (
-                          searchResults.map((result) => (
-                            <button key={result.key + result.type} className="search-result" onClick={result.action}>
-                              <span className="search-type">{result.type}</span>
-                              <strong>{result.title}</strong>
-                              <p>{result.detail}</p>
-                            </button>
-                          ))
-                        ) : (
-                          <div className="empty-state">No matches yet — try a date, neighborhood, booking type, or specific place.</div>
-                        )}
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <div className="search-home-chip-row">
-                    <button className="hero-pill" onClick={() => setActiveTab('bookings')}>Step 1: Choose Places</button>
-                    <button className="hero-pill" onClick={() => setActiveTab('derm')}>Derm Procedures</button>
-                    <button className="hero-pill" onClick={() => setActiveTab('places')}>Step 2: Select Date</button>
-                    <button className="hero-pill" onClick={() => setActiveTab('itinerary')}>Step 3: Itinerary</button>
-                  </div>
+            <section className="content-screen map-first-home-screen" style={{ '--active-day-color': mapDayColors[selectedDay.key] ?? mapDayColors.undecided }}>
+              <div className="home-map-surface" aria-label="Map-first Korea trip home">
+                <div ref={mapCanvasRef} className="map-canvas home-kakao-map-canvas" />
+                <div className="home-map-fallback" aria-hidden="true">
+                  <div className="home-map-river" />
+                  <div className="home-map-road road-a" />
+                  <div className="home-map-road road-b" />
+                  <div className="home-map-road road-c" />
                 </div>
+                <svg className="home-map-route-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                  <path className="home-route-solid" d="M37 28 C44 32 49 35 56 39 S61 43 63 46" />
+                  <path className="home-route-dashed" d="M63 46 C56 50 45 54 31 48" />
+                </svg>
+
+                <header className="home-map-topbar">
+                  <div className="home-trip-pill glass-card">
+                    <span>{tripCountdownLabel()}</span>
+                    <h2>SJ Korea Map</h2>
+                    <p>{selectedDay.date} · {selectedDay.label}</p>
+                  </div>
+                  <div className="home-map-search-pill glass-card">⌕</div>
+                </header>
+
+                <div className="home-map-legend glass-card">
+                  <span><i style={{ background: mapDayColors[selectedDay.key] }} />{selectedDay.date}</span>
+                  <span><i className="legend-muted" />other days faded</span>
+                </div>
+
+                {homeMapTargets.map((target, index) => (
+                  <button
+                    key={`${selectedDay.key}-${target.name}`}
+                    className={`home-map-marker ${target.markerType === 'confirmed' ? 'confirmed' : 'candidate'} ${target.name === selectedHomeMapTarget?.name ? 'selected' : ''}`}
+                    style={{ left: target.position.left, top: target.position.top, '--marker-color': target.mapColor }}
+                    aria-label={`Map marker ${target.name}`}
+                    onClick={() => setSelectedHomeMapTargetName(target.name)}
+                  >
+                    {target.markerType === 'confirmed' ? index + 1 : '·'}
+                  </button>
+                ))}
+                <button className="home-map-marker confirmed is-faded" style={{ left: '78%', top: '25%', '--marker-color': mapDayColors['may-20'] }} aria-label="Map marker May 20 Gangnam">20</button>
+                <button className="home-map-marker candidate is-faded" style={{ left: '22%', top: '63%', '--marker-color': mapDayColors['may-16'] }} aria-label="Map marker May 16 Arrival">16</button>
+
+                {selectedHomeMapTarget ? (
+                  <aside className="home-place-drawer glass-card" aria-label="Place detail drawer">
+                    <div className="drawer-handle" />
+                    <div className="home-place-drawer-main">
+                      <div className="home-place-thumb">⌖</div>
+                      <div>
+                        <span className="search-type">{selectedHomeMapTarget.markerType === 'confirmed' ? 'confirmed stop' : 'candidate stop'}</span>
+                        <h3>{selectedHomeMapTarget.name}</h3>
+                        <p>{selectedHomeMapTarget.koreanName} · {selectedHomeMapTarget.reason}</p>
+                      </div>
+                    </div>
+                    <div className="home-place-actions">
+                      <button aria-label={`Assign ${selectedHomeMapTarget.name} to ${selectedDay.date}`} onClick={() => setActiveTab('places')}>Assign {selectedDay.date}</button>
+                      <a href={selectedHomeMapTarget.kakaoUrl} target="_blank" rel="noreferrer" aria-label={`Open ${selectedHomeMapTarget.name} in Kakao Maps`}>Open Kakao</a>
+                      <button aria-label={`Copy Korean name for ${selectedHomeMapTarget.name}`} onClick={copyHomeMapKoreanName}>Copy Korean</button>
+                    </div>
+                  </aside>
+                ) : null}
               </div>
 
-              <div className="home-destination-grid">
-                <article className="glass-card destination-mood-card destination-seoul-card">
-                  <div className="destination-mood-overlay">
-                    <span className="destination-label">Seoul</span>
-                    <strong>City of K-Beauty & Culture</strong>
-                    <p>Beauty appointments, shopping loops, cafes, and polished city energy.</p>
-                  </div>
-                </article>
-
-                <article className="glass-card destination-mood-card destination-jeju-card">
-                  <div className="destination-mood-overlay">
-                    <span className="destination-label">Jeju</span>
-                    <strong>Island of Nature & Healing</strong>
-                    <p>Coastal resets, scenic drives, flower fields, and softer open-air pacing.</p>
-                  </div>
-                </article>
+              <div className="map-first-date-strip" aria-label="Map date selector">
+                {itineraryCalendarDays.map((day) => (
+                  <button
+                    key={`home-${day.key}`}
+                    aria-label={`${day.date} ${day.label}`}
+                    className={`${selectedDay.key === day.key ? 'home-date-pill active' : 'home-date-pill'} ${selectedDay.key !== day.key ? 'is-faded' : ''}`}
+                    style={{ '--day-color': mapDayColors[day.key] ?? mapDayColors.undecided }}
+                    onClick={() => setSelectedDayKey(day.key)}
+                  >
+                    <strong>{day.date.replace('May ', '')}</strong>
+                    <span>{day.label.split(' ')[0]}</span>
+                  </button>
+                ))}
               </div>
-
             </section>
           )}
 
