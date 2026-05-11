@@ -3352,3 +3352,158 @@ a {
     padding: 14px;
   }
 }
+
+
+.derm-visual {
+  position: relative;
+  min-height: 168px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 138px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.86), transparent 24%),
+    linear-gradient(135deg, rgba(255, 240, 244, 0.96), rgba(239, 231, 250, 0.72));
+}
+
+.derm-visual-under-eye {
+  background:
+    radial-gradient(circle at 26% 45%, rgba(119, 91, 166, 0.16), transparent 18%),
+    linear-gradient(135deg, rgba(255, 242, 246, 0.98), rgba(239, 232, 250, 0.78));
+}
+
+.derm-visual-tone-map {
+  background:
+    radial-gradient(circle at 24% 32%, rgba(183, 102, 98, 0.22), transparent 16%),
+    radial-gradient(circle at 34% 58%, rgba(127, 91, 166, 0.16), transparent 17%),
+    linear-gradient(135deg, rgba(255, 244, 232, 0.98), rgba(239, 246, 255, 0.78));
+}
+
+.derm-visual-chin {
+  background:
+    radial-gradient(circle at 30% 72%, rgba(168, 213, 186, 0.28), transparent 20%),
+    linear-gradient(135deg, rgba(246, 255, 248, 0.96), rgba(255, 240, 244, 0.72));
+}
+
+.derm-visual-mole {
+  background:
+    radial-gradient(circle at 24% 42%, rgba(72, 54, 54, 0.16), transparent 12%),
+    linear-gradient(135deg, rgba(255, 248, 239, 0.98), rgba(255, 236, 240, 0.76));
+}
+
+.derm-visual-glow {
+  background:
+    radial-gradient(circle at 25% 26%, rgba(255, 211, 122, 0.30), transparent 18%),
+    radial-gradient(circle at 37% 52%, rgba(255, 182, 193, 0.22), transparent 20%),
+    linear-gradient(135deg, rgba(255, 250, 232, 0.98), rgba(238, 249, 244, 0.78));
+}
+
+.derm-face-map {
+  position: relative;
+  height: 132px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.54);
+}
+
+.face-outline {
+  position: absolute;
+  inset: 14px 31px 12px;
+  border: 2px solid rgba(64, 54, 60, 0.18);
+  border-radius: 48% 48% 45% 45%;
+  background:
+    radial-gradient(circle at 39% 37%, rgba(64, 54, 60, 0.18) 0 3px, transparent 4px),
+    radial-gradient(circle at 61% 37%, rgba(64, 54, 60, 0.18) 0 3px, transparent 4px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.48), rgba(255, 236, 228, 0.24));
+}
+
+.face-outline::after {
+  content: '';
+  position: absolute;
+  left: 32%;
+  right: 32%;
+  bottom: 22px;
+  height: 9px;
+  border-bottom: 2px solid rgba(64, 54, 60, 0.18);
+  border-radius: 999px;
+}
+
+.face-marker,
+.treatment-beam {
+  position: absolute;
+  border-radius: 999px;
+}
+
+.face-marker {
+  width: 14px;
+  height: 14px;
+  background: rgba(127, 91, 166, 0.34);
+  box-shadow: 0 0 0 6px rgba(127, 91, 166, 0.08);
+}
+
+.marker-one { left: 48px; top: 48px; }
+.marker-two { right: 44px; top: 56px; }
+.marker-three { left: 64px; bottom: 28px; }
+
+.treatment-beam {
+  width: 54px;
+  height: 2px;
+  transform: rotate(-18deg);
+  background: rgba(255, 123, 84, 0.44);
+}
+
+.beam-one { right: 14px; top: 28px; }
+.beam-two { right: 20px; top: 42px; }
+
+.derm-visual-copy {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.derm-visual-copy span {
+  width: fit-content;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.derm-visual-copy strong {
+  font-size: clamp(1.1rem, 2vw, 1.7rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.derm-visual-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.derm-visual-points small {
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+@media (max-width: 640px) {
+  .derm-visual {
+    grid-template-columns: 1fr;
+  }
+
+  .derm-face-map {
+    height: 118px;
+  }
+}

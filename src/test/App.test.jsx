@@ -70,6 +70,20 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getAllByText(/downtime/i).length).toBeGreaterThan(0)
   })
 
+  test('derm tab shows a descriptive image panel for every procedure', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /derm procedures/i })[0])
+
+    expect(screen.getAllByRole('img', { name: /visual guide for/i })).toHaveLength(5)
+    expect(screen.getByRole('img', { name: /visual guide for small nodules underneath the eyes/i })).toBeInTheDocument()
+    expect(screen.getByText(/lesion ID first/i)).toBeInTheDocument()
+    expect(screen.getByText(/pigment vs redness/i)).toBeInTheDocument()
+    expect(screen.getByText(/fat vs laxity/i)).toBeInTheDocument()
+    expect(screen.getByText(/dermoscopy first/i)).toBeInTheDocument()
+    expect(screen.getByText(/tone \+ texture plan/i)).toBeInTheDocument()
+  })
+
   test('step 1 opens as a dense one-sight options board with source-first cards', () => {
     const { container } = render(<App />)
 

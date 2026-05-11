@@ -43,6 +43,7 @@ const dermProcedures = [
   {
     goal: 'Small nodules underneath the eyes',
     korean: '눈밑 작은 돌기: 비립종 / 한관종 / 눈밑지방 감별',
+    visual: { tone: 'under-eye', tag: 'visual triage', headline: 'Lesion ID first', points: ['milia', 'syringoma', 'fat pad'] },
     bestFor: 'Tiny white bumps, syringoma-like bumps, or under-eye fat bags that need diagnosis first.',
     options: '비립종 제거, CO2 / Er:YAG laser, Agnes RF / needle RF, oculoplastic consult if it is fat repositioning.',
     howItWorks: 'Extraction opens milia; ablative laser or RF targets raised/glandular lesions. Fat bags are surgical, not a toner issue.',
@@ -54,6 +55,7 @@ const dermProcedures = [
   {
     goal: 'Unbalanced facial color',
     korean: '얼굴톤 불균형: 잡티 / 기미 / 홍조 / 여드름자국 구분',
+    visual: { tone: 'tone-map', tag: 'color map', headline: 'Pigment vs redness', points: ['brown spots', 'melasma caution', 'redness laser'] },
     bestFor: 'Brown spots, redness, post-acne marks, dullness, or mixed uneven tone.',
     options: '피코토닝 / pico toning, laser toning, IPL / BBL, Excel V / V-beam for redness, LDM as calming support.',
     howItWorks: 'Pigment lasers fragment melanin; vascular lasers target redness; IPL/BBL broadly treats brown + red but must be cautious with melasma.',
@@ -65,6 +67,7 @@ const dermProcedures = [
   {
     goal: 'Double chin',
     korean: '이중턱: 지방 vs 피부처짐 vs 턱선 구조 감별',
+    visual: { tone: 'chin', tag: 'contour check', headline: 'Fat vs laxity', points: ['submental fat', 'skin tightening', 'jawline angle'] },
     bestFor: 'Submental fullness, softer jawline, mild laxity, or true fat pocket.',
     options: '인모드 FX/Forma, 슈링크 / 리프테라 / 울쎄라, 윤곽주사 / 지방분해주사, 턱밑 지방흡입 consult for stronger fat removal.',
     howItWorks: 'RF/ultrasound heats fat and collagen layers for contouring/tightening; injections dissolve small fat pads; liposuction physically removes fat.',
@@ -76,6 +79,7 @@ const dermProcedures = [
   {
     goal: 'Mole removal',
     korean: '점 제거: CO2 레이저 전 더마스코피 확인',
+    visual: { tone: 'mole', tag: 'spot safety', headline: 'Dermoscopy first', points: ['benign check', 'CO2 laser', 'biopsy if suspicious'] },
     bestFor: 'Small benign moles, raised benign spots, and cosmetic spot cleanup.',
     options: 'CO2 laser mole removal, Er:YAG laser for superficial lesions, excision / biopsy if suspicious.',
     howItWorks: 'Ablative lasers shave/vaporize benign mole tissue layer by layer; suspicious changing moles should be excised and sent for pathology.',
@@ -87,6 +91,7 @@ const dermProcedures = [
   {
     goal: 'General skin tone',
     korean: '전체 피부톤 / 결 / 광채 관리',
+    visual: { tone: 'glow', tag: 'maintenance map', headline: 'Tone + texture plan', points: ['toning', 'skin booster', 'RF / fraxel'] },
     bestFor: 'Early-30s prevention, glow, pores/texture, fine lines, and maintenance tone.',
     options: 'Pico/laser toning, Rejuran / 리쥬란, Juvelook / 쥬베룩, 물광주사, Potenza/Secret RF/Fraxel for pores/scars, Aqua peel/Lhala peel for light maintenance.',
     howItWorks: 'Toning improves pigment uniformity; boosters hydrate or stimulate collagen; microneedle RF/fractional lasers remodel texture.',
@@ -2893,6 +2898,27 @@ function App() {
                       <div>
                         <span className="search-type">{procedure.korean}</span>
                         <h3>{procedure.goal}</h3>
+                      </div>
+                    </div>
+                    <div
+                      className={`derm-visual derm-visual-${procedure.visual.tone}`}
+                      role="img"
+                      aria-label={`Visual guide for ${procedure.goal}`}
+                    >
+                      <div className="derm-face-map" aria-hidden="true">
+                        <span className="face-outline" />
+                        <span className="face-marker marker-one" />
+                        <span className="face-marker marker-two" />
+                        <span className="face-marker marker-three" />
+                        <span className="treatment-beam beam-one" />
+                        <span className="treatment-beam beam-two" />
+                      </div>
+                      <div className="derm-visual-copy">
+                        <span>{procedure.visual.tag}</span>
+                        <strong>{procedure.visual.headline}</strong>
+                        <div className="derm-visual-points">
+                          {procedure.visual.points.map((point) => <small key={`${procedure.goal}-${point}`}>{point}</small>)}
+                        </div>
                       </div>
                     </div>
                     <p className="derm-best-for">{procedure.bestFor}</p>
