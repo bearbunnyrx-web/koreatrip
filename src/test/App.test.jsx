@@ -179,7 +179,7 @@ describe('Korea trip app v2 concept', () => {
     expect(within(routeSummary).getByText(/selected day/i)).toBeInTheDocument()
     expect(within(routeSummary).getByText(/4 confirmed stops/i)).toBeInTheDocument()
     expect(within(routeSummary).getByText(/3 candidate pins/i)).toBeInTheDocument()
-    expect(within(routeSummary).getByText(/real kakao route pending api key/i)).toBeInTheDocument()
+    expect(within(routeSummary).getByText(/kakao route fallback|real kakao route/i)).toBeInTheDocument()
     expect(container.querySelector('.home-map-route-layer')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /map marker tamburins seongsu/i })).toHaveClass('confirmed')
     expect(screen.getByRole('button', { name: /map marker haus nowhere seongsu/i })).toHaveClass('candidate')

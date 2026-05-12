@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import BottomNav from './components/BottomNav'
 import { createSupabaseClient } from './lib/supabaseClient'
 import { createTripStateStore } from './lib/tripStateStore'
+import { fetchKakaoRouteForTargets, formatRouteDistance, formatRouteDuration } from './lib/routing'
 
 const tabs = ['map', 'calendar', 'inspiration', 'receipts']
 const tabMeta = {
@@ -1836,6 +1837,7 @@ function App() {
   const [mapStatus, setMapStatus] = useState(KAKAO_JS_KEY ? 'idle' : 'missing-key')
   const [resolvedMapTargets, setResolvedMapTargets] = useState([])
   const [mapNotice, setMapNotice] = useState('')
+  const [routeState, setRouteState] = useState({ status: 'idle', message: 'Route not requested yet.', polyline: [] })
   const [sharedStoreReady, setSharedStoreReady] = useState(false)
   const [tripStateStore] = useState(() => createTripStateStore({
     env: import.meta.env,
@@ -2449,6 +2451,7 @@ function App() {
         setMapStatus('missing-key')
         setMapNotice('Missing Kakao JavaScript key.')
         setResolvedMapTargets([])
+        setRouteState({ status: 'missing-map-key', message: 'Missing Kakao JavaScript key.', polyline: [] })
         return
       }
 
@@ -2457,6 +2460,7 @@ function App() {
       setMapStatus('loading')
       setMapNotice('Loading Kakao map…')
       setResolvedMapTargets([])
+      setRouteState({ status: 'loading', message: 'Resolving places before route request…', polyline: [] })
 
       try {
         const kakao = await loadKakaoMapsSdk()
@@ -2540,15 +2544,23 @@ function App() {
           overlayItems.push({ setMap: overlay.setMap.bind(overlay) })
         })
 
-        if (activeTab === 'itinerary' && confirmedRouteTargets.length > 1) {
-          const pathPoints = confirmedRouteTargets
-            .map((target) => foundTargets.find((resolvedTarget) => resolvedTarget.name === target.name))
-            .filter(Boolean)
-            .map((target) => new kakao.maps.LatLng(target.lat, target.lng))
+        const routeTargets = confirmedRouteTargets
+          .map((target) => foundTargets.find((resolvedTarget) => resolvedTarget.name === target.name))
+          .filter(Boolean)
 
-          if (pathPoints.length > 1) {
+        let latestRouteState = {
+          status: 'insufficient-coordinates',
+          message: 'Need at least two confirmed mapped stops for a real Kakao route.',
+          polyline: [],
+        }
+
+        if ((activeTab === 'map' || activeTab === 'home' || activeTab === 'itinerary') && routeTargets.length > 1) {
+          latestRouteState = await fetchKakaoRouteForTargets(selectedDay.key, routeTargets)
+          if (cancelled) return
+
+          if (latestRouteState.status === 'ready' && latestRouteState.polyline.length > 1) {
             const routeLine = new kakao.maps.Polyline({
-              path: pathPoints,
+              path: latestRouteState.polyline.map((point) => new kakao.maps.LatLng(point.lat, point.lng)),
               strokeWeight: 5,
               strokeColor: '#ff7b54',
               strokeOpacity: 0.9,
@@ -2558,6 +2570,8 @@ function App() {
             overlayItems.push({ setMap: routeLine.setMap.bind(routeLine) })
           }
         }
+
+        setRouteState(latestRouteState)
 
         if (foundTargets.length === 1) {
           map.setCenter(new kakao.maps.LatLng(foundTargets[0].lat, foundTargets[0].lng))
@@ -2572,12 +2586,13 @@ function App() {
           : activeTab === 'places'
             ? mapSource.title
             : mapSource.title
-        setMapNotice(`${foundTargets.length} place${foundTargets.length > 1 ? 's' : ''} mapped for ${mapContextLabel}. Tap a marker to open Kakao Map.`)
+        setMapNotice(`${foundTargets.length} place${foundTargets.length > 1 ? 's' : ''} mapped for ${mapContextLabel}. ${latestRouteState.status === 'ready' ? 'Real Kakao route drawn.' : 'Pins mapped; route fallback active.'}`)
       } catch (error) {
         if (cancelled) return
         setMapStatus('error')
         setMapNotice('Kakao map did not load. In Kakao Developers, make sure OPEN_MAP_AND_LOCAL is enabled for this app and add koreatrip.vercel.app to the platform/domain allowlist.')
         setResolvedMapTargets([])
+        setRouteState({ status: 'error', message: 'Kakao map did not load.', polyline: [] })
         console.error(error)
       }
     }
@@ -2670,8 +2685,13 @@ function App() {
                   <div className="map-route-stat-row">
                     <span>{confirmedRouteTargets.length} confirmed stops</span>
                     <span>{candidateTargets.length} candidate pins</span>
+                    {routeState.status === 'ready' ? <span>{formatRouteDistance(routeState.distanceMeters)} · {formatRouteDuration(routeState.durationSeconds)}</span> : null}
                   </div>
-                  <p>Real Kakao route pending API key / Phase C2. Current pins use confirmed vs candidate semantics only.</p>
+                  <p>
+                    {routeState.status === 'ready'
+                      ? 'Real Kakao route drawn for confirmed stops. Candidate pins stay separate until added to the route.'
+                      : `Kakao route fallback: ${routeState.message || 'real routing will draw when the API returns a route.'}`}
+                  </p>
                 </aside>
 
                 {homeMapTargets.map((target, index) => (
