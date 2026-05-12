@@ -2531,11 +2531,6 @@ function App() {
     }
   }, [homeMapTargets, selectedHomeMapTargetName])
 
-  function copyHomeMapKoreanName() {
-    if (!selectedHomeMapTarget) return
-    window.navigator.clipboard?.writeText(selectedHomeMapTarget.koreanName)
-  }
-
   const mapSource = activeTab === 'map' || activeTab === 'home'
     ? selectedDay
     : activeTab === 'itinerary'
@@ -2927,12 +2922,6 @@ function App() {
             <section className="content-screen map-first-home-screen" style={{ '--active-day-color': mapDayColors[selectedDay.key] ?? mapDayColors.undecided }}>
               <div className="home-map-surface" aria-label="Map-first Korea trip home">
                 <div ref={mapCanvasRef} className="map-canvas home-kakao-map-canvas" />
-                <div className="home-map-fallback" aria-hidden="true">
-                  <div className="home-map-river" />
-                  <div className="home-map-road road-a" />
-                  <div className="home-map-road road-b" />
-                  <div className="home-map-road road-c" />
-                </div>
                 <header className="home-map-topbar">
                   <div className="home-trip-pill glass-card">
                     <span>{tripCountdownLabel()}</span>
@@ -2988,10 +2977,9 @@ function App() {
                         <p>{selectedHomeMapTarget.koreanName} · {selectedHomeMapTarget.reason}</p>
                       </div>
                     </div>
-                    <div className="home-place-actions">
+                    <div className="home-place-actions compact-actions">
                       <button aria-label={`Assign ${selectedHomeMapTarget.name} to ${selectedDay.date}`} onClick={() => setActiveTab('places')}>Assign {selectedDay.date}</button>
-                      <a href={selectedHomeMapTarget.kakaoUrl} target="_blank" rel="noreferrer" aria-label={`Open ${selectedHomeMapTarget.name} in Kakao Maps`}>Open Kakao</a>
-                      <button aria-label={`Copy Korean name for ${selectedHomeMapTarget.name}`} onClick={copyHomeMapKoreanName}>Copy Korean</button>
+                      <span className="drawer-helper-text">Open in Kakao Maps from your phone if needed.</span>
                     </div>
                     {relatedPlaceReceipts.length ? (
                       <div className="place-linked-panel">
@@ -3042,7 +3030,7 @@ function App() {
                   <h2 className="page-title">Calendar</h2>
                   <p>Day-first timeline for bookings, meals, beauty appointments, transit, and hotel anchors.</p>
                 </div>
-                <span className="chip chip-gold">Phase D</span>
+                <span className="chip chip-gold">Trip calendar</span>
               </header>
 
               <div className="glass-card calendar-control-card">
@@ -3162,9 +3150,9 @@ function App() {
                 <div>
                   <span className="search-type">Pinterest grid</span>
                   <h2 className="page-title">Inspiration</h2>
-                  <p>Save Reel/blog screenshots here first. Phase E keeps them visual and filterable before Phase G links them to places.</p>
+                  <p>Save Reel/blog screenshots here and jump promising places straight into the map when there is a match.</p>
                 </div>
-                <span className="chip chip-sage">Phase E</span>
+                <span className="chip chip-sage">Visual saves</span>
               </header>
 
               <form className="glass-card inspiration-upload-card" onSubmit={addManualInspirationItem}>
@@ -3232,7 +3220,7 @@ function App() {
                   <span className="search-type">{inspirationFilter} inspiration</span>
                   <h3>{filteredInspirationItems.length} saved visual cues</h3>
                 </div>
-                <span className="chip chip-mist">linking comes Phase G</span>
+                <span className="chip chip-mist">map linking ready</span>
               </div>
 
               <div className="inspiration-masonry-grid">
@@ -3260,9 +3248,9 @@ function App() {
                 <div>
                   <span className="search-type">Discord → Drive → Gemma</span>
                   <h2 className="page-title">Receipts</h2>
-                  <p>Phase F1 + F2: receipt review UI plus the local inbox pipeline for Discord uploads, BearBunny Drive files, and local Ollama Gemma4 extraction.</p>
+                  <p>Review trip receipts here after Discord uploads are saved to BearBunny Drive and extracted locally with Ollama Gemma4.</p>
                 </div>
-                <span className="chip chip-rose">Phase F1 + F2</span>
+                <span className="chip chip-rose">Receipt inbox</span>
               </header>
 
               <div className="receipts-pipeline-grid">
@@ -3375,7 +3363,7 @@ function App() {
                       <span className={receipt.status === 'review' ? 'chip chip-rose' : 'chip chip-mist'}>{receipt.status === 'review' ? 'needs review' : receipt.status}</span>
                     </div>
                     <h3>{receipt.vendor}</h3>
-                    <p>{receipt.notes || receipt.placeGuess || 'Extracted fields stay editable before Phase G linking.'}</p>
+                    <p>{receipt.notes || receipt.placeGuess || 'Extracted fields stay editable before linking to the map or calendar.'}</p>
                     <div className="receipt-field-grid">
                       <span><small>Date</small>{receipt.date || 'TBD'}</span>
                       <span><small>Amount</small>{formatReceiptAmount(receipt.amountMinor, receipt.currency)}</span>

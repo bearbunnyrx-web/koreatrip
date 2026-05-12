@@ -3524,12 +3524,7 @@ a {
   position: absolute;
   inset: 0 0 74px;
   overflow: hidden;
-  background:
-    linear-gradient(28deg, rgba(255,255,255,.45) 1px, transparent 1px) 0 0/42px 42px,
-    linear-gradient(120deg, rgba(255,255,255,.35) 1px, transparent 1px) 0 0/54px 54px,
-    radial-gradient(circle at 72% 20%, rgba(177,203,224,.8), transparent 22%),
-    radial-gradient(circle at 25% 72%, rgba(195,220,194,.85), transparent 28%),
-    linear-gradient(140deg, #e9eadf, #dce8e6 54%, #efe1d7);
+  background: #eee9df;
 }
 
 .home-kakao-map-canvas {
@@ -3537,39 +3532,8 @@ a {
   inset: 0;
   z-index: 0;
   min-height: 100%;
-  opacity: .82;
+  opacity: .96;
 }
-
-.home-map-fallback {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.home-map-river {
-  position: absolute;
-  width: 130%;
-  height: 72px;
-  left: -16%;
-  top: 38%;
-  transform: rotate(-17deg);
-  border-radius: 999px;
-  background: rgba(135, 181, 203, .5);
-  box-shadow: 0 0 0 18px rgba(135, 181, 203, .12);
-}
-
-.home-map-road {
-  position: absolute;
-  height: 5px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.62);
-  box-shadow: 0 1px 0 rgba(80,70,50,.06);
-}
-
-.home-map-road.road-a { width: 76%; left: 8%; top: 23%; transform: rotate(22deg); }
-.home-map-road.road-b { width: 70%; left: 20%; top: 58%; transform: rotate(-30deg); }
-.home-map-road.road-c { width: 60%; left: -8%; top: 76%; transform: rotate(10deg); }
 
 .home-map-topbar {
   position: absolute;
@@ -3761,27 +3725,34 @@ a {
 
 .home-place-actions {
   display: grid;
-  grid-template-columns: 1.1fr 1fr 1fr;
+  grid-template-columns: minmax(120px, .8fr) minmax(0, 1.2fr);
   gap: 8px;
   margin-top: 12px;
 }
 
-.home-place-actions button,
-.home-place-actions a {
+.home-place-actions button {
   border: 0;
   border-radius: 14px;
   min-height: 36px;
   padding: 9px 8px;
-  background: rgba(255,255,255,.74);
-  color: var(--text);
+  background: var(--active-day-color);
+  color: white;
   font-size: .72rem;
   font-weight: 750;
   text-align: center;
+  cursor: pointer;
 }
 
-.home-place-actions button:first-child {
-  background: var(--active-day-color);
-  color: white;
+.drawer-helper-text {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  border-radius: 14px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,.66);
+  color: var(--muted);
+  font-size: .7rem;
+  line-height: 1.25;
 }
 
 .map-first-date-strip {
@@ -3845,18 +3816,11 @@ a {
 }
 
 :root[data-theme='dark'] .home-map-surface {
-  background:
-    linear-gradient(28deg, rgba(255,255,255,.07) 1px, transparent 1px) 0 0/42px 42px,
-    linear-gradient(120deg, rgba(255,255,255,.05) 1px, transparent 1px) 0 0/54px 54px,
-    radial-gradient(circle at 72% 20%, rgba(79,98,126,.55), transparent 24%),
-    radial-gradient(circle at 25% 72%, rgba(74,98,75,.5), transparent 28%),
-    linear-gradient(140deg, #25272a, #1f2b2c 54%, #2c2526);
+  background: #242421;
 }
 
-:root[data-theme='dark'] .home-map-river { opacity: .45; }
-:root[data-theme='dark'] .home-place-actions button,
-:root[data-theme='dark'] .home-place-actions a { background: rgba(255,255,255,.08); }
-:root[data-theme='dark'] .home-place-actions button:first-child { background: color-mix(in srgb, var(--active-day-color) 78%, #111); }
+:root[data-theme='dark'] .drawer-helper-text { background: rgba(255,255,255,.08); }
+:root[data-theme='dark'] .home-place-actions button { background: color-mix(in srgb, var(--active-day-color) 78%, #111); }
 
 .phase-d-calendar-screen {
   gap: 16px;

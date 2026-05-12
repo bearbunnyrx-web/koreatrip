@@ -112,7 +112,7 @@ describe('Korea trip app v2 concept', () => {
     fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
 
     expect(screen.getByRole('heading', { name: /receipts/i })).toBeInTheDocument()
-    expect(screen.getAllByText(/phase f1 \+ f2/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/receipt inbox/i)).toBeInTheDocument()
     expect(screen.getByText(/discord receipts thread/i)).toBeInTheDocument()
     expect(screen.getByText(/1503591512573874176/i)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /open bearbunny drive receipts folder/i })).toHaveAttribute('href', expect.stringContaining('1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG'))
@@ -279,6 +279,8 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/may 17 · seongsu beauty/i)).toBeInTheDocument()
     expect(container.querySelector('.map-first-home-screen')).toBeInTheDocument()
     expect(container.querySelector('.map-first-date-strip')).toBeInTheDocument()
+    expect(container.querySelector('.home-map-fallback')).not.toBeInTheDocument()
+    expect(container.querySelector('.home-map-river')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-route-layer')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /map marker haus nowhere seongsu/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /map marker tamburins seongsu/i })).toBeInTheDocument()
@@ -289,8 +291,9 @@ describe('Korea trip app v2 concept', () => {
 
     expect(screen.getByRole('heading', { name: /tamburins seongsu/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /assign tamburins seongsu to may 17/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /open tamburins seongsu in kakao maps/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /copy korean name for tamburins seongsu/i })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /open tamburins seongsu in kakao maps/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /copy korean name for tamburins seongsu/i })).not.toBeInTheDocument()
+    expect(screen.getByText(/open in kakao maps from your phone if needed/i)).toBeInTheDocument()
   })
 
   test('map phase C1 shows clean route semantics and updates with selected date', () => {
