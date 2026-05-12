@@ -1746,6 +1746,8 @@ function loadKakaoMapsSdk() {
 function App() {
   const [activeTab, setActiveTab] = useState('map')
   const [selectedDayKey, setSelectedDayKey] = useState('may-17')
+  const [calendarView, setCalendarView] = useState('day')
+  const [miniCalendarOpen, setMiniCalendarOpen] = useState(false)
   const [selectedHomeMapTargetName, setSelectedHomeMapTargetName] = useState('Haus Nowhere Seongsu')
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
   const [selectedBookingKey, setSelectedBookingKey] = useState('beauty')
@@ -2746,29 +2748,124 @@ function App() {
           )}
 
           {activeTab === 'calendar' && (
-            <section className="content-screen v2-placeholder-screen calendar-screen">
+            <section className="content-screen calendar-screen phase-d-calendar-screen">
               <header className="page-header wide-header stacked-mobile glass-card">
                 <div>
-                  <span className="search-type">Day view</span>
+                  <span className="search-type">Calendar syncs Map date</span>
                   <h2 className="page-title">Calendar</h2>
-                  <p>Google-Calendar-style schedule shell for bookings, appointments, meals, and transit.</p>
+                  <p>Day-first timeline for bookings, meals, beauty appointments, transit, and hotel anchors.</p>
                 </div>
-                <span className="chip chip-gold">Phase B shell</span>
+                <span className="chip chip-gold">Phase D</span>
               </header>
-              <div className="glass-card calendar-shell-card">
-                <button className="date-dropdown-pill" type="button">{selectedDay.date} · mini calendar</button>
-                <div className="calendar-hour-grid" aria-label="Calendar day timeline">
-                  {selectedDayPlanner.slice(0, 5).map((item) => (
-                    <article key={`calendar-${item.id}`} className="calendar-event-card">
-                      <time>{item.time}</time>
-                      <div>
-                        <h3>{item.title}</h3>
-                        <p>{item.note}</p>
-                      </div>
-                    </article>
+
+              <div className="glass-card calendar-control-card">
+                <button
+                  aria-expanded={miniCalendarOpen}
+                  aria-label={miniCalendarOpen ? 'Close mini calendar' : 'Open mini calendar'}
+                  className="date-dropdown-pill calendar-date-toggle"
+                  type="button"
+                  onClick={() => setMiniCalendarOpen((open) => !open)}
+                >
+                  <span>{selectedDay.date}</span>
+                  <strong>{selectedDay.label}</strong>
+                </button>
+
+                <div className="calendar-view-toggle" aria-label="Calendar view selector">
+                  {['day', 'week', 'month'].map((view) => (
+                    <button
+                      key={view}
+                      aria-label={`${view} view`}
+                      className={calendarView === view ? 'active' : ''}
+                      type="button"
+                      onClick={() => setCalendarView(view)}
+                    >
+                      {view[0].toUpperCase() + view.slice(1)}
+                    </button>
                   ))}
                 </div>
+
+                {miniCalendarOpen ? (
+                  <div className="mini-month-calendar" aria-label="Mini month calendar">
+                    {itineraryCalendarDays.map((day) => (
+                      <button
+                        key={`calendar-mini-${day.key}`}
+                        aria-label={`${day.date} ${day.label}`}
+                        className={selectedDay.key === day.key ? 'active' : ''}
+                        type="button"
+                        onClick={() => {
+                          setSelectedDayKey(day.key)
+                          setMiniCalendarOpen(false)
+                        }}
+                      >
+                        <span>{day.weekday}</span>
+                        <strong>{day.date.replace('May ', '')}</strong>
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
               </div>
+
+              {calendarView === 'day' && (
+                <div className="glass-card calendar-shell-card phase-d-day-card">
+                  <div className="calendar-day-heading">
+                    <span className="search-type">Day view</span>
+                    <h3>{selectedDay.date} · {selectedDay.label}</h3>
+                    <p>{selectedDay.focus}</p>
+                  </div>
+                  <div className="calendar-hour-grid phase-d-hour-grid" aria-label="Calendar day timeline">
+                    {selectedDayPlanner.map((item) => (
+                      <article key={`calendar-${item.id}`} className={`calendar-event-card ${item.type}`}>
+                        <time>{item.time}</time>
+                        <div>
+                          <h3>{item.title}</h3>
+                          <p>{item.note}</p>
+                        </div>
+                        <span>{item.type === 'confirmed' ? 'Set' : 'Flex'}</span>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {calendarView === 'week' && (
+                <div className="glass-card calendar-shell-card phase-d-week-card">
+                  <h3>Week of {selectedDay.date}</h3>
+                  <div className="calendar-week-grid">
+                    {itineraryCalendarDays.slice(Math.max(0, itineraryCalendarDays.findIndex((day) => day.key === selectedDay.key) - 3), Math.max(0, itineraryCalendarDays.findIndex((day) => day.key === selectedDay.key) - 3) + 7).map((day) => (
+                      <button
+                        key={`week-${day.key}`}
+                        className={selectedDay.key === day.key ? 'active' : ''}
+                        type="button"
+                        onClick={() => setSelectedDayKey(day.key)}
+                      >
+                        <span>{day.weekday}</span>
+                        <strong>{day.date}</strong>
+                        <small>{day.label}</small>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {calendarView === 'month' && (
+                <div className="glass-card calendar-shell-card phase-d-month-card">
+                  <h3>May 2026 trip month</h3>
+                  <div className="calendar-month-grid">
+                    {itineraryCalendarDays.map((day) => (
+                      <button
+                        key={`month-${day.key}`}
+                        className={selectedDay.key === day.key ? 'active' : ''}
+                        type="button"
+                        onClick={() => setSelectedDayKey(day.key)}
+                      >
+                        <span>{day.weekday}</span>
+                        <strong>{day.date.replace('May ', '')}</strong>
+                        <small>{day.label}</small>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </section>
           )}
 

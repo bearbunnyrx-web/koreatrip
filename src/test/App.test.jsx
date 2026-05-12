@@ -52,6 +52,35 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
   })
 
+  test('calendar phase D has day week month views and shares selected date with map', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^calendar$/i })[0])
+
+    expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /day view/i })).toHaveClass('active')
+    expect(screen.getByRole('button', { name: /week view/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /month view/i })).toBeInTheDocument()
+    expect(screen.getByLabelText(/calendar day timeline/i)).toBeInTheDocument()
+    expect(screen.queryByLabelText(/mini month calendar/i)).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /open mini calendar/i }))
+    const miniCalendar = screen.getByLabelText(/mini month calendar/i)
+    expect(miniCalendar).toBeInTheDocument()
+
+    fireEvent.click(within(miniCalendar).getByRole('button', { name: /may 22 jamsil hotel day/i }))
+    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
+    expect(screen.getByText(/reone dermatology consult/i)).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /week view/i }))
+    expect(screen.getByRole('heading', { name: /week of may 22/i })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /month view/i }))
+    expect(screen.getByRole('heading', { name: /may 2026 trip month/i })).toBeInTheDocument()
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^map$/i })[0])
+    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
+  })
+
   test('derm tab compares Korean 피부과 procedures for early 30s', () => {
     render(<App />)
 
