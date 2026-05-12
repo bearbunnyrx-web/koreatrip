@@ -1628,16 +1628,18 @@ function sourceUrlForOption(option) {
 }
 
 function buildInspirationItemsFromBoards(boards) {
-  return boards.flatMap((board) => board.comparison.slice(0, 12).map((option, index) => ({
-    id: `${board.key}-${index}-${option.place || option.title}`,
-    title: option.place || option.title || board.title,
-    imageUrl: option.thumbnail || board.previewImages?.[0] || '',
-    sourceUrl: sourceUrlForOption(option),
-    sourcePlatform: sourcePlatformForOption(option),
-    tag: inspirationTagForOption(option),
-    linkedPlace: option.place || option.title || '',
-    createdAt: option.sourceThemeTitle || board.title,
-  }))).slice(0, 96)
+  return boards.flatMap((board) => board.comparison
+    .filter((option, index) => index < 12 || threadSharedInstagramCodes.has(instagramCodeFromUrl(sourceUrlForOption(option))))
+    .map((option, index) => ({
+      id: `${board.key}-${index}-${option.place || option.title}`,
+      title: option.place || option.title || board.title,
+      imageUrl: option.thumbnail || board.previewImages?.[0] || '',
+      sourceUrl: sourceUrlForOption(option),
+      sourcePlatform: sourcePlatformForOption(option),
+      tag: inspirationTagForOption(option),
+      linkedPlace: option.place || option.title || '',
+      createdAt: option.sourceThemeTitle || board.title,
+    }))).slice(0, 96)
 }
 
 function dedupeTargets(targets) {
@@ -1764,6 +1766,13 @@ let kakaoMapsPromise
 const inlinePlayableInstagramCodes = new Set([
   // QA-confirmed: this embed opens as an in-app playable reel instead of a hard Instagram redirect card.
   'DUzUdqHktkF',
+])
+
+const threadSharedInstagramCodes = new Set([
+  // Food/cafe reels Dr. Cho shared in this Discord Instagram thread.
+  'DXO4pYzk71U',
+  'DQymX5JEURP',
+  'DS19yCsEQun',
 ])
 
 function instagramCodeFromUrl(sourceUrl = '') {
@@ -2276,8 +2285,13 @@ function App() {
         seen.add(embedUrl)
         return true
       })
-      .sort((a, b) => Number(isInlinePlayableInstagramItem(b)) - Number(isInlinePlayableInstagramItem(a)))
-      .slice(0, 9)
+      .sort((a, b) => {
+        const aCode = instagramCodeFromUrl(a.sourceUrl)
+        const bCode = instagramCodeFromUrl(b.sourceUrl)
+        return Number(isInlinePlayableInstagramItem(b)) - Number(isInlinePlayableInstagramItem(a))
+          || Number(threadSharedInstagramCodes.has(bCode)) - Number(threadSharedInstagramCodes.has(aCode))
+      })
+      .slice(0, 12)
   }, [inspirationItems])
 
   useEffect(() => {
