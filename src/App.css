@@ -3571,24 +3571,6 @@ a {
 .home-map-road.road-b { width: 70%; left: 20%; top: 58%; transform: rotate(-30deg); }
 .home-map-road.road-c { width: 60%; left: -8%; top: 76%; transform: rotate(10deg); }
 
-.home-map-route-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.home-route-solid,
-.home-route-dashed {
-  fill: none;
-  stroke: var(--active-day-color);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.home-route-solid { stroke-width: 1.25; opacity: .92; }
-.home-route-dashed { stroke-width: 1; opacity: .72; stroke-dasharray: 2.2 2; }
-
 .home-map-topbar {
   position: absolute;
   z-index: 8;

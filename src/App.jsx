@@ -4,13 +4,18 @@ import BottomNav from './components/BottomNav'
 import { createSupabaseClient } from './lib/supabaseClient'
 import { createTripStateStore } from './lib/tripStateStore'
 
-const tabs = ['home', 'bookings', 'derm', 'places', 'itinerary']
+const tabs = ['map', 'calendar', 'inspiration', 'receipts']
 const tabMeta = {
-  home: { label: 'Home', navLabel: 'Home', icon: '⌂', short: 'H', helper: 'search + trip overview' },
-  bookings: { label: 'Step 1: Choose Places', navLabel: 'Choose', icon: '♡', short: '1', helper: 'choose places' },
-  derm: { label: 'Derm Procedures', navLabel: 'Derm', icon: 'D', short: 'D', helper: 'skin procedure guide' },
-  places: { label: 'Step 2: Select Date', navLabel: 'Date', icon: '◇', short: '2', helper: 'assign dates' },
-  itinerary: { label: 'Step 3: Itinerary', navLabel: 'Itinerary', icon: '☑', short: '3', helper: 'final route' },
+  map: { label: 'Map', navLabel: 'Map', icon: '🗺️', short: 'M', helper: 'spatial route view' },
+  calendar: { label: 'Calendar', navLabel: 'Calendar', icon: '📅', short: 'C', helper: 'day schedule' },
+  inspiration: { label: 'Inspiration', navLabel: 'Inspiration', icon: '📌', short: 'I', helper: 'saved reels + ideas' },
+  receipts: { label: 'Receipts', navLabel: 'Receipts', icon: '🧾', short: 'R', helper: 'confirmations + spend' },
+}
+const legacyTabMeta = {
+  bookings: { label: 'Step 1: Choose Places' },
+  derm: { label: 'Derm Procedures' },
+  places: { label: 'Step 2: Select Date' },
+  itinerary: { label: 'Step 3: Itinerary' },
 }
 const TRIP_START = new Date('2026-05-16T00:00:00')
 const TRIP_END = new Date('2026-05-27T23:59:59')
@@ -1720,7 +1725,7 @@ function loadKakaoMapsSdk() {
 }
 
 function App() {
-  const [activeTab, setActiveTab] = useState('home')
+  const [activeTab, setActiveTab] = useState('map')
   const [selectedDayKey, setSelectedDayKey] = useState('may-17')
   const [selectedHomeMapTargetName, setSelectedHomeMapTargetName] = useState('Haus Nowhere Seongsu')
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
@@ -2242,7 +2247,7 @@ function App() {
     window.navigator.clipboard?.writeText(selectedHomeMapTarget.koreanName)
   }
 
-  const mapSource = activeTab === 'home'
+  const mapSource = activeTab === 'map' || activeTab === 'home'
     ? selectedDay
     : activeTab === 'itinerary'
       ? selectedDay
@@ -2544,7 +2549,7 @@ function App() {
         }
 
         setMapStatus('ready')
-        const mapContextLabel = activeTab === 'home' || activeTab === 'itinerary'
+        const mapContextLabel = activeTab === 'map' || activeTab === 'home' || activeTab === 'itinerary'
           ? mapSource.date
           : activeTab === 'places'
             ? mapSource.title
@@ -2595,6 +2600,14 @@ function App() {
             )})}
           </nav>
 
+          <nav className="legacy-workspace-shortcuts sr-only" aria-label="Legacy planning shortcuts">
+            {Object.entries(legacyTabMeta).map(([tab, meta]) => (
+              <button key={tab} type="button" aria-label={meta.label} onClick={() => setActiveTab(tab)}>
+                {meta.label}
+              </button>
+            ))}
+          </nav>
+
           <div className="sidebar-foot desktop-only">
             <div className="metric-pill">
               <span>Trip range</span>
@@ -2608,7 +2621,7 @@ function App() {
         </aside>
 
         <main className="content-shell">
-          {activeTab === 'home' && (
+          {(activeTab === 'map' || activeTab === 'home') && (
             <section className="content-screen map-first-home-screen" style={{ '--active-day-color': mapDayColors[selectedDay.key] ?? mapDayColors.undecided }}>
               <div className="home-map-surface" aria-label="Map-first Korea trip home">
                 <div ref={mapCanvasRef} className="map-canvas home-kakao-map-canvas" />
@@ -2618,11 +2631,6 @@ function App() {
                   <div className="home-map-road road-b" />
                   <div className="home-map-road road-c" />
                 </div>
-                <svg className="home-map-route-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                  <path className="home-route-solid" d="M37 28 C44 32 49 35 56 39 S61 43 63 46" />
-                  <path className="home-route-dashed" d="M63 46 C56 50 45 54 31 48" />
-                </svg>
-
                 <header className="home-map-topbar">
                   <div className="home-trip-pill glass-card">
                     <span>{tripCountdownLabel()}</span>
@@ -2684,6 +2692,86 @@ function App() {
                     <span>{day.label.split(' ')[0]}</span>
                   </button>
                 ))}
+              </div>
+            </section>
+          )}
+
+          {activeTab === 'calendar' && (
+            <section className="content-screen v2-placeholder-screen calendar-screen">
+              <header className="page-header wide-header stacked-mobile glass-card">
+                <div>
+                  <span className="search-type">Day view</span>
+                  <h2 className="page-title">Calendar</h2>
+                  <p>Google-Calendar-style schedule shell for bookings, appointments, meals, and transit.</p>
+                </div>
+                <span className="chip chip-gold">Phase B shell</span>
+              </header>
+              <div className="glass-card calendar-shell-card">
+                <button className="date-dropdown-pill" type="button">{selectedDay.date} · mini calendar</button>
+                <div className="calendar-hour-grid" aria-label="Calendar day timeline">
+                  {selectedDayPlanner.slice(0, 5).map((item) => (
+                    <article key={`calendar-${item.id}`} className="calendar-event-card">
+                      <time>{item.time}</time>
+                      <div>
+                        <h3>{item.title}</h3>
+                        <p>{item.note}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {activeTab === 'inspiration' && (
+            <section className="content-screen v2-placeholder-screen inspiration-screen">
+              <header className="page-header wide-header stacked-mobile glass-card">
+                <div>
+                  <span className="search-type">Pinterest grid</span>
+                  <h2 className="page-title">Inspiration</h2>
+                  <p>Manual screenshot upload first; cards will link Reels/blog saves back to places.</p>
+                </div>
+                <span className="chip chip-sage">Phase B shell</span>
+              </header>
+              <div className="inspiration-masonry-preview">
+                {stepOneThemeBoards.slice(0, 6).map((board) => (
+                  <article key={`inspo-${board.key}`} className="glass-card inspiration-card-preview">
+                    {board.previewImages[0] ? <img src={board.previewImages[0]} alt="" /> : null}
+                    <h3>{board.title}</h3>
+                    <p>{board.comparison.length} saved ideas</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {activeTab === 'receipts' && (
+            <section className="content-screen v2-placeholder-screen receipts-screen">
+              <header className="page-header wide-header stacked-mobile glass-card">
+                <div>
+                  <span className="search-type">Upload + extract</span>
+                  <h2 className="page-title">Receipts</h2>
+                  <p>Booking confirmations and receipts will be grouped, extracted, and linked to events/places.</p>
+                </div>
+                <span className="chip chip-rose">Phase B shell</span>
+              </header>
+              <div className="spend-layout">
+                <div className="glass-card spend-table">
+                  {spend.map((row) => (
+                    <article className="spend-row" key={`receipt-${row.item}`}>
+                      <div>
+                        <h3>{row.item}</h3>
+                        <p>{row.detail}</p>
+                      </div>
+                      <strong className="amount">{row.amount}</strong>
+                    </article>
+                  ))}
+                </div>
+                <div className="summary-card glass-card warm-card">
+                  <span>Total logged</span>
+                  <strong>${loggedSpend.toLocaleString()}</strong>
+                  <p>Current hidden spend data promoted into the V2 receipts shell.</p>
+                </div>
               </div>
             </section>
           )}

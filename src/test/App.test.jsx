@@ -34,19 +34,22 @@ describe('Korea trip app v2 concept', () => {
     expect(container.querySelector('.map-first-home-screen')?.firstElementChild).toHaveClass('home-map-surface')
   })
 
-  test('bottom navigation is fixed with short Home Choose Derm Date Itinerary labels and switches tabs', () => {
+  test('bottom navigation is fixed with V2 Map Calendar Inspiration Receipts labels and switches tabs', () => {
     const { container } = render(<App />)
     const bottomNav = container.querySelector('.mobile-bottom-nav')
 
     expect(bottomNav).toBeInTheDocument()
-    expect(within(bottomNav).getByText('Home')).toBeInTheDocument()
-    expect(within(bottomNav).getByText('Choose')).toBeInTheDocument()
-    expect(within(bottomNav).getByText('Derm')).toBeInTheDocument()
-    expect(within(bottomNav).getByText('Date')).toBeInTheDocument()
-    expect(within(bottomNav).getByText('Itinerary')).toBeInTheDocument()
+    expect(within(bottomNav).getByText('Map')).toBeInTheDocument()
+    expect(within(bottomNav).getByText('Calendar')).toBeInTheDocument()
+    expect(within(bottomNav).getByText('Inspiration')).toBeInTheDocument()
+    expect(within(bottomNav).getByText('Receipts')).toBeInTheDocument()
+    expect(within(bottomNav).queryByText('Choose')).not.toBeInTheDocument()
+    expect(within(bottomNav).queryByText('Derm')).not.toBeInTheDocument()
+    expect(within(bottomNav).queryByText('Date')).not.toBeInTheDocument()
+    expect(within(bottomNav).queryByText('Itinerary')).not.toBeInTheDocument()
 
-    fireEvent.click(within(bottomNav).getByRole('button', { name: /step 1: choose places/i }))
-    expect(screen.getByRole('heading', { name: /^step 1: choose places$/i })).toBeInTheDocument()
+    fireEvent.click(within(bottomNav).getByRole('button', { name: /calendar/i }))
+    expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
   })
 
   test('derm tab compares Korean 피부과 procedures for early 30s', () => {
@@ -154,7 +157,7 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/may 17 · seongsu beauty/i)).toBeInTheDocument()
     expect(container.querySelector('.map-first-home-screen')).toBeInTheDocument()
     expect(container.querySelector('.map-first-date-strip')).toBeInTheDocument()
-    expect(container.querySelector('.home-map-route-layer')).toBeInTheDocument()
+    expect(container.querySelector('.home-map-route-layer')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /map marker haus nowhere seongsu/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /map marker tamburins seongsu/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /may 20 gangnam/i })).toHaveClass('is-faded')
