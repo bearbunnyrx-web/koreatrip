@@ -171,6 +171,26 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('button', { name: /copy korean name for tamburins seongsu/i })).toBeInTheDocument()
   })
 
+  test('map phase C1 shows clean route semantics and updates with selected date', () => {
+    const { container } = render(<App />)
+
+    const routeSummary = container.querySelector('.map-route-summary-card')
+    expect(routeSummary).toBeInTheDocument()
+    expect(within(routeSummary).getByText(/selected day/i)).toBeInTheDocument()
+    expect(within(routeSummary).getByText(/4 confirmed stops/i)).toBeInTheDocument()
+    expect(within(routeSummary).getByText(/3 candidate pins/i)).toBeInTheDocument()
+    expect(within(routeSummary).getByText(/real kakao route pending api key/i)).toBeInTheDocument()
+    expect(container.querySelector('.home-map-route-layer')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /map marker tamburins seongsu/i })).toHaveClass('confirmed')
+    expect(screen.getByRole('button', { name: /map marker haus nowhere seongsu/i })).toHaveClass('candidate')
+
+    fireEvent.click(screen.getByRole('button', { name: /may 22 jamsil hotel day/i }))
+
+    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
+    expect(within(routeSummary).getByText(/selected day/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /map marker 리원피부과의원/i })).toBeInTheDocument()
+  })
+
   test('theme toggle uses a simple icon instead of text labels', () => {
     render(<App />)
 

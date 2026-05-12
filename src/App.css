@@ -3633,6 +3633,47 @@ a {
 }
 
 .home-map-legend .legend-muted { background: #9a9690; }
+.home-map-legend .legend-confirmed { background: var(--active-day-color); }
+
+.map-route-summary-card {
+  position: absolute;
+  z-index: 8;
+  right: 18px;
+  top: 112px;
+  width: min(300px, calc(100% - 36px));
+  padding: 13px 14px;
+  border-radius: 22px;
+  color: var(--text);
+}
+
+.map-route-summary-card strong {
+  display: block;
+  margin-top: 3px;
+  font-size: .98rem;
+}
+
+.map-route-stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 10px 0 8px;
+}
+
+.map-route-stat-row span {
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .58);
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 700;
+}
+
+.map-route-summary-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .72rem;
+  line-height: 1.35;
+}
 
 .home-map-marker {
   position: absolute;

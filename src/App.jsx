@@ -68,6 +68,7 @@ const mapMarkerPositions = {
   'Blue Elephant Seongsu': { left: '31%', top: '48%' },
   '동화고옥 롯데월드몰점': { left: '72%', top: '69%' },
   'Sofitel Ambassador Seoul': { left: '74%', top: '64%' },
+  '리원피부과의원': { left: '66%', top: '58%' },
   'ReOne Dermatology': { left: '66%', top: '58%' },
 }
 const koreanPlaceNames = {
@@ -78,6 +79,11 @@ const koreanPlaceNames = {
   'TIRTIR Seongsu': '티르티르 성수',
   'Blue Elephant Seongsu': '블루엘리펀트 성수',
   '동화고옥 롯데월드몰점': '동화고옥 롯데월드몰점',
+  '리원피부과의원': '리원피부과의원',
+}
+const mapTargetAliases = {
+  '리원피부과의원': ['ReOne', 'ReOne Dermatology'],
+  'Sofitel Ambassador Seoul': ['Sofitel', 'hotel-area start'],
 }
 const dermProcedures = [
   {
@@ -1449,6 +1455,18 @@ function normalizeToken(value) {
   return value.toLowerCase().replace(/[^a-z0-9가-힣]+/g, ' ').trim()
 }
 
+function mapTargetMatchesStop(target, stop) {
+  const haystack = [stop.title, stop.detail, stop.neighborhood].map(normalizeToken).join(' ')
+  const targetTokens = [target.name, target.query, ...(mapTargetAliases[target.name] || [])]
+    .map((value) => normalizeToken(value || ''))
+    .filter(Boolean)
+
+  return targetTokens.some((token) => {
+    const firstToken = token.split(' ')[0]
+    return haystack.includes(token) || (firstToken && haystack.includes(firstToken))
+  })
+}
+
 function buildPlannerItems(day) {
   const template = dayPlannerTemplates[day.key]
 
@@ -1460,9 +1478,9 @@ function buildPlannerItems(day) {
     title: stop.title,
     note: stop.type === 'anchor' || stop.type === 'hotel' ? 'Fixed anchor' : stop.type === 'transit' ? 'Transit / keep flexible' : 'Candidate → confirm',
     status: stop.status || day.status || (stop.type === 'anchor' || stop.type === 'hotel' ? 'confirmed anchor' : 'TBD'),
-    type: stop.type === 'anchor' || stop.type === 'hotel' || stop.type === 'meal' ? 'confirmed' : 'candidate',
+    type: stop.type === 'anchor' || stop.type === 'hotel' || stop.type === 'meal' || stop.type === 'beauty' ? 'confirmed' : 'candidate',
     targetNames: day.mapTargets
-      .filter((target) => normalizeToken(stop.title).includes(normalizeToken(target.name).split(' ')[0]))
+      .filter((target) => mapTargetMatchesStop(target, stop))
       .map((target) => target.name),
   }))
 }
@@ -2217,7 +2235,7 @@ function App() {
   )
 
   const homeMapTargets = useMemo(() => {
-    const routeNames = new Set(selectedDayPlanner.flatMap((item) => item.targetNames))
+    const confirmedNames = new Set(confirmedRouteTargets.map((target) => target.name))
     return selectedDay.mapTargets.map((target, index) => ({
       ...target,
       dayKey: selectedDay.key,
@@ -2226,9 +2244,9 @@ function App() {
       mapColor: mapDayColors[selectedDay.key] ?? mapDayColors.undecided,
       koreanName: koreanPlaceNames[target.name] || target.query || target.name,
       position: mapMarkerPositions[target.name] || { left: `${28 + (index % 4) * 15}%`, top: `${28 + Math.floor(index / 4) * 18}%` },
-      markerType: routeNames.has(target.name) ? 'confirmed' : 'candidate',
+      markerType: confirmedNames.has(target.name) ? 'confirmed' : 'candidate',
     }))
-  }, [selectedDay, selectedDayPlanner])
+  }, [confirmedRouteTargets, selectedDay])
 
   const selectedHomeMapTarget = useMemo(
     () => homeMapTargets.find((target) => target.name === selectedHomeMapTargetName) ?? homeMapTargets[0],
@@ -2642,8 +2660,19 @@ function App() {
 
                 <div className="home-map-legend glass-card">
                   <span><i style={{ background: mapDayColors[selectedDay.key] }} />{selectedDay.date}</span>
-                  <span><i className="legend-muted" />other days faded</span>
+                  <span><i className="legend-confirmed" />confirmed route</span>
+                  <span><i className="legend-muted" />candidate pins</span>
                 </div>
+
+                <aside className="map-route-summary-card glass-card" aria-label="Selected day route summary">
+                  <span className="search-type">Selected day</span>
+                  <strong>{selectedDay.date} · {selectedDay.area}</strong>
+                  <div className="map-route-stat-row">
+                    <span>{confirmedRouteTargets.length} confirmed stops</span>
+                    <span>{candidateTargets.length} candidate pins</span>
+                  </div>
+                  <p>Real Kakao route pending API key / Phase C2. Current pins use confirmed vs candidate semantics only.</p>
+                </aside>
 
                 {homeMapTargets.map((target, index) => (
                   <button
