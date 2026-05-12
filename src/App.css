@@ -4392,12 +4392,12 @@ a {
 
 .receipt-dashboard {
   display: grid;
-  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  grid-template-columns: minmax(220px, .9fr) minmax(260px, 1.1fr);
   gap: 12px;
   margin-top: 14px;
 }
 
-.receipt-dashboard-stat,
+.receipt-dashboard-summary,
 .receipt-dashboard-balance {
   border: 1px solid var(--border);
   border-radius: 20px;
@@ -4406,28 +4406,32 @@ a {
   box-shadow: 0 12px 28px rgba(74, 54, 36, .06);
 }
 
-.receipt-dashboard-stat {
+.receipt-dashboard-summary {
   display: grid;
-  gap: 5px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(145, 91, 91, .14), rgba(223, 194, 151, .16));
 }
 
-.receipt-dashboard-stat.primary {
-  background: linear-gradient(135deg, rgba(145, 91, 91, .16), rgba(223, 194, 151, .18));
+.receipt-dashboard-summary > div,
+.receipt-dashboard-balance > div:first-child {
+  display: grid;
+  gap: 5px;
 }
 
 .receipt-dashboard span,
 .receipt-dashboard small,
 .receipt-date-heading span {
   color: var(--muted);
-  font-size: .72rem;
+  font-size: .68rem;
   font-weight: 800;
-  letter-spacing: .07em;
+  letter-spacing: .06em;
   text-transform: uppercase;
 }
 
 .receipt-dashboard strong {
   color: var(--text);
-  font-size: 1.05rem;
+  font-size: clamp(.92rem, 2.5vw, 1.05rem);
   line-height: 1.1;
 }
 
@@ -4438,47 +4442,71 @@ a {
 }
 
 .receipt-dashboard-balance {
+  display: grid;
+  grid-template-columns: minmax(130px, .68fr) minmax(130px, .72fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.receipt-payer-pillars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(58px, 1fr));
+  gap: 12px;
+  align-items: end;
+  min-height: 130px;
+}
+
+.receipt-payer-pillar {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  text-align: center;
+}
+
+.receipt-pillar-stack {
+  width: 42px;
+  height: 92px;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
+  border-radius: 999px 999px 12px 12px;
+  background: rgba(113, 88, 69, .10);
+  box-shadow: inset 0 0 0 1px rgba(113, 88, 69, .12);
+}
+
+.receipt-pillar-stack i {
+  display: block;
+  min-height: 7px;
+}
+
+.receipt-payer-pillar strong {
+  font-size: .82rem;
+}
+
+.receipt-payer-pillar small {
+  font-size: .66rem;
+}
+
+.receipt-category-legend {
   grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(160px, .8fr) minmax(200px, 1.2fr);
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+
+.receipt-category-legend span {
+  display: inline-flex;
   align-items: center;
+  gap: 5px;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: .7rem;
 }
 
-.receipt-dashboard-balance > div:first-child {
-  display: grid;
-  gap: 6px;
-}
-
-.receipt-mini-bars {
-  display: grid;
-  gap: 8px;
-}
-
-.receipt-mini-bar-row {
-  display: grid;
-  grid-template-columns: 72px 1fr 22px;
-  align-items: center;
-  gap: 8px;
-}
-
-.receipt-mini-bar-row span,
-.receipt-mini-bar-row strong {
-  font-size: .76rem;
-}
-
-.receipt-mini-bar-track {
+.receipt-category-legend i {
+  width: 8px;
   height: 8px;
   border-radius: 999px;
-  overflow: hidden;
-  background: rgba(113, 88, 69, .12);
-}
-
-.receipt-mini-bar-track i {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, rgba(145, 91, 91, .84), rgba(217, 166, 105, .9));
 }
 
 .simple-receipt-list {
@@ -4616,13 +4644,35 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .receipt-dashboard,
-  .receipt-dashboard-balance {
+  .receipt-dashboard {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
 
-  .receipt-mini-bar-row {
-    grid-template-columns: 64px 1fr 20px;
+  .receipt-dashboard-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .receipt-dashboard-balance {
+    grid-template-columns: .72fr 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .receipt-payer-pillars {
+    min-height: 104px;
+    gap: 8px;
+  }
+
+  .receipt-pillar-stack {
+    width: 34px;
+    height: 72px;
+  }
+
+  .receipt-category-legend {
+    gap: 4px 8px;
   }
 }
 

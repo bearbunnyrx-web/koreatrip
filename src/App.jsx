@@ -1430,11 +1430,16 @@ placeGroups.push(...aprilInstagramBatchPlaces.map(([key, themeKey, themeTitle, t
 })))
 
 
-const spend = [
-  { item: 'Flights', detail: 'China Airlines long-haul roundtrip for both', amount: '$960' },
-  { item: 'Jeju flight', detail: 'Jeju Air 7C115 / 7C114 for both', amount: '$200' },
-  { item: 'Rental car', detail: 'Kona 2nd gen EV · 5/19 13:00 → 5/21 10:00', amount: '$35' },
-]
+const spend = []
+
+const receiptCategoryColors = {
+  Transit: '#8aa7c7',
+  Beauty: '#c98fa0',
+  Food: '#d9a669',
+  Hotels: '#9b8ac7',
+  Activities: '#8bbf9f',
+  Other: '#b8aa9a',
+}
 
 const todoRules = {
   'headspa': { label: 'Book arrival-day headspa', dueDate: '2026-05-10', priority: 1 },
@@ -2440,8 +2445,20 @@ function App() {
         category,
         count,
         width: `${Math.max(12, Math.round((count / maxCount) * 100))}%`,
+        color: receiptCategoryColors[category] || receiptCategoryColors.Other,
       }))
   }, [receiptRecords])
+
+  const receiptPayerPillars = useMemo(() => {
+    const categorySegments = receiptCategoryBreakdown.map((item) => ({
+      ...item,
+      height: `${Math.max(10, Math.round((item.count / Math.max(1, receiptRecords.length)) * 100))}%`,
+    }))
+    return [
+      { person: 'Dr. Cho', label: 'shared estimate', segments: categorySegments },
+      { person: 'Dr. Ho', label: 'shared estimate', segments: categorySegments },
+    ]
+  }, [receiptCategoryBreakdown, receiptRecords.length])
 
   const receiptDateGroups = useMemo(() => {
     const groups = receiptRecords.reduce((acc, receipt) => {
@@ -3187,34 +3204,49 @@ function App() {
                   <span className="search-type">Trip balance dashboard</span>
                   <h2 className="page-title">Receipts</h2>
                   <div className="receipt-dashboard" aria-label="Receipts dashboard">
-                    <div className="receipt-dashboard-stat primary">
-                      <span>Total tracked</span>
-                      <strong>{receiptRecords.length}</strong>
-                      <small>receipts + bookings</small>
-                    </div>
-                    <div className="receipt-dashboard-stat">
-                      <span>KRW total</span>
-                      <strong>{receiptSummary.krwTotal || '₩0'}</strong>
-                      <small>shared Korea spend</small>
-                    </div>
-                    <div className="receipt-dashboard-stat">
-                      <span>USD total</span>
-                      <strong>{receiptSummary.usdTotal}</strong>
-                      <small>card / PayPal items</small>
+                    <div className="receipt-dashboard-summary">
+                      <div>
+                        <span>Total tracked</span>
+                        <strong>{receiptRecords.length}</strong>
+                        <small>receipts + bookings</small>
+                      </div>
+                      <div>
+                        <span>KRW total</span>
+                        <strong>{receiptSummary.krwTotal || '₩0'}</strong>
+                        <small>Korea spend</small>
+                      </div>
+                      <div>
+                        <span>USD total</span>
+                        <strong>{receiptSummary.usdTotal}</strong>
+                        <small>card / PayPal</small>
+                      </div>
                     </div>
                     <div className="receipt-dashboard-balance">
                       <div>
-                        <span>Trip Balance</span>
-                        <strong>Ready for Dr. Cho + Dr. Ho</strong>
-                        <small>Add “paid by” next, then this becomes our Splitwise replacement.</small>
+                        <span>Paid-by graph</span>
+                        <strong>Dr. Cho / Dr. Ho</strong>
+                        <small>Shared estimate now; “paid by” inputs will make this exact.</small>
                       </div>
-                      <div className="receipt-mini-bars" aria-label="Receipt category graph">
-                        {receiptCategoryBreakdown.map((item) => (
-                          <div className="receipt-mini-bar-row" key={item.category}>
-                            <span>{item.category}</span>
-                            <div className="receipt-mini-bar-track"><i style={{ width: item.width }} /></div>
-                            <strong>{item.count}</strong>
+                      <div className="receipt-payer-pillars" aria-label="Dr. Cho and Dr. Ho stacked category graph">
+                        {receiptPayerPillars.map((pillar) => (
+                          <div className="receipt-payer-pillar" key={pillar.person}>
+                            <div className="receipt-pillar-stack" aria-hidden="true">
+                              {pillar.segments.map((segment) => (
+                                <i
+                                  key={`${pillar.person}-${segment.category}`}
+                                  style={{ height: segment.height, background: segment.color }}
+                                  title={`${segment.category}: ${segment.count}`}
+                                />
+                              ))}
+                            </div>
+                            <strong>{pillar.person}</strong>
+                            <small>{pillar.label}</small>
                           </div>
+                        ))}
+                      </div>
+                      <div className="receipt-category-legend" aria-label="Receipt category legend">
+                        {receiptCategoryBreakdown.map((item) => (
+                          <span key={item.category}><i style={{ background: item.color }} />{item.category} {item.count}</span>
                         ))}
                       </div>
                     </div>

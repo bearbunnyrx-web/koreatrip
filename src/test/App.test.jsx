@@ -103,6 +103,7 @@ describe('Korea trip app v2 concept', () => {
   })
 
   test('receipts are a simple receipt-styled list fed from Discord with the shared sticky date header', () => {
+    window.localStorage.setItem('korea-trip-receipts', JSON.stringify([{ id: 'manual-dashboard-test', vendor: 'Dashboard Receipt', date: '2026-05-21', amountMinor: 120000, currency: 'KRW', category: 'Food', status: 'review', placeGuess: 'Bonyeon', notes: 'Dashboard test receipt.' }]))
     const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
@@ -113,8 +114,8 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/trip balance dashboard/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/receipts dashboard/i)).toBeInTheDocument()
     expect(screen.getAllByText(/1503846727273283787/i).length).toBeGreaterThan(0)
-    expect(screen.getByText(/ready for dr\. cho \+ dr\. ho/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/receipt category graph/i)).toBeInTheDocument()
+    expect(screen.getByText(/dr\. cho \/ dr\. ho/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/dr\. cho and dr\. ho stacked category graph/i)).toBeInTheDocument()
     expect(container.querySelector('.simple-receipt-list')).toBeInTheDocument()
     expect(container.querySelector('.receipt-date-group')).toBeInTheDocument()
     expect(container.querySelector('.receipt-paper-card')).toBeInTheDocument()
