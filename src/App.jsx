@@ -1362,6 +1362,7 @@ const aprilInstagramBatchThemes = [
   ['seongsu-tea-design', 'Seongsu tea design saves', 'Instagram batch', 'Quiet tea/design experiences for a softer Seongsu stop.'],
   ['limited-food-popups', 'Limited food promos / re-check', 'Needs re-check', 'Date-limited food promos saved only for availability verification.'],
   ['yeonnam-food-saves', 'Yeonnam food saves', 'Instagram batch', 'Yeonnam/Hongdae-area food ideas from reels.'],
+  ['seoul-chicken-saves', 'Seoul chicken saves', 'Instagram batch', 'Dakgalbi and chicken-focused Seoul food reels.'],
   ['seoul-night-view-saves', 'Seoul night-view saves', 'Instagram batch', 'Night-view walks and scenic Seoul viewpoints from shared reels.'],
 ]
 
@@ -1405,6 +1406,8 @@ const aprilInstagramBatchPlaces = [
   ['ig-ikseon-chwihyang-rose-pasta', 'yongsan-food-saves', 'Yongsan food saves', 'Ikseon Chwihyang / 익선취향', 'Ikseon-dong / Jongno', 'Korean-western pasta / steak', 'Viral pork-belly rose pasta stop from eatswithclaire’s Seoul restaurant rating reel. Caption tags @favorite_ikseon; Naver local identifies 익선취향 with high review volume and menu anchors including 통삼겹 로제파스타, 취향 스테이크, 회오리 오므라이스, and 항정 매콤크림 파스타.', 'Instagram reel DQymX5JEURP / caption + Naver local', 'Instagram profile says walk-in only, no reservation, 12:00–21:00; Naver shows 서울 종로구 수표로28길 17-32 1층, last order around 20:05, and phone 0507-1365-2866 · expect wait risk in Ikseon-dong', batchThumbs.food, 'https://www.instagram.com/reel/DQymX5JEURP/?igsh=NTc4MTIwNjQ2YQ==', '익선취향 수표로28길 17-32'],
   ['ig-gangnam-sinsajeon-honeycomb-makgeolli', 'gangnam-bbq-saves', 'Gangnam BBQ saves', 'Sinsajeon / 신사전', 'Sinsa / Gangnam', 'jeon / honeycomb makgeolli', 'Viral honeycomb makgeolli stop from eatswithclaire. Naver local identifies 신사전 as a Gangnam jeon / bindaetteok restaurant with strong review volume, honeycomb listed as 벌집꿀, and menu anchors including 모듬전, 치즈감자전, 수육과 갓김치, and 신사동막걸리.', 'Instagram reel DS19yCsEQun / caption + Naver local', 'Naver shows 서울 강남구 도산대로11길 18 신사전, phone 0507-1337-9993, open until around 01:00, reservation support, valet/parking, and popular rainy-night makgeolli energy · wax-in-honeycomb caveat from comments', batchThumbs.food, 'https://www.instagram.com/reel/DS19yCsEQun/?igsh=NTc4MTIwNjQ2YQ==', '신사전 도산대로11길 18'],
   ['ig-yongwangsan-skywalk', 'seoul-night-view-saves', 'Seoul night-view saves', 'Yongwangsan Skywalk / 용왕산 스카이워크', 'Yangcheon-gu / Mok-dong', 'night-view skywalk / accessible deck', 'Free panoramic city-view skywalk from my_season___ reel. Caption notes a 224m barrier-free deck with a gentle slope, about 10m elevated walkway, LED night lighting, and forest-overlook walking mood.', 'Instagram reel DXRZp_zj4rd / caption + Naver local', 'Caption address: 서울특별시 양천구 용왕정길 43. Naver local result identifies 용왕산스카이워크전망대 in 양천구 목동; comments mention it can sway in wind, so keep as optional night-view inspiration.', batchThumbs.viewpoint, 'https://www.instagram.com/reel/DXRZp_zj4rd/?igsh=NTc4MTIwNjQ2YQ==', '용왕산 스카이워크 용왕정길 43'],
+  ['ig-songpa-mongchon-dakgalbi', 'seoul-chicken-saves', 'Seoul chicken saves', 'Mongchon Dakgalbi / 몽촌 닭갈비', 'Songpa / Jamsil', 'oriental medicine dakgalbi / kalguksu', 'Celebrity-hyped dakgalbi spot from teureissi’s reel. Reel highlights oriental-medicine dakgalbi, handmade kalguksu noodles, and free slushed iced coffee; frame reading identified 몽촌닭갈비 signage.', 'Instagram reel DXtyngdj2f3 / caption + frame reading + Naver local', 'Naver local identifies 몽촌 닭갈비 in 서울 송파구 송파동; blog snippets mention 몽촌 한방 닭갈비 signature, long waits near Seokchon Lake/Jamsil, and add-ons like cheese/tteok/udon and perilla-oil fried rice.', batchThumbs.food, 'https://www.instagram.com/reel/DXtyngdj2f3/?igsh=NTc4MTIwNjQ2YQ==', '몽촌 닭갈비 송파동'],
+  ['ig-gangnam-wumok-hanwoo', 'gangnam-bbq-saves', 'Gangnam BBQ saves', 'Wumok / 우목', 'Gangnam / Apgujeong', '10-course Hanwoo beef omakase', '10-course Hanwoo beef omakase from rosannetong’s reel. Caption says it is a Korea-trip must try and points to Wumok at 22 Eonju-ro 170-gil in Gangnam.', 'Instagram reel DW3qhI3xh5c / caption', 'Book on CatchTable; comments mention no solo diners, possible rushed pacing, wine pairing, and strong booking pressure / fully booked risk.', batchThumbs.bbq, 'https://www.instagram.com/reel/DW3qhI3xh5c/?igsh=NTc4MTIwNjQ2YQ==', '우목 언주로170길 22'],
 ]
 
 stepOnePlaceThemes.push(...aprilInstagramBatchThemes.map(([key, title, status, lead]) => ({ key, title, status, lead })))
@@ -1776,6 +1779,11 @@ const threadSharedInstagramCodes = new Set([
   'DQymX5JEURP',
   'DS19yCsEQun',
   'DXRZp_zj4rd',
+  'DXtyngdj2f3',
+  'DXg7dR7ic-z',
+  'DUHKa4LEw7E',
+  'DW3qhI3xh5c',
+  'DWG4IbfDk_W',
 ])
 
 function instagramCodeFromUrl(sourceUrl = '') {
