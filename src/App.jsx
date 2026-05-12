@@ -1428,7 +1428,6 @@ const spend = [
   { item: 'Flights', detail: 'China Airlines long-haul roundtrip for both', amount: '$960' },
   { item: 'Jeju flight', detail: 'Jeju Air 7C115 / 7C114 for both', amount: '$200' },
   { item: 'Rental car', detail: 'Kona 2nd gen EV · 5/19 13:00 → 5/21 10:00', amount: '$35' },
-  { item: 'Activity', detail: 'Imported activity / beach cost', amount: '$160' },
 ]
 
 const todoRules = {
