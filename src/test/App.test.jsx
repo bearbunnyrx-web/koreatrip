@@ -157,7 +157,7 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
   })
 
-  test('phase G links inspiration cards into the map drawer as related inspiration', () => {
+  test('phase G links inspiration cards into the map drawer without showing a related inspiration panel', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^inspiration$/i })[0])
@@ -170,8 +170,8 @@ describe('Korea trip app v2 concept', () => {
     fireEvent.click(screen.getByRole('button', { name: /add tamburins seongsu to map/i }))
 
     expect(screen.getByRole('heading', { name: /tamburins seongsu/i })).toBeInTheDocument()
-    expect(screen.getByText(/related inspiration/i)).toBeInTheDocument()
-    expect(screen.getByText(/instagram · beauty/i)).toBeInTheDocument()
+    expect(screen.queryByText(/related inspiration/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/instagram · beauty/i)).not.toBeInTheDocument()
   })
 
   test('derm tab compares Korean 피부과 procedures for early 30s', () => {
@@ -275,7 +275,7 @@ describe('Korea trip app v2 concept', () => {
   test('home is a map-first view with date strip, route markers, and marker drawer actions', () => {
     const { container } = render(<App />)
 
-    expect(screen.getByRole('heading', { name: /sj korea map/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /sj korea/i })).toBeInTheDocument()
     expect(screen.getByText(/may 17 · seongsu beauty/i)).toBeInTheDocument()
     expect(container.querySelector('.map-first-home-screen')).toBeInTheDocument()
     expect(container.querySelector('.map-first-date-strip')).toBeInTheDocument()
@@ -293,18 +293,18 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('button', { name: /assign tamburins seongsu to may 17/i })).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /open tamburins seongsu in kakao maps/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /copy korean name for tamburins seongsu/i })).not.toBeInTheDocument()
-    expect(screen.getByText(/open in kakao maps from your phone if needed/i)).toBeInTheDocument()
+    expect(screen.queryByText(/open in kakao maps from your phone if needed/i)).not.toBeInTheDocument()
   })
 
   test('map phase C1 shows clean route semantics and updates with selected date', () => {
     const { container } = render(<App />)
 
-    const routeSummary = container.querySelector('.map-route-summary-card')
-    expect(routeSummary).toBeInTheDocument()
-    expect(within(routeSummary).getByText(/selected day/i)).toBeInTheDocument()
-    expect(within(routeSummary).getByText(/4 confirmed stops/i)).toBeInTheDocument()
-    expect(within(routeSummary).getByText(/3 candidate pins/i)).toBeInTheDocument()
-    expect(within(routeSummary).getByText(/kakao route fallback|real kakao route/i)).toBeInTheDocument()
+    const mapStatus = container.querySelector('.map-status-chip')
+    expect(mapStatus).toBeInTheDocument()
+    expect(within(mapStatus).getByText(/may 17/i)).toBeInTheDocument()
+    expect(within(mapStatus).getByText(/4 stops/i)).toBeInTheDocument()
+    expect(container.querySelector('.map-route-summary-card')).not.toBeInTheDocument()
+    expect(container.querySelector('.home-map-legend')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-route-layer')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /map marker tamburins seongsu/i })).toHaveClass('confirmed')
     expect(screen.getByRole('button', { name: /map marker haus nowhere seongsu/i })).toHaveClass('candidate')
@@ -312,7 +312,7 @@ describe('Korea trip app v2 concept', () => {
     fireEvent.click(screen.getByRole('button', { name: /may 22 jamsil hotel day/i }))
 
     expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
-    expect(within(routeSummary).getByText(/selected day/i)).toBeInTheDocument()
+    expect(within(mapStatus).getByText(/may 22/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /map marker 리원피부과의원/i })).toBeInTheDocument()
   })
 

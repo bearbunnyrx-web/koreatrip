@@ -3548,95 +3548,56 @@ a {
 }
 
 .home-trip-pill {
-  padding: 12px 14px;
-  border-radius: 24px;
-  max-width: 290px;
+  padding: 10px 12px;
+  border-radius: 20px;
+  max-width: 230px;
 }
 
 .home-trip-pill span,
 .home-trip-pill p {
   margin: 0;
   color: var(--muted);
-  font-size: .76rem;
+  font-size: .7rem;
 }
 
 .home-trip-pill h2 {
-  margin: 2px 0;
-  font-size: clamp(1.5rem, 5vw, 2.2rem);
-  letter-spacing: -.055em;
+  margin: 1px 0;
+  font-size: clamp(1.12rem, 4vw, 1.45rem);
+  letter-spacing: -.045em;
 }
 
-.home-map-search-pill {
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  font-size: 1.15rem;
-}
-
-.home-map-legend {
-  position: absolute;
-  z-index: 8;
-  left: 18px;
-  top: 122px;
-  display: flex;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  color: var(--muted);
-  font-size: .72rem;
-}
-
-.home-map-legend i {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  margin-right: 4px;
-  border-radius: 50%;
-}
-
-.home-map-legend .legend-muted { background: #9a9690; }
-.home-map-legend .legend-confirmed { background: var(--active-day-color); }
-
-.map-route-summary-card {
+.map-status-chip {
   position: absolute;
   z-index: 8;
   right: 18px;
-  top: 112px;
-  width: min(300px, calc(100% - 36px));
-  padding: 13px 14px;
-  border-radius: 22px;
-  color: var(--text);
-}
-
-.map-route-summary-card strong {
-  display: block;
-  margin-top: 3px;
-  font-size: .98rem;
-}
-
-.map-route-stat-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin: 10px 0 8px;
-}
-
-.map-route-stat-row span {
-  padding: 6px 8px;
+  top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, .58);
-  color: var(--muted);
-  font-size: .72rem;
-  font-weight: 700;
+  color: var(--text);
+  font-size: .74rem;
 }
 
-.map-route-summary-card p {
-  margin: 0;
+.map-status-chip span,
+.map-status-chip strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.map-status-chip span {
   color: var(--muted);
-  font-size: .72rem;
-  line-height: 1.35;
+  font-weight: 750;
+}
+
+.map-status-chip i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
 }
 
 .home-map-marker {
@@ -3681,8 +3642,8 @@ a {
   left: 18px;
   right: 18px;
   bottom: 18px;
-  padding: 14px;
-  border-radius: 28px;
+  padding: 12px;
+  border-radius: 24px;
 }
 
 .drawer-handle {
@@ -3725,9 +3686,9 @@ a {
 
 .home-place-actions {
   display: grid;
-  grid-template-columns: minmax(120px, .8fr) minmax(0, 1.2fr);
+  grid-template-columns: 1fr;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .home-place-actions button {
@@ -3741,18 +3702,6 @@ a {
   font-weight: 750;
   text-align: center;
   cursor: pointer;
-}
-
-.drawer-helper-text {
-  display: flex;
-  align-items: center;
-  min-height: 36px;
-  border-radius: 14px;
-  padding: 8px 10px;
-  background: rgba(255,255,255,.66);
-  color: var(--muted);
-  font-size: .7rem;
-  line-height: 1.25;
 }
 
 .map-first-date-strip {
@@ -3811,15 +3760,14 @@ a {
   }
 
   .home-map-surface { inset: 0 0 74px; }
-  .home-trip-pill { max-width: calc(100vw - 94px); }
-  .home-map-legend { top: 136px; }
+  .home-trip-pill { max-width: min(48vw, 190px); }
+  .map-status-chip { top: 20px; right: 14px; max-width: 42vw; overflow: hidden; }
 }
 
 :root[data-theme='dark'] .home-map-surface {
   background: #242421;
 }
 
-:root[data-theme='dark'] .drawer-helper-text { background: rgba(255,255,255,.08); }
 :root[data-theme='dark'] .home-place-actions button { background: color-mix(in srgb, var(--active-day-color) 78%, #111); }
 
 .phase-d-calendar-screen {
@@ -4330,12 +4278,17 @@ a {
 
 .place-linked-panel {
   display: grid;
-  gap: 8px;
-  margin-top: 12px;
-  padding: 12px;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 10px;
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 16px;
   background: var(--card-soft);
+}
+
+.compact-linked-panel {
+  margin-top: 8px;
+  padding: 9px;
 }
 
 .place-linked-panel button,

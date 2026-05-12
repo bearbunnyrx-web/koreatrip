@@ -2509,21 +2509,6 @@ function App() {
     })
   }, [receiptRecords, selectedHomeMapTarget])
 
-  const relatedPlaceInspiration = useMemo(() => {
-    if (!selectedHomeMapTarget) return []
-    const targetText = [selectedHomeMapTarget.name, selectedHomeMapTarget.koreanName, selectedHomeMapTarget.query]
-      .filter(Boolean)
-      .join(' ')
-      .toLowerCase()
-    return inspirationItems.filter((item) => {
-      const itemText = [item.title, item.linkedPlace, item.tag]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase()
-      return itemText.includes(selectedHomeMapTarget.name.toLowerCase()) || targetText.includes(item.title.toLowerCase())
-    }).slice(0, 4)
-  }, [inspirationItems, selectedHomeMapTarget])
-
   useEffect(() => {
     if (!homeMapTargets.length) return
     if (!homeMapTargets.some((target) => target.name === selectedHomeMapTargetName)) {
@@ -2922,35 +2907,18 @@ function App() {
             <section className="content-screen map-first-home-screen" style={{ '--active-day-color': mapDayColors[selectedDay.key] ?? mapDayColors.undecided }}>
               <div className="home-map-surface" aria-label="Map-first Korea trip home">
                 <div ref={mapCanvasRef} className="map-canvas home-kakao-map-canvas" />
-                <header className="home-map-topbar">
+                <header className="home-map-topbar compact-map-topbar">
                   <div className="home-trip-pill glass-card">
                     <span>{tripCountdownLabel()}</span>
-                    <h2>SJ Korea Map</h2>
+                    <h2>SJ Korea</h2>
                     <p>{selectedDay.date} · {selectedDay.label}</p>
                   </div>
-                  <div className="home-map-search-pill glass-card">⌕</div>
                 </header>
 
-                <div className="home-map-legend glass-card">
+                <div className="map-status-chip glass-card" aria-label="Selected day map status">
                   <span><i style={{ background: mapDayColors[selectedDay.key] }} />{selectedDay.date}</span>
-                  <span><i className="legend-confirmed" />confirmed route</span>
-                  <span><i className="legend-muted" />candidate pins</span>
+                  <strong>{routeState.status === 'ready' ? `${formatRouteDistance(routeState.distanceMeters)} · ${formatRouteDuration(routeState.durationSeconds)}` : `${confirmedRouteTargets.length} stops`}</strong>
                 </div>
-
-                <aside className="map-route-summary-card glass-card" aria-label="Selected day route summary">
-                  <span className="search-type">Selected day</span>
-                  <strong>{selectedDay.date} · {selectedDay.area}</strong>
-                  <div className="map-route-stat-row">
-                    <span>{confirmedRouteTargets.length} confirmed stops</span>
-                    <span>{candidateTargets.length} candidate pins</span>
-                    {routeState.status === 'ready' ? <span>{formatRouteDistance(routeState.distanceMeters)} · {formatRouteDuration(routeState.durationSeconds)}</span> : null}
-                  </div>
-                  <p>
-                    {routeState.status === 'ready'
-                      ? 'Real Kakao route drawn for confirmed stops. Candidate pins stay separate until added to the route.'
-                      : `Kakao route fallback: ${routeState.message || 'real routing will draw when the API returns a route.'}`}
-                  </p>
-                </aside>
 
                 {homeMapTargets.map((target, index) => (
                   <button
@@ -2979,25 +2947,14 @@ function App() {
                     </div>
                     <div className="home-place-actions compact-actions">
                       <button aria-label={`Assign ${selectedHomeMapTarget.name} to ${selectedDay.date}`} onClick={() => setActiveTab('places')}>Assign {selectedDay.date}</button>
-                      <span className="drawer-helper-text">Open in Kakao Maps from your phone if needed.</span>
                     </div>
                     {relatedPlaceReceipts.length ? (
-                      <div className="place-linked-panel">
+                      <div className="place-linked-panel compact-linked-panel">
                         <span className="search-type">Related receipts</span>
                         {relatedPlaceReceipts.map((receipt) => (
                           <button key={receipt.id} type="button" onClick={() => openReceiptOnCalendar(receipt)} aria-label={`Open calendar for ${receipt.vendor}`}>
                             {receipt.vendor}
                           </button>
-                        ))}
-                      </div>
-                    ) : null}
-                    {relatedPlaceInspiration.length ? (
-                      <div className="place-linked-panel">
-                        <span className="search-type">Related inspiration</span>
-                        {relatedPlaceInspiration.map((item) => (
-                          <a key={item.id} href={item.sourceUrl} target="_blank" rel="noreferrer">
-                            {item.sourcePlatform} · {item.tag}
-                          </a>
                         ))}
                       </div>
                     ) : null}
