@@ -1596,6 +1596,42 @@ function categorizeStepOneItem(item) {
   return 'others'
 }
 
+function inspirationTagForOption(option) {
+  const category = categorizeStepOneItem(option)
+  if (category === 'beauty') return 'Beauty'
+  if (category === 'food-cafe') {
+    const text = [option.place, option.title, option.area, option.note, option.vibe].filter(Boolean).join(' ').toLowerCase()
+    return /cafe|café|dessert|bakery|toast|matcha|parfait|cake|ice cream|tea/.test(text) ? 'Cafe' : 'Food'
+  }
+  if (/hotel|lodging|sofitel|landing/i.test([option.place, option.title, option.area, option.note].filter(Boolean).join(' '))) return 'Lodging'
+  return 'Activity'
+}
+
+function sourcePlatformForOption(option) {
+  const source = [option.instagramUrl, option.instagram, option.youtube, option.source, option.sourceThemeTitle].filter(Boolean).join(' ').toLowerCase()
+  if (source.includes('instagram')) return 'Instagram'
+  if (source.includes('youtube')) return 'YouTube'
+  if (source.includes('naver')) return 'Naver'
+  return 'Saved idea'
+}
+
+function sourceUrlForOption(option) {
+  return option.instagramUrl || option.instagram || option.youtube || option.kakaoUrl || option.naverUrl || '#'
+}
+
+function buildInspirationItemsFromBoards(boards) {
+  return boards.flatMap((board) => board.comparison.slice(0, 12).map((option, index) => ({
+    id: `${board.key}-${index}-${option.place || option.title}`,
+    title: option.place || option.title || board.title,
+    imageUrl: option.thumbnail || board.previewImages?.[0] || '',
+    sourceUrl: sourceUrlForOption(option),
+    sourcePlatform: sourcePlatformForOption(option),
+    tag: inspirationTagForOption(option),
+    linkedPlace: option.place || option.title || '',
+    createdAt: option.sourceThemeTitle || board.title,
+  }))).slice(0, 36)
+}
+
 function dedupeTargets(targets) {
   const seen = new Set()
   return targets.filter((target) => {
@@ -1748,6 +1784,17 @@ function App() {
   const [selectedDayKey, setSelectedDayKey] = useState('may-17')
   const [calendarView, setCalendarView] = useState('day')
   const [miniCalendarOpen, setMiniCalendarOpen] = useState(false)
+  const [inspirationFilter, setInspirationFilter] = useState('All')
+  const [inspirationDraft, setInspirationDraft] = useState({ imageUrl: '', sourceUrl: '', placeName: '', tag: 'Food' })
+  const [manualInspirationItems, setManualInspirationItems] = useState(() => {
+    const stored = window.localStorage.getItem('korea-trip-inspiration-items')
+    if (!stored) return []
+    try {
+      return JSON.parse(stored)
+    } catch {
+      return []
+    }
+  })
   const [selectedHomeMapTargetName, setSelectedHomeMapTargetName] = useState('Haus Nowhere Seongsu')
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
   const [selectedBookingKey, setSelectedBookingKey] = useState('beauty')
@@ -2141,6 +2188,42 @@ function App() {
     () => [{ key: 'simple', label: 'Themes', themes: stepOneThemeBoards.filter((theme) => theme.comparison.length) }],
     [stepOneThemeBoards],
   )
+
+  const inspirationItems = useMemo(
+    () => [...manualInspirationItems, ...buildInspirationItemsFromBoards(stepOneThemeBoards)],
+    [manualInspirationItems, stepOneThemeBoards],
+  )
+
+  const filteredInspirationItems = useMemo(
+    () => inspirationFilter === 'All'
+      ? inspirationItems
+      : inspirationItems.filter((item) => item.tag === inspirationFilter || (inspirationFilter === 'Unlinked' && !item.linkedPlace)),
+    [inspirationFilter, inspirationItems],
+  )
+
+  useEffect(() => {
+    window.localStorage.setItem('korea-trip-inspiration-items', JSON.stringify(manualInspirationItems))
+  }, [manualInspirationItems])
+
+  function addManualInspirationItem(event) {
+    event.preventDefault()
+    if (!inspirationDraft.placeName.trim()) return
+
+    const nextItem = {
+      id: `manual-${Date.now()}`,
+      title: inspirationDraft.placeName.trim(),
+      imageUrl: inspirationDraft.imageUrl.trim(),
+      sourceUrl: inspirationDraft.sourceUrl.trim() || '#',
+      sourcePlatform: inspirationDraft.sourceUrl.includes('instagram') ? 'Instagram' : 'Manual',
+      tag: inspirationDraft.tag,
+      linkedPlace: '',
+      createdAt: 'Manual upload',
+    }
+
+    setManualInspirationItems((items) => [nextItem, ...items])
+    setInspirationFilter('All')
+    setInspirationDraft({ imageUrl: '', sourceUrl: '', placeName: '', tag: 'Food' })
+  }
 
   const selectedSchedulePlaceGroups = useMemo(
     () => [
@@ -2870,21 +2953,97 @@ function App() {
           )}
 
           {activeTab === 'inspiration' && (
-            <section className="content-screen v2-placeholder-screen inspiration-screen">
+            <section className="content-screen inspiration-screen phase-e-inspiration-screen">
               <header className="page-header wide-header stacked-mobile glass-card">
                 <div>
                   <span className="search-type">Pinterest grid</span>
                   <h2 className="page-title">Inspiration</h2>
-                  <p>Manual screenshot upload first; cards will link Reels/blog saves back to places.</p>
+                  <p>Save Reel/blog screenshots here first. Phase E keeps them visual and filterable before Phase G links them to places.</p>
                 </div>
-                <span className="chip chip-sage">Phase B shell</span>
+                <span className="chip chip-sage">Phase E</span>
               </header>
-              <div className="inspiration-masonry-preview">
-                {stepOneThemeBoards.slice(0, 6).map((board) => (
-                  <article key={`inspo-${board.key}`} className="glass-card inspiration-card-preview">
-                    {board.previewImages[0] ? <img src={board.previewImages[0]} alt="" /> : null}
-                    <h3>{board.title}</h3>
-                    <p>{board.comparison.length} saved ideas</p>
+
+              <form className="glass-card inspiration-upload-card" onSubmit={addManualInspirationItem}>
+                <div>
+                  <span className="search-type">Manual screenshot upload</span>
+                  <h3>Add a save</h3>
+                  <p>Use an image URL for now; Supabase Storage upload can replace this in the next backend pass.</p>
+                </div>
+                <label>
+                  Image URL
+                  <input
+                    aria-label="Image URL"
+                    value={inspirationDraft.imageUrl}
+                    onChange={(event) => setInspirationDraft((draft) => ({ ...draft, imageUrl: event.target.value }))}
+                    placeholder="https://.../screenshot.jpg"
+                  />
+                </label>
+                <label>
+                  Source URL
+                  <input
+                    aria-label="Source URL"
+                    value={inspirationDraft.sourceUrl}
+                    onChange={(event) => setInspirationDraft((draft) => ({ ...draft, sourceUrl: event.target.value }))}
+                    placeholder="Instagram / blog / TikTok link"
+                  />
+                </label>
+                <label>
+                  Place name
+                  <input
+                    aria-label="Place name"
+                    value={inspirationDraft.placeName}
+                    onChange={(event) => setInspirationDraft((draft) => ({ ...draft, placeName: event.target.value }))}
+                    placeholder="Place or idea name"
+                  />
+                </label>
+                <label>
+                  Tag
+                  <select
+                    aria-label="Tag"
+                    value={inspirationDraft.tag}
+                    onChange={(event) => setInspirationDraft((draft) => ({ ...draft, tag: event.target.value }))}
+                  >
+                    {['Food', 'Cafe', 'Activity', 'Beauty', 'Lodging'].map((tag) => <option key={tag}>{tag}</option>)}
+                  </select>
+                </label>
+                <button type="submit">Add inspiration item</button>
+              </form>
+
+              <div className="inspiration-filter-row" aria-label="Inspiration filters">
+                {['All', 'Food', 'Cafe', 'Activity', 'Beauty', 'Lodging', 'Unlinked'].map((filter) => (
+                  <button
+                    key={filter}
+                    aria-label={`Filter ${filter}`}
+                    className={inspirationFilter === filter ? 'active' : ''}
+                    type="button"
+                    onClick={() => setInspirationFilter(filter)}
+                  >
+                    {filter}
+                  </button>
+                ))}
+              </div>
+
+              <div className="section-header stacked-mobile">
+                <div>
+                  <span className="search-type">{inspirationFilter} inspiration</span>
+                  <h3>{filteredInspirationItems.length} saved visual cues</h3>
+                </div>
+                <span className="chip chip-mist">linking comes Phase G</span>
+              </div>
+
+              <div className="inspiration-masonry-grid">
+                {filteredInspirationItems.map((item, index) => (
+                  <article key={item.id} className={`glass-card inspiration-masonry-card span-${(index % 3) + 1}`}>
+                    {item.imageUrl ? <img src={item.imageUrl} alt="" /> : <div className="inspiration-image-fallback">{item.tag}</div>}
+                    <div className="inspiration-card-body">
+                      <span>{item.sourcePlatform} · {item.tag}</span>
+                      <h3>{item.title}</h3>
+                      <p>{item.createdAt}</p>
+                      <div className="inspiration-card-actions">
+                        <a href={item.sourceUrl} target="_blank" rel="noreferrer" aria-label={`Open original source for ${item.title}`}>Open original source</a>
+                        <button type="button" aria-label={`Link ${item.title} in Phase G`}>Link in Phase G</button>
+                      </div>
+                    </div>
                   </article>
                 ))}
               </div>

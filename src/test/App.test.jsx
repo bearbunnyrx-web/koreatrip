@@ -81,6 +81,31 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
   })
 
+  test('inspiration phase E shows masonry filters and manual screenshot intake', () => {
+    const { container } = render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^inspiration$/i })[0])
+
+    expect(screen.getByRole('heading', { name: /inspiration/i })).toBeInTheDocument()
+    expect(container.querySelector('.inspiration-masonry-grid')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /filter food/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /filter beauty/i })).toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: /open original source/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('button', { name: /link .* in phase g/i }).length).toBeGreaterThan(0)
+
+    fireEvent.click(screen.getByRole('button', { name: /filter food/i }))
+    expect(screen.getByText(/food inspiration/i)).toBeInTheDocument()
+
+    fireEvent.change(screen.getByLabelText(/image url/i), { target: { value: 'https://example.com/cafe.jpg' } })
+    fireEvent.change(screen.getByLabelText(/source url/i), { target: { value: 'https://instagram.com/reel/test' } })
+    fireEvent.change(screen.getByLabelText(/place name/i), { target: { value: 'Test Cafe Save' } })
+    fireEvent.change(screen.getByLabelText(/tag/i), { target: { value: 'Cafe' } })
+    fireEvent.click(screen.getByRole('button', { name: /add inspiration item/i }))
+
+    expect(screen.getByText(/test cafe save/i)).toBeInTheDocument()
+    expect(window.localStorage.getItem('korea-trip-inspiration-items')).toContain('Test Cafe Save')
+  })
+
   test('derm tab compares Korean 피부과 procedures for early 30s', () => {
     render(<App />)
 
