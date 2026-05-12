@@ -3528,7 +3528,7 @@ a {
 
 .home-map-surface {
   position: absolute;
-  inset: 0 0 74px;
+  inset: 88px 0 0;
   overflow: hidden;
   background: #eee9df;
 }
@@ -3710,6 +3710,48 @@ a {
   cursor: pointer;
 }
 
+.trip-sticky-date-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 24px;
+  background: var(--bottom-nav);
+  border: 1px solid var(--bottom-nav-border);
+  backdrop-filter: blur(18px);
+}
+
+.map-sticky-date-header {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 12px;
+}
+
+.trip-sticky-title {
+  display: grid;
+  gap: 2px;
+  min-width: 116px;
+}
+
+.trip-sticky-title span {
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.trip-sticky-title strong {
+  color: var(--text);
+  font-size: .95rem;
+  letter-spacing: -.02em;
+}
+
 .shared-trip-date-strip {
   display: flex;
   align-items: center;
@@ -3773,9 +3815,9 @@ a {
     margin: -18px;
   }
 
-  .home-map-surface { inset: 0 0 74px; }
-  .home-trip-pill { max-width: min(48vw, 190px); }
-  .map-status-chip { top: 20px; right: 14px; max-width: 42vw; overflow: hidden; }
+  .home-map-surface { inset: 82px 0 0; }
+  .trip-sticky-date-header { grid-template-columns: 1fr; gap: 8px; }
+  .map-sticky-date-header { left: 10px; right: 10px; top: 10px; }
 }
 
 :root[data-theme='dark'] .home-map-surface {
@@ -4447,5 +4489,105 @@ a {
 
   .simple-receipt-list {
     grid-template-columns: 1fr;
+  }
+}
+
+.map-scheduled-details {
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card-soft);
+  overflow: hidden;
+}
+
+.map-scheduled-details summary {
+  cursor: pointer;
+  padding: 11px 12px;
+  color: var(--text);
+  font-size: .78rem;
+  font-weight: 850;
+  list-style-position: inside;
+}
+
+.map-scheduled-list {
+  display: grid;
+  gap: 7px;
+  max-height: 190px;
+  overflow-y: auto;
+  padding: 0 10px 10px;
+}
+
+.map-scheduled-list button {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card-strong);
+  color: var(--text);
+  padding: 9px 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.map-scheduled-list button.active {
+  border-color: color-mix(in srgb, var(--active-day-color) 55%, var(--border));
+  box-shadow: inset 3px 0 0 var(--active-day-color);
+}
+
+.map-scheduled-list strong {
+  font-size: .78rem;
+}
+
+.map-scheduled-list span {
+  color: var(--muted);
+  font-size: .7rem;
+  font-weight: 700;
+}
+
+.instagram-only-screen {
+  gap: 16px;
+}
+
+.instagram-embed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.instagram-embed-card {
+  overflow: hidden;
+  border-radius: 28px;
+  padding: 0;
+  background: #fff;
+}
+
+.instagram-embed-frame {
+  display: block;
+  width: 100%;
+  min-height: 560px;
+  border: 0;
+  background: #fff;
+}
+
+.instagram-embed-fallback-image {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 9 / 14;
+  object-fit: cover;
+  background: linear-gradient(135deg, rgba(125, 91, 166, .18), rgba(216, 122, 60, .18));
+  color: var(--muted);
+  font-weight: 900;
+}
+
+@media (max-width: 640px) {
+  .instagram-embed-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .instagram-embed-frame {
+    min-height: 520px;
   }
 }

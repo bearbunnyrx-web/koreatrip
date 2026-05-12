@@ -1761,6 +1761,17 @@ function diffDaysFromToday(targetDate, today) {
 
 let kakaoMapsPromise
 
+function instagramEmbedUrl(sourceUrl = '') {
+  const match = sourceUrl.match(/instagram\.com\/(?:reel|p|tv)\/([^/?#]+)/i)
+  if (!match) return ''
+  const type = sourceUrl.includes('/p/') ? 'p' : sourceUrl.includes('/tv/') ? 'tv' : 'reel'
+  return `https://www.instagram.com/${type}/${match[1]}/embed`
+}
+
+function instagramEmbedTitle(item) {
+  return `Instagram embed for ${item.title}`
+}
+
 function loadKakaoMapsSdk() {
   if (!KAKAO_JS_KEY) return Promise.reject(new Error('Missing Kakao JavaScript key'))
   if (window.kakao?.maps) return Promise.resolve(window.kakao)
@@ -2241,6 +2252,16 @@ function App() {
     }
     return foodDrinkInspirationItems.filter((item) => item.tag === inspirationFilter)
   }, [foodDrinkInspirationItems, inspirationFilter])
+
+  const instagramInspirationItems = useMemo(() => {
+    const seen = new Set()
+    return inspirationItems.filter((item) => {
+      const embedUrl = instagramEmbedUrl(item.sourceUrl)
+      if (!embedUrl || seen.has(embedUrl)) return false
+      seen.add(embedUrl)
+      return true
+    }).slice(0, 3)
+  }, [inspirationItems])
 
   useEffect(() => {
     window.localStorage.setItem('korea-trip-inspiration-items', JSON.stringify(manualInspirationItems))
@@ -2868,6 +2889,18 @@ function App() {
     }
   }, [activeTab, confirmedRouteTargets, mapSource, selectedDayPlanner, selectedHomeMapTargetName])
 
+  function renderTripStickyHeader(label, extraClassName = '') {
+    return (
+      <header className={`trip-sticky-date-header ${extraClassName}`.trim()} aria-label={label}>
+        <div className="trip-sticky-title">
+          <span>Korea Trip</span>
+          <strong>May 15–26</strong>
+        </div>
+        {renderTripDateStrip(label.replace('sticky ', '').replace(' header', ' selector'), 'sticky-date-strip')}
+      </header>
+    )
+  }
+
   function renderTripDateStrip(label, extraClassName = '') {
     return (
       <div className={`shared-trip-date-strip ${extraClassName}`.trim()} aria-label={label}>
@@ -2939,20 +2972,9 @@ function App() {
         <main className="content-shell">
           {(activeTab === 'map' || activeTab === 'home') && (
             <section className="content-screen map-first-home-screen" style={{ '--active-day-color': mapDayColors[selectedDay.key] ?? mapDayColors.undecided }}>
+              {renderTripStickyHeader('Map sticky date header', 'map-sticky-date-header')}
               <div className="home-map-surface" aria-label="Map-first Korea trip home">
                 <div ref={mapCanvasRef} className="map-canvas home-kakao-map-canvas" />
-                <header className="home-map-topbar compact-map-topbar">
-                  <div className="home-trip-pill glass-card">
-                    <span>{tripCountdownLabel()}</span>
-                    <h2>SJ Korea</h2>
-                    <p>{selectedDay.date} · {selectedDay.label}</p>
-                  </div>
-                </header>
-
-                <div className="map-status-chip glass-card" aria-label="Selected day map status">
-                  <span><i style={{ background: mapDayColors[selectedDay.key] }} />{selectedDay.date}</span>
-                  <strong>{routeState.status === 'ready' ? `${formatRouteDistance(routeState.distanceMeters)} · ${formatRouteDuration(routeState.durationSeconds)}` : `${confirmedRouteTargets.length} stops`}</strong>
-                </div>
 
                 {selectedHomeMapTarget ? (
                   <aside className="home-place-drawer glass-card" aria-label="Place detail drawer">
@@ -2965,6 +2987,25 @@ function App() {
                         <p>{selectedHomeMapTarget.koreanName} · {selectedHomeMapTarget.reason}</p>
                       </div>
                     </div>
+                    <details className="map-scheduled-details" open>
+                      <summary>Scheduled stops for {selectedDay.date}</summary>
+                      <div className="map-scheduled-list">
+                        {selectedDayPlanner.map((item, index) => (
+                          <button
+                            key={`drawer-${item.id}`}
+                            type="button"
+                            className={item.targetNames.includes(selectedHomeMapTarget.name) ? 'active' : ''}
+                            onClick={() => {
+                              const firstTargetName = item.targetNames[0]
+                              if (firstTargetName) setSelectedHomeMapTargetName(firstTargetName)
+                            }}
+                          >
+                            <strong>{index + 1}. {item.title}</strong>
+                            <span>{item.time} · {item.type === 'confirmed' ? 'confirmed' : 'flex'}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </details>
                     {relatedPlaceReceipts.length ? (
                       <div className="place-linked-panel compact-linked-panel">
                         <span className="search-type">Related receipts</span>
@@ -2978,8 +3019,6 @@ function App() {
                   </aside>
                 ) : null}
               </div>
-
-              {renderTripDateStrip('Map date selector', 'map-first-date-strip')}
             </section>
           )}
 
@@ -2994,7 +3033,7 @@ function App() {
                 <span className="chip chip-gold">Trip calendar</span>
               </header>
 
-              {renderTripDateStrip('Calendar date selector', 'tab-date-strip glass-card')}
+              {renderTripStickyHeader('Calendar sticky date header')}
 
               <div className="glass-card calendar-shell-card phase-d-day-card">
                 <div className="calendar-day-heading">
@@ -3019,63 +3058,37 @@ function App() {
           )}
 
           {activeTab === 'inspiration' && (
-            <section className="content-screen inspiration-screen phase-e-inspiration-screen">
+            <section className="content-screen inspiration-screen instagram-only-screen">
               <header className="page-header wide-header stacked-mobile glass-card">
                 <div>
-                  <span className="search-type">Discord saves</span>
+                  <span className="search-type">Instagram grid</span>
                   <h2 className="page-title">Inspiration</h2>
-                  <p>Food, cafe, dessert, and drink ideas collected through Discord. Beauty appointments and confirmed Seongsu shopping stops are kept out of this board.</p>
+                  <p>Reels and posts shared through Discord, embedded here so you do not have to reopen Instagram just to review ideas.</p>
                 </div>
-                <span className="chip chip-sage">Food + drink ideas</span>
+                <span className="chip chip-sage">Discord-fed embeds</span>
               </header>
 
-              {renderTripDateStrip('Inspiration date selector', 'tab-date-strip glass-card')}
-
-              <section className="glass-card inspiration-ux-note">
-                <span className="search-type">How to use this tab</span>
-                <div>
-                  <strong>Shortlist, then ask Jin to place it.</strong>
-                  <p>Drop new reels/blog links in Discord. This tab stays as the clean shortlist; once a place looks worth it, ask Jin to add it to a day/map.</p>
-                </div>
-              </section>
-
-              <div className="inspiration-filter-row" aria-label="Inspiration filters">
-                {['All', 'Food', 'Cafe', 'Drinks'].map((filter) => (
-                  <button
-                    key={filter}
-                    aria-label={`Filter ${filter}`}
-                    className={inspirationFilter === filter ? 'active' : ''}
-                    type="button"
-                    onClick={() => setInspirationFilter(filter)}
-                  >
-                    {filter}
-                  </button>
-                ))}
-              </div>
-
-              <div className="section-header stacked-mobile">
-                <div>
-                  <span className="search-type">{inspirationFilter} inspiration</span>
-                  <h3>{filteredInspirationItems.length} food/drink saves</h3>
-                </div>
-                <span className="chip chip-mist">Discord-fed board</span>
-              </div>
-
-              <div className="inspiration-masonry-grid">
-                {filteredInspirationItems.map((item, index) => (
-                  <article key={item.id} className={`glass-card inspiration-masonry-card span-${(index % 3) + 1}`}>
-                    {item.imageUrl ? <img src={item.imageUrl} alt="" /> : <div className="inspiration-image-fallback">{item.tag}</div>}
-                    <div className="inspiration-card-body">
-                      <span>{item.sourcePlatform} · {item.tag}</span>
-                      <h3>{item.title}</h3>
-                      <p>{item.createdAt}</p>
-                      <div className="inspiration-card-actions">
-                        <a href={item.sourceUrl} target="_blank" rel="noreferrer" aria-label={`Open original source for ${item.title}`}>Open original source</a>
-                        <button type="button" onClick={() => openInspirationOnMap(item)} aria-label={`View ${item.title} on map`}>View on map</button>
-                      </div>
-                    </div>
-                  </article>
-                ))}
+              <div className="instagram-embed-grid" aria-label="Instagram inspiration grid">
+                {instagramInspirationItems.map((item) => {
+                  const embedUrl = instagramEmbedUrl(item.sourceUrl)
+                  return (
+                    <article key={item.id} className="glass-card instagram-embed-card">
+                      {embedUrl ? (
+                        <iframe
+                          className="instagram-embed-frame"
+                          title={instagramEmbedTitle(item)}
+                          src={embedUrl}
+                          loading="lazy"
+                          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        />
+                      ) : item.imageUrl ? (
+                        <img src={item.imageUrl} alt="" className="instagram-embed-fallback-image" />
+                      ) : (
+                        <div className="instagram-embed-fallback-image">Instagram</div>
+                      )}
+                    </article>
+                  )
+                })}
               </div>
             </section>
           )}
@@ -3086,7 +3099,7 @@ function App() {
                 <div>
                   <span className="search-type">Simple receipt list</span>
                   <h2 className="page-title">Receipts</h2>
-                  <p>Discord-uploaded confirmations and receipts, shown as a clean list. Ask Jin in Discord when a new receipt should be processed into the app.</p>
+                  <p>Latest source: Discord receipts thread <strong>1503591512573874176</strong>. Drop receipts there; Jin processes them into this simple list and deploys updates.</p>
                 </div>
                 <span className="chip chip-rose">{receiptRecords.length} items</span>
               </header>

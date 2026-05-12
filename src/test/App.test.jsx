@@ -22,16 +22,17 @@ describe('Korea trip app v2 concept', () => {
     vi.useRealTimers()
   })
 
-  test('home shows a trip countdown banner before the search hero', () => {
+  test('home uses a clean map with sticky trip date header', () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-05-09T12:00:00'))
 
     const { container } = render(<App />)
 
-    expect(screen.getByText(/7 days until Korea 🇰🇷/i)).toBeInTheDocument()
+    expect(screen.queryByText(/7 days until Korea 🇰🇷/i)).not.toBeInTheDocument()
+    expect(screen.getByLabelText(/Map date selector/i)).toBeInTheDocument()
     expect(tripCountdownLabel(new Date('2026-05-16T12:00:00'))).toBe('Day 1 of Korea trip 🇰🇷')
     expect(tripCountdownLabel(new Date('2026-05-28T12:00:00'))).toBe('Back home — great trip! 🏠')
-    expect(container.querySelector('.map-first-home-screen')?.firstElementChild).toHaveClass('home-map-surface')
+    expect(container.querySelector('.map-first-home-screen')?.firstElementChild).toHaveClass('trip-sticky-date-header')
   })
 
   test('bottom navigation is fixed with V2 Map Calendar Inspiration Receipts labels and switches tabs', () => {
@@ -52,12 +53,13 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
   })
 
-  test('calendar uses the shared horizontal date bar and day content only', () => {
-    render(<App />)
+  test('calendar uses the sticky trip date header and day content only', () => {
+    const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^calendar$/i })[0])
 
     expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
+    expect(container.querySelector('.trip-sticky-date-header')).toBeInTheDocument()
     expect(screen.getByLabelText(/calendar date selector/i)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /day view/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /week view/i })).not.toBeInTheDocument()
@@ -66,34 +68,26 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByLabelText(/calendar day timeline/i)).toBeInTheDocument()
 
     fireEvent.click(within(screen.getByLabelText(/calendar date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i }))
-    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
+    expect(within(screen.getByLabelText(/calendar date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i })).toHaveClass('active')
     expect(screen.getByText(/reone dermatology consult/i)).toBeInTheDocument()
 
     fireEvent.click(screen.getAllByRole('button', { name: /^map$/i })[0])
-    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
+    expect(within(screen.getByLabelText(/map date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i })).toHaveClass('active')
   })
 
-  test('inspiration is a Discord-fed food and drink board without manual add form or planned beauty stores', () => {
+  test('inspiration is an Instagram-style embeds grid without extra app chrome', () => {
     const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^inspiration$/i })[0])
 
     expect(screen.getByRole('heading', { name: /inspiration/i })).toBeInTheDocument()
-    expect(screen.getByLabelText(/inspiration date selector/i)).toBeInTheDocument()
-    expect(screen.getByText(/discord saves/i)).toBeInTheDocument()
-    expect(container.querySelector('.inspiration-masonry-grid')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /filter food/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /filter cafe/i })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /filter beauty/i })).not.toBeInTheDocument()
+    expect(screen.getByText(/instagram grid/i)).toBeInTheDocument()
+    expect(container.querySelector('.instagram-embed-grid')).toBeInTheDocument()
+    expect(container.querySelectorAll('.instagram-embed-frame').length).toBeGreaterThan(0)
+    expect(screen.queryByLabelText(/inspiration date selector/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/add a save/i)).not.toBeInTheDocument()
-    expect(screen.queryByLabelText(/image url/i)).not.toBeInTheDocument()
-    expect(screen.queryByText(/nail/i)).not.toBeInTheDocument()
-    expect(screen.queryByText(/chahong/i)).not.toBeInTheDocument()
-    expect(screen.queryByText(/tamburins seongsu/i)).not.toBeInTheDocument()
-    expect(screen.getAllByRole('link', { name: /open original source/i }).length).toBeGreaterThan(0)
-
-    fireEvent.click(screen.getByRole('button', { name: /filter food/i }))
-    expect(screen.getByText(/food inspiration/i)).toBeInTheDocument()
+    expect(screen.queryByText(/shortlist/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /filter food/i })).not.toBeInTheDocument()
   })
 
   test('receipts are a simple receipt-styled list fed from Discord', () => {
@@ -104,9 +98,10 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('heading', { name: /receipts/i })).toBeInTheDocument()
     expect(screen.getByLabelText(/receipts date selector/i)).toBeInTheDocument()
     expect(screen.getByText(/simple receipt list/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/1503591512573874176/i).length).toBeGreaterThan(0)
     expect(container.querySelector('.simple-receipt-list')).toBeInTheDocument()
     expect(container.querySelector('.receipt-paper-card')).toBeInTheDocument()
-    expect(screen.queryByText(/discord receipts thread/i)).not.toBeInTheDocument()
+    expect(screen.getByText(/discord receipts thread/i)).toBeInTheDocument()
     expect(screen.queryByText(/local ollama gemma4/i)).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /filter receipt category hotels/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /add receipt for review/i })).not.toBeInTheDocument()
@@ -122,20 +117,20 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('heading', { name: /리원피부과의원/i })).toBeInTheDocument()
     expect(screen.getByText(/related receipts/i)).toBeInTheDocument()
     expect(screen.getByText(/reone dermatology receipt/i)).toBeInTheDocument()
-    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
+    expect(within(screen.getByLabelText(/map date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i })).toHaveClass('active')
 
     fireEvent.click(screen.getByRole('button', { name: /open calendar for reone dermatology receipt/i }))
     expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
-    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
+    expect(within(screen.getByLabelText(/calendar date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i })).toHaveClass('active')
   })
 
-  test('phase G keeps inspiration map navigation but no related inspiration panel', () => {
+  test('phase G keeps inspiration as embed-only grid without map drawer inspiration panel', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^inspiration$/i })[0])
-    fireEvent.click(screen.getAllByRole('button', { name: /view .* on map/i })[0])
 
-    expect(screen.getByLabelText(/map date selector/i)).toBeInTheDocument()
+    expect(screen.getByText(/instagram grid/i)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /view .* on map/i })).not.toBeInTheDocument()
     expect(screen.queryByText(/related inspiration/i)).not.toBeInTheDocument()
   })
 
@@ -240,16 +235,19 @@ describe('Korea trip app v2 concept', () => {
   test('home is a map-first view with date strip, route markers, and marker drawer actions', () => {
     const { container } = render(<App />)
 
-    expect(screen.getByRole('heading', { name: /sj korea/i })).toBeInTheDocument()
-    expect(screen.getByText(/may 17 · seongsu beauty/i)).toBeInTheDocument()
-    expect(container.querySelector('.map-first-home-screen')).toBeInTheDocument()
+    expect(screen.getByLabelText(/Map sticky date header/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/map date selector/i)).toBeInTheDocument()
+    expect(screen.queryByText(/5 days until korea/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: /sj korea/i })).not.toBeInTheDocument()
+    expect(container.querySelector('.map-status-chip')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-fallback')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-river')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-route-layer')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-marker')).not.toBeInTheDocument()
 
     expect(screen.getByRole('heading', { name: /haus nowhere seongsu/i })).toBeInTheDocument()
+    expect(screen.getByText(/scheduled stops for/i)).toBeInTheDocument()
+    expect(screen.getByText((content) => /1\s*\.\s*Nail appointment/i.test(content))).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /assign .* may 17/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /open tamburins seongsu in kakao maps/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /copy korean name for tamburins seongsu/i })).not.toBeInTheDocument()
@@ -259,10 +257,7 @@ describe('Korea trip app v2 concept', () => {
   test('map phase C1 shows clean route semantics and updates with selected date', () => {
     const { container } = render(<App />)
 
-    const mapStatus = container.querySelector('.map-status-chip')
-    expect(mapStatus).toBeInTheDocument()
-    expect(within(mapStatus).getByText(/may 17/i)).toBeInTheDocument()
-    expect(within(mapStatus).getByText(/4 stops/i)).toBeInTheDocument()
+    expect(container.querySelector('.map-status-chip')).not.toBeInTheDocument()
     expect(container.querySelector('.map-route-summary-card')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-legend')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-route-layer')).not.toBeInTheDocument()
@@ -270,8 +265,7 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(within(screen.getByLabelText(/map date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i }))
 
-    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
-    expect(within(mapStatus).getByText(/may 22/i)).toBeInTheDocument()
+    expect(within(screen.getByLabelText(/map date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i })).toHaveClass('active')
     expect(screen.getByRole('heading', { name: /리원피부과의원|sofitel ambassador seoul/i })).toBeInTheDocument()
   })
 
