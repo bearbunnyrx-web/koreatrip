@@ -4363,3 +4363,27 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+.place-linked-panel {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card-soft);
+}
+
+.place-linked-panel button,
+.place-linked-panel a {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card-strong);
+  color: var(--text);
+  padding: 9px 10px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}

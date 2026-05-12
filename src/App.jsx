@@ -2254,6 +2254,51 @@ function App() {
     setInspirationDraft({ imageUrl: '', sourceUrl: '', placeName: '', tag: 'Food' })
   }
 
+  function findMapTargetForPlace(placeName = '') {
+    const normalizedPlace = placeName.toLowerCase().trim()
+    if (!normalizedPlace) return null
+
+    for (const day of itineraryDays) {
+      const target = day.mapTargets.find((candidate) => {
+        const haystack = [candidate.name, candidate.query, candidate.reason, koreanPlaceNames[candidate.name]]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase()
+        return haystack.includes(normalizedPlace) || normalizedPlace.includes(candidate.name.toLowerCase())
+      })
+      if (target) return { dayKey: day.key, target }
+    }
+
+    return null
+  }
+
+  function dayKeyForReceipt(receipt) {
+    if (!receipt.date) return selectedDay.key
+    const match = receipt.date.match(/2026-05-(\d{2})/)
+    return match ? `may-${Number(match[1])}` : selectedDay.key
+  }
+
+  function openReceiptOnMap(receipt) {
+    const matched = findMapTargetForPlace(receipt.placeGuess || receipt.vendor)
+    const nextDayKey = matched?.dayKey || dayKeyForReceipt(receipt)
+    setSelectedDayKey(nextDayKey)
+    if (matched?.target?.name) setSelectedHomeMapTargetName(matched.target.name)
+    setActiveTab('map')
+  }
+
+  function openReceiptOnCalendar(receipt) {
+    setSelectedDayKey(dayKeyForReceipt(receipt))
+    setActiveTab('calendar')
+  }
+
+  function openInspirationOnMap(item) {
+    const matched = findMapTargetForPlace(item.linkedPlace || item.title)
+    if (matched?.dayKey) setSelectedDayKey(matched.dayKey)
+    if (matched?.target?.name) setSelectedHomeMapTargetName(matched.target.name)
+    setManualInspirationItems((items) => items.map((saved) => saved.id === item.id ? { ...saved, linkedPlace: matched?.target?.name || item.title } : saved))
+    setActiveTab('map')
+  }
+
   const selectedSchedulePlaceGroups = useMemo(
     () => [
       ...placeGroups.filter((group) => selectedPlaceGroups[group.key]).map(placeGroupWithCustomTitle),
@@ -2447,6 +2492,37 @@ function App() {
     () => homeMapTargets.find((target) => target.name === selectedHomeMapTargetName) ?? homeMapTargets[0],
     [homeMapTargets, selectedHomeMapTargetName],
   )
+
+  const relatedPlaceReceipts = useMemo(() => {
+    if (!selectedHomeMapTarget) return []
+    const targetText = [selectedHomeMapTarget.name, selectedHomeMapTarget.koreanName, selectedHomeMapTarget.query]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+    return receiptRecords.filter((receipt) => {
+      const receiptText = [receipt.vendor, receipt.placeGuess, receipt.eventGuess, receipt.notes]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase()
+      const placeGuess = receipt.placeGuess?.toLowerCase?.() || ''
+      return receiptText.includes(selectedHomeMapTarget.name.toLowerCase()) || Boolean(placeGuess && targetText.includes(placeGuess))
+    })
+  }, [receiptRecords, selectedHomeMapTarget])
+
+  const relatedPlaceInspiration = useMemo(() => {
+    if (!selectedHomeMapTarget) return []
+    const targetText = [selectedHomeMapTarget.name, selectedHomeMapTarget.koreanName, selectedHomeMapTarget.query]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+    return inspirationItems.filter((item) => {
+      const itemText = [item.title, item.linkedPlace, item.tag]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase()
+      return itemText.includes(selectedHomeMapTarget.name.toLowerCase()) || targetText.includes(item.title.toLowerCase())
+    }).slice(0, 4)
+  }, [inspirationItems, selectedHomeMapTarget])
 
   useEffect(() => {
     if (!homeMapTargets.length) return
@@ -2917,6 +2993,26 @@ function App() {
                       <a href={selectedHomeMapTarget.kakaoUrl} target="_blank" rel="noreferrer" aria-label={`Open ${selectedHomeMapTarget.name} in Kakao Maps`}>Open Kakao</a>
                       <button aria-label={`Copy Korean name for ${selectedHomeMapTarget.name}`} onClick={copyHomeMapKoreanName}>Copy Korean</button>
                     </div>
+                    {relatedPlaceReceipts.length ? (
+                      <div className="place-linked-panel">
+                        <span className="search-type">Related receipts</span>
+                        {relatedPlaceReceipts.map((receipt) => (
+                          <button key={receipt.id} type="button" onClick={() => openReceiptOnCalendar(receipt)} aria-label={`Open calendar for ${receipt.vendor}`}>
+                            {receipt.vendor}
+                          </button>
+                        ))}
+                      </div>
+                    ) : null}
+                    {relatedPlaceInspiration.length ? (
+                      <div className="place-linked-panel">
+                        <span className="search-type">Related inspiration</span>
+                        {relatedPlaceInspiration.map((item) => (
+                          <a key={item.id} href={item.sourceUrl} target="_blank" rel="noreferrer">
+                            {item.sourcePlatform} · {item.tag}
+                          </a>
+                        ))}
+                      </div>
+                    ) : null}
                   </aside>
                 ) : null}
               </div>
@@ -3149,7 +3245,7 @@ function App() {
                       <p>{item.createdAt}</p>
                       <div className="inspiration-card-actions">
                         <a href={item.sourceUrl} target="_blank" rel="noreferrer" aria-label={`Open original source for ${item.title}`}>Open original source</a>
-                        <button type="button" aria-label={`Link ${item.title} in Phase G`}>Link in Phase G</button>
+                        <button type="button" onClick={() => openInspirationOnMap(item)} aria-label={`Add ${item.title} to map`}>{item.linkedPlace ? 'View on map' : 'Add to map'}</button>
                       </div>
                     </div>
                   </article>
@@ -3288,7 +3384,8 @@ function App() {
                     </div>
                     <div className="receipt-card-actions">
                       <a href={receipt.driveUrl || receiptDriveUrl()} target="_blank" rel="noreferrer">Open Drive file</a>
-                      <button type="button" aria-label={`Link ${receipt.vendor} in Phase G`}>Link in Phase G</button>
+                      <button type="button" onClick={() => openReceiptOnMap(receipt)} aria-label={`View ${receipt.vendor} on map`}>View on map</button>
+                      <button type="button" onClick={() => openReceiptOnCalendar(receipt)} aria-label={`Open calendar for ${receipt.vendor}`}>Calendar</button>
                     </div>
                   </article>
                 ))}

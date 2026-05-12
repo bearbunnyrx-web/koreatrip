@@ -91,7 +91,7 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('button', { name: /filter food/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /filter beauty/i })).toBeInTheDocument()
     expect(screen.getAllByRole('link', { name: /open original source/i }).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('button', { name: /link .* in phase g/i }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('button', { name: /add .* to map/i }).length).toBeGreaterThan(0)
 
     fireEvent.click(screen.getByRole('button', { name: /filter food/i }))
     expect(screen.getByText(/food inspiration/i)).toBeInTheDocument()
@@ -131,6 +131,47 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/test receipt vendor/i)).toBeInTheDocument()
     expect(screen.getByText(/CONF-123/i)).toBeInTheDocument()
     expect(window.localStorage.getItem('korea-trip-receipts')).toContain('Test Receipt Vendor')
+  })
+
+  test('phase G links receipts to map places and the selected calendar day', async () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
+    fireEvent.change(screen.getByLabelText(/vendor/i), { target: { value: 'ReOne Dermatology Receipt' } })
+    fireEvent.change(screen.getByLabelText(/receipt date/i), { target: { value: '2026-05-22' } })
+    fireEvent.change(screen.getByLabelText(/amount/i), { target: { value: '220000' } })
+    fireEvent.change(screen.getByLabelText(/currency/i), { target: { value: 'KRW' } })
+    fireEvent.change(screen.getAllByLabelText(/category/i)[0], { target: { value: 'Hotels' } })
+    fireEvent.change(screen.getByLabelText(/place guess/i), { target: { value: '리원피부과의원' } })
+    fireEvent.click(screen.getByRole('button', { name: /add receipt for review/i }))
+
+    fireEvent.click(screen.getByRole('button', { name: /view reone dermatology receipt on map/i }))
+
+    expect(screen.getByRole('heading', { name: /리원피부과의원/i })).toBeInTheDocument()
+    expect(screen.getByText(/related receipts/i)).toBeInTheDocument()
+    expect(screen.getByText(/reone dermatology receipt/i)).toBeInTheDocument()
+    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /open calendar for reone dermatology receipt/i }))
+    expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
+    expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
+  })
+
+  test('phase G links inspiration cards into the map drawer as related inspiration', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^inspiration$/i })[0])
+    fireEvent.change(screen.getByLabelText(/image url/i), { target: { value: 'https://example.com/tamburins.jpg' } })
+    fireEvent.change(screen.getByLabelText(/source url/i), { target: { value: 'https://instagram.com/reel/tamburins' } })
+    fireEvent.change(screen.getByLabelText(/place name/i), { target: { value: 'Tamburins Seongsu' } })
+    fireEvent.change(screen.getByLabelText(/tag/i), { target: { value: 'Beauty' } })
+    fireEvent.click(screen.getByRole('button', { name: /add inspiration item/i }))
+
+    fireEvent.click(screen.getByRole('button', { name: /add tamburins seongsu to map/i }))
+
+    expect(screen.getByRole('heading', { name: /tamburins seongsu/i })).toBeInTheDocument()
+    expect(screen.getByText(/related inspiration/i)).toBeInTheDocument()
+    expect(screen.getByText(/instagram · beauty/i)).toBeInTheDocument()
   })
 
   test('derm tab compares Korean 피부과 procedures for early 30s', () => {
