@@ -52,99 +52,71 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
   })
 
-  test('calendar phase D has day week month views and shares selected date with map', () => {
+  test('calendar uses the shared horizontal date bar and day content only', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^calendar$/i })[0])
 
     expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /day view/i })).toHaveClass('active')
-    expect(screen.getByRole('button', { name: /week view/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /month view/i })).toBeInTheDocument()
-    expect(screen.getByLabelText(/calendar day timeline/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/calendar date selector/i)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /day view/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /week view/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /month view/i })).not.toBeInTheDocument()
     expect(screen.queryByLabelText(/mini month calendar/i)).not.toBeInTheDocument()
+    expect(screen.getByLabelText(/calendar day timeline/i)).toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('button', { name: /open mini calendar/i }))
-    const miniCalendar = screen.getByLabelText(/mini month calendar/i)
-    expect(miniCalendar).toBeInTheDocument()
-
-    fireEvent.click(within(miniCalendar).getByRole('button', { name: /may 22 jamsil hotel day/i }))
+    fireEvent.click(within(screen.getByLabelText(/calendar date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i }))
     expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
     expect(screen.getByText(/reone dermatology consult/i)).toBeInTheDocument()
-
-    fireEvent.click(screen.getByRole('button', { name: /week view/i }))
-    expect(screen.getByRole('heading', { name: /week of may 22/i })).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /month view/i }))
-    expect(screen.getByRole('heading', { name: /may 2026 trip month/i })).toBeInTheDocument()
 
     fireEvent.click(screen.getAllByRole('button', { name: /^map$/i })[0])
     expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
   })
 
-  test('inspiration phase E shows masonry filters and manual screenshot intake', () => {
+  test('inspiration is a Discord-fed food and drink board without manual add form or planned beauty stores', () => {
     const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^inspiration$/i })[0])
 
     expect(screen.getByRole('heading', { name: /inspiration/i })).toBeInTheDocument()
+    expect(screen.getByLabelText(/inspiration date selector/i)).toBeInTheDocument()
+    expect(screen.getByText(/discord saves/i)).toBeInTheDocument()
     expect(container.querySelector('.inspiration-masonry-grid')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /filter food/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /filter beauty/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /filter cafe/i })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /filter beauty/i })).not.toBeInTheDocument()
+    expect(screen.queryByText(/add a save/i)).not.toBeInTheDocument()
+    expect(screen.queryByLabelText(/image url/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/nail/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/chahong/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/tamburins seongsu/i)).not.toBeInTheDocument()
     expect(screen.getAllByRole('link', { name: /open original source/i }).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('button', { name: /add .* to map/i }).length).toBeGreaterThan(0)
 
     fireEvent.click(screen.getByRole('button', { name: /filter food/i }))
     expect(screen.getByText(/food inspiration/i)).toBeInTheDocument()
-
-    fireEvent.change(screen.getByLabelText(/image url/i), { target: { value: 'https://example.com/cafe.jpg' } })
-    fireEvent.change(screen.getByLabelText(/source url/i), { target: { value: 'https://instagram.com/reel/test' } })
-    fireEvent.change(screen.getByLabelText(/place name/i), { target: { value: 'Test Cafe Save' } })
-    fireEvent.change(screen.getByLabelText(/tag/i), { target: { value: 'Cafe' } })
-    fireEvent.click(screen.getByRole('button', { name: /add inspiration item/i }))
-
-    expect(screen.getByText(/test cafe save/i)).toBeInTheDocument()
-    expect(window.localStorage.getItem('korea-trip-inspiration-items')).toContain('Test Cafe Save')
   })
 
-  test('receipts phase F shows Discord Drive Gemma pipeline and manual review intake', () => {
+  test('receipts are a simple receipt-styled list fed from Discord', () => {
     const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
 
     expect(screen.getByRole('heading', { name: /receipts/i })).toBeInTheDocument()
-    expect(screen.getByText(/receipt inbox/i)).toBeInTheDocument()
-    expect(screen.getByText(/discord receipts thread/i)).toBeInTheDocument()
-    expect(screen.getByText(/1503591512573874176/i)).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /open bearbunny drive receipts folder/i })).toHaveAttribute('href', expect.stringContaining('1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG'))
-    expect(screen.getAllByText(/local ollama gemma4/i).length).toBeGreaterThan(0)
-    expect(container.querySelector('.receipts-review-grid')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /filter receipt category hotels/i })).toBeInTheDocument()
-
-    fireEvent.change(screen.getByLabelText(/vendor/i), { target: { value: 'Test Receipt Vendor' } })
-    fireEvent.change(screen.getByLabelText(/receipt date/i), { target: { value: '2026-05-22' } })
-    fireEvent.change(screen.getByLabelText(/amount/i), { target: { value: '123.45' } })
-    fireEvent.change(screen.getByLabelText(/currency/i), { target: { value: 'USD' } })
-    fireEvent.change(screen.getAllByLabelText(/category/i)[0], { target: { value: 'Food' } })
-    fireEvent.change(screen.getByLabelText(/confirmation number/i), { target: { value: 'CONF-123' } })
-    fireEvent.click(screen.getByRole('button', { name: /add receipt for review/i }))
-
-    expect(screen.getByText(/test receipt vendor/i)).toBeInTheDocument()
-    expect(screen.getByText(/CONF-123/i)).toBeInTheDocument()
-    expect(window.localStorage.getItem('korea-trip-receipts')).toContain('Test Receipt Vendor')
+    expect(screen.getByLabelText(/receipts date selector/i)).toBeInTheDocument()
+    expect(screen.getByText(/simple receipt list/i)).toBeInTheDocument()
+    expect(container.querySelector('.simple-receipt-list')).toBeInTheDocument()
+    expect(container.querySelector('.receipt-paper-card')).toBeInTheDocument()
+    expect(screen.queryByText(/discord receipts thread/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/local ollama gemma4/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /filter receipt category hotels/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /add receipt for review/i })).not.toBeInTheDocument()
   })
 
   test('phase G links receipts to map places and the selected calendar day', async () => {
+    window.localStorage.setItem('korea-trip-receipts', JSON.stringify([{ id: 'manual-reone-test', vendor: 'ReOne Dermatology Receipt', date: '2026-05-22', amountMinor: 220000, currency: 'KRW', category: 'Beauty', status: 'review', placeGuess: '리원피부과의원', notes: 'Stored from Discord receipt test.' }]))
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
-    fireEvent.change(screen.getByLabelText(/vendor/i), { target: { value: 'ReOne Dermatology Receipt' } })
-    fireEvent.change(screen.getByLabelText(/receipt date/i), { target: { value: '2026-05-22' } })
-    fireEvent.change(screen.getByLabelText(/amount/i), { target: { value: '220000' } })
-    fireEvent.change(screen.getByLabelText(/currency/i), { target: { value: 'KRW' } })
-    fireEvent.change(screen.getAllByLabelText(/category/i)[0], { target: { value: 'Hotels' } })
-    fireEvent.change(screen.getByLabelText(/place guess/i), { target: { value: '리원피부과의원' } })
-    fireEvent.click(screen.getByRole('button', { name: /add receipt for review/i }))
-
     fireEvent.click(screen.getByRole('button', { name: /view reone dermatology receipt on map/i }))
 
     expect(screen.getByRole('heading', { name: /리원피부과의원/i })).toBeInTheDocument()
@@ -157,21 +129,14 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
   })
 
-  test('phase G links inspiration cards into the map drawer without showing a related inspiration panel', () => {
+  test('phase G keeps inspiration map navigation but no related inspiration panel', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^inspiration$/i })[0])
-    fireEvent.change(screen.getByLabelText(/image url/i), { target: { value: 'https://example.com/tamburins.jpg' } })
-    fireEvent.change(screen.getByLabelText(/source url/i), { target: { value: 'https://instagram.com/reel/tamburins' } })
-    fireEvent.change(screen.getByLabelText(/place name/i), { target: { value: 'Tamburins Seongsu' } })
-    fireEvent.change(screen.getByLabelText(/tag/i), { target: { value: 'Beauty' } })
-    fireEvent.click(screen.getByRole('button', { name: /add inspiration item/i }))
+    fireEvent.click(screen.getAllByRole('button', { name: /view .* on map/i })[0])
 
-    fireEvent.click(screen.getByRole('button', { name: /add tamburins seongsu to map/i }))
-
-    expect(screen.getByRole('heading', { name: /tamburins seongsu/i })).toBeInTheDocument()
+    expect(screen.getByLabelText(/map date selector/i)).toBeInTheDocument()
     expect(screen.queryByText(/related inspiration/i)).not.toBeInTheDocument()
-    expect(screen.queryByText(/instagram · beauty/i)).not.toBeInTheDocument()
   })
 
   test('derm tab compares Korean 피부과 procedures for early 30s', () => {
@@ -278,19 +243,14 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('heading', { name: /sj korea/i })).toBeInTheDocument()
     expect(screen.getByText(/may 17 · seongsu beauty/i)).toBeInTheDocument()
     expect(container.querySelector('.map-first-home-screen')).toBeInTheDocument()
-    expect(container.querySelector('.map-first-date-strip')).toBeInTheDocument()
+    expect(screen.getByLabelText(/map date selector/i)).toBeInTheDocument()
     expect(container.querySelector('.home-map-fallback')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-river')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-route-layer')).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /map marker haus nowhere seongsu/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /map marker tamburins seongsu/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /may 20 gangnam/i })).toHaveClass('is-faded')
-    expect(screen.getByRole('button', { name: /may 17 seongsu beauty/i })).toHaveClass('active')
+    expect(container.querySelector('.home-map-marker')).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('button', { name: /map marker tamburins seongsu/i }))
-
-    expect(screen.getByRole('heading', { name: /tamburins seongsu/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /assign tamburins seongsu to may 17/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /haus nowhere seongsu/i })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /assign .* may 17/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /open tamburins seongsu in kakao maps/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /copy korean name for tamburins seongsu/i })).not.toBeInTheDocument()
     expect(screen.queryByText(/open in kakao maps from your phone if needed/i)).not.toBeInTheDocument()
@@ -306,14 +266,13 @@ describe('Korea trip app v2 concept', () => {
     expect(container.querySelector('.map-route-summary-card')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-legend')).not.toBeInTheDocument()
     expect(container.querySelector('.home-map-route-layer')).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /map marker tamburins seongsu/i })).toHaveClass('confirmed')
-    expect(screen.getByRole('button', { name: /map marker haus nowhere seongsu/i })).toHaveClass('candidate')
+    expect(container.querySelector('.home-map-marker')).not.toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('button', { name: /may 22 jamsil hotel day/i }))
+    fireEvent.click(within(screen.getByLabelText(/map date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i }))
 
     expect(screen.getByText(/may 22 · jamsil hotel day/i)).toBeInTheDocument()
     expect(within(mapStatus).getByText(/may 22/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /map marker 리원피부과의원/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /리원피부과의원|sofitel ambassador seoul/i })).toBeInTheDocument()
   })
 
   test('theme toggle uses a simple icon instead of text labels', () => {

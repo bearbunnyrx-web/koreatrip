@@ -2223,12 +2223,24 @@ function App() {
     [manualInspirationItems, stepOneThemeBoards],
   )
 
-  const filteredInspirationItems = useMemo(
-    () => inspirationFilter === 'All'
-      ? inspirationItems
-      : inspirationItems.filter((item) => item.tag === inspirationFilter || (inspirationFilter === 'Unlinked' && !item.linkedPlace)),
-    [inspirationFilter, inspirationItems],
-  )
+  const foodDrinkInspirationItems = useMemo(() => {
+    const plannedOrBeautyPattern = /nail|네일|hair|헤어|salon|chahong|차홍|seongsu|성수|tamburins|탬버린즈|olive young|올리브영|musinsa|무신사|tirtir|티르티르|blue elephant|haus nowhere|dior|dasique|medicube|sanrio/i
+    const foodDrinkPattern = /food|restaurant|dinner|lunch|cafe|coffee|drink|bar|bakery|bread|dessert|wine|맛집|식당|카페|커피|바|술|와인|디저트|베이커리|빵/i
+
+    return inspirationItems.filter((item) => {
+      const text = [item.title, item.linkedPlace, item.tag, item.createdAt].filter(Boolean).join(' ')
+      const isFoodDrink = ['Food', 'Cafe'].includes(item.tag) || foodDrinkPattern.test(text)
+      return isFoodDrink && !plannedOrBeautyPattern.test(text)
+    })
+  }, [inspirationItems])
+
+  const filteredInspirationItems = useMemo(() => {
+    if (inspirationFilter === 'All') return foodDrinkInspirationItems
+    if (inspirationFilter === 'Drinks') {
+      return foodDrinkInspirationItems.filter((item) => /drink|bar|wine|cocktail|coffee|술|바|와인|커피/i.test([item.title, item.createdAt, item.tag].join(' ')))
+    }
+    return foodDrinkInspirationItems.filter((item) => item.tag === inspirationFilter)
+  }, [foodDrinkInspirationItems, inspirationFilter])
 
   useEffect(() => {
     window.localStorage.setItem('korea-trip-inspiration-items', JSON.stringify(manualInspirationItems))
@@ -2779,13 +2791,15 @@ function App() {
           const badge = document.createElement('button')
           const routeIndex = routeOrder.indexOf(target.name)
           const isConfirmed = confirmedNames.has(target.name)
-          badge.className = `map-flag-badge ${isConfirmed ? 'is-confirmed' : 'is-candidate'}`
+          badge.className = `map-flag-badge ${isConfirmed ? 'is-confirmed' : 'is-candidate'} ${target.name === selectedHomeMapTargetName ? 'is-selected' : ''}`
           badge.type = 'button'
           badge.textContent = isConfirmed ? String(routeIndex + 1) : '⚑'
           badge.setAttribute('aria-label', `${isConfirmed ? 'Confirmed' : 'Candidate'} ${target.displayName}`)
 
-          badge.addEventListener('click', () => {
-            window.open(target.kakaoUrl, '_blank', 'noopener,noreferrer')
+          badge.addEventListener('click', (event) => {
+            event.preventDefault()
+            event.stopPropagation()
+            setSelectedHomeMapTargetName(target.name)
           })
 
           const overlay = new kakao.maps.CustomOverlay({ position, content: badge, yAnchor: 1.25 })
@@ -2852,7 +2866,27 @@ function App() {
       cancelled = true
       overlayItems.forEach((item) => item.setMap(null))
     }
-  }, [activeTab, confirmedRouteTargets, mapSource, selectedDayPlanner])
+  }, [activeTab, confirmedRouteTargets, mapSource, selectedDayPlanner, selectedHomeMapTargetName])
+
+  function renderTripDateStrip(label, extraClassName = '') {
+    return (
+      <div className={`shared-trip-date-strip ${extraClassName}`.trim()} aria-label={label}>
+        {itineraryCalendarDays.map((day) => (
+          <button
+            key={`${label}-${day.key}`}
+            aria-label={`${day.date} ${day.label}`}
+            className={`${selectedDay.key === day.key ? 'home-date-pill active' : 'home-date-pill'} ${selectedDay.key !== day.key ? 'is-faded' : ''}`}
+            style={{ '--day-color': mapDayColors[day.key] ?? mapDayColors.undecided }}
+            type="button"
+            onClick={() => setSelectedDayKey(day.key)}
+          >
+            <strong>{day.date.replace('May ', '')}</strong>
+            <span>{day.label.split(' ')[0]}</span>
+          </button>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="app-shell">
@@ -2920,20 +2954,6 @@ function App() {
                   <strong>{routeState.status === 'ready' ? `${formatRouteDistance(routeState.distanceMeters)} · ${formatRouteDuration(routeState.durationSeconds)}` : `${confirmedRouteTargets.length} stops`}</strong>
                 </div>
 
-                {homeMapTargets.map((target, index) => (
-                  <button
-                    key={`${selectedDay.key}-${target.name}`}
-                    className={`home-map-marker ${target.markerType === 'confirmed' ? 'confirmed' : 'candidate'} ${target.name === selectedHomeMapTarget?.name ? 'selected' : ''}`}
-                    style={{ left: target.position.left, top: target.position.top, '--marker-color': target.mapColor }}
-                    aria-label={`Map marker ${target.name}`}
-                    onClick={() => setSelectedHomeMapTargetName(target.name)}
-                  >
-                    {target.markerType === 'confirmed' ? index + 1 : '·'}
-                  </button>
-                ))}
-                <button className="home-map-marker confirmed is-faded" style={{ left: '78%', top: '25%', '--marker-color': mapDayColors['may-20'] }} aria-label="Map marker May 20 Gangnam">20</button>
-                <button className="home-map-marker candidate is-faded" style={{ left: '22%', top: '63%', '--marker-color': mapDayColors['may-16'] }} aria-label="Map marker May 16 Arrival">16</button>
-
                 {selectedHomeMapTarget ? (
                   <aside className="home-place-drawer glass-card" aria-label="Place detail drawer">
                     <div className="drawer-handle" />
@@ -2944,9 +2964,6 @@ function App() {
                         <h3>{selectedHomeMapTarget.name}</h3>
                         <p>{selectedHomeMapTarget.koreanName} · {selectedHomeMapTarget.reason}</p>
                       </div>
-                    </div>
-                    <div className="home-place-actions compact-actions">
-                      <button aria-label={`Assign ${selectedHomeMapTarget.name} to ${selectedDay.date}`} onClick={() => setActiveTab('places')}>Assign {selectedDay.date}</button>
                     </div>
                     {relatedPlaceReceipts.length ? (
                       <div className="place-linked-panel compact-linked-panel">
@@ -2962,20 +2979,7 @@ function App() {
                 ) : null}
               </div>
 
-              <div className="map-first-date-strip" aria-label="Map date selector">
-                {itineraryCalendarDays.map((day) => (
-                  <button
-                    key={`home-${day.key}`}
-                    aria-label={`${day.date} ${day.label}`}
-                    className={`${selectedDay.key === day.key ? 'home-date-pill active' : 'home-date-pill'} ${selectedDay.key !== day.key ? 'is-faded' : ''}`}
-                    style={{ '--day-color': mapDayColors[day.key] ?? mapDayColors.undecided }}
-                    onClick={() => setSelectedDayKey(day.key)}
-                  >
-                    <strong>{day.date.replace('May ', '')}</strong>
-                    <span>{day.label.split(' ')[0]}</span>
-                  </button>
-                ))}
-              </div>
+              {renderTripDateStrip('Map date selector', 'map-first-date-strip')}
             </section>
           )}
 
@@ -2990,114 +2994,27 @@ function App() {
                 <span className="chip chip-gold">Trip calendar</span>
               </header>
 
-              <div className="glass-card calendar-control-card">
-                <button
-                  aria-expanded={miniCalendarOpen}
-                  aria-label={miniCalendarOpen ? 'Close mini calendar' : 'Open mini calendar'}
-                  className="date-dropdown-pill calendar-date-toggle"
-                  type="button"
-                  onClick={() => setMiniCalendarOpen((open) => !open)}
-                >
-                  <span>{selectedDay.date}</span>
-                  <strong>{selectedDay.label}</strong>
-                </button>
+              {renderTripDateStrip('Calendar date selector', 'tab-date-strip glass-card')}
 
-                <div className="calendar-view-toggle" aria-label="Calendar view selector">
-                  {['day', 'week', 'month'].map((view) => (
-                    <button
-                      key={view}
-                      aria-label={`${view} view`}
-                      className={calendarView === view ? 'active' : ''}
-                      type="button"
-                      onClick={() => setCalendarView(view)}
-                    >
-                      {view[0].toUpperCase() + view.slice(1)}
-                    </button>
+              <div className="glass-card calendar-shell-card phase-d-day-card">
+                <div className="calendar-day-heading">
+                  <span className="search-type">Selected day</span>
+                  <h3>{selectedDay.date} · {selectedDay.label}</h3>
+                  <p>{selectedDay.focus}</p>
+                </div>
+                <div className="calendar-hour-grid phase-d-hour-grid" aria-label="Calendar day timeline">
+                  {selectedDayPlanner.map((item) => (
+                    <article key={`calendar-${item.id}`} className={`calendar-event-card ${item.type}`}>
+                      <time>{item.time}</time>
+                      <div>
+                        <h3>{item.title}</h3>
+                        <p>{item.note}</p>
+                      </div>
+                      <span>{item.type === 'confirmed' ? 'Set' : 'Flex'}</span>
+                    </article>
                   ))}
                 </div>
-
-                {miniCalendarOpen ? (
-                  <div className="mini-month-calendar" aria-label="Mini month calendar">
-                    {itineraryCalendarDays.map((day) => (
-                      <button
-                        key={`calendar-mini-${day.key}`}
-                        aria-label={`${day.date} ${day.label}`}
-                        className={selectedDay.key === day.key ? 'active' : ''}
-                        type="button"
-                        onClick={() => {
-                          setSelectedDayKey(day.key)
-                          setMiniCalendarOpen(false)
-                        }}
-                      >
-                        <span>{day.weekday}</span>
-                        <strong>{day.date.replace('May ', '')}</strong>
-                      </button>
-                    ))}
-                  </div>
-                ) : null}
               </div>
-
-              {calendarView === 'day' && (
-                <div className="glass-card calendar-shell-card phase-d-day-card">
-                  <div className="calendar-day-heading">
-                    <span className="search-type">Day view</span>
-                    <h3>{selectedDay.date} · {selectedDay.label}</h3>
-                    <p>{selectedDay.focus}</p>
-                  </div>
-                  <div className="calendar-hour-grid phase-d-hour-grid" aria-label="Calendar day timeline">
-                    {selectedDayPlanner.map((item) => (
-                      <article key={`calendar-${item.id}`} className={`calendar-event-card ${item.type}`}>
-                        <time>{item.time}</time>
-                        <div>
-                          <h3>{item.title}</h3>
-                          <p>{item.note}</p>
-                        </div>
-                        <span>{item.type === 'confirmed' ? 'Set' : 'Flex'}</span>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {calendarView === 'week' && (
-                <div className="glass-card calendar-shell-card phase-d-week-card">
-                  <h3>Week of {selectedDay.date}</h3>
-                  <div className="calendar-week-grid">
-                    {itineraryCalendarDays.slice(Math.max(0, itineraryCalendarDays.findIndex((day) => day.key === selectedDay.key) - 3), Math.max(0, itineraryCalendarDays.findIndex((day) => day.key === selectedDay.key) - 3) + 7).map((day) => (
-                      <button
-                        key={`week-${day.key}`}
-                        className={selectedDay.key === day.key ? 'active' : ''}
-                        type="button"
-                        onClick={() => setSelectedDayKey(day.key)}
-                      >
-                        <span>{day.weekday}</span>
-                        <strong>{day.date}</strong>
-                        <small>{day.label}</small>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {calendarView === 'month' && (
-                <div className="glass-card calendar-shell-card phase-d-month-card">
-                  <h3>May 2026 trip month</h3>
-                  <div className="calendar-month-grid">
-                    {itineraryCalendarDays.map((day) => (
-                      <button
-                        key={`month-${day.key}`}
-                        className={selectedDay.key === day.key ? 'active' : ''}
-                        type="button"
-                        onClick={() => setSelectedDayKey(day.key)}
-                      >
-                        <span>{day.weekday}</span>
-                        <strong>{day.date.replace('May ', '')}</strong>
-                        <small>{day.label}</small>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </section>
           )}
 
@@ -3105,61 +3022,25 @@ function App() {
             <section className="content-screen inspiration-screen phase-e-inspiration-screen">
               <header className="page-header wide-header stacked-mobile glass-card">
                 <div>
-                  <span className="search-type">Pinterest grid</span>
+                  <span className="search-type">Discord saves</span>
                   <h2 className="page-title">Inspiration</h2>
-                  <p>Save Reel/blog screenshots here and jump promising places straight into the map when there is a match.</p>
+                  <p>Food, cafe, dessert, and drink ideas collected through Discord. Beauty appointments and confirmed Seongsu shopping stops are kept out of this board.</p>
                 </div>
-                <span className="chip chip-sage">Visual saves</span>
+                <span className="chip chip-sage">Food + drink ideas</span>
               </header>
 
-              <form className="glass-card inspiration-upload-card" onSubmit={addManualInspirationItem}>
+              {renderTripDateStrip('Inspiration date selector', 'tab-date-strip glass-card')}
+
+              <section className="glass-card inspiration-ux-note">
+                <span className="search-type">How to use this tab</span>
                 <div>
-                  <span className="search-type">Manual screenshot upload</span>
-                  <h3>Add a save</h3>
-                  <p>Use an image URL for now; Supabase Storage upload can replace this in the next backend pass.</p>
+                  <strong>Shortlist, then ask Jin to place it.</strong>
+                  <p>Drop new reels/blog links in Discord. This tab stays as the clean shortlist; once a place looks worth it, ask Jin to add it to a day/map.</p>
                 </div>
-                <label>
-                  Image URL
-                  <input
-                    aria-label="Image URL"
-                    value={inspirationDraft.imageUrl}
-                    onChange={(event) => setInspirationDraft((draft) => ({ ...draft, imageUrl: event.target.value }))}
-                    placeholder="https://.../screenshot.jpg"
-                  />
-                </label>
-                <label>
-                  Source URL
-                  <input
-                    aria-label="Source URL"
-                    value={inspirationDraft.sourceUrl}
-                    onChange={(event) => setInspirationDraft((draft) => ({ ...draft, sourceUrl: event.target.value }))}
-                    placeholder="Instagram / blog / TikTok link"
-                  />
-                </label>
-                <label>
-                  Place name
-                  <input
-                    aria-label="Place name"
-                    value={inspirationDraft.placeName}
-                    onChange={(event) => setInspirationDraft((draft) => ({ ...draft, placeName: event.target.value }))}
-                    placeholder="Place or idea name"
-                  />
-                </label>
-                <label>
-                  Tag
-                  <select
-                    aria-label="Tag"
-                    value={inspirationDraft.tag}
-                    onChange={(event) => setInspirationDraft((draft) => ({ ...draft, tag: event.target.value }))}
-                  >
-                    {['Food', 'Cafe', 'Activity', 'Beauty', 'Lodging'].map((tag) => <option key={tag}>{tag}</option>)}
-                  </select>
-                </label>
-                <button type="submit">Add inspiration item</button>
-              </form>
+              </section>
 
               <div className="inspiration-filter-row" aria-label="Inspiration filters">
-                {['All', 'Food', 'Cafe', 'Activity', 'Beauty', 'Lodging', 'Unlinked'].map((filter) => (
+                {['All', 'Food', 'Cafe', 'Drinks'].map((filter) => (
                   <button
                     key={filter}
                     aria-label={`Filter ${filter}`}
@@ -3175,9 +3056,9 @@ function App() {
               <div className="section-header stacked-mobile">
                 <div>
                   <span className="search-type">{inspirationFilter} inspiration</span>
-                  <h3>{filteredInspirationItems.length} saved visual cues</h3>
+                  <h3>{filteredInspirationItems.length} food/drink saves</h3>
                 </div>
-                <span className="chip chip-mist">map linking ready</span>
+                <span className="chip chip-mist">Discord-fed board</span>
               </div>
 
               <div className="inspiration-masonry-grid">
@@ -3190,7 +3071,7 @@ function App() {
                       <p>{item.createdAt}</p>
                       <div className="inspiration-card-actions">
                         <a href={item.sourceUrl} target="_blank" rel="noreferrer" aria-label={`Open original source for ${item.title}`}>Open original source</a>
-                        <button type="button" onClick={() => openInspirationOnMap(item)} aria-label={`Add ${item.title} to map`}>{item.linkedPlace ? 'View on map' : 'Add to map'}</button>
+                        <button type="button" onClick={() => openInspirationOnMap(item)} aria-label={`View ${item.title} on map`}>View on map</button>
                       </div>
                     </div>
                   </article>
@@ -3200,137 +3081,44 @@ function App() {
           )}
 
           {activeTab === 'receipts' && (
-            <section className="content-screen receipts-screen">
+            <section className="content-screen receipts-screen simple-receipts-screen">
               <header className="page-header wide-header stacked-mobile glass-card">
                 <div>
-                  <span className="search-type">Discord → Drive → Gemma</span>
+                  <span className="search-type">Simple receipt list</span>
                   <h2 className="page-title">Receipts</h2>
-                  <p>Review trip receipts here after Discord uploads are saved to BearBunny Drive and extracted locally with Ollama Gemma4.</p>
+                  <p>Discord-uploaded confirmations and receipts, shown as a clean list. Ask Jin in Discord when a new receipt should be processed into the app.</p>
                 </div>
-                <span className="chip chip-rose">Receipt inbox</span>
+                <span className="chip chip-rose">{receiptRecords.length} items</span>
               </header>
 
-              <div className="receipts-pipeline-grid">
-                <article className="glass-card receipt-pipeline-card">
-                  <span className="search-type">Discord receipts thread</span>
-                  <strong>{RECEIPT_PIPELINE_CONFIG.discordThreadId}</strong>
-                  <p>Drop screenshots/PDFs in this thread. Jin acknowledged it and the local processor is configured to treat it as the inbox.</p>
-                </article>
-                <article className="glass-card receipt-pipeline-card">
-                  <span className="search-type">BearBunny Google Drive</span>
-                  <strong>Receipts folder</strong>
-                  <a href={receiptDriveUrl()} target="_blank" rel="noreferrer" aria-label="Open BearBunny Drive receipts folder">Open BearBunny Drive receipts folder</a>
-                </article>
-                <article className="glass-card receipt-pipeline-card">
-                  <span className="search-type">Local Ollama Gemma4</span>
-                  <strong>{RECEIPT_PIPELINE_CONFIG.ollamaPreferredModel}</strong>
-                  <p>Extraction stays local; no Anthropic key or browser-exposed LLM key is needed.</p>
-                </article>
-              </div>
+              {renderTripDateStrip('Receipts date selector', 'tab-date-strip glass-card')}
 
-              <div className="receipt-summary-strip">
-                <div className="summary-mini">
-                  <span>Receipt records</span>
-                  <strong>{receiptSummary.totalCount}</strong>
-                </div>
-                <div className="summary-mini">
-                  <span>Need review</span>
-                  <strong>{receiptSummary.reviewCount}</strong>
-                </div>
-                <div className="summary-mini">
-                  <span>USD logged</span>
-                  <strong>{receiptSummary.usdTotal}</strong>
-                </div>
-                <div className="summary-mini">
-                  <span>Legacy spend</span>
-                  <strong>${loggedSpend.toLocaleString()}</strong>
-                </div>
-              </div>
-
-              <form className="glass-card receipt-intake-form" onSubmit={addManualReceipt}>
-                <div className="section-header stacked-mobile">
-                  <div>
-                    <span className="search-type">Manual review fallback</span>
-                    <h3>Add receipt for review</h3>
-                  </div>
-                  <span className="chip chip-mist">editable extraction</span>
-                </div>
-                <div className="receipt-form-grid">
-                  <label>
-                    Vendor
-                    <input value={receiptDraft.vendor} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, vendor: event.target.value }))} placeholder="Sofitel Ambassador Seoul" />
-                  </label>
-                  <label>
-                    Receipt date
-                    <input type="date" value={receiptDraft.date} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, date: event.target.value }))} />
-                  </label>
-                  <label>
-                    Amount
-                    <input inputMode="decimal" value={receiptDraft.amount} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, amount: event.target.value }))} placeholder="123.45" />
-                  </label>
-                  <label>
-                    Currency
-                    <select value={receiptDraft.currency} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, currency: event.target.value }))}>
-                      <option>USD</option>
-                      <option>KRW</option>
-                      <option>JPY</option>
-                    </select>
-                  </label>
-                  <label>
-                    Category
-                    <select value={receiptDraft.category} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, category: event.target.value }))}>
-                      {RECEIPT_CATEGORIES.filter((category) => category !== 'All').map((category) => <option key={category}>{category}</option>)}
-                    </select>
-                  </label>
-                  <label>
-                    Confirmation number
-                    <input value={receiptDraft.confirmationNumber} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, confirmationNumber: event.target.value }))} placeholder="ABC123" />
-                  </label>
-                  <label>
-                    Drive URL
-                    <input value={receiptDraft.driveUrl} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, driveUrl: event.target.value }))} placeholder="Optional Google Drive file link" />
-                  </label>
-                  <label>
-                    Place guess
-                    <input value={receiptDraft.placeGuess} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, placeGuess: event.target.value }))} placeholder="Optional map/event match" />
-                  </label>
-                </div>
-                <button type="submit" className="primary-inline-btn">Add receipt for review</button>
-              </form>
-
-              <div className="inspiration-filter-row receipt-filter-row" aria-label="Receipt category filters">
-                {RECEIPT_CATEGORIES.map((category) => (
-                  <button
-                    key={category}
-                    type="button"
-                    className={receiptFilter === category ? 'inspiration-filter-chip active' : 'inspiration-filter-chip'}
-                    aria-label={`Filter receipt category ${category}`}
-                    onClick={() => setReceiptFilter(category)}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-
-              <div className="receipts-review-grid">
-                {filteredReceiptRecords.map((receipt) => (
-                  <article key={receipt.id} className="glass-card receipt-review-card">
-                    <div className="receipt-review-topline">
-                      <span className="chip chip-soft">{receipt.category}</span>
-                      <span className={receipt.status === 'review' ? 'chip chip-rose' : 'chip chip-mist'}>{receipt.status === 'review' ? 'needs review' : receipt.status}</span>
-                    </div>
-                    <h3>{receipt.vendor}</h3>
-                    <p>{receipt.notes || receipt.placeGuess || 'Extracted fields stay editable before linking to the map or calendar.'}</p>
-                    <div className="receipt-field-grid">
-                      <span><small>Date</small>{receipt.date || 'TBD'}</span>
-                      <span><small>Amount</small>{formatReceiptAmount(receipt.amountMinor, receipt.currency)}</span>
-                      <span><small>Confirmation</small>{receipt.confirmationNumber || '—'}</span>
-                      <span><small>Place guess</small>{receipt.placeGuess || 'Unlinked'}</span>
-                    </div>
-                    <div className="receipt-card-actions">
-                      <a href={receipt.driveUrl || receiptDriveUrl()} target="_blank" rel="noreferrer">Open Drive file</a>
-                      <button type="button" onClick={() => openReceiptOnMap(receipt)} aria-label={`View ${receipt.vendor} on map`}>View on map</button>
-                      <button type="button" onClick={() => openReceiptOnCalendar(receipt)} aria-label={`Open calendar for ${receipt.vendor}`}>Calendar</button>
+              <div className="simple-receipt-list" aria-label="Simple receipt list">
+                {receiptRecords.map((receipt) => (
+                  <article key={receipt.id} className="receipt-paper-card">
+                    <div className="receipt-paper-edge" />
+                    <div className="receipt-paper-main">
+                      <div className="receipt-paper-top">
+                        <span>{receipt.category || 'Trip'}</span>
+                        <time>{receipt.date || 'TBD'}</time>
+                      </div>
+                      <h3>{receipt.vendor}</h3>
+                      <div className="receipt-paper-row">
+                        <span>Amount</span>
+                        <strong>{formatReceiptAmount(receipt.amountMinor, receipt.currency)}</strong>
+                      </div>
+                      {receipt.confirmationNumber ? (
+                        <div className="receipt-paper-row">
+                          <span>Confirmation</span>
+                          <strong>{receipt.confirmationNumber}</strong>
+                        </div>
+                      ) : null}
+                      <p>{receipt.notes || receipt.placeGuess || 'Saved receipt item'}</p>
+                      <div className="receipt-paper-actions">
+                        <button type="button" onClick={() => openReceiptOnMap(receipt)} aria-label={`View ${receipt.vendor} on map`}>Map</button>
+                        <button type="button" onClick={() => openReceiptOnCalendar(receipt)} aria-label={`Open calendar for ${receipt.vendor}`}>Calendar</button>
+                        <a href={receipt.driveUrl || receiptDriveUrl()} target="_blank" rel="noreferrer">Drive</a>
+                      </div>
                     </div>
                   </article>
                 ))}
