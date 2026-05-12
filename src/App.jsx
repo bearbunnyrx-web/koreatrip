@@ -4,6 +4,14 @@ import BottomNav from './components/BottomNav'
 import { createSupabaseClient } from './lib/supabaseClient'
 import { createTripStateStore } from './lib/tripStateStore'
 import { fetchKakaoRouteForTargets, formatRouteDistance, formatRouteDuration } from './lib/routing'
+import {
+  RECEIPT_CATEGORIES,
+  RECEIPT_PIPELINE_CONFIG,
+  formatReceiptAmount,
+  legacySpendToReceipts,
+  normalizeReceiptExtraction,
+  receiptDriveUrl,
+} from './lib/receiptPipeline'
 
 const tabs = ['map', 'calendar', 'inspiration', 'receipts']
 const tabMeta = {
@@ -1795,6 +1803,27 @@ function App() {
       return []
     }
   })
+  const [receiptFilter, setReceiptFilter] = useState('All')
+  const [receiptDraft, setReceiptDraft] = useState({
+    vendor: '',
+    date: '2026-05-22',
+    amount: '',
+    currency: 'USD',
+    category: 'Food',
+    confirmationNumber: '',
+    driveUrl: '',
+    placeGuess: '',
+  })
+  const [manualReceipts, setManualReceipts] = useState(() => {
+    const stored = window.localStorage.getItem(RECEIPT_PIPELINE_CONFIG.localStorageKey)
+    if (!stored) return []
+    try {
+      return JSON.parse(stored)
+    } catch {
+      return []
+    }
+  })
+  const [importedReceipts, setImportedReceipts] = useState([])
   const [selectedHomeMapTargetName, setSelectedHomeMapTargetName] = useState('Haus Nowhere Seongsu')
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
   const [selectedBookingKey, setSelectedBookingKey] = useState('beauty')
@@ -2250,6 +2279,85 @@ function App() {
     () => spend.reduce((sum, row) => sum + Number(row.amount.replace(/[$,]/g, '')), 0),
     [],
   )
+
+  const receiptRecords = useMemo(
+    () => [...manualReceipts, ...importedReceipts, ...legacySpendToReceipts(spend)],
+    [importedReceipts, manualReceipts],
+  )
+
+  const filteredReceiptRecords = useMemo(
+    () => receiptFilter === 'All'
+      ? receiptRecords
+      : receiptRecords.filter((receipt) => receipt.category === receiptFilter),
+    [receiptFilter, receiptRecords],
+  )
+
+  const receiptSummary = useMemo(() => {
+    const usdMinor = receiptRecords
+      .filter((receipt) => receipt.currency === 'USD')
+      .reduce((sum, receipt) => sum + receipt.amountMinor, 0)
+    const krwMinor = receiptRecords
+      .filter((receipt) => receipt.currency === 'KRW')
+      .reduce((sum, receipt) => sum + receipt.amountMinor, 0)
+    return {
+      totalCount: receiptRecords.length,
+      reviewCount: receiptRecords.filter((receipt) => receipt.status === 'review').length,
+      usdTotal: formatReceiptAmount(usdMinor, 'USD'),
+      krwTotal: krwMinor ? formatReceiptAmount(krwMinor, 'KRW') : '',
+    }
+  }, [receiptRecords])
+
+  useEffect(() => {
+    let cancelled = false
+    fetch('/receipts-inbox.json', { cache: 'no-store' })
+      .then((response) => response.ok ? response.json() : [])
+      .then((receipts) => {
+        if (!cancelled && Array.isArray(receipts)) setImportedReceipts(receipts)
+      })
+      .catch(() => {
+        if (!cancelled) setImportedReceipts([])
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    window.localStorage.setItem(RECEIPT_PIPELINE_CONFIG.localStorageKey, JSON.stringify(manualReceipts))
+  }, [manualReceipts])
+
+  function addManualReceipt(event) {
+    event.preventDefault()
+    if (!receiptDraft.vendor.trim()) return
+
+    const nextReceipt = normalizeReceiptExtraction({
+      vendor: receiptDraft.vendor.trim(),
+      date: receiptDraft.date,
+      amount: receiptDraft.amount,
+      currency: receiptDraft.currency,
+      category: receiptDraft.category,
+      confirmationNumber: receiptDraft.confirmationNumber,
+      placeGuess: receiptDraft.placeGuess,
+    }, {
+      id: `manual-receipt-${Date.now()}`,
+      driveUrl: receiptDraft.driveUrl.trim() || receiptDriveUrl(),
+      source: 'manual-review',
+      status: 'review',
+    })
+
+    setManualReceipts((receipts) => [nextReceipt, ...receipts])
+    setReceiptFilter('All')
+    setReceiptDraft({
+      vendor: '',
+      date: '2026-05-22',
+      amount: '',
+      currency: 'USD',
+      category: 'Food',
+      confirmationNumber: '',
+      driveUrl: '',
+      placeGuess: '',
+    })
+  }
 
   const countdownDays = useMemo(() => {
     const today = new Date()
@@ -3051,32 +3159,139 @@ function App() {
           )}
 
           {activeTab === 'receipts' && (
-            <section className="content-screen v2-placeholder-screen receipts-screen">
+            <section className="content-screen receipts-screen">
               <header className="page-header wide-header stacked-mobile glass-card">
                 <div>
-                  <span className="search-type">Upload + extract</span>
+                  <span className="search-type">Discord → Drive → Gemma</span>
                   <h2 className="page-title">Receipts</h2>
-                  <p>Booking confirmations and receipts will be grouped, extracted, and linked to events/places.</p>
+                  <p>Phase F1 + F2: receipt review UI plus the local inbox pipeline for Discord uploads, BearBunny Drive files, and local Ollama Gemma4 extraction.</p>
                 </div>
-                <span className="chip chip-rose">Phase B shell</span>
+                <span className="chip chip-rose">Phase F1 + F2</span>
               </header>
-              <div className="spend-layout">
-                <div className="glass-card spend-table">
-                  {spend.map((row) => (
-                    <article className="spend-row" key={`receipt-${row.item}`}>
-                      <div>
-                        <h3>{row.item}</h3>
-                        <p>{row.detail}</p>
-                      </div>
-                      <strong className="amount">{row.amount}</strong>
-                    </article>
-                  ))}
+
+              <div className="receipts-pipeline-grid">
+                <article className="glass-card receipt-pipeline-card">
+                  <span className="search-type">Discord receipts thread</span>
+                  <strong>{RECEIPT_PIPELINE_CONFIG.discordThreadId}</strong>
+                  <p>Drop screenshots/PDFs in this thread. Jin acknowledged it and the local processor is configured to treat it as the inbox.</p>
+                </article>
+                <article className="glass-card receipt-pipeline-card">
+                  <span className="search-type">BearBunny Google Drive</span>
+                  <strong>Receipts folder</strong>
+                  <a href={receiptDriveUrl()} target="_blank" rel="noreferrer" aria-label="Open BearBunny Drive receipts folder">Open BearBunny Drive receipts folder</a>
+                </article>
+                <article className="glass-card receipt-pipeline-card">
+                  <span className="search-type">Local Ollama Gemma4</span>
+                  <strong>{RECEIPT_PIPELINE_CONFIG.ollamaPreferredModel}</strong>
+                  <p>Extraction stays local; no Anthropic key or browser-exposed LLM key is needed.</p>
+                </article>
+              </div>
+
+              <div className="receipt-summary-strip">
+                <div className="summary-mini">
+                  <span>Receipt records</span>
+                  <strong>{receiptSummary.totalCount}</strong>
                 </div>
-                <div className="summary-card glass-card warm-card">
-                  <span>Total logged</span>
+                <div className="summary-mini">
+                  <span>Need review</span>
+                  <strong>{receiptSummary.reviewCount}</strong>
+                </div>
+                <div className="summary-mini">
+                  <span>USD logged</span>
+                  <strong>{receiptSummary.usdTotal}</strong>
+                </div>
+                <div className="summary-mini">
+                  <span>Legacy spend</span>
                   <strong>${loggedSpend.toLocaleString()}</strong>
-                  <p>Current hidden spend data promoted into the V2 receipts shell.</p>
                 </div>
+              </div>
+
+              <form className="glass-card receipt-intake-form" onSubmit={addManualReceipt}>
+                <div className="section-header stacked-mobile">
+                  <div>
+                    <span className="search-type">Manual review fallback</span>
+                    <h3>Add receipt for review</h3>
+                  </div>
+                  <span className="chip chip-mist">editable extraction</span>
+                </div>
+                <div className="receipt-form-grid">
+                  <label>
+                    Vendor
+                    <input value={receiptDraft.vendor} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, vendor: event.target.value }))} placeholder="Sofitel Ambassador Seoul" />
+                  </label>
+                  <label>
+                    Receipt date
+                    <input type="date" value={receiptDraft.date} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, date: event.target.value }))} />
+                  </label>
+                  <label>
+                    Amount
+                    <input inputMode="decimal" value={receiptDraft.amount} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, amount: event.target.value }))} placeholder="123.45" />
+                  </label>
+                  <label>
+                    Currency
+                    <select value={receiptDraft.currency} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, currency: event.target.value }))}>
+                      <option>USD</option>
+                      <option>KRW</option>
+                      <option>JPY</option>
+                    </select>
+                  </label>
+                  <label>
+                    Category
+                    <select value={receiptDraft.category} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, category: event.target.value }))}>
+                      {RECEIPT_CATEGORIES.filter((category) => category !== 'All').map((category) => <option key={category}>{category}</option>)}
+                    </select>
+                  </label>
+                  <label>
+                    Confirmation number
+                    <input value={receiptDraft.confirmationNumber} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, confirmationNumber: event.target.value }))} placeholder="ABC123" />
+                  </label>
+                  <label>
+                    Drive URL
+                    <input value={receiptDraft.driveUrl} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, driveUrl: event.target.value }))} placeholder="Optional Google Drive file link" />
+                  </label>
+                  <label>
+                    Place guess
+                    <input value={receiptDraft.placeGuess} onChange={(event) => setReceiptDraft((draft) => ({ ...draft, placeGuess: event.target.value }))} placeholder="Optional map/event match" />
+                  </label>
+                </div>
+                <button type="submit" className="primary-inline-btn">Add receipt for review</button>
+              </form>
+
+              <div className="inspiration-filter-row receipt-filter-row" aria-label="Receipt category filters">
+                {RECEIPT_CATEGORIES.map((category) => (
+                  <button
+                    key={category}
+                    type="button"
+                    className={receiptFilter === category ? 'inspiration-filter-chip active' : 'inspiration-filter-chip'}
+                    aria-label={`Filter receipt category ${category}`}
+                    onClick={() => setReceiptFilter(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+
+              <div className="receipts-review-grid">
+                {filteredReceiptRecords.map((receipt) => (
+                  <article key={receipt.id} className="glass-card receipt-review-card">
+                    <div className="receipt-review-topline">
+                      <span className="chip chip-soft">{receipt.category}</span>
+                      <span className={receipt.status === 'review' ? 'chip chip-rose' : 'chip chip-mist'}>{receipt.status === 'review' ? 'needs review' : receipt.status}</span>
+                    </div>
+                    <h3>{receipt.vendor}</h3>
+                    <p>{receipt.notes || receipt.placeGuess || 'Extracted fields stay editable before Phase G linking.'}</p>
+                    <div className="receipt-field-grid">
+                      <span><small>Date</small>{receipt.date || 'TBD'}</span>
+                      <span><small>Amount</small>{formatReceiptAmount(receipt.amountMinor, receipt.currency)}</span>
+                      <span><small>Confirmation</small>{receipt.confirmationNumber || '—'}</span>
+                      <span><small>Place guess</small>{receipt.placeGuess || 'Unlinked'}</span>
+                    </div>
+                    <div className="receipt-card-actions">
+                      <a href={receipt.driveUrl || receiptDriveUrl()} target="_blank" rel="noreferrer">Open Drive file</a>
+                      <button type="button" aria-label={`Link ${receipt.vendor} in Phase G`}>Link in Phase G</button>
+                    </div>
+                  </article>
+                ))}
               </div>
             </section>
           )}

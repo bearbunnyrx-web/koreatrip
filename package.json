@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "test": "vitest run",
+    "receipt:ingest": "node scripts/receipt-ingest.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

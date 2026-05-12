@@ -106,6 +106,33 @@ describe('Korea trip app v2 concept', () => {
     expect(window.localStorage.getItem('korea-trip-inspiration-items')).toContain('Test Cafe Save')
   })
 
+  test('receipts phase F shows Discord Drive Gemma pipeline and manual review intake', () => {
+    const { container } = render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
+
+    expect(screen.getByRole('heading', { name: /receipts/i })).toBeInTheDocument()
+    expect(screen.getAllByText(/phase f1 \+ f2/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/discord receipts thread/i)).toBeInTheDocument()
+    expect(screen.getByText(/1503591512573874176/i)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /open bearbunny drive receipts folder/i })).toHaveAttribute('href', expect.stringContaining('1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG'))
+    expect(screen.getAllByText(/local ollama gemma4/i).length).toBeGreaterThan(0)
+    expect(container.querySelector('.receipts-review-grid')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /filter receipt category hotels/i })).toBeInTheDocument()
+
+    fireEvent.change(screen.getByLabelText(/vendor/i), { target: { value: 'Test Receipt Vendor' } })
+    fireEvent.change(screen.getByLabelText(/receipt date/i), { target: { value: '2026-05-22' } })
+    fireEvent.change(screen.getByLabelText(/amount/i), { target: { value: '123.45' } })
+    fireEvent.change(screen.getByLabelText(/currency/i), { target: { value: 'USD' } })
+    fireEvent.change(screen.getAllByLabelText(/category/i)[0], { target: { value: 'Food' } })
+    fireEvent.change(screen.getByLabelText(/confirmation number/i), { target: { value: 'CONF-123' } })
+    fireEvent.click(screen.getByRole('button', { name: /add receipt for review/i }))
+
+    expect(screen.getByText(/test receipt vendor/i)).toBeInTheDocument()
+    expect(screen.getByText(/CONF-123/i)).toBeInTheDocument()
+    expect(window.localStorage.getItem('korea-trip-receipts')).toContain('Test Receipt Vendor')
+  })
+
   test('derm tab compares Korean 피부과 procedures for early 30s', () => {
     render(<App />)
 
