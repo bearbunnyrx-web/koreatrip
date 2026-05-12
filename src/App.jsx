@@ -1362,6 +1362,7 @@ const aprilInstagramBatchThemes = [
   ['seongsu-tea-design', 'Seongsu tea design saves', 'Instagram batch', 'Quiet tea/design experiences for a softer Seongsu stop.'],
   ['limited-food-popups', 'Limited food promos / re-check', 'Needs re-check', 'Date-limited food promos saved only for availability verification.'],
   ['yeonnam-food-saves', 'Yeonnam food saves', 'Instagram batch', 'Yeonnam/Hongdae-area food ideas from reels.'],
+  ['seoul-night-view-saves', 'Seoul night-view saves', 'Instagram batch', 'Night-view walks and scenic Seoul viewpoints from shared reels.'],
 ]
 
 const batchThumbs = {
@@ -1374,6 +1375,7 @@ const batchThumbs = {
   nails: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=800&q=80',
   shopping: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80',
   tea: 'https://images.unsplash.com/photo-1547825407-2d060104b7f8?auto=format&fit=crop&w=800&q=80',
+  viewpoint: 'https://images.unsplash.com/photo-1548115184-bc6544d06a58?auto=format&fit=crop&w=800&q=80',
 }
 
 const aprilInstagramBatchPlaces = [
@@ -1402,6 +1404,7 @@ const aprilInstagramBatchPlaces = [
   ['ig-seochon-geumsang-goroke', 'seoul-dessert-cafes', 'Seoul dessert cafe saves', 'Seochon Geumsang Goroke / 서촌 금상고로케', 'Seochon / Gyeongbokgung', 'potato croquette / bakery snack', 'Viral flaky potato croquette stop from hereis_jess. Naver local shows 서촌 금상고로케 at 서울 종로구 자하문로9길 24, strong review volume, and popular menu signals for meat-vegetable, potato, and mozzarella croquettes.', 'Instagram reel DXO4pYzk71U / caption + Naver local', 'creator notes big flaky bread crumbs · Naver shows last order around 19:30 and average spend under 10,000 KRW · verify line/order timing', batchThumbs.bakery, 'https://www.instagram.com/reel/DXO4pYzk71U/?igsh=NTc4MTIwNjQ2YQ==', '서촌 금상고로케 자하문로9길 24'],
   ['ig-ikseon-chwihyang-rose-pasta', 'yongsan-food-saves', 'Yongsan food saves', 'Ikseon Chwihyang / 익선취향', 'Ikseon-dong / Jongno', 'Korean-western pasta / steak', 'Viral pork-belly rose pasta stop from eatswithclaire’s Seoul restaurant rating reel. Caption tags @favorite_ikseon; Naver local identifies 익선취향 with high review volume and menu anchors including 통삼겹 로제파스타, 취향 스테이크, 회오리 오므라이스, and 항정 매콤크림 파스타.', 'Instagram reel DQymX5JEURP / caption + Naver local', 'Instagram profile says walk-in only, no reservation, 12:00–21:00; Naver shows 서울 종로구 수표로28길 17-32 1층, last order around 20:05, and phone 0507-1365-2866 · expect wait risk in Ikseon-dong', batchThumbs.food, 'https://www.instagram.com/reel/DQymX5JEURP/?igsh=NTc4MTIwNjQ2YQ==', '익선취향 수표로28길 17-32'],
   ['ig-gangnam-sinsajeon-honeycomb-makgeolli', 'gangnam-bbq-saves', 'Gangnam BBQ saves', 'Sinsajeon / 신사전', 'Sinsa / Gangnam', 'jeon / honeycomb makgeolli', 'Viral honeycomb makgeolli stop from eatswithclaire. Naver local identifies 신사전 as a Gangnam jeon / bindaetteok restaurant with strong review volume, honeycomb listed as 벌집꿀, and menu anchors including 모듬전, 치즈감자전, 수육과 갓김치, and 신사동막걸리.', 'Instagram reel DS19yCsEQun / caption + Naver local', 'Naver shows 서울 강남구 도산대로11길 18 신사전, phone 0507-1337-9993, open until around 01:00, reservation support, valet/parking, and popular rainy-night makgeolli energy · wax-in-honeycomb caveat from comments', batchThumbs.food, 'https://www.instagram.com/reel/DS19yCsEQun/?igsh=NTc4MTIwNjQ2YQ==', '신사전 도산대로11길 18'],
+  ['ig-yongwangsan-skywalk', 'seoul-night-view-saves', 'Seoul night-view saves', 'Yongwangsan Skywalk / 용왕산 스카이워크', 'Yangcheon-gu / Mok-dong', 'night-view skywalk / accessible deck', 'Free panoramic city-view skywalk from my_season___ reel. Caption notes a 224m barrier-free deck with a gentle slope, about 10m elevated walkway, LED night lighting, and forest-overlook walking mood.', 'Instagram reel DXRZp_zj4rd / caption + Naver local', 'Caption address: 서울특별시 양천구 용왕정길 43. Naver local result identifies 용왕산스카이워크전망대 in 양천구 목동; comments mention it can sway in wind, so keep as optional night-view inspiration.', batchThumbs.viewpoint, 'https://www.instagram.com/reel/DXRZp_zj4rd/?igsh=NTc4MTIwNjQ2YQ==', '용왕산 스카이워크 용왕정길 43'],
 ]
 
 stepOnePlaceThemes.push(...aprilInstagramBatchThemes.map(([key, title, status, lead]) => ({ key, title, status, lead })))
@@ -1772,6 +1775,7 @@ const threadSharedInstagramCodes = new Set([
   'DXO4pYzk71U',
   'DQymX5JEURP',
   'DS19yCsEQun',
+  'DXRZp_zj4rd',
 ])
 
 function instagramCodeFromUrl(sourceUrl = '') {
@@ -2413,6 +2417,45 @@ function App() {
       usdTotal: formatReceiptAmount(usdMinor, 'USD'),
       krwTotal: krwMinor ? formatReceiptAmount(krwMinor, 'KRW') : '',
     }
+  }, [receiptRecords])
+
+  const receiptCategoryBreakdown = useMemo(() => {
+    const totals = receiptRecords.reduce((acc, receipt) => {
+      const key = receipt.category || 'Other'
+      acc[key] = (acc[key] || 0) + 1
+      return acc
+    }, {})
+    const maxCount = Math.max(1, ...Object.values(totals))
+    return Object.entries(totals)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([category, count]) => ({
+        category,
+        count,
+        width: `${Math.max(12, Math.round((count / maxCount) * 100))}%`,
+      }))
+  }, [receiptRecords])
+
+  const receiptDateGroups = useMemo(() => {
+    const groups = receiptRecords.reduce((acc, receipt) => {
+      const key = receipt.date || 'TBD'
+      if (!acc[key]) acc[key] = []
+      acc[key].push(receipt)
+      return acc
+    }, {})
+
+    return Object.entries(groups)
+      .sort(([dateA], [dateB]) => {
+        if (dateA === 'TBD') return 1
+        if (dateB === 'TBD') return -1
+        return dateA.localeCompare(dateB)
+      })
+      .map(([date, receipts]) => ({
+        date,
+        label: date === 'TBD'
+          ? 'TBD / unscheduled'
+          : new Date(`${date}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' }),
+        receipts,
+      }))
   }, [receiptRecords])
 
   useEffect(() => {
@@ -3131,43 +3174,88 @@ function App() {
             <section className="content-screen receipts-screen simple-receipts-screen">
               {renderTripStickyHeader('Receipts sticky date header')}
 
-              <header className="page-header wide-header stacked-mobile glass-card">
+              <header className="page-header wide-header stacked-mobile glass-card receipts-dashboard-header">
                 <div>
-                  <span className="search-type">Simple receipt list</span>
+                  <span className="search-type">Trip balance dashboard</span>
                   <h2 className="page-title">Receipts</h2>
-                  <p>Latest source: Discord receipts thread <strong>{RECEIPT_PIPELINE_CONFIG.discordThreadId}</strong>. Drop receipts there; Jin processes them into this simple list and deploys updates.</p>
+                  <div className="receipt-dashboard" aria-label="Receipts dashboard">
+                    <div className="receipt-dashboard-stat primary">
+                      <span>Total tracked</span>
+                      <strong>{receiptRecords.length}</strong>
+                      <small>receipts + bookings</small>
+                    </div>
+                    <div className="receipt-dashboard-stat">
+                      <span>KRW total</span>
+                      <strong>{receiptSummary.krwTotal || '₩0'}</strong>
+                      <small>shared Korea spend</small>
+                    </div>
+                    <div className="receipt-dashboard-stat">
+                      <span>USD total</span>
+                      <strong>{receiptSummary.usdTotal}</strong>
+                      <small>card / PayPal items</small>
+                    </div>
+                    <div className="receipt-dashboard-balance">
+                      <div>
+                        <span>Trip Balance</span>
+                        <strong>Ready for Dr. Cho + Dr. Ho</strong>
+                        <small>Add “paid by” next, then this becomes our Splitwise replacement.</small>
+                      </div>
+                      <div className="receipt-mini-bars" aria-label="Receipt category graph">
+                        {receiptCategoryBreakdown.map((item) => (
+                          <div className="receipt-mini-bar-row" key={item.category}>
+                            <span>{item.category}</span>
+                            <div className="receipt-mini-bar-track"><i style={{ width: item.width }} /></div>
+                            <strong>{item.count}</strong>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <span className="chip chip-rose">{receiptRecords.length} items</span>
+                <span className="chip chip-rose">Source {RECEIPT_PIPELINE_CONFIG.discordThreadId}</span>
               </header>
 
               <div className="simple-receipt-list" aria-label="Simple receipt list">
-                {receiptRecords.map((receipt) => (
-                  <article key={receipt.id} className="receipt-paper-card">
-                    <div className="receipt-paper-edge" />
-                    <div className="receipt-paper-main">
-                      <div className="receipt-paper-top">
-                        <span>{receipt.category || 'Trip'}</span>
-                        <time>{receipt.date || 'TBD'}</time>
+                {receiptDateGroups.map((group) => (
+                  <section key={group.date} className="receipt-date-group" aria-label={`${group.label} receipts`}>
+                    <header className="receipt-date-heading">
+                      <div>
+                        <span>Receipt date</span>
+                        <h3>{group.label}</h3>
                       </div>
-                      <h3>{receipt.vendor}</h3>
-                      <div className="receipt-paper-row">
-                        <span>Amount</span>
-                        <strong>{formatReceiptAmount(receipt.amountMinor, receipt.currency)}</strong>
-                      </div>
-                      {receipt.confirmationNumber ? (
-                        <div className="receipt-paper-row">
-                          <span>Confirmation</span>
-                          <strong>{receipt.confirmationNumber}</strong>
-                        </div>
-                      ) : null}
-                      <p>{receipt.notes || receipt.placeGuess || 'Saved receipt item'}</p>
-                      <div className="receipt-paper-actions">
-                        <button type="button" onClick={() => openReceiptOnMap(receipt)} aria-label={`View ${receipt.vendor} on map`}>Map</button>
-                        <button type="button" onClick={() => openReceiptOnCalendar(receipt)} aria-label={`Open calendar for ${receipt.vendor}`}>Calendar</button>
-                        <a href={receipt.driveUrl || receiptDriveUrl()} target="_blank" rel="noreferrer">Drive</a>
-                      </div>
+                      <strong>{group.receipts.length} item{group.receipts.length === 1 ? '' : 's'}</strong>
+                    </header>
+                    <div className="receipt-date-card-grid">
+                      {group.receipts.map((receipt) => (
+                        <article key={receipt.id} className="receipt-paper-card">
+                          <div className="receipt-paper-edge" />
+                          <div className="receipt-paper-main">
+                            <div className="receipt-paper-top">
+                              <span>{receipt.category || 'Trip'}</span>
+                              <time>{receipt.date || 'TBD'}</time>
+                            </div>
+                            <h3>{receipt.vendor}</h3>
+                            <div className="receipt-paper-row">
+                              <span>Amount</span>
+                              <strong>{formatReceiptAmount(receipt.amountMinor, receipt.currency)}</strong>
+                            </div>
+                            {receipt.confirmationNumber ? (
+                              <div className="receipt-paper-row">
+                                <span>Confirmation</span>
+                                <strong>{receipt.confirmationNumber}</strong>
+                              </div>
+                            ) : null}
+                            <p>{receipt.notes || receipt.placeGuess || 'Saved receipt item'}</p>
+                            <div className="receipt-paper-actions">
+                              <button type="button" onClick={() => openReceiptOnMap(receipt)} aria-label={`View ${receipt.vendor} on map`}>Map</button>
+                              <button type="button" onClick={() => openReceiptOnCalendar(receipt)} aria-label={`Open calendar for ${receipt.vendor}`}>Calendar</button>
+                              <a href={receipt.driveUrl || receiptDriveUrl()} target="_blank" rel="noreferrer">Drive</a>
+                            </div>
+                          </div>
+                        </article>
+                      ))}
                     </div>
-                  </article>
+                  </section>
                 ))}
               </div>
             </section>
