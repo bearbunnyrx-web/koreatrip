@@ -1761,11 +1761,25 @@ function diffDaysFromToday(targetDate, today) {
 
 let kakaoMapsPromise
 
-function instagramEmbedUrl(sourceUrl = '') {
+const inlinePlayableInstagramCodes = new Set([
+  // QA-confirmed: this embed opens as an in-app playable reel instead of a hard Instagram redirect card.
+  'DUzUdqHktkF',
+])
+
+function instagramCodeFromUrl(sourceUrl = '') {
   const match = sourceUrl.match(/instagram\.com\/(?:reel|p|tv)\/([^/?#]+)/i)
-  if (!match) return ''
+  return match?.[1] || ''
+}
+
+function instagramEmbedUrl(sourceUrl = '') {
+  const code = instagramCodeFromUrl(sourceUrl)
+  if (!code) return ''
   const type = sourceUrl.includes('/p/') ? 'p' : sourceUrl.includes('/tv/') ? 'tv' : 'reel'
-  return `https://www.instagram.com/${type}/${match[1]}/embed`
+  return `https://www.instagram.com/${type}/${code}/embed`
+}
+
+function isInlinePlayableInstagramItem(item) {
+  return inlinePlayableInstagramCodes.has(instagramCodeFromUrl(item.sourceUrl))
 }
 
 function instagramEmbedTitle(item) {
@@ -2255,12 +2269,15 @@ function App() {
 
   const instagramInspirationItems = useMemo(() => {
     const seen = new Set()
-    return inspirationItems.filter((item) => {
-      const embedUrl = instagramEmbedUrl(item.sourceUrl)
-      if (!embedUrl || seen.has(embedUrl)) return false
-      seen.add(embedUrl)
-      return true
-    }).slice(0, 3)
+    return inspirationItems
+      .filter((item) => {
+        const embedUrl = instagramEmbedUrl(item.sourceUrl)
+        if (!embedUrl || seen.has(embedUrl)) return false
+        seen.add(embedUrl)
+        return true
+      })
+      .sort((a, b) => Number(isInlinePlayableInstagramItem(b)) - Number(isInlinePlayableInstagramItem(a)))
+      .slice(0, 9)
   }, [inspirationItems])
 
   useEffect(() => {
@@ -3024,16 +3041,15 @@ function App() {
 
           {activeTab === 'calendar' && (
             <section className="content-screen calendar-screen phase-d-calendar-screen">
+              {renderTripStickyHeader('Calendar sticky date header')}
+
               <header className="page-header wide-header stacked-mobile glass-card">
                 <div>
-                  <span className="search-type">Calendar syncs Map date</span>
+                  <span className="search-type">Calendar day view</span>
                   <h2 className="page-title">Calendar</h2>
-                  <p>Day-first timeline for bookings, meals, beauty appointments, transit, and hotel anchors.</p>
+                  <p>Google-Calendar-style day timeline for the selected Korea date.</p>
                 </div>
-                <span className="chip chip-gold">Trip calendar</span>
               </header>
-
-              {renderTripStickyHeader('Calendar sticky date header')}
 
               <div className="glass-card calendar-shell-card phase-d-day-card">
                 <div className="calendar-day-heading">
@@ -3059,27 +3075,32 @@ function App() {
 
           {activeTab === 'inspiration' && (
             <section className="content-screen inspiration-screen instagram-only-screen">
+              {renderTripStickyHeader('Inspiration sticky date header')}
+
               <header className="page-header wide-header stacked-mobile glass-card">
                 <div>
                   <span className="search-type">Instagram grid</span>
                   <h2 className="page-title">Inspiration</h2>
-                  <p>Reels and posts shared through Discord, embedded here so you do not have to reopen Instagram just to review ideas.</p>
+                  <p>Inline-first reels shared through Discord. The reel that plays in-app is pinned first; Instagram-restricted embeds stay lower as source cards.</p>
                 </div>
-                <span className="chip chip-sage">Discord-fed embeds</span>
+                <span className="chip chip-sage">Inline-first reels</span>
               </header>
 
               <div className="instagram-embed-grid" aria-label="Instagram inspiration grid">
                 {instagramInspirationItems.map((item) => {
                   const embedUrl = instagramEmbedUrl(item.sourceUrl)
+                  const inlinePlayable = isInlinePlayableInstagramItem(item)
                   return (
-                    <article key={item.id} className="glass-card instagram-embed-card">
+                    <article key={item.id} className={`glass-card instagram-embed-card ${inlinePlayable ? 'inline-priority' : 'source-only'}`} data-playback={inlinePlayable ? 'inline-priority' : 'instagram-source'}>
+                      <div className="instagram-embed-badge">{inlinePlayable ? 'Playable in app' : 'Instagram source'}</div>
                       {embedUrl ? (
                         <iframe
                           className="instagram-embed-frame"
                           title={instagramEmbedTitle(item)}
                           src={embedUrl}
-                          loading="lazy"
+                          loading={inlinePlayable ? 'eager' : 'lazy'}
                           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                          allowFullScreen
                         />
                       ) : item.imageUrl ? (
                         <img src={item.imageUrl} alt="" className="instagram-embed-fallback-image" />
@@ -3095,6 +3116,8 @@ function App() {
 
           {activeTab === 'receipts' && (
             <section className="content-screen receipts-screen simple-receipts-screen">
+              {renderTripStickyHeader('Receipts sticky date header')}
+
               <header className="page-header wide-header stacked-mobile glass-card">
                 <div>
                   <span className="search-type">Simple receipt list</span>
@@ -3103,8 +3126,6 @@ function App() {
                 </div>
                 <span className="chip chip-rose">{receiptRecords.length} items</span>
               </header>
-
-              {renderTripDateStrip('Receipts date selector', 'tab-date-strip glass-card')}
 
               <div className="simple-receipt-list" aria-label="Simple receipt list">
                 {receiptRecords.map((receipt) => (

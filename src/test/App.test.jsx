@@ -59,7 +59,7 @@ describe('Korea trip app v2 concept', () => {
     fireEvent.click(screen.getAllByRole('button', { name: /^calendar$/i })[0])
 
     expect(screen.getByRole('heading', { name: /calendar/i })).toBeInTheDocument()
-    expect(container.querySelector('.trip-sticky-date-header')).toBeInTheDocument()
+    expect(container.querySelector('.calendar-screen')?.firstElementChild).toHaveClass('trip-sticky-date-header')
     expect(screen.getByLabelText(/calendar date selector/i)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /day view/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /week view/i })).not.toBeInTheDocument()
@@ -75,27 +75,30 @@ describe('Korea trip app v2 concept', () => {
     expect(within(screen.getByLabelText(/map date selector/i)).getByRole('button', { name: /may 22 jamsil hotel day/i })).toHaveClass('active')
   })
 
-  test('inspiration is an Instagram-style embeds grid without extra app chrome', () => {
+  test('inspiration uses the shared sticky trip date header and prioritizes inline-playable reels', () => {
     const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^inspiration$/i })[0])
 
     expect(screen.getByRole('heading', { name: /inspiration/i })).toBeInTheDocument()
-    expect(screen.getByText(/instagram grid/i)).toBeInTheDocument()
+    expect(container.querySelector('.inspiration-screen')?.firstElementChild).toHaveClass('trip-sticky-date-header')
+    expect(screen.getByLabelText(/inspiration date selector/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/inline-first reels/i).length).toBeGreaterThan(0)
     expect(container.querySelector('.instagram-embed-grid')).toBeInTheDocument()
-    expect(container.querySelectorAll('.instagram-embed-frame').length).toBeGreaterThan(0)
-    expect(screen.queryByLabelText(/inspiration date selector/i)).not.toBeInTheDocument()
+    expect(container.querySelectorAll('.instagram-embed-frame').length).toBeGreaterThan(3)
+    expect(container.querySelector('.instagram-embed-card')).toHaveAttribute('data-playback', 'inline-priority')
     expect(screen.queryByText(/add a save/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/shortlist/i)).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /filter food/i })).not.toBeInTheDocument()
   })
 
-  test('receipts are a simple receipt-styled list fed from Discord', () => {
+  test('receipts are a simple receipt-styled list fed from Discord with the shared sticky date header', () => {
     const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
 
     expect(screen.getByRole('heading', { name: /receipts/i })).toBeInTheDocument()
+    expect(container.querySelector('.receipts-screen')?.firstElementChild).toHaveClass('trip-sticky-date-header')
     expect(screen.getByLabelText(/receipts date selector/i)).toBeInTheDocument()
     expect(screen.getByText(/simple receipt list/i)).toBeInTheDocument()
     expect(screen.getAllByText(/1503591512573874176/i).length).toBeGreaterThan(0)

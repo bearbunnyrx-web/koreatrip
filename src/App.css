@@ -3726,10 +3726,7 @@ a {
 }
 
 .map-sticky-date-header {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  top: 12px;
+  margin: 12px 14px 0;
 }
 
 .trip-sticky-title {
@@ -3817,7 +3814,7 @@ a {
 
   .home-map-surface { inset: 82px 0 0; }
   .trip-sticky-date-header { grid-template-columns: 1fr; gap: 8px; }
-  .map-sticky-date-header { left: 10px; right: 10px; top: 10px; }
+  .map-sticky-date-header { margin: 10px 10px 0; }
 }
 
 :root[data-theme='dark'] .home-map-surface {
@@ -4557,10 +4554,34 @@ a {
 }
 
 .instagram-embed-card {
+  position: relative;
   overflow: hidden;
   border-radius: 28px;
-  padding: 0;
+  padding: 10px;
   background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.instagram-embed-card.inline-priority {
+  border-color: color-mix(in srgb, var(--active-day-color) 46%, var(--border));
+  box-shadow: 0 18px 45px rgba(55, 39, 21, .16);
+}
+
+.instagram-embed-badge {
+  align-self: flex-start;
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: rgba(246, 240, 231, .92);
+  color: var(--text);
+  font-size: .68rem;
+  font-weight: 900;
+  box-shadow: 0 8px 22px rgba(31, 24, 18, .08);
+}
+
+.instagram-embed-card.source-only .instagram-embed-badge {
+  opacity: .72;
 }
 
 .instagram-embed-frame {
@@ -4568,6 +4589,7 @@ a {
   width: 100%;
   min-height: 560px;
   border: 0;
+  border-radius: 20px;
   background: #fff;
 }
 
