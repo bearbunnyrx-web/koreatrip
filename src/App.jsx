@@ -1637,7 +1637,7 @@ function buildInspirationItemsFromBoards(boards) {
     tag: inspirationTagForOption(option),
     linkedPlace: option.place || option.title || '',
     createdAt: option.sourceThemeTitle || board.title,
-  }))).slice(0, 36)
+  }))).slice(0, 96)
 }
 
 function dedupeTargets(targets) {
