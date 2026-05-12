@@ -105,7 +105,7 @@ describe('Korea trip app v2 concept', () => {
     expect(container.querySelector('.receipts-screen')?.firstElementChild).toHaveClass('trip-sticky-date-header')
     expect(screen.getByLabelText(/receipts date selector/i)).toBeInTheDocument()
     expect(screen.getByText(/simple receipt list/i)).toBeInTheDocument()
-    expect(screen.getAllByText(/1503591512573874176/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/1503846727273283787/i).length).toBeGreaterThan(0)
     expect(container.querySelector('.simple-receipt-list')).toBeInTheDocument()
     expect(container.querySelector('.receipt-paper-card')).toBeInTheDocument()
     expect(screen.getByText(/discord receipts thread/i)).toBeInTheDocument()

@@ -3136,7 +3136,7 @@ function App() {
                 <div>
                   <span className="search-type">Simple receipt list</span>
                   <h2 className="page-title">Receipts</h2>
-                  <p>Latest source: Discord receipts thread <strong>1503591512573874176</strong>. Drop receipts there; Jin processes them into this simple list and deploys updates.</p>
+                  <p>Latest source: Discord receipts thread <strong>{RECEIPT_PIPELINE_CONFIG.discordThreadId}</strong>. Drop receipts there; Jin processes them into this simple list and deploys updates.</p>
                 </div>
                 <span className="chip chip-rose">{receiptRecords.length} items</span>
               </header>

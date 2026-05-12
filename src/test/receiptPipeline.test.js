@@ -8,7 +8,7 @@ import {
 
 describe('receipt ingestion pipeline config', () => {
   test('pins the Discord receipts thread and BearBunny Drive folder for Phase F2', () => {
-    expect(RECEIPT_PIPELINE_CONFIG.discordThreadId).toBe('1503591512573874176')
+    expect(RECEIPT_PIPELINE_CONFIG.discordThreadId).toBe('1503846727273283787')
     expect(RECEIPT_PIPELINE_CONFIG.driveFolderId).toBe('1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG')
     expect(RECEIPT_PIPELINE_CONFIG.ollamaPreferredModel).toBe('gemma4:latest')
     expect(receiptDriveUrl()).toContain(RECEIPT_PIPELINE_CONFIG.driveFolderId)
