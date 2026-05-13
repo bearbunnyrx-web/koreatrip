@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-12 23:34 PDT",
+  "generated": "2026-05-12 23:35 PDT",
   "project": "Korea Trip App",
   "canonical": {
     "app_url": "https://koreatrip.vercel.app",
@@ -10,10 +10,10 @@
     "receipt_thread_id": "1503846727273283787"
   },
   "git": {
-    "status": "## compare-strong-copy-experiment...origin/compare-strong-copy-experiment [ahead 1]",
+    "status": "## compare-strong-copy-experiment...origin/compare-strong-copy-experiment",
     "branches": "* compare-strong-copy-experiment\n  remotes/origin/compare-strong-copy-experiment\n+ receipt-date-dashboard\n  main\n  remotes/origin/HEAD -> origin/main\n  remotes/origin/main",
-    "worktrees": "/Users/jincho/Documents/korea-trip-app  789600d [compare-strong-copy-experiment]\n/private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]",
-    "recent_log": "789600d (HEAD -> compare-strong-copy-experiment) chore: add project mission control foundation\n8797339 (origin/compare-strong-copy-experiment) Add Korea shopping routes to map\nf4c24e9 Replace receipts graph with ledger overview\n312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard\n13524f6 Add accepted food picks to Korea map\ne053597 Compact receipts balance dashboard\n34ee5f5 Add latest Instagram batch to Inspiration\nb8e8fa2 Style receipts dashboard\n836edef Add Yongwangsan Skywalk inspiration save\n7d63ed0 Clean up Korea receipt entries\ne46c131 Add May 21 and 22 Korea bookings\nc811029 Add Korea receipt thread bookings\n581a8f4 Pin thread Instagram saves in Inspiration\na9d20a4 Expand inspiration reel candidates\n1feac7d Unify sticky tabs and prioritize playable reels",
+    "worktrees": "/Users/jincho/Documents/korea-trip-app  aaa7c58 [compare-strong-copy-experiment]\n/private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]",
+    "recent_log": "aaa7c58 (HEAD -> compare-strong-copy-experiment, origin/compare-strong-copy-experiment) chore: add project mission control foundation\n8797339 Add Korea shopping routes to map\nf4c24e9 Replace receipts graph with ledger overview\n312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard\n13524f6 Add accepted food picks to Korea map\ne053597 Compact receipts balance dashboard\n34ee5f5 Add latest Instagram batch to Inspiration\nb8e8fa2 Style receipts dashboard\n836edef Add Yongwangsan Skywalk inspiration save\n7d63ed0 Clean up Korea receipt entries\ne46c131 Add May 21 and 22 Korea bookings\nc811029 Add Korea receipt thread bookings\n581a8f4 Pin thread Instagram saves in Inspiration\na9d20a4 Expand inspiration reel candidates\n1feac7d Unify sticky tabs and prioritize playable reels",
     "vercel_project_json": "{\n    \"projectId\": \"prj_2WlRuwSI382Sr3j7LVNolTUlgFHb\",\n    \"orgId\": \"team_3CcxPvH8vqRMB35YkqNNHUUe\",\n    \"projectName\": \"koreatrip\"\n}"
   },
   "health": {
@@ -86,13 +86,7 @@
     },
     {
       "path": "docs/mission-control.json",
-      "lines": 301,
-      "state": "docs/generated-or-substrate",
-      "why": "Documentation/backbone/planning surface"
-    },
-    {
-      "path": "docs/mission-control.md",
-      "lines": 248,
+      "lines": 300,
       "state": "docs/generated-or-substrate",
       "why": "Documentation/backbone/planning surface"
     },
@@ -101,6 +95,12 @@
       "lines": 235,
       "state": "experiment/mock",
       "why": "Standalone mockup, not production runtime"
+    },
+    {
+      "path": "docs/mission-control.md",
+      "lines": 232,
+      "state": "docs/generated-or-substrate",
+      "why": "Documentation/backbone/planning surface"
     },
     {
       "path": "docs/phase-0-inventory-2026-05-12.md",

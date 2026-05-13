@@ -1,6 +1,6 @@
 # BearBunny Mission Control — Korea Trip App
 
-**Generated:** 2026-05-12 23:34 PDT  
+**Generated:** 2026-05-12 23:35 PDT  
 **Freshness:** Fresh  
 **Health:** YELLOW / risk points 5  
 **Do not hand-edit:** regenerate with `npm run mission-control` or `python3 scripts/regenerate_mission_control.py`.
@@ -60,9 +60,9 @@
 | package-lock.json | 3909 | active | Current repo file |
 | src/test/App.test.jsx | 726 | active | Current repo file |
 | docs/plans/2026-04-21-visual-redesign-plan.md | 410 | docs | Documentation/backbone/planning surface |
-| docs/mission-control.json | 301 | docs/generated-or-substrate | Documentation/backbone/planning surface |
-| docs/mission-control.md | 248 | docs/generated-or-substrate | Documentation/backbone/planning surface |
+| docs/mission-control.json | 300 | docs/generated-or-substrate | Documentation/backbone/planning surface |
 | mockup-map-first-v2.html | 235 | experiment/mock | Standalone mockup, not production runtime |
+| docs/mission-control.md | 232 | docs/generated-or-substrate | Documentation/backbone/planning surface |
 | docs/phase-0-inventory-2026-05-12.md | 216 | docs | Documentation/backbone/planning surface |
 | src/lib/tripStateStore.js | 157 | active | Current repo file |
 | public/receipts-inbox.json | 135 | active | Current repo file |
@@ -81,13 +81,13 @@
 ## Git status
 
 ```text
-## compare-strong-copy-experiment...origin/compare-strong-copy-experiment [ahead 1]
+## compare-strong-copy-experiment...origin/compare-strong-copy-experiment
 ```
 
 ## Worktrees
 
 ```text
-/Users/jincho/Documents/korea-trip-app  789600d [compare-strong-copy-experiment]
+/Users/jincho/Documents/korea-trip-app  aaa7c58 [compare-strong-copy-experiment]
 /private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]
 ```
 
@@ -105,8 +105,8 @@
 ## Recent commits
 
 ```text
-789600d (HEAD -> compare-strong-copy-experiment) chore: add project mission control foundation
-8797339 (origin/compare-strong-copy-experiment) Add Korea shopping routes to map
+aaa7c58 (HEAD -> compare-strong-copy-experiment, origin/compare-strong-copy-experiment) chore: add project mission control foundation
+8797339 Add Korea shopping routes to map
 f4c24e9 Replace receipts graph with ledger overview
 312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard
 13524f6 Add accepted food picks to Korea map
