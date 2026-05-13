@@ -1,8 +1,8 @@
 # BearBunny Mission Control — Korea Trip App
 
-**Generated:** 2026-05-12 23:35 PDT  
+**Generated:** 2026-05-12 23:47 PDT  
 **Freshness:** Fresh  
-**Health:** YELLOW / risk points 5  
+**Health:** YELLOW / risk points 6  
 **Do not hand-edit:** regenerate with `npm run mission-control` or `python3 scripts/regenerate_mission_control.py`.
 
 ---
@@ -26,6 +26,7 @@
 - src/App.jsx is large (3945 lines)
 - src/App.css is large (4867 lines)
 - 2 git worktrees open
+- working tree has uncommitted/untracked changes
 
 ---
 
@@ -60,9 +61,9 @@
 | package-lock.json | 3909 | active | Current repo file |
 | src/test/App.test.jsx | 726 | active | Current repo file |
 | docs/plans/2026-04-21-visual-redesign-plan.md | 410 | docs | Documentation/backbone/planning surface |
-| docs/mission-control.json | 300 | docs/generated-or-substrate | Documentation/backbone/planning surface |
+| docs/mission-control.json | 305 | docs/generated-or-substrate | Documentation/backbone/planning surface |
+| docs/mission-control.md | 239 | docs/generated-or-substrate | Documentation/backbone/planning surface |
 | mockup-map-first-v2.html | 235 | experiment/mock | Standalone mockup, not production runtime |
-| docs/mission-control.md | 232 | docs/generated-or-substrate | Documentation/backbone/planning surface |
 | docs/phase-0-inventory-2026-05-12.md | 216 | docs | Documentation/backbone/planning surface |
 | src/lib/tripStateStore.js | 157 | active | Current repo file |
 | public/receipts-inbox.json | 135 | active | Current repo file |
@@ -81,13 +82,15 @@
 ## Git status
 
 ```text
-## compare-strong-copy-experiment...origin/compare-strong-copy-experiment
+## compare-strong-copy-experiment...origin/compare-strong-copy-experiment [ahead 1]
+ M docs/mission-control.json
+ M docs/mission-control.md
 ```
 
 ## Worktrees
 
 ```text
-/Users/jincho/Documents/korea-trip-app  aaa7c58 [compare-strong-copy-experiment]
+/Users/jincho/Documents/korea-trip-app  66f5cee [compare-strong-copy-experiment]
 /private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]
 ```
 
@@ -105,7 +108,9 @@
 ## Recent commits
 
 ```text
-aaa7c58 (HEAD -> compare-strong-copy-experiment, origin/compare-strong-copy-experiment) chore: add project mission control foundation
+66f5cee (HEAD -> compare-strong-copy-experiment) chore: add localhost mission control dashboard
+7bf329d (origin/compare-strong-copy-experiment) chore: refresh mission control after push
+aaa7c58 chore: add project mission control foundation
 8797339 Add Korea shopping routes to map
 f4c24e9 Replace receipts graph with ledger overview
 312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard
@@ -118,8 +123,6 @@ b8e8fa2 Style receipts dashboard
 e46c131 Add May 21 and 22 Korea bookings
 c811029 Add Korea receipt thread bookings
 581a8f4 Pin thread Instagram saves in Inspiration
-a9d20a4 Expand inspiration reel candidates
-1feac7d Unify sticky tabs and prioritize playable reels
 ```
 
 ---
@@ -184,7 +187,7 @@ a9d20a4 Expand inspiration reel candidates
 - `docs/deprecated.md:15: | `docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html` | Mock/experiment | garaged | Standalone Mission Control mock | Keep for reference; not production runtime |`
 - `docs/changelog.md:6: 2026-05-12 23:27 | change | Added generated Mission Control docs, Obsidian mirror, Google Sheet MC tabs, and npm run mission-control command | n/a`
 - `docs/changelog.md:8: 2026-05-12 23:33 | change | Improved Mission Control generator to exclude generated outputs and __pycache__ from marker scanning/noise | n/a`
-- `docs/checkpoint-log.md:5: 2026-05-12 23:22 | checkpoint | Trigger: Dr. Cho approved Project OS execution; outcome: Phase 0 inventory first, then generated Mission Control foundation, no destructive changes `
+- `docs/changelog.md:9: 2026-05-12 23:45 | change | Added localhost-only Mission Control web dashboard served by npm run mission-control:serve | n/a`
 - `docs/decisions.md:6: 2026-05-12 23:22 | decision | Mission Control should be generated from append-only logs plus live scans, not hand-edited | n/a`
 
 ---
@@ -197,12 +200,14 @@ a9d20a4 Expand inspiration reel candidates
 - 2026-05-12 23:27 | change | Added generated Mission Control docs, Obsidian mirror, Google Sheet MC tabs, and npm run mission-control command | n/a
 - 2026-05-12 23:29 | change | Fixed Vitest isolation by clearing mocked localStorage after each test; root cause was cross-test persisted planner state | n/a
 - 2026-05-12 23:33 | change | Improved Mission Control generator to exclude generated outputs and __pycache__ from marker scanning/noise | n/a
+- 2026-05-12 23:45 | change | Added localhost-only Mission Control web dashboard served by npm run mission-control:serve | n/a
 
 ### Decisions
 - Append-only. Format: `YYYY-MM-DD HH:MM | decision | one-line decision + reason | commit-sha or n/a`.
 - 2026-05-12 23:22 | decision | Canonical Korea app project is koreatrip at https://koreatrip.vercel.app; Google Sheet backup is 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY | n/a
 - 2026-05-12 23:22 | decision | Mission Control should be generated from append-only logs plus live scans, not hand-edited | n/a
 - 2026-05-12 23:22 | decision | Discord threads are workspaces; Telegram confirmation is required before Discord decisions become backbone | n/a
+- 2026-05-12 23:45 | decision | Mission Control should be viewed primarily as a localhost dashboard for malleability; Google Sheet remains backup/summary | n/a
 
 ### Cleanup
 - Append-only. Format: `YYYY-MM-DD HH:MM | cleanup | one-line cleanup item/action | commit-sha or n/a`.
