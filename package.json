@@ -10,6 +10,7 @@
     "test": "vitest run",
     "receipt:ingest": "node scripts/receipt-ingest.mjs",
     "mission-control": "python3 scripts/regenerate_mission_control.py",
+    "mission-control:serve": "python3 scripts/serve_mission_control.py",
     "preview": "vite preview"
   },
   "dependencies": {
