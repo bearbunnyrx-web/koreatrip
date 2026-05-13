@@ -324,6 +324,9 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/본연 dinner reservation/i)).toBeInTheDocument()
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 22/i }))
+    expect(screen.getByText(/jamsil shopping backup loop/i)).toBeInTheDocument()
+    expect(screen.getByText(/giordano lotte world mall/i)).toBeInTheDocument()
+    expect(screen.getByText(/lotte mart zetaplex snack run/i)).toBeInTheDocument()
     expect(screen.getByText(/mil toast house light lunch/i)).toBeInTheDocument()
     expect(screen.getByText(/mongchon dakgalbi dinner/i)).toBeInTheDocument()
 
@@ -337,6 +340,10 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 25/i }))
     expect(screen.getByText(/gorogoro kaisendon lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/myeongdong main shopping route/i)).toBeInTheDocument()
+    expect(screen.getByText(/giordano myeongdong/i)).toBeInTheDocument()
+    expect(screen.getByText(/olive young myeongdong beauty sweep/i)).toBeInTheDocument()
+    expect(screen.getByText(/daiso myeongdong snack run/i)).toBeInTheDocument()
     expect(screen.getByText(/sinsajeon final-night dinner/i)).toBeInTheDocument()
   })
 
