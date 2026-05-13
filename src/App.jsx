@@ -1887,6 +1887,15 @@ function App() {
     }
   })
   const [importedReceipts, setImportedReceipts] = useState([])
+  const [receiptPaidBy, setReceiptPaidBy] = useState(() => {
+    const stored = window.localStorage.getItem('korea-trip-receipt-paid-by')
+    if (!stored) return { cho: '', ho: '' }
+    try {
+      return { cho: '', ho: '', ...JSON.parse(stored) }
+    } catch {
+      return { cho: '', ho: '' }
+    }
+  })
   const [selectedHomeMapTargetName, setSelectedHomeMapTargetName] = useState('Haus Nowhere Seongsu')
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
   const [selectedBookingKey, setSelectedBookingKey] = useState('beauty')
@@ -2513,6 +2522,10 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem(RECEIPT_PIPELINE_CONFIG.localStorageKey, JSON.stringify(manualReceipts))
   }, [manualReceipts])
+
+  useEffect(() => {
+    window.localStorage.setItem('korea-trip-receipt-paid-by', JSON.stringify(receiptPaidBy))
+  }, [receiptPaidBy])
 
   function addManualReceipt(event) {
     event.preventDefault()
@@ -3233,23 +3246,45 @@ function App() {
                         <small>card / PayPal</small>
                       </div>
                     </div>
-                    <div className="receipt-dashboard-balance">
-                      <div>
+                    <div className="receipt-dashboard-balance receipt-ledger-overview">
+                      <div className="receipt-ledger-title">
                         <span>Overview</span>
-                        <strong>Spend mix</strong>
-                        <small>Simple category mix across all tracked receipts. Paid-by split can replace this once each item has an owner.</small>
+                        <strong>Full receipt overview</strong>
+                        <small>Name + price only, like the bottom of a paper receipt. Add paid-by totals when cards settle.</small>
                       </div>
-                      <div className="receipt-mix-visual" aria-label="Receipt category mix overview">
-                        <div className="receipt-mix-stack" aria-hidden="true">
-                          {receiptCategoryBreakdown.map((item) => (
-                            <i key={item.category} style={{ flexBasis: item.width, background: item.color }} />
-                          ))}
+                      <div className="receipt-ledger-lines" aria-label="All tracked receipt totals">
+                        {receiptRecords.map((receipt) => (
+                          <div key={`overview-${receipt.id}`} className="receipt-ledger-line">
+                            <span>{receipt.vendor}</span>
+                            <strong>{formatReceiptAmount(receipt.amountMinor, receipt.currency)}</strong>
+                          </div>
+                        ))}
+                        <div className="receipt-ledger-line receipt-ledger-total">
+                          <span>Overview total</span>
+                          <strong>{[receiptSummary.krwTotal, receiptSummary.usdTotal].filter(Boolean).join(' + ')}</strong>
                         </div>
-                        <div className="receipt-category-legend" aria-label="Receipt category legend">
-                          {receiptCategoryBreakdown.map((item) => (
-                            <span key={item.category}><i style={{ background: item.color }} />{item.category} {item.count}</span>
-                          ))}
-                        </div>
+                      </div>
+                      <div className="receipt-paid-by-inputs" aria-label="Paid-by manual totals">
+                        <label>
+                          <span>Dr. Cho paid</span>
+                          <input
+                            aria-label="Dr. Cho paid"
+                            inputMode="decimal"
+                            placeholder="$ -- / ₩ --"
+                            value={receiptPaidBy.cho}
+                            onChange={(event) => setReceiptPaidBy((paidBy) => ({ ...paidBy, cho: event.target.value }))}
+                          />
+                        </label>
+                        <label>
+                          <span>Dr. Ho paid</span>
+                          <input
+                            aria-label="Dr. Ho paid"
+                            inputMode="decimal"
+                            placeholder="$ -- / ₩ --"
+                            value={receiptPaidBy.ho}
+                            onChange={(event) => setReceiptPaidBy((paidBy) => ({ ...paidBy, ho: event.target.value }))}
+                          />
+                        </label>
                       </div>
                     </div>
                   </div>
