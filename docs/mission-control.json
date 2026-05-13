@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-13 00:06 PDT",
+  "generated": "2026-05-13 00:09 PDT",
   "project": "Korea Trip App",
   "canonical": {
     "app_url": "https://koreatrip.vercel.app",
@@ -10,20 +10,19 @@
     "receipt_thread_id": "1503846727273283787"
   },
   "git": {
-    "status": "## compare-strong-copy-experiment...origin/compare-strong-copy-experiment\n M README.md\n M docs/changelog.md\n M docs/checkpoint-log.md\n M docs/decisions.md\n M docs/mission-control.json\n M docs/mission-control.md\n M scripts/regenerate_mission_control.py\n M scripts/serve_mission_control.py\n?? docs/AGENT-BOOTSTRAP.md\n?? docs/architecture-map.json\n?? docs/garage-index.json\n?? docs/previews.json\n?? docs/sync-directions.yaml",
+    "status": "## compare-strong-copy-experiment...origin/compare-strong-copy-experiment [ahead 1]",
     "branches": "* compare-strong-copy-experiment\n  remotes/origin/compare-strong-copy-experiment\n+ receipt-date-dashboard\n  main\n  remotes/origin/HEAD -> origin/main\n  remotes/origin/main",
-    "worktrees": "/Users/jincho/Documents/korea-trip-app  4e39194 [compare-strong-copy-experiment]\n/private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]",
-    "recent_log": "4e39194 (HEAD -> compare-strong-copy-experiment, origin/compare-strong-copy-experiment) chore: refresh mission control for local dashboard\n66f5cee chore: add localhost mission control dashboard\n7bf329d chore: refresh mission control after push\naaa7c58 chore: add project mission control foundation\n8797339 Add Korea shopping routes to map\nf4c24e9 Replace receipts graph with ledger overview\n312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard\n13524f6 Add accepted food picks to Korea map\ne053597 Compact receipts balance dashboard\n34ee5f5 Add latest Instagram batch to Inspiration\nb8e8fa2 Style receipts dashboard\n836edef Add Yongwangsan Skywalk inspiration save\n7d63ed0 Clean up Korea receipt entries\ne46c131 Add May 21 and 22 Korea bookings\nc811029 Add Korea receipt thread bookings",
+    "worktrees": "/Users/jincho/Documents/korea-trip-app  7a87558 [compare-strong-copy-experiment]\n/private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]",
+    "recent_log": "7a87558 (HEAD -> compare-strong-copy-experiment) chore: complete mission control follow-up panels\n4e39194 (origin/compare-strong-copy-experiment) chore: refresh mission control for local dashboard\n66f5cee chore: add localhost mission control dashboard\n7bf329d chore: refresh mission control after push\naaa7c58 chore: add project mission control foundation\n8797339 Add Korea shopping routes to map\nf4c24e9 Replace receipts graph with ledger overview\n312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard\n13524f6 Add accepted food picks to Korea map\ne053597 Compact receipts balance dashboard\n34ee5f5 Add latest Instagram batch to Inspiration\nb8e8fa2 Style receipts dashboard\n836edef Add Yongwangsan Skywalk inspiration save\n7d63ed0 Clean up Korea receipt entries\ne46c131 Add May 21 and 22 Korea bookings",
     "vercel_project_json": "{\n    \"projectId\": \"prj_2WlRuwSI382Sr3j7LVNolTUlgFHb\",\n    \"orgId\": \"team_3CcxPvH8vqRMB35YkqNNHUUe\",\n    \"projectName\": \"koreatrip\"\n}"
   },
   "health": {
     "rating": "yellow",
-    "risk_points": 6,
+    "risk_points": 5,
     "reasons": [
       "src/App.jsx is large (3945 lines)",
       "src/App.css is large (4867 lines)",
-      "2 git worktrees open",
-      "working tree has uncommitted/untracked changes"
+      "2 git worktrees open"
     ],
     "app_js_lines": 3945,
     "app_css_lines": 4867,
@@ -32,11 +31,11 @@
     "build_status": "not run by generator"
   },
   "next_checkpoint": {
-    "due_now": true,
-    "label": "DUE NOW",
+    "due_now": false,
+    "label": "in 6 days",
     "due_at": "2026-05-20T00:03",
     "changes_since_last": 0,
-    "trigger": "working tree has uncommitted changes"
+    "trigger": "7-day trigger fires first"
   },
   "workstreams": [
     {
@@ -82,7 +81,7 @@
     },
     {
       "path": "docs/mission-control.json",
-      "lines": 864,
+      "lines": 986,
       "state": "docs/generated",
       "why": "Generated Mission Control artifact"
     },
@@ -118,7 +117,7 @@
     },
     {
       "path": "docs/mission-control.md",
-      "lines": 203,
+      "lines": 214,
       "state": "docs/generated",
       "why": "Generated Mission Control artifact"
     },
@@ -133,6 +132,12 @@
       "lines": 135,
       "state": "active",
       "why": "Current repo file"
+    },
+    {
+      "path": "docs/previews.json",
+      "lines": 128,
+      "state": "docs/generated",
+      "why": "Generated Mission Control artifact"
     },
     {
       "path": "scripts/receipt-ingest.mjs",
@@ -173,12 +178,6 @@
     {
       "path": "src/test/tripStateStore.test.js",
       "lines": 83,
-      "state": "active",
-      "why": "Current repo file"
-    },
-    {
-      "path": "src/test/routing.test.js",
-      "lines": 63,
       "state": "active",
       "why": "Current repo file"
     }
@@ -444,7 +443,7 @@
     ]
   },
   "architecture_map": {
-    "generated_at": "2026-05-13T00:06:52-07:00",
+    "generated_at": "2026-05-13T00:09:45-07:00",
     "pages": [
       {
         "name": "Map",
@@ -787,7 +786,7 @@
     ]
   },
   "garage_index": {
-    "generated_at": "2026-05-13T00:06:52-07:00",
+    "generated_at": "2026-05-13T00:09:45-07:00",
     "items": [
       {
         "path": "docs/garage/2026-05-12-mockups/korea-calendar-backup-sheet-mock.html",
@@ -824,14 +823,14 @@
     ]
   },
   "previews": {
-    "generated_at": "2026-05-13T00:06:53-07:00",
+    "generated_at": "2026-05-13T00:09:46-07:00",
     "previews": [
       {
         "url": "https://koreatrip-bkbjdnlto-bearbunnyrx-webs-projects.vercel.app",
         "branch": "unknown",
         "purpose": "preview deployment",
         "owner": "unknown",
-        "created_at": "19m",
+        "created_at": "22m",
         "age_days": null,
         "status": "pending-review",
         "merge_decision": null,
@@ -842,7 +841,7 @@
         "branch": "unknown",
         "purpose": "preview deployment",
         "owner": "unknown",
-        "created_at": "31m",
+        "created_at": "34m",
         "age_days": null,
         "status": "pending-review",
         "merge_decision": null,
@@ -853,7 +852,7 @@
         "branch": "unknown",
         "purpose": "preview deployment",
         "owner": "unknown",
-        "created_at": "32m",
+        "created_at": "35m",
         "age_days": null,
         "status": "pending-review",
         "merge_decision": null,
@@ -864,7 +863,7 @@
         "branch": "unknown",
         "purpose": "preview deployment",
         "owner": "unknown",
-        "created_at": "36m",
+        "created_at": "39m",
         "age_days": null,
         "status": "pending-review",
         "merge_decision": null,
@@ -919,7 +918,7 @@
         "branch": "unknown",
         "purpose": "preview deployment",
         "owner": "unknown",
-        "created_at": "10h",
+        "created_at": "11h",
         "age_days": null,
         "status": "pending-review",
         "merge_decision": null,

@@ -1,9 +1,9 @@
 # BearBunny Mission Control — Korea Trip App
 
-**Generated:** 2026-05-13 00:06 PDT  
+**Generated:** 2026-05-13 00:09 PDT  
 **Freshness:** Fresh  
-**Health:** YELLOW / risk points 6  
-**Next Checkpoint:** DUE NOW — working tree has uncommitted changes  
+**Health:** YELLOW / risk points 5  
+**Next Checkpoint:** in 6 days — 7-day trigger fires first  
 **Do not hand-edit:** regenerate with `npm run mission-control` or `python3 scripts/regenerate_mission_control.py`.
 
 ---
@@ -29,7 +29,6 @@
 - src/App.jsx is large (3945 lines)
 - src/App.css is large (4867 lines)
 - 2 git worktrees open
-- working tree has uncommitted/untracked changes
 
 ---
 
@@ -139,15 +138,16 @@
 | src/App.css | 4867 | active | Current repo file |
 | src/App.jsx | 3945 | active | Current repo file |
 | package-lock.json | 3909 | active | Current repo file |
-| docs/mission-control.json | 864 | docs/generated | Generated Mission Control artifact |
+| docs/mission-control.json | 986 | docs/generated | Generated Mission Control artifact |
 | src/test/App.test.jsx | 726 | active | Current repo file |
 | docs/plans/2026-04-21-visual-redesign-plan.md | 410 | docs | Documentation/backbone/planning surface |
 | docs/architecture-map.json | 343 | docs/generated | Generated Mission Control artifact |
 | mockup-map-first-v2.html | 235 | experiment/mock | Standalone mockup, not production runtime |
 | docs/phase-0-inventory-2026-05-12.md | 216 | docs | Documentation/backbone/planning surface |
-| docs/mission-control.md | 203 | docs/generated | Generated Mission Control artifact |
+| docs/mission-control.md | 214 | docs/generated | Generated Mission Control artifact |
 | src/lib/tripStateStore.js | 157 | active | Current repo file |
 | public/receipts-inbox.json | 135 | active | Current repo file |
+| docs/previews.json | 128 | docs/generated | Generated Mission Control artifact |
 | scripts/receipt-ingest.mjs | 125 | active | Current repo file |
 | docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html | 117 | experiment/mock | Standalone mockup, not production runtime |
 | docs/garage/2026-05-12-mockups/korea-calendar-backup-sheet-mock.html | 105 | experiment/mock | Standalone mockup, not production runtime |
@@ -155,33 +155,19 @@
 | src/lib/receiptPipeline.js | 102 | active | Current repo file |
 | src/lib/routing.js | 91 | active | Current repo file |
 | src/test/tripStateStore.test.js | 83 | active | Current repo file |
-| src/test/routing.test.js | 63 | active | Current repo file |
 
 ---
 
 ## Git status
 
 ```text
-## compare-strong-copy-experiment...origin/compare-strong-copy-experiment
- M README.md
- M docs/changelog.md
- M docs/checkpoint-log.md
- M docs/decisions.md
- M docs/mission-control.json
- M docs/mission-control.md
- M scripts/regenerate_mission_control.py
- M scripts/serve_mission_control.py
-?? docs/AGENT-BOOTSTRAP.md
-?? docs/architecture-map.json
-?? docs/garage-index.json
-?? docs/previews.json
-?? docs/sync-directions.yaml
+## compare-strong-copy-experiment...origin/compare-strong-copy-experiment [ahead 1]
 ```
 
 ## Worktrees
 
 ```text
-/Users/jincho/Documents/korea-trip-app  4e39194 [compare-strong-copy-experiment]
+/Users/jincho/Documents/korea-trip-app  7a87558 [compare-strong-copy-experiment]
 /private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]
 ```
 
