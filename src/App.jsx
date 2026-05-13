@@ -221,7 +221,7 @@ const itineraryDays = [
     stops: [
       { time: '11:30', title: 'CI 160 lands at ICN', detail: 'Taipei to Seoul arrival; immigration, bags, and regroup without rushing.', neighborhood: 'Incheon Airport', type: 'anchor' },
       { time: '12:30–13:30', title: 'Airport bus toward parents’ home', detail: 'Use the bus ride as the low-stress transfer instead of making the arrival day too ambitious.', neighborhood: 'ICN → 강동 / 고덕', type: 'transit' },
-      { time: 'Early afternoon', title: 'Lunch for two', detail: 'Mom has another plan at lunch, so keep this as a simple couple meal after arrival / transfer.', neighborhood: '강동 / 고덕 area', type: 'meal' },
+      { time: 'Early afternoon', title: 'Local 고덕 arrival lunch', detail: 'Keep this non-viral and local after ICN + airport bus; choose an easy neighborhood meal near 고덕 before settling in.', neighborhood: '강동 / 고덕 area', type: 'meal' },
       { time: 'Late afternoon', title: 'Arrival reset + unpack', detail: 'Build in shower, rest, and family hello time before dinner.', neighborhood: 'Parents’ home', type: 'hotel' },
       { time: 'Evening', title: 'Mom’s home dinner', detail: 'Casual first family dinner at home — warm, low-pressure, and better than forcing a restaurant right after landing.', neighborhood: 'Parents’ home / 고덕 area', type: 'meal' },
     ],
@@ -246,13 +246,15 @@ const itineraryDays = [
     stops: [
       { time: '10:00', title: 'Leave home base', detail: 'Give yourselves a soft start so the day still feels like vacation.', neighborhood: '고덕 → Seongsu', type: 'transit' },
       { time: '11:00', title: 'Nail appointment', detail: 'Book the Sunday Seongsu nail shortlist first, then let the whole brand loop happen after.', neighborhood: 'Seongsu', type: 'beauty' },
-      { time: '12:30', title: 'Haus Nowhere + Tamburins', detail: 'Start the brand loop with the Gentle Monster / Tamburins side of Seongsu while energy is highest.', neighborhood: 'Seongsu', type: 'shopping' },
+      { time: '12:15', title: 'Grandmother’s Recipe lunch', detail: 'Inspiration-tab pick: 할머니의 레시피 for a Korean home-style, banchan-heavy lunch that fits the Seongsu walking day without feeling too formal.', neighborhood: 'Seongsu', type: 'meal' },
+      { time: '13:15', title: 'Haus Nowhere + Tamburins', detail: 'Start the brand loop with the Gentle Monster / Tamburins side of Seongsu after lunch.', neighborhood: 'Seongsu', type: 'shopping' },
       { time: '14:00', title: 'Olive Young + Musinsa Standard + Tir Tir', detail: 'Use the middle of the day for the beauty/shopping core and keep it walkable.', neighborhood: 'Seongsu', type: 'shopping' },
       { time: '16:00', title: 'Blue Elephant stop', detail: 'Leave a little flex here in case one of the viral places takes longer than expected.', neighborhood: 'Seongsu', type: 'shopping' },
       { time: '17:15–18:00', title: 'Move toward Jamsil / Lotte World Mall', detail: 'Give enough buffer to reset from shopping mode into the nicer parent dinner.', neighborhood: 'Seongsu → Jamsil', type: 'transit' },
       { time: '18:30', title: 'Donghwa Gook parent dinner target', detail: 'Likely reservation target for the main nicer family dinner. Private-room / special-occasion positioning makes this the one to book early.', neighborhood: 'Lotte World Mall / Jamsil', type: 'meal' },
     ],
     mapTargets: [
+      mapTarget('Grandmother’s Recipe / 할머니의 레시피', 'Inspiration pick for Seongsu Korean home-style lunch', { query: '할머니의 레시피 성수' }),
       mapTarget('Haus Nowhere Seongsu', 'Gentle Monster anchor stop', { query: '하우스 나우웨어 성수' }),
       mapTarget('Tamburins Seongsu', 'Beauty brand stop', { query: '탬버린즈 성수' }),
       mapTarget('Olive Young N Seongsu', 'Flagship beauty stop', { query: '올리브영N 성수' }),
@@ -279,17 +281,19 @@ const itineraryDays = [
       { time: '08:15–08:25', title: 'Arrive for embassy buffer', detail: 'Get there early enough to protect the visa interview without adding a huge outside wait.', neighborhood: 'U.S. Embassy Seoul', type: 'anchor' },
       { time: '08:45', title: 'Embassy interview (you)', detail: 'This is the non-negotiable morning anchor.', neighborhood: 'Gwanghwamun', type: 'anchor' },
       { time: 'During interview', title: 'Girlfriend waits nearby', detail: 'Use a nearby cafe / waiting spot rather than trying to force the salon into the uncertain interview window.', neighborhood: 'Embassy area', type: 'beauty' },
-      { time: 'After interview', title: 'Lunch regroup', detail: 'Eat first, then make one clean move toward Myeongdong for the confirmed salon appointment.', neighborhood: 'Jongno / Gwanghwamun', type: 'meal' },
+      { time: 'After interview', title: 'Ikseon Chwihyang lunch', detail: 'Inspiration-tab pick: 익선취향 in Ikseon-dong gives a fun Korean-western pasta/steak lunch after the embassy before moving to Myeongdong.', neighborhood: 'Ikseon-dong / Jongno', type: 'meal' },
       { time: '13:15–13:45', title: 'Move to Chahong Room Myeongdong', detail: 'Arrive a little early for consultation/photos so the 2:00 PM booking starts calmly.', neighborhood: 'Jongno → Myeongdong', type: 'transit' },
       { time: '14:00–17:30/18:00', title: 'Chahong Room Myeongdong perm (girlfriend)', detail: 'Confirmed 2:00 PM booking. Block 3–4 hours for consultation, perm process, dry/styling, and buffer before pickup.', neighborhood: 'Myeongdong', type: 'beauty' },
       { time: '14:15–17:30', title: 'Meet your friend while she is at Chahong', detail: 'Use the salon window for a relaxed catch-up nearby; stay close enough to pick her up when the stylist gives an ETA.', neighborhood: 'Myeongdong / Euljiro', type: 'anchor' },
       { time: '17:30–18:00', title: 'Pick up girlfriend at Chahong', detail: 'Check in by message around the 3-hour mark; if the perm runs long, slide dinner later rather than rushing the finish.', neighborhood: 'Myeongdong', type: 'beauty' },
-      { time: '18:30', title: 'Dinner for three', detail: 'You, girlfriend, and your friend can eat together after pickup; pick somewhere close to Myeongdong/Euljiro unless the salon finishes early.', neighborhood: 'Myeongdong / Euljiro', type: 'meal' },
+      { time: '18:30', title: 'Maknae Hoejip dinner', detail: 'Inspiration-tab pick: 막내회집 gives a Namdaemun/Myeongdong-adjacent sashimi-market dinner that works well for three after Chahong pickup.', neighborhood: 'Namdaemun / Myeongdong', type: 'meal' },
     ],
     mapTargets: [
       mapTarget('US Embassy Seoul', 'Your important embassy task', { query: '주한미국대사관' }),
       mapTarget('Starbucks Ima Building', 'Easy wait point near the embassy', { query: '스타벅스 이마빌딩점' }),
       mapTarget('Chahong Room Myeongdong', 'Confirmed 2:00 PM girlfriend perm booking', { query: '차홍룸 명동점' }),
+      mapTarget('Ikseon Chwihyang / 익선취향', 'Inspiration pick for post-embassy lunch', { query: '익선취향 수표로28길 17-32' }),
+      mapTarget('Maknae Hoejip / 막내회집', 'Inspiration pick for dinner for three near Namdaemun/Myeongdong', { query: '막내회집 남대문시장' }),
       mapTarget('Myeongdong', 'Pickup and dinner zone after the appointment', { query: '명동' }),
       mapTarget('Euljiro 1-ga', 'Nearby friend meetup / dinner fallback area', { query: '을지로입구역' }),
     ],
@@ -318,7 +322,7 @@ const itineraryDays = [
       { time: '14:15', title: 'Late lunch on the east side', detail: 'Make the first island meal part of the drive rather than doubling back toward the hotel.', neighborhood: 'Gujwa / Seongsan', type: 'meal' },
       { time: '16:15', title: 'Pyeongdae beach walk', detail: 'Good slot for a calm beach stop, a short walk, and a few casual couple photos before driving farther east.', neighborhood: 'Pyeongdae', type: 'shopping' },
       { time: '18:00', title: 'Seongsan Ilchulbong coastal view', detail: 'Treat Seongsan as the visual anchor for the late afternoon or early evening rather than the main timed pressure point.', neighborhood: 'Seongsan', type: 'anchor' },
-      { time: '19:15', title: 'East-side seafood dinner', detail: 'Keep dinner near the Seongsan / eastern coast cluster before the longer drive back west.', neighborhood: 'Seongsan / east Jeju', type: 'meal' },
+      { time: '19:15', title: 'Seongsan east-side seafood dinner', detail: 'Keep dinner near the Seongsan / eastern coast cluster before the longer drive back west; this still needs a final local restaurant check, but the map slot is locked.', neighborhood: 'Seongsan / east Jeju', type: 'meal' },
       { time: 'Late evening', title: 'Landing Jeju Shinhwa check-in', detail: 'Use the hotel as the landing point after the east-coast loop, not the first stop of the day.', neighborhood: 'Landing Jeju Shinhwa', type: 'hotel' },
     ],
     mapTargets: [
@@ -349,7 +353,7 @@ const itineraryDays = [
       { time: '11:00', title: 'Bar Sul Sang lunch window', detail: 'Make the imokase lunch the main midday anchor if the queue works out cleanly.', neighborhood: 'Hallim', type: 'meal' },
       { time: '14:00', title: 'Osulloc / tea museum block', detail: 'Keep this part easy and photo-friendly rather than stacking too many separate west-side stops.', neighborhood: 'Andeok / Osulloc', type: 'shopping' },
       { time: '17:00', title: 'Geumneung or nearby west beach stop', detail: 'Use one beach stop late in the day instead of trying to hit multiple coasts.', neighborhood: 'Geumneung / Hyeopjae', type: 'anchor' },
-      { time: '18:45', title: 'Black pork dinner', detail: 'Close the day with a proper west-side black pork dinner rather than trying to add another sightseeing block.', neighborhood: 'Aewol', type: 'meal' },
+      { time: '18:45', title: 'Hundo Aewol black pork dinner', detail: 'Close the day with 훈도 애월흑돼지 본점 as the proper west-side black pork dinner rather than trying to add another sightseeing block.', neighborhood: 'Aewol', type: 'meal' },
     ],
     mapTargets: [
       mapTarget('Landing Jeju Shinhwa', 'Jeju hotel base', { query: '랜딩관 제주신화월드 호텔앤리조트' }),
@@ -381,6 +385,7 @@ const itineraryDays = [
       { time: '10:00–10:40', title: 'CJU bag drop + security buffer', detail: 'Both of you are booked on 7C114 with checked baggage, so keep this airport block protected.', neighborhood: 'Jeju Airport', type: 'anchor' },
       { time: '11:20', title: 'Jeju Air 7C114 departs Jeju', detail: 'This is the real island-to-Seoul handoff flight for both of you.', neighborhood: 'CJU → GMP', type: 'anchor' },
       { time: 'After landing', title: 'Move luggage + reset', detail: 'Do not overfill this middle window while shifting from airport mode into the Jamsil stay.', neighborhood: 'Transit to Jamsil', type: 'transit' },
+      { time: '15:00', title: 'Light Jamsil / Sofitel lunch', detail: 'Keep this intentionally light and practical near Jamsil/Lotte World Mall so appetite stays protected for the 7 PM 본연 course.', neighborhood: 'Jamsil / Lotte World Mall', type: 'meal' },
       { time: '16:00', title: 'Sofitel check-in', detail: 'This begins the actual Jamsil hotel stretch from May 21–24.', neighborhood: 'Jamsil', type: 'hotel' },
       { time: '19:00', title: '본연 dinner reservation', detail: 'Booked through Catch Table. Wine order required. 240,000 KRW course for 2 people.', neighborhood: 'Seoul', type: 'meal' },
     ],
@@ -388,6 +393,7 @@ const itineraryDays = [
       mapTarget('Jeju International Airport', 'Jeju departure airport', { coords: { lat: 33.5104, lng: 126.4914 } }),
       mapTarget('특별한렌트카', 'Rental return + shuttle handoff', { query: '제주특별자치도 제주시 공항로1길 38', coords: { lat: 33.5049, lng: 126.4926 } }),
       mapTarget('Sofitel Ambassador Seoul', 'Confirmed hotel anchor'),
+      mapTarget('Lotte World Mall', 'Light Jamsil lunch zone before Sofitel / 본연', { query: '롯데월드몰' }),
       mapTarget('본연 서울', 'Catch Table reservation anchor', { query: '본연 서울' }),
       mapTarget('Jamsil', 'Neighborhood anchor', { query: '잠실', coords: { lat: 37.5133, lng: 127.1002 } }),
     ],
@@ -408,14 +414,16 @@ const itineraryDays = [
     mapCenter: { lat: 37.5218, lng: 127.0444 },
     stops: [
       { time: 'Morning', title: 'Easy hotel-area start', detail: 'Keep the morning light so the skin consult does not feel rushed or overpacked.', neighborhood: 'Jamsil', type: 'hotel' },
-      { time: '12:00', title: 'Simple lunch before heading west', detail: 'Eat cleanly and leave enough time to move toward Cheongdam without stress.', neighborhood: 'Jamsil / Songpa', type: 'meal' },
+      { time: '12:00', title: 'Mil Toast House light lunch', detail: 'Inspiration-tab light-lunch/cafe pick if a convenient branch fits before ReOne; keep it easy and not too heavy before the 2 PM consult.', neighborhood: 'Jamsil / Songpa', type: 'meal' },
       { time: '14:00', title: 'ReOne Dermatology consult', detail: 'Confirmed booking: ReOne on May 22 at 2:00 PM.', neighborhood: 'Cheongdam / Dosan-daero', type: 'beauty' },
       { time: 'Late afternoon', title: 'Post-consult decision block', detail: 'Use this window to decide whether only follow-up is needed or whether one larger-volume clinic should handle specific practical treatments.', neighborhood: 'Cheongdam / Gangnam', type: 'anchor' },
-      { time: 'Evening', title: 'Dinner or walk', detail: 'Can stay low-friction near Jamsil if you want to keep the day easy after the consult.', neighborhood: 'Jamsil', type: 'meal' },
+      { time: 'Evening', title: 'Mongchon Dakgalbi dinner', detail: 'Inspiration-tab pick near Songpa/Jamsil: oriental-medicine dakgalbi, kalguksu, and casual Korean dinner energy after the clinic day.', neighborhood: 'Songpa / Jamsil', type: 'meal' },
     ],
     mapTargets: [
       mapTarget('Sofitel Ambassador Seoul', 'Hotel base'),
       mapTarget('리원피부과의원', 'Confirmed 2:00 PM consult', { query: '리원피부과의원', coords: { lat: 37.5223, lng: 127.0399 } }),
+      mapTarget('Mil Toast House / 밀토스트집', 'Light cafe/lunch fallback before ReOne if route fits', { query: '밀토스트집 잠실' }),
+      mapTarget('Mongchon Dakgalbi / 몽촌 닭갈비', 'Inspiration pick for Songpa/Jamsil dinner after ReOne', { query: '몽촌 닭갈비 송파동' }),
       mapTarget('Lotte World Mall', 'Easy nearby anchor'),
       mapTarget('Seokchon Lake', 'Walkable nearby option'),
     ],
@@ -436,11 +444,12 @@ const itineraryDays = [
     mapCenter: { lat: 37.5665, lng: 126.978 },
     stops: [
       { time: 'Morning', title: 'Choose the day type', detail: 'Food-focused, shopping-focused, slow day, or one big reservation.', neighborhood: 'TBD', type: 'anchor' },
-      { time: 'Midday', title: 'Lock lunch around the area', detail: 'Avoid choosing lunch first and area second.', neighborhood: 'TBD', type: 'meal' },
+      { time: 'Midday', title: 'Wumok Hanwoo omakase lunch', detail: 'Inspiration-tab special-meal pick: 우목 10-course Hanwoo omakase. Use this as the May 23 food anchor while leaving dinner intentionally unplanned.', neighborhood: 'Gangnam / Apgujeong', type: 'meal' },
       { time: 'Afternoon', title: 'Main activity block', detail: 'Cluster by neighborhood and transit realism.', neighborhood: 'Seoul', type: 'shopping' },
       { time: 'Evening', title: 'Dinner or reset', detail: 'Can be a reservation or just a flexible close to the day.', neighborhood: 'Seoul', type: 'meal' },
     ],
     mapTargets: [
+      mapTarget('Wumok / 우목', 'Inspiration pick for May 23 Hanwoo omakase lunch', { query: '우목 언주로170길 22' }),
       mapTarget('Ikseondong', 'Possible date-style area', { query: '익선동' }),
       mapTarget('Seongsu', 'Possible shopping repeat', { query: '성수동' }),
       mapTarget('Apgujeong Rodeo', 'Possible beauty/shopping cluster', { query: '압구정로데오' }),
@@ -462,12 +471,13 @@ const itineraryDays = [
     mapCenter: { lat: 37.5505, lng: 127.1805 },
     stops: [
       { time: 'Morning', title: 'Hotel / luggage decision', detail: 'Make sure any check-out or movement is visible in the schedule if applicable.', neighborhood: 'Seoul', type: 'hotel' },
-      { time: 'Lunch', title: 'Keep lunch light', detail: 'Protect appetite and energy for the family dinner after the return-home framing.', neighborhood: 'Jamsil / Seoul', type: 'meal' },
+      { time: 'Lunch', title: 'Norunsan Tteokbokki light lunch', detail: 'Inspiration-tab casual lunch: 노룬산떡볶이 keeps the midday food fun but portion-controlled before the family Japanese dinner.', neighborhood: 'Jayang-dong / east Seoul', type: 'meal' },
       { time: 'Afternoon', title: 'Move back toward parents’ side', detail: 'Treat this as the “back from Jeju / back home” transition window.', neighborhood: 'Jamsil → 강동 / 하남', type: 'transit' },
-      { time: '18:30', title: 'Japanese family dinner shortlist', detail: 'Best fit looks like 스시도쿠 엔 고덕 for easy sushi near home; 하남미사 alternatives are 머무를 정 세이로무시 or 로이식당 if you want a calmer / slightly different Japanese meal.', neighborhood: '강동 / 하남', type: 'meal' },
+      { time: '18:30', title: '스시도쿠 엔 고덕 family dinner', detail: 'Final pick for the family Japanese dinner: easiest 고덕-side logistics, sushi/Japanese safety, and calmer parent-friendly pacing.', neighborhood: '강동 / 고덕', type: 'meal' },
     ],
     mapTargets: [
-      mapTarget('스시도쿠 엔 고덕이케아강동 강동아이파크더리버몰점', 'Easy sushi / Japanese family dinner option near 고덕', { query: '스시도쿠 엔 고덕이케아강동 강동아이파크더리버몰점' }),
+      mapTarget('Norunsan Tteokbokki / 노룬산떡볶이', 'Inspiration pick for light casual lunch before family dinner', { query: '노룬산떡볶이 자양동' }),
+      mapTarget('스시도쿠 엔 고덕이케아강동 강동아이파크더리버몰점', 'Final pick for easy sushi / Japanese family dinner near 고덕', { query: '스시도쿠 엔 고덕이케아강동 강동아이파크더리버몰점' }),
       mapTarget('머무를 정 세이로무시 하남미사점', 'Calmer Japanese-style seiro-mushi option in Hanam Misa', { query: '머무를 정 세이로무시 하남미사점' }),
       mapTarget('로이식당 하남미사 본점', 'Japanese home-style / pasta option in Hanam Misa', { query: '로이식당 하남미사 본점' }),
       mapTarget('강동일식', 'Traditional local Japanese / sashimi option', { query: '강동일식' }),
@@ -489,11 +499,13 @@ const itineraryDays = [
     mapCenter: { lat: 37.5665, lng: 126.978 },
     stops: [
       { time: 'Morning', title: 'Last-day priority block', detail: 'Choose the one thing that would feel worst to miss.', neighborhood: 'TBD', type: 'anchor' },
-      { time: 'Lunch', title: 'Memorable meal block', detail: 'Could be casual or special, but should fit the chosen area.', neighborhood: 'Seoul', type: 'meal' },
+      { time: 'Lunch', title: 'Gorogoro kaisendon lunch', detail: 'Inspiration-tab date-course lunch: 고로고로 for kaisendon/unagi don seafood bowls, memorable without making the final day too formal.', neighborhood: 'Yongsan', type: 'meal' },
       { time: 'Afternoon', title: 'Wrap-up shopping / packing buffer', detail: 'Leave enough margin so departure day is not chaotic.', neighborhood: 'Seoul', type: 'shopping' },
-      { time: 'Evening', title: 'Final Korea night', detail: 'Good slot for a nicer dinner or gentle walk depending on energy.', neighborhood: 'Seoul', type: 'meal' },
+      { time: 'Evening', title: 'Sinsajeon final-night dinner', detail: 'Inspiration-tab final-night pick: 신사전 for jeon, honeycomb makgeolli, and a fun Korea-feeling close instead of another formal course.', neighborhood: 'Sinsa / Gangnam', type: 'meal' },
     ],
     mapTargets: [
+      mapTarget('Gorogoro / 고로고로', 'Inspiration pick for final-day kaisendon / unagi lunch', { query: '고로고로 용산 한강대로11길 27' }),
+      mapTarget('Sinsajeon / 신사전', 'Inspiration pick for final-night jeon and honeycomb makgeolli', { query: '신사전 도산대로11길 18' }),
       mapTarget('Your Seoul hotel base', 'Use whichever hotel is active here', { query: '서울 호텔' }),
       mapTarget('Olive Young Flagship Seoul', 'Typical last-day practical stop', { query: '올리브영 서울' }),
       mapTarget('Myeongdong', 'Common final shopping fallback', { query: '명동' }),
@@ -1451,7 +1463,8 @@ const todoRules = {
 const dayPlannerTemplates = {
   'may-17': [
     { id: 'nail', time: '11:00', title: 'Nail appointment', note: 'Fixed anchor', type: 'confirmed', targetNames: [] },
-    { id: 'haus', time: '12:30', title: 'Haus Nowhere', note: 'Candidate → confirm', type: 'candidate', targetNames: ['Haus Nowhere Seongsu'] },
+    { id: 'seongsu-lunch', time: '12:15', title: 'Grandmother’s Recipe lunch', note: 'Accepted inspiration food pick', type: 'confirmed', targetNames: ['Grandmother’s Recipe / 할머니의 레시피'] },
+    { id: 'haus', time: '13:15', title: 'Haus Nowhere', note: 'Candidate → confirm', type: 'candidate', targetNames: ['Haus Nowhere Seongsu'] },
     { id: 'olive-musinsa', time: '14:00', title: 'Olive Young + Musinsa', note: 'Confirmed cluster', type: 'confirmed', targetNames: ['Tamburins Seongsu', 'Olive Young N Seongsu', 'Musinsa Standard Seongsu'] },
     { id: 'blue', time: '16:00', title: 'Blue Elephant', note: 'Maybe / flex', type: 'candidate', targetNames: ['Blue Elephant Seongsu'] },
     { id: 'move-jamsil', time: '17:15–18:00', title: 'Move toward Jamsil / Lotte World Mall', note: 'Confirmed transfer buffer', type: 'confirmed', targetNames: ['동화고옥 롯데월드몰점'] },
@@ -1461,12 +1474,12 @@ const dayPlannerTemplates = {
     { id: 'embassy-buffer', time: '08:15–08:25', title: 'Arrive for embassy buffer', note: 'Fixed anchor', type: 'confirmed', targetNames: ['US Embassy Seoul'] },
     { id: 'embassy-interview', time: '08:45', title: 'Embassy interview (you)', note: 'Fixed anchor', type: 'confirmed', targetNames: ['US Embassy Seoul'] },
     { id: 'girlfriend-wait', time: 'During interview', title: 'Girlfriend waits nearby', note: 'Flexible wait point', type: 'candidate', targetNames: ['Starbucks Ima Building'] },
-    { id: 'lunch-regroup', time: 'After interview', title: 'Lunch regroup', note: 'Confirmed meal block', type: 'confirmed', targetNames: [] },
+    { id: 'ikseon-lunch', time: 'After interview', title: 'Ikseon Chwihyang lunch', note: 'Accepted inspiration food pick', type: 'confirmed', targetNames: ['Ikseon Chwihyang / 익선취향'] },
     { id: 'move-chahong', time: '13:15–13:45', title: 'Move to Chahong Room Myeongdong', note: 'Confirmed transfer', type: 'confirmed', targetNames: ['Chahong Room Myeongdong'] },
     { id: 'chahong-perm', time: '14:00–17:30/18:00', title: 'Chahong Room Myeongdong perm (girlfriend)', note: 'Booked 2:00 PM appointment', type: 'confirmed', targetNames: ['Chahong Room Myeongdong'] },
     { id: 'friend-meetup', time: '14:15–17:30', title: 'Meet your friend while she is at Chahong', note: 'Confirmed parallel block', type: 'confirmed', targetNames: ['Euljiro 1-ga'] },
     { id: 'pickup', time: '17:30–18:00', title: 'Pick up girlfriend at Chahong', note: 'Confirmed pickup buffer', type: 'confirmed', targetNames: ['Chahong Room Myeongdong'] },
-    { id: 'dinner-three', time: '18:30', title: 'Dinner for three', note: 'Confirmed dinner plan', type: 'confirmed', targetNames: ['Myeongdong', 'Euljiro 1-ga'] },
+    { id: 'maknae-dinner', time: '18:30', title: 'Maknae Hoejip dinner', note: 'Accepted inspiration food pick for three', type: 'confirmed', targetNames: ['Maknae Hoejip / 막내회집'] },
   ],
 }
 
@@ -2410,6 +2423,16 @@ function App() {
     [importedReceipts, manualReceipts],
   )
 
+  const selectedReceiptDate = useMemo(
+    () => `2026-${selectedDay.key.replace('may-', '05-')}`,
+    [selectedDay.key],
+  )
+
+  const selectedReceiptRecords = useMemo(
+    () => receiptRecords.filter((receipt) => receipt.date === selectedReceiptDate),
+    [receiptRecords, selectedReceiptDate],
+  )
+
   const filteredReceiptRecords = useMemo(
     () => receiptFilter === 'All'
       ? receiptRecords
@@ -2449,19 +2472,8 @@ function App() {
       }))
   }, [receiptRecords])
 
-  const receiptPayerPillars = useMemo(() => {
-    const categorySegments = receiptCategoryBreakdown.map((item) => ({
-      ...item,
-      height: `${Math.max(10, Math.round((item.count / Math.max(1, receiptRecords.length)) * 100))}%`,
-    }))
-    return [
-      { person: 'Dr. Cho', label: 'shared estimate', segments: categorySegments },
-      { person: 'Dr. Ho', label: 'shared estimate', segments: categorySegments },
-    ]
-  }, [receiptCategoryBreakdown, receiptRecords.length])
-
   const receiptDateGroups = useMemo(() => {
-    const groups = receiptRecords.reduce((acc, receipt) => {
+    const groups = selectedReceiptRecords.reduce((acc, receipt) => {
       const key = receipt.date || 'TBD'
       if (!acc[key]) acc[key] = []
       acc[key].push(receipt)
@@ -2481,7 +2493,7 @@ function App() {
           : new Date(`${date}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' }),
         receipts,
       }))
-  }, [receiptRecords])
+  }, [selectedReceiptRecords])
 
   useEffect(() => {
     let cancelled = false
@@ -3223,39 +3235,35 @@ function App() {
                     </div>
                     <div className="receipt-dashboard-balance">
                       <div>
-                        <span>Paid-by graph</span>
-                        <strong>Dr. Cho / Dr. Ho</strong>
-                        <small>Shared estimate now; “paid by” inputs will make this exact.</small>
+                        <span>Overview</span>
+                        <strong>Spend mix</strong>
+                        <small>Simple category mix across all tracked receipts. Paid-by split can replace this once each item has an owner.</small>
                       </div>
-                      <div className="receipt-payer-pillars" aria-label="Dr. Cho and Dr. Ho stacked category graph">
-                        {receiptPayerPillars.map((pillar) => (
-                          <div className="receipt-payer-pillar" key={pillar.person}>
-                            <div className="receipt-pillar-stack" aria-hidden="true">
-                              {pillar.segments.map((segment) => (
-                                <i
-                                  key={`${pillar.person}-${segment.category}`}
-                                  style={{ height: segment.height, background: segment.color }}
-                                  title={`${segment.category}: ${segment.count}`}
-                                />
-                              ))}
-                            </div>
-                            <strong>{pillar.person}</strong>
-                            <small>{pillar.label}</small>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="receipt-category-legend" aria-label="Receipt category legend">
-                        {receiptCategoryBreakdown.map((item) => (
-                          <span key={item.category}><i style={{ background: item.color }} />{item.category} {item.count}</span>
-                        ))}
+                      <div className="receipt-mix-visual" aria-label="Receipt category mix overview">
+                        <div className="receipt-mix-stack" aria-hidden="true">
+                          {receiptCategoryBreakdown.map((item) => (
+                            <i key={item.category} style={{ flexBasis: item.width, background: item.color }} />
+                          ))}
+                        </div>
+                        <div className="receipt-category-legend" aria-label="Receipt category legend">
+                          {receiptCategoryBreakdown.map((item) => (
+                            <span key={item.category}><i style={{ background: item.color }} />{item.category} {item.count}</span>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <span className="chip chip-rose">Source {RECEIPT_PIPELINE_CONFIG.discordThreadId}</span>
               </header>
 
               <div className="simple-receipt-list" aria-label="Simple receipt list">
+                {receiptDateGroups.length === 0 ? (
+                  <div className="receipt-empty-state glass-card">
+                    <span>No receipts for this date yet</span>
+                    <strong>{selectedDay.date}</strong>
+                    <p>Receipts will appear here when their saved date matches the selected trip date above.</p>
+                  </div>
+                ) : null}
                 {receiptDateGroups.map((group) => (
                   <section key={group.date} className="receipt-date-group" aria-label={`${group.label} receipts`}>
                     <header className="receipt-date-heading">

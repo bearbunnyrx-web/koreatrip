@@ -107,15 +107,15 @@ describe('Korea trip app v2 concept', () => {
     const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
+    fireEvent.click(within(screen.getByLabelText(/receipts date selector/i)).getByRole('button', { name: /may 21/i }))
 
     expect(screen.getByRole('heading', { name: /receipts/i })).toBeInTheDocument()
     expect(container.querySelector('.receipts-screen')?.firstElementChild).toHaveClass('trip-sticky-date-header')
     expect(screen.getByLabelText(/receipts date selector/i)).toBeInTheDocument()
     expect(screen.getByText(/trip balance dashboard/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/receipts dashboard/i)).toBeInTheDocument()
-    expect(screen.getAllByText(/1503846727273283787/i).length).toBeGreaterThan(0)
-    expect(screen.getByText(/dr\. cho \/ dr\. ho/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/dr\. cho and dr\. ho stacked category graph/i)).toBeInTheDocument()
+    expect(screen.getByText(/spend mix/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/receipt category mix overview/i)).toBeInTheDocument()
     expect(container.querySelector('.simple-receipt-list')).toBeInTheDocument()
     expect(container.querySelector('.receipt-date-group')).toBeInTheDocument()
     expect(container.querySelector('.receipt-paper-card')).toBeInTheDocument()
@@ -129,6 +129,7 @@ describe('Korea trip app v2 concept', () => {
     render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
+    fireEvent.click(within(screen.getByLabelText(/receipts date selector/i)).getByRole('button', { name: /may 22/i }))
     fireEvent.click(screen.getByRole('button', { name: /view reone dermatology receipt on map/i }))
 
     expect(screen.getByRole('heading', { name: /리원피부과의원/i })).toBeInTheDocument()
@@ -286,6 +287,50 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByRole('heading', { name: /리원피부과의원|sofitel ambassador seoul/i })).toBeInTheDocument()
   })
 
+  test('map tab includes the accepted inspiration-first food recommendations by date', () => {
+    render(<App />)
+    const dateSelector = screen.getByLabelText(/map date selector/i)
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 16/i }))
+    expect(screen.getByText(/local 고덕 arrival lunch/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 17/i }))
+    expect(screen.getByText(/grandmother’s recipe lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/donghwa gook parent dinner target/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 18/i }))
+    expect(screen.getByText(/ikseon chwihyang lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/maknae hoejip dinner/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 19/i }))
+    expect(screen.getByText(/late lunch on the east side/i)).toBeInTheDocument()
+    expect(screen.getByText(/seongsan east-side seafood dinner/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 20/i }))
+    expect(screen.getByText(/bar sul sang lunch window/i)).toBeInTheDocument()
+    expect(screen.getByText(/hundo aewol black pork dinner/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 21/i }))
+    expect(screen.getByText(/light jamsil \/ sofitel lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/본연 dinner reservation/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 22/i }))
+    expect(screen.getByText(/mil toast house light lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/mongchon dakgalbi dinner/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 23/i }))
+    expect(screen.getByText(/wumok hanwoo omakase lunch/i)).toBeInTheDocument()
+    expect(screen.queryByText(/may 23 dinner recommendation/i)).not.toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 24/i }))
+    expect(screen.getByText(/norunsan tteokbokki light lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/스시도쿠 엔 고덕 family dinner/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 25/i }))
+    expect(screen.getByText(/gorogoro kaisendon lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/sinsajeon final-night dinner/i)).toBeInTheDocument()
+  })
+
   test('theme toggle uses a simple icon instead of text labels', () => {
     render(<App />)
 
@@ -311,9 +356,9 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 3: itinerary$/i })[0])
 
-    expect(screen.getByText(/4 confirmed route stops/i)).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /confirm haus nowhere/i }))
     expect(screen.getByText(/5 confirmed route stops/i)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /confirm haus nowhere/i }))
+    expect(screen.getByText(/6 confirmed route stops/i)).toBeInTheDocument()
   })
 
   test('confirmed items can be moved back out of the itinerary', () => {
@@ -321,9 +366,9 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(screen.getAllByRole('button', { name: /^step 3: itinerary$/i })[0])
 
-    expect(screen.getByText(/4 confirmed route stops/i)).toBeInTheDocument()
+    expect(screen.getByText(/5 confirmed route stops/i)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /remove olive young \+ musinsa from itinerary/i }))
-    expect(screen.getByText(/1 confirmed route stops/i)).toBeInTheDocument()
+    expect(screen.getByText(/2 confirmed route stops/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /confirm olive young \+ musinsa/i })).toBeInTheDocument()
   })
 
