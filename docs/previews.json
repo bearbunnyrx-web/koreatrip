@@ -1,6 +1,17 @@
 {
-  "generated_at": "2026-05-13T00:09:46-07:00",
+  "generated_at": "2026-05-13T00:10:02-07:00",
   "previews": [
+    {
+      "url": "https://koreatrip-571tpf0z0-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "12s",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
     {
       "url": "https://koreatrip-bkbjdnlto-bearbunnyrx-webs-projects.vercel.app",
       "branch": "unknown",

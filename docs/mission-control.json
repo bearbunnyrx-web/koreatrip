@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-13 00:09 PDT",
+  "generated": "2026-05-13 00:10 PDT",
   "project": "Korea Trip App",
   "canonical": {
     "app_url": "https://koreatrip.vercel.app",
@@ -10,10 +10,10 @@
     "receipt_thread_id": "1503846727273283787"
   },
   "git": {
-    "status": "## compare-strong-copy-experiment...origin/compare-strong-copy-experiment [ahead 1]",
+    "status": "## compare-strong-copy-experiment...origin/compare-strong-copy-experiment",
     "branches": "* compare-strong-copy-experiment\n  remotes/origin/compare-strong-copy-experiment\n+ receipt-date-dashboard\n  main\n  remotes/origin/HEAD -> origin/main\n  remotes/origin/main",
-    "worktrees": "/Users/jincho/Documents/korea-trip-app  7a87558 [compare-strong-copy-experiment]\n/private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]",
-    "recent_log": "7a87558 (HEAD -> compare-strong-copy-experiment) chore: complete mission control follow-up panels\n4e39194 (origin/compare-strong-copy-experiment) chore: refresh mission control for local dashboard\n66f5cee chore: add localhost mission control dashboard\n7bf329d chore: refresh mission control after push\naaa7c58 chore: add project mission control foundation\n8797339 Add Korea shopping routes to map\nf4c24e9 Replace receipts graph with ledger overview\n312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard\n13524f6 Add accepted food picks to Korea map\ne053597 Compact receipts balance dashboard\n34ee5f5 Add latest Instagram batch to Inspiration\nb8e8fa2 Style receipts dashboard\n836edef Add Yongwangsan Skywalk inspiration save\n7d63ed0 Clean up Korea receipt entries\ne46c131 Add May 21 and 22 Korea bookings",
+    "worktrees": "/Users/jincho/Documents/korea-trip-app  f31813e [compare-strong-copy-experiment]\n/private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]",
+    "recent_log": "f31813e (HEAD -> compare-strong-copy-experiment, origin/compare-strong-copy-experiment) chore: refresh mission control follow-up data\n7a87558 chore: complete mission control follow-up panels\n4e39194 chore: refresh mission control for local dashboard\n66f5cee chore: add localhost mission control dashboard\n7bf329d chore: refresh mission control after push\naaa7c58 chore: add project mission control foundation\n8797339 Add Korea shopping routes to map\nf4c24e9 Replace receipts graph with ledger overview\n312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard\n13524f6 Add accepted food picks to Korea map\ne053597 Compact receipts balance dashboard\n34ee5f5 Add latest Instagram batch to Inspiration\nb8e8fa2 Style receipts dashboard\n836edef Add Yongwangsan Skywalk inspiration save\n7d63ed0 Clean up Korea receipt entries",
     "vercel_project_json": "{\n    \"projectId\": \"prj_2WlRuwSI382Sr3j7LVNolTUlgFHb\",\n    \"orgId\": \"team_3CcxPvH8vqRMB35YkqNNHUUe\",\n    \"projectName\": \"koreatrip\"\n}"
   },
   "health": {
@@ -81,7 +81,7 @@
     },
     {
       "path": "docs/mission-control.json",
-      "lines": 986,
+      "lines": 985,
       "state": "docs/generated",
       "why": "Generated Mission Control artifact"
     },
@@ -117,7 +117,7 @@
     },
     {
       "path": "docs/mission-control.md",
-      "lines": 214,
+      "lines": 200,
       "state": "docs/generated",
       "why": "Generated Mission Control artifact"
     },
@@ -443,7 +443,7 @@
     ]
   },
   "architecture_map": {
-    "generated_at": "2026-05-13T00:09:45-07:00",
+    "generated_at": "2026-05-13T00:10:02-07:00",
     "pages": [
       {
         "name": "Map",
@@ -786,7 +786,7 @@
     ]
   },
   "garage_index": {
-    "generated_at": "2026-05-13T00:09:45-07:00",
+    "generated_at": "2026-05-13T00:10:02-07:00",
     "items": [
       {
         "path": "docs/garage/2026-05-12-mockups/korea-calendar-backup-sheet-mock.html",
@@ -823,8 +823,19 @@
     ]
   },
   "previews": {
-    "generated_at": "2026-05-13T00:09:46-07:00",
+    "generated_at": "2026-05-13T00:10:02-07:00",
     "previews": [
+      {
+        "url": "https://koreatrip-571tpf0z0-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "12s",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
       {
         "url": "https://koreatrip-bkbjdnlto-bearbunnyrx-webs-projects.vercel.app",
         "branch": "unknown",
