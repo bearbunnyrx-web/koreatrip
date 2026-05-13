@@ -347,6 +347,35 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/sinsajeon final-night dinner/i)).toBeInTheDocument()
   })
 
+  test('map and calendar include meal and gap backups for every in-Korea date', () => {
+    render(<App />)
+    const dateSelector = screen.getByLabelText(/map date selector/i)
+
+    const expectedBackups = [
+      [/may 16/i, /고덕 cafe \/ convenience-store backup/i],
+      [/may 17/i, /seongsu cafe gap backup/i],
+      [/may 18/i, /myeongdong rainy-day backup/i],
+      [/may 19/i, /gujwa cafe backup before seongsan/i],
+      [/may 20/i, /hyeopjae cafe \/ rain backup/i],
+      [/may 21/i, /lotte world mall reset backup/i],
+      [/may 22/i, /seokchon lake \/ lotte indoor backup/i],
+      [/may 23/i, /apgujeong shopping \+ cafe backup/i],
+      [/may 24/i, /hanam starfield backup window/i],
+      [/may 25/i, /garosu-gil cafe backup/i],
+      [/may 26/i, /icn airport meal backup/i],
+    ]
+
+    expectedBackups.forEach(([dateName, backupName]) => {
+      fireEvent.click(within(dateSelector).getByRole('button', { name: dateName }))
+      expect(screen.getByText(backupName)).toBeInTheDocument()
+    })
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^calendar$/i })[0])
+    fireEvent.click(within(screen.getByLabelText(/calendar date selector/i)).getByRole('button', { name: /may 23/i }))
+    expect(screen.getByText(/apgujeong shopping \+ cafe backup/i)).toBeInTheDocument()
+    expect(screen.getByText(/myeongdong kyoja dinner backup/i)).toBeInTheDocument()
+  })
+
   test('theme toggle uses a simple icon instead of text labels', () => {
     render(<App />)
 
