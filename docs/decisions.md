@@ -6,3 +6,4 @@ Append-only. Format: `YYYY-MM-DD HH:MM | decision | one-line decision + reason |
 2026-05-12 23:22 | decision | Mission Control should be generated from append-only logs plus live scans, not hand-edited | n/a
 2026-05-12 23:22 | decision | Discord threads are workspaces; Telegram confirmation is required before Discord decisions become backbone | n/a
 2026-05-12 23:45 | decision | Mission Control should be viewed primarily as a localhost dashboard for malleability; Google Sheet remains backup/summary | n/a
+2026-05-12 23:58 | decision | Agent bootstrap and cross-agent vault contract are durable docs, not only planning text | n/a

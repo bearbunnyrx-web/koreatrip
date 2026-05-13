@@ -1,0 +1,128 @@
+{
+  "generated_at": "2026-05-13T00:06:53-07:00",
+  "previews": [
+    {
+      "url": "https://koreatrip-bkbjdnlto-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "19m",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-kc01j8wdg-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "31m",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-6a7rrjk6w-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "32m",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-beafzryv2-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "36m",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-c0lkfixcj-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "3h",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-flt6a3c9z-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "4h",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-bkcxhxewh-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "4h",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-jkvtl6rnf-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "10h",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-o5i8vvlxo-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "10h",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-lcolwddnv-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "11h",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    },
+    {
+      "url": "https://koreatrip-5n0fhpiss-bearbunnyrx-webs-projects.vercel.app",
+      "branch": "unknown",
+      "purpose": "preview deployment",
+      "owner": "unknown",
+      "created_at": "11h",
+      "age_days": null,
+      "status": "pending-review",
+      "merge_decision": null,
+      "delete_recommendation": null
+    }
+  ],
+  "source": "vercel cli",
+  "error": ""
+}

@@ -1,5 +1,7 @@
 # Korea Trip Together
 
+> **Agents:** Start with `docs/AGENT-BOOTSTRAP.md` before making project claims or edits.
+
 A mobile-first React app for Dr. Cho and his girlfriend to manage their Korea trip.
 
 Current v1 includes:

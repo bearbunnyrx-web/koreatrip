@@ -1,0 +1,343 @@
+{
+  "generated_at": "2026-05-13T00:06:52-07:00",
+  "pages": [
+    {
+      "name": "Map",
+      "route": "tab:map",
+      "purpose": "spatial itinerary and place drawer",
+      "components": [
+        "App.jsx"
+      ],
+      "data_sources": [
+        "itineraryDays",
+        "mapTargets",
+        "tripStateStore"
+      ],
+      "status": "production"
+    },
+    {
+      "name": "Calendar",
+      "route": "tab:calendar",
+      "purpose": "day timeline",
+      "components": [
+        "App.jsx"
+      ],
+      "data_sources": [
+        "itineraryDays",
+        "mapTargets",
+        "tripStateStore"
+      ],
+      "status": "production"
+    },
+    {
+      "name": "Inspiration",
+      "route": "tab:inspiration",
+      "purpose": "saved reels and ideas",
+      "components": [
+        "App.jsx"
+      ],
+      "data_sources": [
+        "researchBoards",
+        "Instagram embed URLs"
+      ],
+      "status": "production"
+    },
+    {
+      "name": "Receipts",
+      "route": "tab:receipts",
+      "purpose": "bookings, receipts, spend",
+      "components": [
+        "App.jsx"
+      ],
+      "data_sources": [
+        "public/receipts-inbox.json",
+        "receiptPipeline"
+      ],
+      "status": "production"
+    }
+  ],
+  "components": [
+    {
+      "name": "App",
+      "file": "src/App.jsx",
+      "used_by": [
+        "docs/plans/2026-04-21-visual-redesign-plan.md",
+        "docs/phase-0-inventory-2026-05-12.md",
+        "docs/backbone.md",
+        "src/main.jsx",
+        "docs/checkpoint-log.md",
+        "docs/cleanup-log.md",
+        "src/data/itinerary.js",
+        "src/data/places.js"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "App.test",
+      "file": "src/test/App.test.jsx",
+      "used_by": [
+        "docs/plans/2026-04-21-visual-redesign-plan.md",
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "tripStateStore",
+      "file": "src/lib/tripStateStore.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "receiptPipeline",
+      "file": "src/lib/receiptPipeline.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md",
+        "scripts/receipt-ingest.mjs"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "routing",
+      "file": "src/lib/routing.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "tripStateStore.test",
+      "file": "src/test/tripStateStore.test.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "routing.test",
+      "file": "src/test/routing.test.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "receiptPipeline.test",
+      "file": "src/test/receiptPipeline.test.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "setup",
+      "file": "src/test/setup.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md",
+        "vite.config.js"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "BottomNav",
+      "file": "src/components/BottomNav.jsx",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "main",
+      "file": "src/main.jsx",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md",
+        "index.html"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "supabaseClient",
+      "file": "src/lib/supabaseClient.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "itinerary",
+      "file": "src/data/itinerary.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "places",
+      "file": "src/data/places.js",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "BookingsTab",
+      "file": "src/components/BookingsTab.jsx",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md",
+        "docs/deprecated.md"
+      ],
+      "status": "possible legacy"
+    },
+    {
+      "name": "HomeTab",
+      "file": "src/components/HomeTab.jsx",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md",
+        "docs/deprecated.md"
+      ],
+      "status": "possible legacy"
+    },
+    {
+      "name": "ItineraryDayCard",
+      "file": "src/components/ItineraryDayCard.jsx",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "ItineraryTab",
+      "file": "src/components/ItineraryTab.jsx",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md",
+        "docs/deprecated.md"
+      ],
+      "status": "possible legacy"
+    },
+    {
+      "name": "PlaceCard",
+      "file": "src/components/PlaceCard.jsx",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "PlacesTab",
+      "file": "src/components/PlacesTab.jsx",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md",
+        "docs/deprecated.md"
+      ],
+      "status": "possible legacy"
+    },
+    {
+      "name": "StopItem",
+      "file": "src/components/StopItem.jsx",
+      "used_by": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "status": "active"
+    }
+  ],
+  "data_sources": [
+    {
+      "name": "receipts-inbox.json",
+      "file": "public/receipts-inbox.json",
+      "kind": "static",
+      "consumers": [
+        "src/App.jsx",
+        "docs/phase-0-inventory-2026-05-12.md",
+        "scripts/receipt-ingest.mjs",
+        "docs/sync-directions.yaml"
+      ],
+      "writers": [],
+      "backup": "Google Sheet 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY"
+    },
+    {
+      "name": "itinerary.js",
+      "file": "src/data/itinerary.js",
+      "kind": "static",
+      "consumers": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "writers": [],
+      "backup": "Google Sheet 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY"
+    },
+    {
+      "name": "places.js",
+      "file": "src/data/places.js",
+      "kind": "static",
+      "consumers": [
+        "docs/phase-0-inventory-2026-05-12.md"
+      ],
+      "writers": [],
+      "backup": "Google Sheet 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY"
+    }
+  ],
+  "backends": [
+    {
+      "name": "src/lib/tripStateStore.js",
+      "status": "active",
+      "purpose": "backend/helper integration",
+      "endpoints": []
+    },
+    {
+      "name": "api/kakao-route.js",
+      "status": "active",
+      "purpose": "backend/helper integration",
+      "endpoints": []
+    },
+    {
+      "name": "supabase/migrations/20260426173100_trip_state_scaffold.sql",
+      "status": "scaffolded",
+      "purpose": "backend/helper integration",
+      "endpoints": []
+    },
+    {
+      "name": "src/lib/supabaseClient.js",
+      "status": "scaffolded",
+      "purpose": "backend/helper integration",
+      "endpoints": []
+    }
+  ],
+  "storage": [
+    {
+      "name": "localStorage tripStateStore",
+      "kind": "browser",
+      "purpose": "session persistence",
+      "leak_risk": "tests must clear"
+    }
+  ],
+  "sync_directions": [
+    {
+      "from": "App",
+      "to": "Google Sheet",
+      "kind": "manual backup/export",
+      "frequency": "ad-hoc",
+      "status": "active"
+    },
+    {
+      "from": "Discord receipt thread",
+      "to": "public/receipts-inbox.json",
+      "kind": "curated/manual ingest",
+      "frequency": "on demand",
+      "status": "active"
+    },
+    {
+      "from": "public/receipts-inbox.json",
+      "to": "App Receipts tab",
+      "kind": "static app data",
+      "frequency": "build/runtime",
+      "status": "active"
+    },
+    {
+      "from": "Drive receipts folder",
+      "to": "Google Sheet Receipts / Drive Evidence",
+      "kind": "evidence linking",
+      "frequency": "on demand",
+      "status": "active"
+    }
+  ]
+}

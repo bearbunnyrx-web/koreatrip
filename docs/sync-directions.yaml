@@ -1,0 +1,10 @@
+# Sync Directions
+
+Append/update this substrate file when a new sync path is accepted. Mission Control reads it; generated dashboards should not be hand-edited.
+
+| from | to | kind | frequency | status |
+|---|---|---|---|---|
+| App | Google Sheet | manual backup/export | ad-hoc | active |
+| Discord receipt thread | public/receipts-inbox.json | curated/manual ingest | on demand | active |
+| public/receipts-inbox.json | App Receipts tab | static app data | build/runtime | active |
+| Drive receipts folder | Google Sheet Receipts / Drive Evidence | evidence linking | on demand | active |

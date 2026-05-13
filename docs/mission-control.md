@@ -1,8 +1,9 @@
 # BearBunny Mission Control — Korea Trip App
 
-**Generated:** 2026-05-12 23:47 PDT  
+**Generated:** 2026-05-13 00:06 PDT  
 **Freshness:** Fresh  
 **Health:** YELLOW / risk points 6  
+**Next Checkpoint:** DUE NOW — working tree has uncommitted changes  
 **Do not hand-edit:** regenerate with `npm run mission-control` or `python3 scripts/regenerate_mission_control.py`.
 
 ---
@@ -20,6 +21,8 @@
 | App.jsx lines | 3945 |
 | App.css lines | 4867 |
 | Worktrees open | 2 |
+| Garage items | 3 |
+| Active previews | 11 |
 
 ### Why this health rating
 
@@ -30,11 +33,50 @@
 
 ---
 
+## Architecture Map
+
+### Pages
+
+| name | route | purpose | status |
+|---|---|---|---|
+| Map | tab:map | spatial itinerary and place drawer | production |
+| Calendar | tab:calendar | day timeline | production |
+| Inspiration | tab:inspiration | saved reels and ideas | production |
+| Receipts | tab:receipts | bookings, receipts, spend | production |
+
+### Data sources
+
+| name | file | kind | backup |
+|---|---|---|---|
+| receipts-inbox.json | public/receipts-inbox.json | static | Google Sheet 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY |
+| itinerary.js | src/data/itinerary.js | static | Google Sheet 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY |
+| places.js | src/data/places.js | static | Google Sheet 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY |
+
+### Backends
+
+| name | status | purpose |
+|---|---|---|
+| src/lib/tripStateStore.js | active | backend/helper integration |
+| api/kakao-route.js | active | backend/helper integration |
+| supabase/migrations/20260426173100_trip_state_scaffold.sql | scaffolded | backend/helper integration |
+| src/lib/supabaseClient.js | scaffolded | backend/helper integration |
+
+### Sync directions
+
+| from | to | kind | frequency | status |
+|---|---|---|---|---|
+| App | Google Sheet | manual backup/export | ad-hoc | active |
+| Discord receipt thread | public/receipts-inbox.json | curated/manual ingest | on demand | active |
+| public/receipts-inbox.json | App Receipts tab | static app data | build/runtime | active |
+| Drive receipts folder | Google Sheet Receipts / Drive Evidence | evidence linking | on demand | active |
+
+---
+
 ## Active workstreams
 
 | name | status | risk | scope | decision |
 |---|---|---|---|---|
-| Korea Mission Control foundation | active | medium | docs/, scripts/regenerate_mission_control.py, Obsidian mirror, Google Sheet tabs | Approved by Dr. Cho for execution |
+| Korea Mission Control foundation | active | medium | docs/, scripts/, Obsidian mirror, localhost dashboard | Approved by Dr. Cho for execution |
 | Receipt dashboard / receipt inbox | production-ish | low-medium | public/receipts-inbox.json, src receipt UI/pipeline | Keep; use Mission Control before major sync changes |
 | Branch/worktree hygiene | needs decision | medium | compare-strong-copy-experiment, receipt-date-dashboard, main, /private/tmp/korea-receipts-worktree | Review after Mission Control foundation |
 
@@ -52,6 +94,44 @@
 
 ---
 
+## Garage
+
+| path | kind | size_kb | still_referenced |
+|---|---|---|---|
+| docs/garage/2026-05-12-mockups/korea-calendar-backup-sheet-mock.html | html | 13.3 | True |
+| docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html | html | 13.3 | True |
+| docs/garage/2026-05-12-mockups/README.md | md | 0.3 | True |
+
+---
+
+## Preview deployments
+
+| url | branch | purpose | owner | status |
+|---|---|---|---|---|
+| https://koreatrip-bkbjdnlto-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-kc01j8wdg-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-6a7rrjk6w-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-beafzryv2-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-c0lkfixcj-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-flt6a3c9z-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-bkcxhxewh-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-jkvtl6rnf-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-o5i8vvlxo-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-lcolwddnv-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+| https://koreatrip-5n0fhpiss-bearbunnyrx-webs-projects.vercel.app | unknown | preview deployment | unknown | pending-review |
+
+---
+
+## Recent decisions
+
+- **2026-05-12 23:58** — Agent bootstrap and cross-agent vault contract are durable docs, not only planning text (`n/a`)
+- **2026-05-12 23:45** — Mission Control should be viewed primarily as a localhost dashboard for malleability; Google Sheet remains backup/summary (`n/a`)
+- **2026-05-12 23:22** — Discord threads are workspaces; Telegram confirmation is required before Discord decisions become backbone (`n/a`)
+- **2026-05-12 23:22** — Mission Control should be generated from append-only logs plus live scans, not hand-edited (`n/a`)
+- **2026-05-12 23:22** — Canonical Korea app project is koreatrip at https://koreatrip.vercel.app; Google Sheet backup is 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY (`n/a`)
+
+---
+
 ## Largest files
 
 | path | lines | state | why |
@@ -59,12 +139,13 @@
 | src/App.css | 4867 | active | Current repo file |
 | src/App.jsx | 3945 | active | Current repo file |
 | package-lock.json | 3909 | active | Current repo file |
+| docs/mission-control.json | 864 | docs/generated | Generated Mission Control artifact |
 | src/test/App.test.jsx | 726 | active | Current repo file |
 | docs/plans/2026-04-21-visual-redesign-plan.md | 410 | docs | Documentation/backbone/planning surface |
-| docs/mission-control.json | 305 | docs/generated-or-substrate | Documentation/backbone/planning surface |
-| docs/mission-control.md | 239 | docs/generated-or-substrate | Documentation/backbone/planning surface |
+| docs/architecture-map.json | 343 | docs/generated | Generated Mission Control artifact |
 | mockup-map-first-v2.html | 235 | experiment/mock | Standalone mockup, not production runtime |
 | docs/phase-0-inventory-2026-05-12.md | 216 | docs | Documentation/backbone/planning surface |
+| docs/mission-control.md | 203 | docs/generated | Generated Mission Control artifact |
 | src/lib/tripStateStore.js | 157 | active | Current repo file |
 | public/receipts-inbox.json | 135 | active | Current repo file |
 | scripts/receipt-ingest.mjs | 125 | active | Current repo file |
@@ -75,163 +156,59 @@
 | src/lib/routing.js | 91 | active | Current repo file |
 | src/test/tripStateStore.test.js | 83 | active | Current repo file |
 | src/test/routing.test.js | 63 | active | Current repo file |
-| docs/backbone.md | 55 | docs | Documentation/backbone/planning surface |
 
 ---
 
 ## Git status
 
 ```text
-## compare-strong-copy-experiment...origin/compare-strong-copy-experiment [ahead 1]
+## compare-strong-copy-experiment...origin/compare-strong-copy-experiment
+ M README.md
+ M docs/changelog.md
+ M docs/checkpoint-log.md
+ M docs/decisions.md
  M docs/mission-control.json
  M docs/mission-control.md
+ M scripts/regenerate_mission_control.py
+ M scripts/serve_mission_control.py
+?? docs/AGENT-BOOTSTRAP.md
+?? docs/architecture-map.json
+?? docs/garage-index.json
+?? docs/previews.json
+?? docs/sync-directions.yaml
 ```
 
 ## Worktrees
 
 ```text
-/Users/jincho/Documents/korea-trip-app  66f5cee [compare-strong-copy-experiment]
+/Users/jincho/Documents/korea-trip-app  4e39194 [compare-strong-copy-experiment]
 /private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]
 ```
-
-## Branches
-
-```text
-* compare-strong-copy-experiment
-  remotes/origin/compare-strong-copy-experiment
-+ receipt-date-dashboard
-  main
-  remotes/origin/HEAD -> origin/main
-  remotes/origin/main
-```
-
-## Recent commits
-
-```text
-66f5cee (HEAD -> compare-strong-copy-experiment) chore: add localhost mission control dashboard
-7bf329d (origin/compare-strong-copy-experiment) chore: refresh mission control after push
-aaa7c58 chore: add project mission control foundation
-8797339 Add Korea shopping routes to map
-f4c24e9 Replace receipts graph with ledger overview
-312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard
-13524f6 Add accepted food picks to Korea map
-e053597 Compact receipts balance dashboard
-34ee5f5 Add latest Instagram batch to Inspiration
-b8e8fa2 Style receipts dashboard
-836edef Add Yongwangsan Skywalk inspiration save
-7d63ed0 Clean up Korea receipt entries
-e46c131 Add May 21 and 22 Korea bookings
-c811029 Add Korea receipt thread bookings
-581a8f4 Pin thread Instagram saves in Inspiration
-```
-
----
-
-## Legacy / TODO / Mission Control markers
-
-- `src/App.jsx:11: legacySpendToReceipts,`
-- `src/App.jsx:23: const legacyTabMeta = {`
-- `src/App.jsx:1467: const todoRules = {`
-- `src/App.jsx:2442: () => [...manualReceipts, ...importedReceipts, ...legacySpendToReceipts(spend)],`
-- `src/App.jsx:2580: const smartTodos = useMemo(() => {`
-- `src/App.jsx:2589: const rule = todoRules[board.key] ?? {`
-- `src/App.jsx:3086: <nav className="legacy-workspace-shortcuts sr-only" aria-label="Legacy planning shortcuts">`
-- `src/App.jsx:3087: {Object.entries(legacyTabMeta).map(([tab, meta]) => (`
-- `docs/phase-0-inventory-2026-05-12.md:7: **Purpose:** Freeze-and-inventory pass before Project OS / Mission Control foundation. No app code refactor decisions are executed here.`
-- `docs/phase-0-inventory-2026-05-12.md:97: ## 6. Legacy / TODO / Mission Control markers`
-- `docs/phase-0-inventory-2026-05-12.md:100: ./bearbunny-mission-control-mock.html:5:<title>BearBunny Mission Control Mock</title>`
-- `docs/phase-0-inventory-2026-05-12.md:101: ./bearbunny-mission-control-mock.html:23:      <div class="title"><h1>BearBunny Mission Control — Korea Trip App</h1><p>Generated from repo logs + git/vercel scan + Obsidian backbo`
-- `docs/phase-0-inventory-2026-05-12.md:102: ./bearbunny-mission-control-mock.html:76:          <div class="node"><b>Mission Control</b><ul><li>Generated dashboard</li><li>Freshness stamp</li><li>Google Sheet + docs mirror</l`
-- `docs/phase-0-inventory-2026-05-12.md:103: ./bearbunny-mission-control-mock.html:83:          <tr><td>Old tab components</td><td>Potential legacy</td><td>V1 structure replaced</td><td>Move to garage if unused</td></tr>`
-- `docs/phase-0-inventory-2026-05-12.md:104: ./bearbunny-mission-control-mock.html:105:          <div class="item">Whether Mission Control is fresh or stale.</div>`
-- `docs/phase-0-inventory-2026-05-12.md:105: ./bearbunny-mission-control-mock.html:114:    <div class="footer"><span>Mission Control is regenerated from append-only logs + live scans. If stale &gt;72h, show warning.</span><sp`
-- `docs/phase-0-inventory-2026-05-12.md:106: ./src/test/tripStateStore.test.js:68:  test('writes a shared-state snapshot back to the legacy localStorage keys for offline fallback', () => {`
-- `docs/phase-0-inventory-2026-05-12.md:107: ./src/App.jsx:11:  legacySpendToReceipts,`
-- `docs/phase-0-inventory-2026-05-12.md:108: ./src/App.jsx:23:const legacyTabMeta = {`
-- `docs/phase-0-inventory-2026-05-12.md:109: ./src/App.jsx:2431:    () => [...manualReceipts, ...importedReceipts, ...legacySpendToReceipts(spend)],`
-- `docs/phase-0-inventory-2026-05-12.md:110: ./src/App.jsx:3075:          <nav className="legacy-workspace-shortcuts sr-only" aria-label="Legacy planning shortcuts">`
-- `docs/phase-0-inventory-2026-05-12.md:111: ./src/App.jsx:3076:            {Object.entries(legacyTabMeta).map(([tab, meta]) => (`
-- `docs/phase-0-inventory-2026-05-12.md:112: ./src/lib/receiptPipeline.js:90:export function legacySpendToReceipts(spendRows = []) {`
-- `docs/phase-0-inventory-2026-05-12.md:113: ./src/lib/receiptPipeline.js:98:    id: `legacy-${row.item.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,`
-- `docs/phase-0-inventory-2026-05-12.md:114: ./src/lib/receiptPipeline.js:99:    source: 'legacy-spend',`
-- `docs/phase-0-inventory-2026-05-12.md:138: | `src/components/BookingsTab.jsx` | 3 | possible legacy | Old V1-style tab component; verify imports before garage/archive |`
-- `docs/phase-0-inventory-2026-05-12.md:140: | `src/components/HomeTab.jsx` | 3 | possible legacy | Old V1-style tab component; verify imports before garage/archive |`
-- `docs/phase-0-inventory-2026-05-12.md:142: | `src/components/ItineraryTab.jsx` | 3 | possible legacy | Old V1-style tab component; verify imports before garage/archive |`
-- `docs/phase-0-inventory-2026-05-12.md:144: | `src/components/PlacesTab.jsx` | 3 | possible legacy | Old V1-style tab component; verify imports before garage/archive |`
-- `docs/phase-0-inventory-2026-05-12.md:167: | 753 | `/Users/jincho/Documents/Obsidian Vault/00 - Meta/AI Project OS/2026-05-12 - Project Architecture Mission Control Plan.md` |`
-- `docs/phase-0-inventory-2026-05-12.md:203: - Existing docs describe the V2 plan, but live app reality has moved fast; Mission Control should be generated from live scans + append-only logs.`
-- `docs/phase-0-inventory-2026-05-12.md:210: Proceed to Mission Control foundation without deleting or refactoring app code yet:`
-- `docs/phase-0-inventory-2026-05-12.md:213: 2. Create generated Mission Control docs.`
-- `docs/phase-0-inventory-2026-05-12.md:214: 3. Mirror Mission Control summary to Obsidian.`
-- `docs/phase-0-inventory-2026-05-12.md:215: 4. Update Google Sheet Mission Control tabs.`
-- `docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html:5: <title>BearBunny Mission Control Mock</title>`
-- `docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html:23: <div class="title"><h1>BearBunny Mission Control — Korea Trip App</h1><p>Generated from repo logs + git/vercel scan + Obsidian backbone · not hand-edited</p></div>`
-- `docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html:76: <div class="node"><b>Mission Control</b><ul><li>Generated dashboard</li><li>Freshness stamp</li><li>Google Sheet + docs mirror</li></ul></div><div class="arrow">→</div>`
-- `docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html:83: <tr><td>Old tab components</td><td>Potential legacy</td><td>V1 structure replaced</td><td>Move to garage if unused</td></tr>`
-- `docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html:105: <div class="item">Whether Mission Control is fresh or stale.</div>`
-- `docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html:114: <div class="footer"><span>Mission Control is regenerated from append-only logs + live scans. If stale &gt;72h, show warning.</span><span>Mockup only — not yet implemented</span></d`
-- `src/lib/receiptPipeline.js:90: export function legacySpendToReceipts(spendRows = []) {`
-- `src/lib/receiptPipeline.js:98: id: `legacy-${row.item.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,`
-- `src/lib/receiptPipeline.js:99: source: 'legacy-spend',`
-- `src/test/tripStateStore.test.js:68: test('writes a shared-state snapshot back to the legacy localStorage keys for offline fallback', () => {`
-- `docs/backbone.md:5: **Mission Control:** `docs/mission-control.md``
-- `docs/backbone.md:26: - Mission Control is generated from live scans + append-only logs.`
-- `docs/backbone.md:44: - Some legacy/mock/scaffold files need classification.`
-- `docs/architecture-map.md:9: Mission Control   → generated status dashboard + Google Sheet/Obsidian mirror`
-- `docs/architecture-map.md:21: | Architecture | Mission Control summary | repo docs + Obsidian | Telegram decisions | append-only logs |`
-- `docs/deprecated.md:1: # Deprecated / Garage Candidates`
-- `docs/deprecated.md:9: | `src/components/BookingsTab.jsx` | Component | possible legacy | Older V1-style tab component | Verify imports, then garage/archive if unused |`
-- `docs/deprecated.md:10: | `src/components/HomeTab.jsx` | Component | possible legacy | Older V1-style tab component | Verify imports, then garage/archive if unused |`
-- `docs/deprecated.md:11: | `src/components/ItineraryTab.jsx` | Component | possible legacy | Older V1-style tab component | Verify imports, then garage/archive if unused |`
-- `docs/deprecated.md:12: | `src/components/PlacesTab.jsx` | Component | possible legacy | Older V1-style tab component | Verify imports, then garage/archive if unused |`
-- `docs/deprecated.md:15: | `docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html` | Mock/experiment | garaged | Standalone Mission Control mock | Keep for reference; not production runtime |`
-- `docs/changelog.md:6: 2026-05-12 23:27 | change | Added generated Mission Control docs, Obsidian mirror, Google Sheet MC tabs, and npm run mission-control command | n/a`
-- `docs/changelog.md:8: 2026-05-12 23:33 | change | Improved Mission Control generator to exclude generated outputs and __pycache__ from marker scanning/noise | n/a`
-- `docs/changelog.md:9: 2026-05-12 23:45 | change | Added localhost-only Mission Control web dashboard served by npm run mission-control:serve | n/a`
-- `docs/decisions.md:6: 2026-05-12 23:22 | decision | Mission Control should be generated from append-only logs plus live scans, not hand-edited | n/a`
 
 ---
 
 ## Substrate logs — recent entries
 
 ### Changelog
-- Append-only. Format: `YYYY-MM-DD HH:MM | change | one-line description | commit-sha or n/a`.
 - 2026-05-12 23:22 | change | Seeded BearBunny Project OS substrate and Phase 0 inventory | f4c24e9
 - 2026-05-12 23:27 | change | Added generated Mission Control docs, Obsidian mirror, Google Sheet MC tabs, and npm run mission-control command | n/a
 - 2026-05-12 23:29 | change | Fixed Vitest isolation by clearing mocked localStorage after each test; root cause was cross-test persisted planner state | n/a
 - 2026-05-12 23:33 | change | Improved Mission Control generator to exclude generated outputs and __pycache__ from marker scanning/noise | n/a
 - 2026-05-12 23:45 | change | Added localhost-only Mission Control web dashboard served by npm run mission-control:serve | n/a
-
+- 2026-05-12 23:58 | change | Added durable AGENT-BOOTSTRAP.md and Obsidian AGENT-VAULT-CONTRACT.md pointer workflow | n/a
+- 2026-05-13 00:03 | change | Added Mission Control follow-up panels: Recent Decisions, Next Checkpoint, Garage, Previews, and Architecture Map generation | n/a
 ### Decisions
-- Append-only. Format: `YYYY-MM-DD HH:MM | decision | one-line decision + reason | commit-sha or n/a`.
 - 2026-05-12 23:22 | decision | Canonical Korea app project is koreatrip at https://koreatrip.vercel.app; Google Sheet backup is 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY | n/a
 - 2026-05-12 23:22 | decision | Mission Control should be generated from append-only logs plus live scans, not hand-edited | n/a
 - 2026-05-12 23:22 | decision | Discord threads are workspaces; Telegram confirmation is required before Discord decisions become backbone | n/a
 - 2026-05-12 23:45 | decision | Mission Control should be viewed primarily as a localhost dashboard for malleability; Google Sheet remains backup/summary | n/a
-
+- 2026-05-12 23:58 | decision | Agent bootstrap and cross-agent vault contract are durable docs, not only planning text | n/a
 ### Cleanup
-- Append-only. Format: `YYYY-MM-DD HH:MM | cleanup | one-line cleanup item/action | commit-sha or n/a`.
 - 2026-05-12 23:22 | cleanup | Flagged src/App.jsx and src/App.css as large-file stabilization candidates; no code refactor performed yet | n/a
 - 2026-05-12 23:22 | cleanup | Flagged mock HTML files and older V1 tab components as possible garage candidates pending import verification | n/a
 - 2026-05-12 23:26 | cleanup | Moved standalone mockup HTML files from repo root into docs/garage/2026-05-12-mockups; no production code affected | n/a
-
 ### Checkpoints
-- Append-only. Format: `YYYY-MM-DD HH:MM | checkpoint | trigger + outcome | commit-sha or n/a`.
 - 2026-05-12 23:22 | checkpoint | Trigger: Dr. Cho approved Project OS execution; outcome: Phase 0 inventory first, then generated Mission Control foundation, no destructive changes | n/a
 - 2026-05-12 23:27 | checkpoint | Verification: npm test passed 49/49 and npm run build passed; Vite chunk-size warning remains informational | n/a
 - 2026-05-12 23:29 | checkpoint | Test failure investigation: specific test passed alone but failed in suite; isolated root cause to localStorage leakage across App tests | n/a
-
----
-
-## Request gate
-
-- **Patch:** direct edit okay; log if production changes.
-- **Feature:** plan + tests/build + preview/production decision.
-- **Experiment:** preview/mock only until Dr. Cho accepts.
-- **Architecture change:** checkpoint first.
-
-## Autonomy guardrails
-
-- **Green:** inspect, generate, run tests/build, update Mission Control.
-- **Yellow:** internal refactor/archive with notice.
-- **Red:** delete, major page removal, production deploy of big structural changes, migration, public access changes — ask Dr. Cho first.
+- 2026-05-13 00:03 | checkpoint | Follow-up build stayed in Mission Control scope; no App.jsx/App.css refactor or public app changes | n/a

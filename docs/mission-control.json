@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-12 23:47 PDT",
+  "generated": "2026-05-13 00:06 PDT",
   "project": "Korea Trip App",
   "canonical": {
     "app_url": "https://koreatrip.vercel.app",
@@ -10,10 +10,10 @@
     "receipt_thread_id": "1503846727273283787"
   },
   "git": {
-    "status": "## compare-strong-copy-experiment...origin/compare-strong-copy-experiment [ahead 1]\n M docs/mission-control.json\n M docs/mission-control.md",
+    "status": "## compare-strong-copy-experiment...origin/compare-strong-copy-experiment\n M README.md\n M docs/changelog.md\n M docs/checkpoint-log.md\n M docs/decisions.md\n M docs/mission-control.json\n M docs/mission-control.md\n M scripts/regenerate_mission_control.py\n M scripts/serve_mission_control.py\n?? docs/AGENT-BOOTSTRAP.md\n?? docs/architecture-map.json\n?? docs/garage-index.json\n?? docs/previews.json\n?? docs/sync-directions.yaml",
     "branches": "* compare-strong-copy-experiment\n  remotes/origin/compare-strong-copy-experiment\n+ receipt-date-dashboard\n  main\n  remotes/origin/HEAD -> origin/main\n  remotes/origin/main",
-    "worktrees": "/Users/jincho/Documents/korea-trip-app  66f5cee [compare-strong-copy-experiment]\n/private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]",
-    "recent_log": "66f5cee (HEAD -> compare-strong-copy-experiment) chore: add localhost mission control dashboard\n7bf329d (origin/compare-strong-copy-experiment) chore: refresh mission control after push\naaa7c58 chore: add project mission control foundation\n8797339 Add Korea shopping routes to map\nf4c24e9 Replace receipts graph with ledger overview\n312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard\n13524f6 Add accepted food picks to Korea map\ne053597 Compact receipts balance dashboard\n34ee5f5 Add latest Instagram batch to Inspiration\nb8e8fa2 Style receipts dashboard\n836edef Add Yongwangsan Skywalk inspiration save\n7d63ed0 Clean up Korea receipt entries\ne46c131 Add May 21 and 22 Korea bookings\nc811029 Add Korea receipt thread bookings\n581a8f4 Pin thread Instagram saves in Inspiration",
+    "worktrees": "/Users/jincho/Documents/korea-trip-app  4e39194 [compare-strong-copy-experiment]\n/private/tmp/korea-receipts-worktree    312f25f [receipt-date-dashboard]",
+    "recent_log": "4e39194 (HEAD -> compare-strong-copy-experiment, origin/compare-strong-copy-experiment) chore: refresh mission control for local dashboard\n66f5cee chore: add localhost mission control dashboard\n7bf329d chore: refresh mission control after push\naaa7c58 chore: add project mission control foundation\n8797339 Add Korea shopping routes to map\nf4c24e9 Replace receipts graph with ledger overview\n312f25f (receipt-date-dashboard) Refine receipt date filtering dashboard\n13524f6 Add accepted food picks to Korea map\ne053597 Compact receipts balance dashboard\n34ee5f5 Add latest Instagram batch to Inspiration\nb8e8fa2 Style receipts dashboard\n836edef Add Yongwangsan Skywalk inspiration save\n7d63ed0 Clean up Korea receipt entries\ne46c131 Add May 21 and 22 Korea bookings\nc811029 Add Korea receipt thread bookings",
     "vercel_project_json": "{\n    \"projectId\": \"prj_2WlRuwSI382Sr3j7LVNolTUlgFHb\",\n    \"orgId\": \"team_3CcxPvH8vqRMB35YkqNNHUUe\",\n    \"projectName\": \"koreatrip\"\n}"
   },
   "health": {
@@ -31,11 +31,18 @@
     "test_status": "not run by generator",
     "build_status": "not run by generator"
   },
+  "next_checkpoint": {
+    "due_now": true,
+    "label": "DUE NOW",
+    "due_at": "2026-05-20T00:03",
+    "changes_since_last": 0,
+    "trigger": "working tree has uncommitted changes"
+  },
   "workstreams": [
     {
       "name": "Korea Mission Control foundation",
       "status": "active",
-      "scope": "docs/, scripts/regenerate_mission_control.py, Obsidian mirror, Google Sheet tabs",
+      "scope": "docs/, scripts/, Obsidian mirror, localhost dashboard",
       "risk": "medium",
       "decision": "Approved by Dr. Cho for execution"
     },
@@ -74,6 +81,12 @@
       "why": "Current repo file"
     },
     {
+      "path": "docs/mission-control.json",
+      "lines": 864,
+      "state": "docs/generated",
+      "why": "Generated Mission Control artifact"
+    },
+    {
       "path": "src/test/App.test.jsx",
       "lines": 726,
       "state": "active",
@@ -86,16 +99,10 @@
       "why": "Documentation/backbone/planning surface"
     },
     {
-      "path": "docs/mission-control.json",
-      "lines": 305,
-      "state": "docs/generated-or-substrate",
-      "why": "Documentation/backbone/planning surface"
-    },
-    {
-      "path": "docs/mission-control.md",
-      "lines": 239,
-      "state": "docs/generated-or-substrate",
-      "why": "Documentation/backbone/planning surface"
+      "path": "docs/architecture-map.json",
+      "lines": 343,
+      "state": "docs/generated",
+      "why": "Generated Mission Control artifact"
     },
     {
       "path": "mockup-map-first-v2.html",
@@ -108,6 +115,12 @@
       "lines": 216,
       "state": "docs",
       "why": "Documentation/backbone/planning surface"
+    },
+    {
+      "path": "docs/mission-control.md",
+      "lines": 203,
+      "state": "docs/generated",
+      "why": "Generated Mission Control artifact"
     },
     {
       "path": "src/lib/tripStateStore.js",
@@ -168,12 +181,6 @@
       "lines": 63,
       "state": "active",
       "why": "Current repo file"
-    },
-    {
-      "path": "docs/backbone.md",
-      "lines": 55,
-      "state": "docs",
-      "why": "Documentation/backbone/planning surface"
     }
   ],
   "legacy_markers": [
@@ -225,6 +232,7 @@
     "docs/backbone.md:5: **Mission Control:** `docs/mission-control.md`",
     "docs/backbone.md:26: - Mission Control is generated from live scans + append-only logs.",
     "docs/backbone.md:44: - Some legacy/mock/scaffold files need classification.",
+    "docs/AGENT-BOOTSTRAP.md:24: ## Mission Control commands",
     "docs/architecture-map.md:9: Mission Control   → generated status dashboard + Google Sheet/Obsidian mirror",
     "docs/architecture-map.md:21: | Architecture | Mission Control summary | repo docs + Obsidian | Telegram decisions | append-only logs |",
     "docs/deprecated.md:1: # Deprecated / Garage Candidates",
@@ -236,39 +244,712 @@
     "docs/changelog.md:6: 2026-05-12 23:27 | change | Added generated Mission Control docs, Obsidian mirror, Google Sheet MC tabs, and npm run mission-control command | n/a",
     "docs/changelog.md:8: 2026-05-12 23:33 | change | Improved Mission Control generator to exclude generated outputs and __pycache__ from marker scanning/noise | n/a",
     "docs/changelog.md:9: 2026-05-12 23:45 | change | Added localhost-only Mission Control web dashboard served by npm run mission-control:serve | n/a",
+    "docs/changelog.md:11: 2026-05-13 00:03 | change | Added Mission Control follow-up panels: Recent Decisions, Next Checkpoint, Garage, Previews, and Architecture Map generation | n/a",
+    "docs/sync-directions.yaml:3: Append/update this substrate file when a new sync path is accepted. Mission Control reads it; generated dashboards should not be hand-edited.",
     "docs/decisions.md:6: 2026-05-12 23:22 | decision | Mission Control should be generated from append-only logs plus live scans, not hand-edited | n/a",
     "docs/decisions.md:8: 2026-05-12 23:45 | decision | Mission Control should be viewed primarily as a localhost dashboard for malleability; Google Sheet remains backup/summary | n/a",
     "docs/checkpoint-log.md:5: 2026-05-12 23:22 | checkpoint | Trigger: Dr. Cho approved Project OS execution; outcome: Phase 0 inventory first, then generated Mission Control foundation, no destructive changes ",
+    "docs/checkpoint-log.md:8: 2026-05-13 00:03 | checkpoint | Follow-up build stayed in Mission Control scope; no App.jsx/App.css refactor or public app changes | n/a",
     "docs/garage/2026-05-12-mockups/README.md:6: - `bearbunny-mission-control-mock.html` — Mission Control visual concept"
   ],
   "substrate": {
     "changelog": [
-      "Append-only. Format: `YYYY-MM-DD HH:MM | change | one-line description | commit-sha or n/a`.",
       "2026-05-12 23:22 | change | Seeded BearBunny Project OS substrate and Phase 0 inventory | f4c24e9",
       "2026-05-12 23:27 | change | Added generated Mission Control docs, Obsidian mirror, Google Sheet MC tabs, and npm run mission-control command | n/a",
       "2026-05-12 23:29 | change | Fixed Vitest isolation by clearing mocked localStorage after each test; root cause was cross-test persisted planner state | n/a",
       "2026-05-12 23:33 | change | Improved Mission Control generator to exclude generated outputs and __pycache__ from marker scanning/noise | n/a",
-      "2026-05-12 23:45 | change | Added localhost-only Mission Control web dashboard served by npm run mission-control:serve | n/a"
+      "2026-05-12 23:45 | change | Added localhost-only Mission Control web dashboard served by npm run mission-control:serve | n/a",
+      "2026-05-12 23:58 | change | Added durable AGENT-BOOTSTRAP.md and Obsidian AGENT-VAULT-CONTRACT.md pointer workflow | n/a",
+      "2026-05-13 00:03 | change | Added Mission Control follow-up panels: Recent Decisions, Next Checkpoint, Garage, Previews, and Architecture Map generation | n/a"
     ],
     "decisions": [
-      "Append-only. Format: `YYYY-MM-DD HH:MM | decision | one-line decision + reason | commit-sha or n/a`.",
       "2026-05-12 23:22 | decision | Canonical Korea app project is koreatrip at https://koreatrip.vercel.app; Google Sheet backup is 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY | n/a",
       "2026-05-12 23:22 | decision | Mission Control should be generated from append-only logs plus live scans, not hand-edited | n/a",
       "2026-05-12 23:22 | decision | Discord threads are workspaces; Telegram confirmation is required before Discord decisions become backbone | n/a",
-      "2026-05-12 23:45 | decision | Mission Control should be viewed primarily as a localhost dashboard for malleability; Google Sheet remains backup/summary | n/a"
+      "2026-05-12 23:45 | decision | Mission Control should be viewed primarily as a localhost dashboard for malleability; Google Sheet remains backup/summary | n/a",
+      "2026-05-12 23:58 | decision | Agent bootstrap and cross-agent vault contract are durable docs, not only planning text | n/a"
     ],
     "cleanup": [
-      "Append-only. Format: `YYYY-MM-DD HH:MM | cleanup | one-line cleanup item/action | commit-sha or n/a`.",
       "2026-05-12 23:22 | cleanup | Flagged src/App.jsx and src/App.css as large-file stabilization candidates; no code refactor performed yet | n/a",
       "2026-05-12 23:22 | cleanup | Flagged mock HTML files and older V1 tab components as possible garage candidates pending import verification | n/a",
       "2026-05-12 23:26 | cleanup | Moved standalone mockup HTML files from repo root into docs/garage/2026-05-12-mockups; no production code affected | n/a"
     ],
     "checkpoints": [
-      "Append-only. Format: `YYYY-MM-DD HH:MM | checkpoint | trigger + outcome | commit-sha or n/a`.",
       "2026-05-12 23:22 | checkpoint | Trigger: Dr. Cho approved Project OS execution; outcome: Phase 0 inventory first, then generated Mission Control foundation, no destructive changes | n/a",
       "2026-05-12 23:27 | checkpoint | Verification: npm test passed 49/49 and npm run build passed; Vite chunk-size warning remains informational | n/a",
-      "2026-05-12 23:29 | checkpoint | Test failure investigation: specific test passed alone but failed in suite; isolated root cause to localStorage leakage across App tests | n/a"
+      "2026-05-12 23:29 | checkpoint | Test failure investigation: specific test passed alone but failed in suite; isolated root cause to localStorage leakage across App tests | n/a",
+      "2026-05-13 00:03 | checkpoint | Follow-up build stayed in Mission Control scope; no App.jsx/App.css refactor or public app changes | n/a"
     ]
+  },
+  "substrate_rows": {
+    "changelog": [
+      {
+        "line": 5,
+        "timestamp": "2026-05-12 23:22",
+        "type": "change",
+        "text": "Seeded BearBunny Project OS substrate and Phase 0 inventory",
+        "sha": "f4c24e9",
+        "raw": "2026-05-12 23:22 | change | Seeded BearBunny Project OS substrate and Phase 0 inventory | f4c24e9"
+      },
+      {
+        "line": 6,
+        "timestamp": "2026-05-12 23:27",
+        "type": "change",
+        "text": "Added generated Mission Control docs, Obsidian mirror, Google Sheet MC tabs, and npm run mission-control command",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:27 | change | Added generated Mission Control docs, Obsidian mirror, Google Sheet MC tabs, and npm run mission-control command | n/a"
+      },
+      {
+        "line": 7,
+        "timestamp": "2026-05-12 23:29",
+        "type": "change",
+        "text": "Fixed Vitest isolation by clearing mocked localStorage after each test; root cause was cross-test persisted planner state",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:29 | change | Fixed Vitest isolation by clearing mocked localStorage after each test; root cause was cross-test persisted planner state | n/a"
+      },
+      {
+        "line": 8,
+        "timestamp": "2026-05-12 23:33",
+        "type": "change",
+        "text": "Improved Mission Control generator to exclude generated outputs and __pycache__ from marker scanning/noise",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:33 | change | Improved Mission Control generator to exclude generated outputs and __pycache__ from marker scanning/noise | n/a"
+      },
+      {
+        "line": 9,
+        "timestamp": "2026-05-12 23:45",
+        "type": "change",
+        "text": "Added localhost-only Mission Control web dashboard served by npm run mission-control:serve",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:45 | change | Added localhost-only Mission Control web dashboard served by npm run mission-control:serve | n/a"
+      },
+      {
+        "line": 10,
+        "timestamp": "2026-05-12 23:58",
+        "type": "change",
+        "text": "Added durable AGENT-BOOTSTRAP.md and Obsidian AGENT-VAULT-CONTRACT.md pointer workflow",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:58 | change | Added durable AGENT-BOOTSTRAP.md and Obsidian AGENT-VAULT-CONTRACT.md pointer workflow | n/a"
+      },
+      {
+        "line": 11,
+        "timestamp": "2026-05-13 00:03",
+        "type": "change",
+        "text": "Added Mission Control follow-up panels: Recent Decisions, Next Checkpoint, Garage, Previews, and Architecture Map generation",
+        "sha": "n/a",
+        "raw": "2026-05-13 00:03 | change | Added Mission Control follow-up panels: Recent Decisions, Next Checkpoint, Garage, Previews, and Architecture Map generation | n/a"
+      }
+    ],
+    "decisions": [
+      {
+        "line": 5,
+        "timestamp": "2026-05-12 23:22",
+        "type": "decision",
+        "text": "Canonical Korea app project is koreatrip at https://koreatrip.vercel.app; Google Sheet backup is 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:22 | decision | Canonical Korea app project is koreatrip at https://koreatrip.vercel.app; Google Sheet backup is 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY | n/a"
+      },
+      {
+        "line": 6,
+        "timestamp": "2026-05-12 23:22",
+        "type": "decision",
+        "text": "Mission Control should be generated from append-only logs plus live scans, not hand-edited",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:22 | decision | Mission Control should be generated from append-only logs plus live scans, not hand-edited | n/a"
+      },
+      {
+        "line": 7,
+        "timestamp": "2026-05-12 23:22",
+        "type": "decision",
+        "text": "Discord threads are workspaces; Telegram confirmation is required before Discord decisions become backbone",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:22 | decision | Discord threads are workspaces; Telegram confirmation is required before Discord decisions become backbone | n/a"
+      },
+      {
+        "line": 8,
+        "timestamp": "2026-05-12 23:45",
+        "type": "decision",
+        "text": "Mission Control should be viewed primarily as a localhost dashboard for malleability; Google Sheet remains backup/summary",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:45 | decision | Mission Control should be viewed primarily as a localhost dashboard for malleability; Google Sheet remains backup/summary | n/a"
+      },
+      {
+        "line": 9,
+        "timestamp": "2026-05-12 23:58",
+        "type": "decision",
+        "text": "Agent bootstrap and cross-agent vault contract are durable docs, not only planning text",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:58 | decision | Agent bootstrap and cross-agent vault contract are durable docs, not only planning text | n/a"
+      }
+    ],
+    "cleanup": [
+      {
+        "line": 5,
+        "timestamp": "2026-05-12 23:22",
+        "type": "cleanup",
+        "text": "Flagged src/App.jsx and src/App.css as large-file stabilization candidates; no code refactor performed yet",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:22 | cleanup | Flagged src/App.jsx and src/App.css as large-file stabilization candidates; no code refactor performed yet | n/a"
+      },
+      {
+        "line": 6,
+        "timestamp": "2026-05-12 23:22",
+        "type": "cleanup",
+        "text": "Flagged mock HTML files and older V1 tab components as possible garage candidates pending import verification",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:22 | cleanup | Flagged mock HTML files and older V1 tab components as possible garage candidates pending import verification | n/a"
+      },
+      {
+        "line": 7,
+        "timestamp": "2026-05-12 23:26",
+        "type": "cleanup",
+        "text": "Moved standalone mockup HTML files from repo root into docs/garage/2026-05-12-mockups; no production code affected",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:26 | cleanup | Moved standalone mockup HTML files from repo root into docs/garage/2026-05-12-mockups; no production code affected | n/a"
+      }
+    ],
+    "checkpoints": [
+      {
+        "line": 5,
+        "timestamp": "2026-05-12 23:22",
+        "type": "checkpoint",
+        "text": "Trigger: Dr. Cho approved Project OS execution; outcome: Phase 0 inventory first, then generated Mission Control foundation, no destructive changes",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:22 | checkpoint | Trigger: Dr. Cho approved Project OS execution; outcome: Phase 0 inventory first, then generated Mission Control foundation, no destructive changes | n/a"
+      },
+      {
+        "line": 6,
+        "timestamp": "2026-05-12 23:27",
+        "type": "checkpoint",
+        "text": "Verification: npm test passed 49/49 and npm run build passed; Vite chunk-size warning remains informational",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:27 | checkpoint | Verification: npm test passed 49/49 and npm run build passed; Vite chunk-size warning remains informational | n/a"
+      },
+      {
+        "line": 7,
+        "timestamp": "2026-05-12 23:29",
+        "type": "checkpoint",
+        "text": "Test failure investigation: specific test passed alone but failed in suite; isolated root cause to localStorage leakage across App tests",
+        "sha": "n/a",
+        "raw": "2026-05-12 23:29 | checkpoint | Test failure investigation: specific test passed alone but failed in suite; isolated root cause to localStorage leakage across App tests | n/a"
+      },
+      {
+        "line": 8,
+        "timestamp": "2026-05-13 00:03",
+        "type": "checkpoint",
+        "text": "Follow-up build stayed in Mission Control scope; no App.jsx/App.css refactor or public app changes",
+        "sha": "n/a",
+        "raw": "2026-05-13 00:03 | checkpoint | Follow-up build stayed in Mission Control scope; no App.jsx/App.css refactor or public app changes | n/a"
+      }
+    ]
+  },
+  "architecture_map": {
+    "generated_at": "2026-05-13T00:06:52-07:00",
+    "pages": [
+      {
+        "name": "Map",
+        "route": "tab:map",
+        "purpose": "spatial itinerary and place drawer",
+        "components": [
+          "App.jsx"
+        ],
+        "data_sources": [
+          "itineraryDays",
+          "mapTargets",
+          "tripStateStore"
+        ],
+        "status": "production"
+      },
+      {
+        "name": "Calendar",
+        "route": "tab:calendar",
+        "purpose": "day timeline",
+        "components": [
+          "App.jsx"
+        ],
+        "data_sources": [
+          "itineraryDays",
+          "mapTargets",
+          "tripStateStore"
+        ],
+        "status": "production"
+      },
+      {
+        "name": "Inspiration",
+        "route": "tab:inspiration",
+        "purpose": "saved reels and ideas",
+        "components": [
+          "App.jsx"
+        ],
+        "data_sources": [
+          "researchBoards",
+          "Instagram embed URLs"
+        ],
+        "status": "production"
+      },
+      {
+        "name": "Receipts",
+        "route": "tab:receipts",
+        "purpose": "bookings, receipts, spend",
+        "components": [
+          "App.jsx"
+        ],
+        "data_sources": [
+          "public/receipts-inbox.json",
+          "receiptPipeline"
+        ],
+        "status": "production"
+      }
+    ],
+    "components": [
+      {
+        "name": "App",
+        "file": "src/App.jsx",
+        "used_by": [
+          "docs/plans/2026-04-21-visual-redesign-plan.md",
+          "docs/phase-0-inventory-2026-05-12.md",
+          "docs/backbone.md",
+          "src/main.jsx",
+          "docs/checkpoint-log.md",
+          "docs/cleanup-log.md",
+          "src/data/itinerary.js",
+          "src/data/places.js"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "App.test",
+        "file": "src/test/App.test.jsx",
+        "used_by": [
+          "docs/plans/2026-04-21-visual-redesign-plan.md",
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "tripStateStore",
+        "file": "src/lib/tripStateStore.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "receiptPipeline",
+        "file": "src/lib/receiptPipeline.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md",
+          "scripts/receipt-ingest.mjs"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "routing",
+        "file": "src/lib/routing.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "tripStateStore.test",
+        "file": "src/test/tripStateStore.test.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "routing.test",
+        "file": "src/test/routing.test.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "receiptPipeline.test",
+        "file": "src/test/receiptPipeline.test.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "setup",
+        "file": "src/test/setup.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md",
+          "vite.config.js"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "BottomNav",
+        "file": "src/components/BottomNav.jsx",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "main",
+        "file": "src/main.jsx",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md",
+          "index.html"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "supabaseClient",
+        "file": "src/lib/supabaseClient.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "itinerary",
+        "file": "src/data/itinerary.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "places",
+        "file": "src/data/places.js",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "BookingsTab",
+        "file": "src/components/BookingsTab.jsx",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md",
+          "docs/deprecated.md"
+        ],
+        "status": "possible legacy"
+      },
+      {
+        "name": "HomeTab",
+        "file": "src/components/HomeTab.jsx",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md",
+          "docs/deprecated.md"
+        ],
+        "status": "possible legacy"
+      },
+      {
+        "name": "ItineraryDayCard",
+        "file": "src/components/ItineraryDayCard.jsx",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "ItineraryTab",
+        "file": "src/components/ItineraryTab.jsx",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md",
+          "docs/deprecated.md"
+        ],
+        "status": "possible legacy"
+      },
+      {
+        "name": "PlaceCard",
+        "file": "src/components/PlaceCard.jsx",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      },
+      {
+        "name": "PlacesTab",
+        "file": "src/components/PlacesTab.jsx",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md",
+          "docs/deprecated.md"
+        ],
+        "status": "possible legacy"
+      },
+      {
+        "name": "StopItem",
+        "file": "src/components/StopItem.jsx",
+        "used_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "status": "active"
+      }
+    ],
+    "data_sources": [
+      {
+        "name": "receipts-inbox.json",
+        "file": "public/receipts-inbox.json",
+        "kind": "static",
+        "consumers": [
+          "src/App.jsx",
+          "docs/phase-0-inventory-2026-05-12.md",
+          "scripts/receipt-ingest.mjs",
+          "docs/sync-directions.yaml"
+        ],
+        "writers": [],
+        "backup": "Google Sheet 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY"
+      },
+      {
+        "name": "itinerary.js",
+        "file": "src/data/itinerary.js",
+        "kind": "static",
+        "consumers": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "writers": [],
+        "backup": "Google Sheet 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY"
+      },
+      {
+        "name": "places.js",
+        "file": "src/data/places.js",
+        "kind": "static",
+        "consumers": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ],
+        "writers": [],
+        "backup": "Google Sheet 1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY"
+      }
+    ],
+    "backends": [
+      {
+        "name": "src/lib/tripStateStore.js",
+        "status": "active",
+        "purpose": "backend/helper integration",
+        "endpoints": []
+      },
+      {
+        "name": "api/kakao-route.js",
+        "status": "active",
+        "purpose": "backend/helper integration",
+        "endpoints": []
+      },
+      {
+        "name": "supabase/migrations/20260426173100_trip_state_scaffold.sql",
+        "status": "scaffolded",
+        "purpose": "backend/helper integration",
+        "endpoints": []
+      },
+      {
+        "name": "src/lib/supabaseClient.js",
+        "status": "scaffolded",
+        "purpose": "backend/helper integration",
+        "endpoints": []
+      }
+    ],
+    "storage": [
+      {
+        "name": "localStorage tripStateStore",
+        "kind": "browser",
+        "purpose": "session persistence",
+        "leak_risk": "tests must clear"
+      }
+    ],
+    "sync_directions": [
+      {
+        "from": "App",
+        "to": "Google Sheet",
+        "kind": "manual backup/export",
+        "frequency": "ad-hoc",
+        "status": "active"
+      },
+      {
+        "from": "Discord receipt thread",
+        "to": "public/receipts-inbox.json",
+        "kind": "curated/manual ingest",
+        "frequency": "on demand",
+        "status": "active"
+      },
+      {
+        "from": "public/receipts-inbox.json",
+        "to": "App Receipts tab",
+        "kind": "static app data",
+        "frequency": "build/runtime",
+        "status": "active"
+      },
+      {
+        "from": "Drive receipts folder",
+        "to": "Google Sheet Receipts / Drive Evidence",
+        "kind": "evidence linking",
+        "frequency": "on demand",
+        "status": "active"
+      }
+    ]
+  },
+  "garage_index": {
+    "generated_at": "2026-05-13T00:06:52-07:00",
+    "items": [
+      {
+        "path": "docs/garage/2026-05-12-mockups/korea-calendar-backup-sheet-mock.html",
+        "moved_at": 1778643201.802367,
+        "kind": "html",
+        "size_kb": 13.3,
+        "still_referenced": true,
+        "still_referenced_by": [
+          "docs/phase-0-inventory-2026-05-12.md",
+          "docs/deprecated.md"
+        ]
+      },
+      {
+        "path": "docs/garage/2026-05-12-mockups/bearbunny-mission-control-mock.html",
+        "moved_at": 1778652175.1668367,
+        "kind": "html",
+        "size_kb": 13.3,
+        "still_referenced": true,
+        "still_referenced_by": [
+          "docs/phase-0-inventory-2026-05-12.md",
+          "docs/deprecated.md"
+        ]
+      },
+      {
+        "path": "docs/garage/2026-05-12-mockups/README.md",
+        "moved_at": 1778653579.8526547,
+        "kind": "md",
+        "size_kb": 0.3,
+        "still_referenced": true,
+        "still_referenced_by": [
+          "docs/phase-0-inventory-2026-05-12.md"
+        ]
+      }
+    ]
+  },
+  "previews": {
+    "generated_at": "2026-05-13T00:06:53-07:00",
+    "previews": [
+      {
+        "url": "https://koreatrip-bkbjdnlto-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "19m",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-kc01j8wdg-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "31m",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-6a7rrjk6w-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "32m",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-beafzryv2-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "36m",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-c0lkfixcj-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "3h",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-flt6a3c9z-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "4h",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-bkcxhxewh-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "4h",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-jkvtl6rnf-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "10h",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-o5i8vvlxo-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "10h",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-lcolwddnv-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "11h",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      },
+      {
+        "url": "https://koreatrip-5n0fhpiss-bearbunnyrx-webs-projects.vercel.app",
+        "branch": "unknown",
+        "purpose": "preview deployment",
+        "owner": "unknown",
+        "created_at": "11h",
+        "age_days": null,
+        "status": "pending-review",
+        "merge_decision": null,
+        "delete_recommendation": null
+      }
+    ],
+    "source": "vercel cli",
+    "error": ""
   },
   "cleanup_queue": [
     {
