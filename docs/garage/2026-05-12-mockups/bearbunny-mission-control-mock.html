@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>BearBunny Mission Control Mock</title>
+<style>
+  :root{--bg:#f4f6f8;--paper:#fff;--ink:#17212b;--muted:#667085;--line:#d9dee7;--green:#16833a;--yellow:#b87900;--red:#c02b23;--blue:#2563eb;--purple:#7c3aed;--softgreen:#e9f7ee;--softyellow:#fff4d6;--softblue:#eaf1ff;--softred:#ffeceb;--dark:#101828;}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;color:var(--ink)}
+  .frame{width:1500px;margin:22px auto;background:var(--paper);border:1px solid #dde2ea;border-radius:18px;box-shadow:0 22px 70px rgba(16,24,40,.16);overflow:hidden;position:relative}
+  .top{height:78px;background:linear-gradient(135deg,#101828,#1d2939 52%,#243b63);color:#fff;display:flex;align-items:center;padding:0 24px;gap:18px}
+  .logo{width:45px;height:45px;border-radius:13px;background:linear-gradient(145deg,#fff,#d6e4ff);color:#13213a;font-weight:900;display:flex;align-items:center;justify-content:center;letter-spacing:-1px;box-shadow:inset 0 -8px 14px rgba(37,99,235,.16)}
+  .title{flex:1}.title h1{margin:0;font-size:24px;letter-spacing:-.02em}.title p{margin:5px 0 0;color:#cdd5e3;font-size:13px}.top .pill{border:1px solid rgba(255,255,255,.23);background:rgba(255,255,255,.1);border-radius:999px;padding:8px 11px;font-size:12px;color:#edf4ff}.fresh{background:#123f22!important;border-color:#58c77a!important;color:#dfffea!important}
+  .tabs{height:45px;display:flex;align-items:end;padding:0 16px;background:#fbfcff;border-bottom:1px solid var(--line);gap:3px}.tab{padding:11px 14px 10px;border-radius:12px 12px 0 0;color:#475467;font-size:13px}.tab.active{background:#fff;border:1px solid var(--line);border-bottom-color:#fff;color:#0f5132;font-weight:800}.tab.warn{color:#9a6700}
+  .body{display:grid;grid-template-columns:315px 1fr 355px;min-height:810px}.left{border-right:1px solid var(--line);background:#fbfcff;padding:18px}.main{padding:18px 18px 24px}.right{border-left:1px solid var(--line);background:#fbfcff;padding:18px}
+  .section{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden}.section h2{margin:0;padding:12px 14px;font-size:14px;border-bottom:1px solid #edf0f5;background:#f8fafc}.section .pad{padding:12px 14px}.kv{display:grid;grid-template-columns:112px 1fr;gap:8px 10px;font-size:12px;align-items:center}.kv .k{color:var(--muted)}.kv .v{font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.link{color:var(--blue);text-decoration:underline}.status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800}.yellow{background:var(--softyellow);color:#8a5a00}.green{background:var(--softgreen);color:#126b32}.blue{background:var(--softblue);color:#174ea6}.red{background:var(--softred);color:#a3221c}.purple{background:#f2eaff;color:#5b21b6}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:108px}.card .label{font-size:12px;color:var(--muted);margin-bottom:9px}.card .num{font-size:28px;font-weight:850;letter-spacing:-.04em}.card .note{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.3}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  table{border-collapse:separate;border-spacing:0;width:100%;font-size:12px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}th{background:#eff4fb;color:#344054;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;padding:10px;border-bottom:1px solid var(--line)}td{padding:10px;border-bottom:1px solid #eef1f5;vertical-align:top}tr:last-child td{border-bottom:0}.mono{font-family:"SF Mono",Menlo,monospace;font-size:11px}.muted{color:var(--muted)}.bar{height:9px;border-radius:99px;background:#ecf0f5;overflow:hidden;margin-top:7px}.bar span{display:block;height:100%;background:linear-gradient(90deg,#16a34a,#eab308);border-radius:99px}.map{display:grid;grid-template-columns:190px 1fr;gap:10px}.node{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}.node b{font-size:13px}.node ul{margin:8px 0 0 18px;padding:0;color:#596579;font-size:12px;line-height:1.45}.arrow{display:flex;align-items:center;justify-content:center;color:#98a2b3;font-weight:900}.log{font-size:12px;line-height:1.45}.log .item{padding:9px 0;border-bottom:1px solid #edf0f5}.item:last-child{border-bottom:0}.badge{font-size:11px;font-weight:850;border-radius:6px;padding:3px 6px;margin-right:5px}.b-change{background:#eaf1ff;color:#174ea6}.b-decision{background:#e9f7ee;color:#126b32}.b-clean{background:#fff4d6;color:#8a5a00}.b-check{background:#f2eaff;color:#5b21b6}.footer{padding:10px 18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:#667085;font-size:12px;background:#fbfcff}.critical{border-left:5px solid #eab308}.mini{font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="top">
+      <div class="logo">BB</div>
+      <div class="title"><h1>BearBunny Mission Control — Korea Trip App</h1><p>Generated from repo logs + git/vercel scan + Obsidian backbone · not hand-edited</p></div>
+      <div class="pill fresh">Generated: 2026-05-12 23:08 PDT</div>
+      <div class="pill">Freshness: OK · 0h old</div>
+      <div class="pill">Owner: Jin/Hermes</div>
+    </div>
+    <div class="tabs"><div class="tab active">Executive Overview</div><div class="tab">Production</div><div class="tab">Workstreams</div><div class="tab">Architecture Map</div><div class="tab warn">Code Health</div><div class="tab">Decisions</div><div class="tab">Garage</div><div class="tab">Logs</div></div>
+    <div class="body">
+      <aside class="left">
+        <div class="section"><h2>Canonical Truth</h2><div class="pad kv">
+          <div class="k">App</div><div class="v link">koreatrip.vercel.app</div>
+          <div class="k">Vercel</div><div class="v">koreatrip</div>
+          <div class="k">Repo</div><div class="v mono">/Documents/korea-trip-app</div>
+          <div class="k">Branch</div><div class="v mono">compare-strong-copy-experiment</div>
+          <div class="k">Backup Sheet</div><div class="v link">Korea Trip Sheet</div>
+          <div class="k">Receipts</div><div class="v mono">Thread 1503846727…</div>
+          <div class="k">Drive</div><div class="v mono">1LpqlmrVIZW8…</div>
+        </div></div>
+        <div class="section critical"><h2>Current Risk</h2><div class="pad">
+          <span class="status yellow">YELLOW · Medium debt</span>
+          <p class="mini">Not urgent/panic. Stabilize before more major features or parallel branches.</p>
+          <div class="bar"><span style="width:62%"></span></div>
+        </div></div>
+        <div class="section"><h2>Next Required Checkpoint</h2><div class="pad log">
+          <b>Before next structural feature</b><br><span class="muted">Trigger: App.jsx/CSS are heavy; active branches/worktree exist; docs lag app reality.</span>
+        </div></div>
+        <div class="section"><h2>Request Gate</h2><div class="pad log">
+          <div class="item"><span class="status green">Patch</span> direct edit okay</div>
+          <div class="item"><span class="status blue">Feature</span> plan + tests</div>
+          <div class="item"><span class="status purple">Experiment</span> preview only</div>
+          <div class="item"><span class="status red">Architecture</span> checkpoint first</div>
+        </div></div>
+      </aside>
+      <main class="main">
+        <div class="cards">
+          <div class="card"><div class="label">Tests</div><div class="num">49/49</div><span class="status green">PASS</span><div class="note">Last run after scan</div></div>
+          <div class="card"><div class="label">Build</div><div class="num">OK</div><span class="status green">Vite passed</span><div class="note">Chunk warning: 548 KB</div></div>
+          <div class="card"><div class="label">Largest file</div><div class="num">4,867</div><span class="status yellow">App.css lines</span><div class="note">App.jsx: 3,934 lines</div></div>
+          <div class="card"><div class="label">Open execution surfaces</div><div class="num">2</div><span class="status yellow">branch/worktree</span><div class="note">Needs merge/archive call</div></div>
+        </div>
+        <div class="split">
+          <div class="section"><h2>Active Workstreams</h2><div class="pad"><table><tr><th>Name</th><th>Allowed area</th><th>Status</th><th>Risk</th></tr>
+            <tr><td>Receipt dashboard</td><td class="mono">src/features/receipts*</td><td><span class="status green">Accepted</span></td><td>Low</td></tr>
+            <tr><td>Calendar backup sheet</td><td>Google Sheet + docs</td><td><span class="status green">Done</span></td><td>Low</td></tr>
+            <tr><td>Architecture stabilization</td><td>docs + inventory first</td><td><span class="status yellow">Pending approval</span></td><td>Medium</td></tr>
+          </table></div></div>
+          <div class="section"><h2>Preview / Branch Hygiene</h2><div class="pad"><table><tr><th>Surface</th><th>Purpose</th><th>Decision</th></tr>
+            <tr><td class="mono">compare-strong-copy-experiment</td><td>Current working branch</td><td><span class="status yellow">Decide canonical?</span></td></tr>
+            <tr><td class="mono">receipt-date-dashboard</td><td>Receipts worktree</td><td><span class="status yellow">Merge/archive</span></td></tr>
+            <tr><td class="mono">main</td><td>Stable base</td><td><span class="status blue">Needs sync policy</span></td></tr>
+          </table></div></div>
+        </div>
+        <div class="section"><h2>Architecture Map</h2><div class="pad map">
+          <div class="node"><b>Command</b><ul><li>Telegram = decisions</li><li>Discord = sandbox</li><li>Discord→Telegram echo for decisions</li></ul></div><div class="arrow">→</div>
+          <div class="node"><b>Mission Control</b><ul><li>Generated dashboard</li><li>Freshness stamp</li><li>Google Sheet + docs mirror</li></ul></div><div class="arrow">→</div>
+          <div class="node"><b>Backbone</b><ul><li>docs/backbone.md</li><li>append-only decisions</li><li>Obsidian generated mirror</li></ul></div><div class="arrow">→</div>
+          <div class="node"><b>Execution</b><ul><li>Git/Vercel</li><li>Tests/build</li><li>Feature folders</li></ul></div><div></div>
+        </div></div>
+        <div class="section"><h2>Cleanup Queue</h2><div class="pad"><table><tr><th>Item</th><th>Type</th><th>Why flagged</th><th>Action</th></tr>
+          <tr><td class="mono">src/App.jsx</td><td>Large file</td><td>Data + UI + helpers combined</td><td>Split after Phase 0</td></tr>
+          <tr><td class="mono">src/App.css</td><td>Large file</td><td>Accumulated iterative styles</td><td>Split by feature</td></tr>
+          <tr><td>Old tab components</td><td>Potential legacy</td><td>V1 structure replaced</td><td>Move to garage if unused</td></tr>
+          <tr><td>Mock HTML files</td><td>Experiment</td><td>Useful history, not production</td><td>Archive to garage</td></tr>
+        </table></div></div>
+      </main>
+      <aside class="right">
+        <div class="section"><h2>Substrate Logs</h2><div class="pad log">
+          <div class="item"><span class="badge b-change">CHANGE</span> Replace receipts graph with ledger overview <br><span class="muted mono">f4c24e9</span></div>
+          <div class="item"><span class="badge b-decision">DECISION</span> Canonical project is koreatrip; delete older duplicate <br><span class="muted mono">n/a</span></div>
+          <div class="item"><span class="badge b-clean">CLEANUP</span> Old Vercel project removed, verify app 200 OK <br><span class="muted mono">n/a</span></div>
+          <div class="item"><span class="badge b-check">CHECKPOINT</span> Medium debt; stabilization recommended <br><span class="muted mono">n/a</span></div>
+        </div></div>
+        <div class="section"><h2>Generated Artifacts</h2><div class="pad kv">
+          <div class="k">Repo MC</div><div class="v mono">docs/mission-control.md</div>
+          <div class="k">Backbone</div><div class="v mono">docs/backbone.md</div>
+          <div class="k">Architecture</div><div class="v mono">docs/architecture-map.md</div>
+          <div class="k">Garage</div><div class="v mono">docs/garage/</div>
+          <div class="k">Obsidian</div><div class="v">generated mirror</div>
+        </div></div>
+        <div class="section"><h2>What Dr. Cho Sees</h2><div class="pad log">
+          <div class="item">A clean dashboard that says whether the project is green/yellow/red.</div>
+          <div class="item">What is canonical vs experiment.</div>
+          <div class="item">What needs cleanup without reading code.</div>
+          <div class="item">Whether Mission Control is fresh or stale.</div>
+        </div></div>
+        <div class="section"><h2>Autonomy Guardrails</h2><div class="pad log">
+          <div class="item"><span class="status green">Green</span> inspect, generate, run tests</div>
+          <div class="item"><span class="status yellow">Yellow</span> refactor/archive with notice</div>
+          <div class="item"><span class="status red">Red</span> delete/prod deploy/migration asks first</div>
+        </div></div>
+      </aside>
+    </div>
+    <div class="footer"><span>Mission Control is regenerated from append-only logs + live scans. If stale &gt;72h, show warning.</span><span>Mockup only — not yet implemented</span></div>
+  </div>
+</body>
+</html>

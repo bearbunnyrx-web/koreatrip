@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Korea Trip Calendar Backup Sheet Mock</title>
+  <style>
+    :root { --green:#188038; --grid:#dadce0; --header:#f8fafd; --text:#202124; --muted:#5f6368; --blue:#1a73e8; --gold:#b17900; --soft:#fff8e1; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Arial, Helvetica, sans-serif; color:var(--text); background:#eef1f4; }
+    .sheet-window { width: 1460px; margin: 24px auto; background:white; border-radius:14px; box-shadow:0 18px 60px rgba(60,64,67,.24); overflow:hidden; border:1px solid #dfe3e7; }
+    .topbar { display:flex; align-items:center; gap:14px; height:72px; padding:12px 18px; border-bottom:1px solid #e8eaed; background:#fff; }
+    .sheets-icon { width:38px; height:48px; background:var(--green); border-radius:5px; position:relative; box-shadow: inset 0 -10px rgba(0,0,0,.05); }
+    .sheets-icon:after { content:""; position:absolute; left:9px; top:13px; width:20px; height:22px; border:2px solid white; border-left:0; border-top:0; box-shadow:-7px 7px 0 -5px white, 0 7px 0 -5px white; opacity:.95; }
+    .title-block { flex:1; }
+    .title { font-size:20px; line-height:1.2; margin-bottom:6px; }
+    .subtitle { color:var(--muted); font-size:13px; display:flex; gap:14px; align-items:center; }
+    .pill { display:inline-flex; align-items:center; gap:6px; border:1px solid #dfe3e7; border-radius:999px; padding:4px 9px; background:#f8fafd; color:#3c4043; }
+    .status { color:var(--green); font-weight:700; }
+    .toolbar { height:42px; display:flex; align-items:center; gap:8px; padding:0 18px; border-bottom:1px solid #e8eaed; background:#fbfcfe; color:#5f6368; font-size:13px; }
+    .btn { border:1px solid #dadce0; background:white; border-radius:6px; padding:6px 9px; }
+    .formula { height:34px; display:grid; grid-template-columns: 48px 1fr; align-items:center; border-bottom:1px solid #e8eaed; font-size:13px; }
+    .name-box { height:100%; border-right:1px solid #e8eaed; display:flex; align-items:center; justify-content:center; color:#5f6368; background:#fff; }
+    .fx { color:#5f6368; padding-left:13px; }
+    .content { display:grid; grid-template-columns: 150px 1fr; }
+    .row-nums { background:#f8fafd; border-right:1px solid var(--grid); font-size:12px; color:#5f6368; }
+    .corner { height:31px; border-bottom:1px solid var(--grid); }
+    .r { height:38px; display:flex; align-items:center; justify-content:center; border-bottom:1px solid var(--grid); }
+    .gridwrap { overflow:hidden; }
+    table { border-collapse:collapse; width:100%; table-layout:fixed; font-size:13px; }
+    col.c-date { width:94px; } col.c-day { width:82px; } col.c-city { width:165px; } col.c-time { width:112px; } col.c-plan { width:310px; } col.c-type{width:100px;} col.c-status{width:142px;} col.c-drive{width:220px;} col.c-owner{width:88px;} col.c-notes{width:270px;}
+    thead tr.letters th { height:31px; background:#f8fafd; border-right:1px solid var(--grid); border-bottom:1px solid var(--grid); color:#5f6368; font-weight:500; text-align:center; }
+    thead tr.headers th { height:38px; background:#e6f4ea; border:1px solid var(--grid); color:#137333; text-align:left; padding:0 8px; font-weight:700; }
+    td { height:38px; border:1px solid var(--grid); padding:4px 8px; vertical-align:middle; background:white; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    td.date { font-weight:700; background:#fffdf6; color:#3c4043; }
+    .day-break td { border-top:3px solid #dfe7fd; }
+    .chip { display:inline-flex; align-items:center; border-radius:999px; padding:3px 8px; font-size:12px; font-weight:700; }
+    .booked { background:#e6f4ea; color:#137333; }
+    .needs { background:#fce8e6; color:#a50e0e; }
+    .flex { background:#e8f0fe; color:#174ea6; }
+    .drive { color:var(--blue); text-decoration:underline; }
+    .receipt { color:#8a5a00; background:#fff7df; border-radius:4px; padding:2px 5px; font-weight:600; }
+    .tabs { height:46px; display:flex; align-items:center; gap:2px; padding:0 14px; border-top:1px solid #e8eaed; background:#f8fafd; }
+    .tab { padding:10px 14px; border-radius:10px 10px 0 0; color:#3c4043; font-size:13px; border:1px solid transparent; }
+    .tab.active { background:white; border-color:#dadce0; border-bottom-color:white; color:var(--green); font-weight:700; }
+    .summary { position:absolute; right:50px; top:164px; background:#fff; border:1px solid #dadce0; border-radius:10px; width:300px; box-shadow:0 8px 22px rgba(60,64,67,.16); overflow:hidden; }
+    .summary h3 { margin:0; padding:10px 12px; background:#f1f8f4; color:#137333; font-size:14px; border-bottom:1px solid #dfe3e7; }
+    .summary .metric { display:grid; grid-template-columns:1fr auto; padding:8px 12px; border-bottom:1px solid #f1f3f4; font-size:12px; }
+    .metric b { font-size:16px; color:#202124; }
+    .frozen { box-shadow: 4px 0 8px rgba(60,64,67,.08); }
+  </style>
+</head>
+<body>
+  <div class="sheet-window">
+    <div class="topbar">
+      <div class="sheets-icon"></div>
+      <div class="title-block">
+        <div class="title">Korea Trip — Calendar Backup + BearBunny Drive Index</div>
+        <div class="subtitle"><span class="pill"><span class="status">●</span> Canonical backup for koreatrip.vercel.app</span><span>Trip dates: May 15–26</span><span>Folder: BearBunny Drive / Korea</span><span>Last app sync: May 12, 2026</span></div>
+      </div>
+      <div class="pill">Share: Dr. Cho + Dr. Ho</div>
+    </div>
+    <div class="toolbar"><span class="btn">File</span><span class="btn">Edit</span><span class="btn">View</span><span class="btn">Data</span><span class="btn">Filter views</span><span>↶</span><span>↷</span><span>100%</span><span class="btn">Frozen: Date + Day</span><span class="btn">Protected formulas</span></div>
+    <div class="formula"><div class="name-box">E6</div><div class="fx">fx  =FILTER('Drive Evidence'!A:J, 'Drive Evidence'!B:B = A6)</div></div>
+    <div class="content">
+      <div class="row-nums"><div class="corner"></div><div class="r">1</div><div class="r">2</div><div class="r">3</div><div class="r">4</div><div class="r">5</div><div class="r">6</div><div class="r">7</div><div class="r">8</div><div class="r">9</div><div class="r">10</div><div class="r">11</div><div class="r">12</div><div class="r">13</div><div class="r">14</div><div class="r">15</div><div class="r">16</div><div class="r">17</div></div>
+      <div class="gridwrap">
+        <table>
+          <colgroup><col class="c-date"><col class="c-day"><col class="c-city"><col class="c-time"><col class="c-plan"><col class="c-type"><col class="c-status"><col class="c-drive"><col class="c-owner"><col class="c-notes"></colgroup>
+          <thead>
+            <tr class="letters"><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>
+            <tr class="headers"><th>Date</th><th>Day</th><th>Area / Base</th><th>Time</th><th>Plan Item</th><th>Type</th><th>Status</th><th>Drive Evidence / Link</th><th>Owner</th><th>Notes / Backup Instructions</th></tr>
+          </thead>
+          <tbody>
+            <tr class="day-break"><td class="date">May 15</td><td>Fri</td><td>Ontario → Taipei</td><td>12:10 AM</td><td>CI 23 departs ONT</td><td>Flight</td><td><span class="chip booked">Confirmed</span></td><td><span class="drive">Flight confirmation PDF</span></td><td>Jin</td><td>Keep passport + check-in info duplicated here.</td></tr>
+            <tr><td class="date">May 16</td><td>Sat</td><td>ICN → 고덕</td><td>11:30</td><td>CI 160 lands at ICN; airport bus to parents’ home</td><td>Transit</td><td><span class="chip booked">Anchor</span></td><td><span class="drive">Flight + airport bus notes</span></td><td>SJ</td><td>Gentle arrival day; lunch flexible, dinner at home.</td></tr>
+            <tr class="day-break"><td class="date">May 17</td><td>Sun</td><td>Seongsu → Jamsil</td><td>11:00</td><td>Nail appointment + Seongsu shopping loop</td><td>Beauty</td><td><span class="chip needs">Book / verify</span></td><td><span class="drive">Naver shortlist screenshots</span></td><td>Dr. Ho</td><td>Choose 단니네일 / 여리빈 / 오호 backup.</td></tr>
+            <tr><td class="date">May 17</td><td>Sun</td><td>Lotte World Mall</td><td>18:30</td><td>Donghwa Gook parent dinner target</td><td>Meal</td><td><span class="chip needs">Reservation target</span></td><td><span class="drive">Restaurant research</span></td><td>Jin</td><td>Private-room / family dinner priority.</td></tr>
+            <tr class="day-break"><td class="date">May 18</td><td>Mon</td><td>Gwanghwamun</td><td>08:45</td><td>U.S. Embassy interview</td><td>Anchor</td><td><span class="chip booked">Fixed</span></td><td><span class="drive">Embassy docs folder</span></td><td>Dr. Cho</td><td>Non-negotiable morning anchor.</td></tr>
+            <tr><td class="date">May 18</td><td>Mon</td><td>Myeongdong</td><td>14:00</td><td>Chahong Room Myeongdong perm</td><td>Beauty</td><td><span class="chip booked">Booked</span></td><td><span class="drive">Chahong booking receipt</span></td><td>Dr. Ho</td><td>Block 3–4 hours; pickup around 17:30–18:00.</td></tr>
+            <tr class="day-break"><td class="date">May 19</td><td>Tue</td><td>Gimpo → Jeju</td><td>11:35</td><td>Jeju Air 7C115 departs Gimpo</td><td>Flight</td><td><span class="chip booked">Confirmed</span></td><td><span class="drive">Jeju Air confirmation</span></td><td>SJ</td><td>15 kg checked baggage each.</td></tr>
+            <tr><td class="date">May 19</td><td>Tue</td><td>Jeju</td><td>13:00</td><td>Pick up Kona 2nd gen EV</td><td>Rental</td><td><span class="chip booked">Confirmed</span></td><td><span class="drive">Rental car voucher</span></td><td>Jin</td><td>Office: 제주 공항로1길 38; return May 21 by 10:00.</td></tr>
+            <tr><td class="date">May 19</td><td>Tue</td><td>East Jeju</td><td>14:15–19:15</td><td>Gujwa lunch → Pyeongdae → Seongsan seafood dinner</td><td>Route</td><td><span class="chip flex">Flexible</span></td><td><span class="drive">Jeju east map pins</span></td><td>SJ</td><td>Scenic open-ended first island day.</td></tr>
+            <tr class="day-break"><td class="date">May 20</td><td>Wed</td><td>West Jeju</td><td>11:00</td><td>Bar Sul Sang lunch → Osulloc → Geumneung → Hundo</td><td>Route</td><td><span class="chip flex">Flexible</span></td><td><span class="drive">Food + coast shortlist</span></td><td>SJ</td><td>One full west-side food/coast loop.</td></tr>
+            <tr class="day-break"><td class="date">May 21</td><td>Thu</td><td>Jeju → Jamsil</td><td>11:20</td><td>Jeju Air 7C114 departs Jeju; Sofitel check-in 16:00</td><td>Flight / Hotel</td><td><span class="chip booked">Confirmed</span></td><td><span class="drive">Flight + Sofitel booking</span></td><td>SJ</td><td>Rental return by 10:00; 本연 dinner 19:00.</td></tr>
+            <tr><td class="date">May 21</td><td>Thu</td><td>Seoul</td><td>19:00</td><td>본연 dinner reservation</td><td>Meal</td><td><span class="chip booked">Booked</span></td><td><span class="drive">Catch Table confirmation</span></td><td>Jin</td><td><span class="receipt">240,000 KRW / 2</span> wine order required.</td></tr>
+            <tr class="day-break"><td class="date">May 22</td><td>Fri</td><td>Jamsil / Cheongdam</td><td>14:00</td><td>ReOne Dermatology consult</td><td>Clinic</td><td><span class="chip booked">Booked</span></td><td><span class="drive">Clinic confirmation</span></td><td>Dr. Ho</td><td>Post-consult decision block afterward.</td></tr>
+            <tr class="day-break"><td class="date">May 23</td><td>Sat</td><td>Seoul</td><td>Midday</td><td>Wumok Hanwoo omakase lunch / open Seoul day</td><td>Meal</td><td><span class="chip flex">Flexible</span></td><td><span class="drive">Inspiration screenshots</span></td><td>SJ</td><td>Choose neighborhood type in the morning.</td></tr>
+            <tr class="day-break"><td class="date">May 24</td><td>Sun</td><td>Jamsil → 고덕</td><td>18:30</td><td>스시도쿠 엔 고덕 family Japanese dinner</td><td>Meal</td><td><span class="chip needs">Verify</span></td><td><span class="drive">Japanese dinner shortlist</span></td><td>Jin</td><td>Easy 고덕-side logistics for family.</td></tr>
+            <tr class="day-break"><td class="date">May 25</td><td>Mon</td><td>Seoul</td><td>Lunch / Evening</td><td>Gorogoro kaisendon + Sinsajeon final-night dinner</td><td>Meal</td><td><span class="chip flex">Flexible</span></td><td><span class="drive">Final-day food picks</span></td><td>SJ</td><td>Leave packing buffer.</td></tr>
+            <tr class="day-break"><td class="date">May 26</td><td>Tue</td><td>ICN → TPE → ONT</td><td>12:45 PM</td><td>CI 161 to TPE, CI 24 to ONT</td><td>Flight</td><td><span class="chip booked">Confirmed</span></td><td><span class="drive">Return flight confirmation</span></td><td>SJ</td><td>Departure day protected from plan creep.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tabs"><div class="tab">Overview</div><div class="tab active">Calendar Backup</div><div class="tab">Drive Evidence</div><div class="tab">Receipts</div><div class="tab">Contacts / Emergency</div><div class="tab">Change Log</div><div class="tab">Hidden: App Export JSON</div></div>
+  </div>
+  <div class="summary">
+    <h3>Backup health panel</h3>
+    <div class="metric"><span>Calendar rows</span><b>17</b></div>
+    <div class="metric"><span>Confirmed anchors</span><b>9</b></div>
+    <div class="metric"><span>Drive evidence links</span><b>17</b></div>
+    <div class="metric"><span>Needs action</span><b>4</b></div>
+  </div>
+</body>
+</html>

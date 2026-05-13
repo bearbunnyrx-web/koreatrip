@@ -24,4 +24,5 @@ Object.defineProperty(window, 'localStorage', {
 
 afterEach(() => {
   cleanup()
+  window.localStorage.clear()
 })
