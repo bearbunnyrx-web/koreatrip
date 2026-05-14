@@ -301,7 +301,8 @@ describe('Korea trip app v2 concept', () => {
     const dateSelector = screen.getByLabelText(/map date selector/i)
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 16/i }))
-    expect(screen.getByText(/local 고덕 arrival lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/icn airport arrival lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/ecojardin headspa reservation/i)).toBeInTheDocument()
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 17/i }))
     expect(screen.getByText(/grandmother’s recipe lunch/i)).toBeInTheDocument()
@@ -313,14 +314,16 @@ describe('Korea trip app v2 concept', () => {
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 19/i }))
     expect(screen.getByText(/late lunch on the east side/i)).toBeInTheDocument()
-    expect(screen.getByText(/seongsan east-side seafood dinner/i)).toBeInTheDocument()
+    expect(screen.getByText(/jeju private scenic photo window/i)).toBeInTheDocument()
+    expect(screen.queryByText(/pyeongdae beach walk/i)).not.toBeInTheDocument()
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 20/i }))
+    expect(screen.getByText(/osulloc morning tea museum block/i)).toBeInTheDocument()
     expect(screen.getByText(/bar sul sang lunch window/i)).toBeInTheDocument()
     expect(screen.getByText(/hundo aewol black pork dinner/i)).toBeInTheDocument()
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 21/i }))
-    expect(screen.getByText(/light jamsil \/ sofitel lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/lotte world mall shopping block/i)).toBeInTheDocument()
     expect(screen.getByText(/본연 dinner reservation/i)).toBeInTheDocument()
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 22/i }))
@@ -331,20 +334,23 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getByText(/mongchon dakgalbi dinner/i)).toBeInTheDocument()
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 23/i }))
-    expect(screen.getByText(/wumok hanwoo omakase lunch/i)).toBeInTheDocument()
-    expect(screen.queryByText(/may 23 dinner recommendation/i)).not.toBeInTheDocument()
+    expect(screen.getAllByText(/apgujeong \/ cheongdam day base/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/optional brow tattoo window/i)).toBeInTheDocument()
+    expect(screen.getByText(/트리드 dinner reservation/i)).toBeInTheDocument()
+    expect(screen.queryByText(/myeongdong kyoja/i)).not.toBeInTheDocument()
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 24/i }))
     expect(screen.getByText(/norunsan tteokbokki light lunch/i)).toBeInTheDocument()
     expect(screen.getByText(/스시도쿠 엔 고덕 family dinner/i)).toBeInTheDocument()
 
     fireEvent.click(within(dateSelector).getByRole('button', { name: /may 25/i }))
-    expect(screen.getByText(/gorogoro kaisendon lunch/i)).toBeInTheDocument()
+    expect(screen.getByText(/myeongdong lunch flex shortlist/i)).toBeInTheDocument()
     expect(screen.getByText(/myeongdong main shopping route/i)).toBeInTheDocument()
     expect(screen.getByText(/giordano myeongdong/i)).toBeInTheDocument()
     expect(screen.getByText(/olive young myeongdong beauty sweep/i)).toBeInTheDocument()
     expect(screen.getByText(/daiso myeongdong snack run/i)).toBeInTheDocument()
     expect(screen.getByText(/sinsajeon final-night dinner/i)).toBeInTheDocument()
+    expect(screen.queryByText(/myeongdong kyoja/i)).not.toBeInTheDocument()
   })
 
   test('map and calendar include meal and gap backups for every in-Korea date', () => {
@@ -352,10 +358,10 @@ describe('Korea trip app v2 concept', () => {
     const dateSelector = screen.getByLabelText(/map date selector/i)
 
     const expectedBackups = [
-      [/may 16/i, /고덕 cafe \/ convenience-store backup/i],
+      [/may 16/i, /luggage drop before ecojardin/i],
       [/may 17/i, /seongsu cafe gap backup/i],
       [/may 18/i, /myeongdong rainy-day backup/i],
-      [/may 19/i, /gujwa cafe backup before seongsan/i],
+      [/may 19/i, /gujwa cafe reset before scenic photos/i],
       [/may 20/i, /hyeopjae cafe \/ rain backup/i],
       [/may 21/i, /lotte world mall reset backup/i],
       [/may 22/i, /seokchon lake \/ lotte indoor backup/i],
@@ -373,7 +379,34 @@ describe('Korea trip app v2 concept', () => {
     fireEvent.click(screen.getAllByRole('button', { name: /^calendar$/i })[0])
     fireEvent.click(within(screen.getByLabelText(/calendar date selector/i)).getByRole('button', { name: /may 23/i }))
     expect(screen.getByText(/apgujeong shopping \+ cafe backup/i)).toBeInTheDocument()
-    expect(screen.getByText(/myeongdong kyoja dinner backup/i)).toBeInTheDocument()
+    expect(screen.getByText(/트리드 dinner reservation/i)).toBeInTheDocument()
+    expect(screen.queryByText(/myeongdong kyoja/i)).not.toBeInTheDocument()
+  })
+
+  test('updated real-world flow removes Myeongdong Kyoja and protects arrival/scenic-photo days', () => {
+    render(<App />)
+    const dateSelector = screen.getByLabelText(/map date selector/i)
+
+    expect(screen.queryByText(/myeongdong kyoja/i)).not.toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 15/i }))
+    expect(screen.getByText(/sushi delivery dinner with dr\. ho/i)).toBeInTheDocument()
+    expect(screen.getByText(/arrive at ont by 10 pm/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 16/i }))
+    expect(screen.getByText(/6300 airport bus to godeok/i)).toBeInTheDocument()
+    expect(screen.getByText(/ecojardin headspa reservation/i)).toBeInTheDocument()
+    expect(screen.getByText(/mom’s hanwoo dinner at godeok gracium/i)).toBeInTheDocument()
+    expect(screen.queryByText(/local 고덕 arrival lunch/i)).not.toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 20/i }))
+    expect(screen.getByText(/osulloc morning tea museum block/i)).toBeInTheDocument()
+    expect(screen.getByText(/bar sul sang lunch window/i)).toBeInTheDocument()
+
+    fireEvent.click(within(dateSelector).getByRole('button', { name: /may 23/i }))
+    expect(screen.getAllByText(/apgujeong \/ cheongdam day base/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/트리드 dinner reservation/i)).toBeInTheDocument()
+    expect(screen.queryByText(/wumok hanwoo omakase lunch/i)).not.toBeInTheDocument()
   })
 
   test('theme toggle uses a simple icon instead of text labels', () => {
