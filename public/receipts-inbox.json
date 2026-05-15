@@ -1,5 +1,24 @@
 [
   {
+    "id": "discord-1504970426118311968-ever-rich-taoyuan-airport-breakfast-2026-05-16",
+    "vendor": "Ever Rich D.F.S Corporation",
+    "date": "2026-05-16",
+    "amountMinor": 830,
+    "currency": "TWD",
+    "category": "Food",
+    "confirmationNumber": "01588D",
+    "placeGuess": "Taoyuan Airport Ever Rich Duty Free",
+    "eventGuess": "Taipei airport breakfast",
+    "notes": "May 16, 6:10 AM. Taipei/Taoyuan airport breakfast receipt. Cardholder selected NTD/TWD 830; USD 27.47 DCC option was not selected. Visa sale; auth 01588D; ref 91488352034; invoice 000034.",
+    "fileName": "discord-image-receipt-ever-rich-taoyuan-airport-breakfast-2026-05-16.jpeg",
+    "driveFileId": "",
+    "driveUrl": "https://drive.google.com/drive/u/0/folders/1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG",
+    "discordMessageUrl": "",
+    "source": "discord-image-receipt",
+    "status": "review",
+    "createdAt": "2026-05-15T22:20:00.000Z"
+  },
+  {
     "id": "discord-1503846727273283787-jeju-air-jeju-gimpo-2026-05-21",
     "vendor": "Jeju Air",
     "date": "2026-05-21",

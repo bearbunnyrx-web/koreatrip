@@ -1,7 +1,9 @@
 import { describe, expect, test } from 'vitest'
 import {
   RECEIPT_PIPELINE_CONFIG,
+  amountToMinor,
   buildGemmaReceiptPrompt,
+  formatReceiptAmount,
   normalizeReceiptExtraction,
   receiptDriveUrl,
 } from '../lib/receiptPipeline'
@@ -46,5 +48,11 @@ describe('receipt ingestion pipeline config', () => {
     expect(normalized.confirmationNumber).toBe('ABC123')
     expect(normalized.status).toBe('review')
     expect(normalized.driveUrl).toContain('drive123')
+  })
+
+  test('formats Taiwan airport receipt amounts as zero-decimal TWD', () => {
+    expect(amountToMinor('830', 'TWD')).toBe(830)
+    expect(formatReceiptAmount(830, 'TWD')).toMatch(/830/)
+    expect(formatReceiptAmount(830, 'TWD')).not.toContain('.00')
   })
 })

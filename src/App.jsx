@@ -2493,11 +2493,21 @@ function App() {
     const krwMinor = receiptRecords
       .filter((receipt) => receipt.currency === 'KRW')
       .reduce((sum, receipt) => sum + receipt.amountMinor, 0)
+    const twdMinor = receiptRecords
+      .filter((receipt) => ['TWD', 'NTD'].includes(receipt.currency))
+      .reduce((sum, receipt) => sum + receipt.amountMinor, 0)
+    const overviewTotals = [
+      krwMinor ? formatReceiptAmount(krwMinor, 'KRW') : '',
+      twdMinor ? formatReceiptAmount(twdMinor, 'TWD') : '',
+      usdMinor ? formatReceiptAmount(usdMinor, 'USD') : '',
+    ].filter(Boolean)
     return {
       totalCount: receiptRecords.length,
       reviewCount: receiptRecords.filter((receipt) => receipt.status === 'review').length,
-      usdTotal: formatReceiptAmount(usdMinor, 'USD'),
+      usdTotal: usdMinor ? formatReceiptAmount(usdMinor, 'USD') : '$0.00',
       krwTotal: krwMinor ? formatReceiptAmount(krwMinor, 'KRW') : '',
+      twdTotal: twdMinor ? formatReceiptAmount(twdMinor, 'TWD') : '',
+      overviewTotal: overviewTotals.join(' + '),
     }
   }, [receiptRecords])
 
@@ -3277,6 +3287,13 @@ function App() {
                         <strong>{receiptSummary.krwTotal || '₩0'}</strong>
                         <small>Korea spend</small>
                       </div>
+                      {receiptSummary.twdTotal ? (
+                        <div>
+                          <span>TWD total</span>
+                          <strong>{receiptSummary.twdTotal}</strong>
+                          <small>Taiwan airport spend</small>
+                        </div>
+                      ) : null}
                       <div>
                         <span>USD total</span>
                         <strong>{receiptSummary.usdTotal}</strong>
@@ -3298,7 +3315,7 @@ function App() {
                         ))}
                         <div className="receipt-ledger-line receipt-ledger-total">
                           <span>Overview total</span>
-                          <strong>{[receiptSummary.krwTotal, receiptSummary.usdTotal].filter(Boolean).join(' + ')}</strong>
+                          <strong>{receiptSummary.overviewTotal || '$0.00'}</strong>
                         </div>
                       </div>
                       <div className="receipt-paid-by-inputs" aria-label="Paid-by manual totals">

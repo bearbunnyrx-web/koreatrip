@@ -41,13 +41,13 @@ export function normalizeReceiptCategory(value = '') {
 
 export function amountToMinor(amount = 0, currency = 'USD') {
   const numeric = Number(String(amount).replace(/[^0-9.-]/g, '')) || 0
-  const zeroDecimal = ['KRW', 'JPY'].includes(String(currency).toUpperCase())
+  const zeroDecimal = ['KRW', 'JPY', 'TWD', 'NTD'].includes(String(currency).toUpperCase())
   return Math.round(numeric * (zeroDecimal ? 1 : 100))
 }
 
 export function formatReceiptAmount(amountMinor = 0, currency = 'USD') {
   const code = String(currency || 'USD').toUpperCase()
-  const zeroDecimal = ['KRW', 'JPY'].includes(code)
+  const zeroDecimal = ['KRW', 'JPY', 'TWD', 'NTD'].includes(code)
   const value = zeroDecimal ? amountMinor : amountMinor / 100
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
