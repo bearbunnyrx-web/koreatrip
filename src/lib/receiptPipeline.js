@@ -1,5 +1,5 @@
 export const RECEIPT_PIPELINE_CONFIG = {
-  discordThreadId: '1503846727273283787',
+  discordThreadId: '1504970426118311968',
   driveFolderId: '1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG',
   ollamaPreferredModel: 'gemma4:latest',
   localStorageKey: 'korea-trip-receipts',

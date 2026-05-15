@@ -22,7 +22,7 @@ APP_URL = "https://koreatrip.vercel.app"
 VERCEL_PROJECT = "koreatrip"
 BACKUP_SHEET_ID = "1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY"
 RECEIPTS_DRIVE_ID = "1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG"
-RECEIPT_THREAD_ID = "1503846727273283787"
+RECEIPT_THREAD_ID = "1504970426118311968"
 
 SKIP_DIRS = {".git", "node_modules", "dist", ".vercel", "coverage", "__pycache__"}
 GENERATED_FILES = {

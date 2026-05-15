@@ -14,7 +14,7 @@
 - Repo: `/Users/jincho/Documents/korea-trip-app`
 - Backup Google Sheet: `1cTlLzGWmfXODVSq1iDIUJPo0YfTSb7eZKC8w4q8bskY`
 - Receipts Drive folder: `1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG`
-- Receipt Discord thread: `1503846727273283787`
+- Receipt Discord thread: `1504970426118311968`
 
 ## Current operating model
 
