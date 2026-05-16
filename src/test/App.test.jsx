@@ -362,6 +362,30 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.queryByText(/myeongdong kyoja/i)).not.toBeInTheDocument()
   })
 
+  test('Calendar shows Instagram save shortlists on the relevant trip days', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /^calendar$/i })[0])
+    const calendarDateSelector = screen.getByLabelText(/calendar date selector/i)
+    const calendarTimeline = screen.getByLabelText(/calendar day timeline/i)
+
+    fireEvent.click(within(calendarDateSelector).getByRole('button', { name: /may 17/i }))
+    expect(within(calendarTimeline).getByText(/Seongsu cafe Instagram shortlist/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Foreplan \/ 포어플랜/i)).toBeInTheDocument()
+
+    fireEvent.click(within(calendarDateSelector).getByRole('button', { name: /may 20/i }))
+    expect(within(calendarTimeline).getByText(/Jeju west Instagram shortlist/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Flowave \/ 플로웨이브/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Daepeyong Port \+ Gwanggot/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Jeju west 12-stop reel/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Haejigae The Black \/ 해지개 더 블랙/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Mumujeju \/ 무무제주/i)).toBeInTheDocument()
+
+    fireEvent.click(within(calendarDateSelector).getByRole('button', { name: /may 25/i }))
+    expect(within(calendarTimeline).getByText(/Seoul experience Instagram shortlist/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Rettre \+ Le Sol Atelier \+ Reverie Black Studio/i)).toBeInTheDocument()
+  })
+
   test('map and calendar include meal and gap backups for every in-Korea date', () => {
     render(<App />)
     const dateSelector = screen.getByLabelText(/map date selector/i)
