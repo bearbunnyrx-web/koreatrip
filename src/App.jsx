@@ -274,14 +274,14 @@ const itineraryDays = [
   itineraryDay({
     key: 'may-18',
     date: 'May 18',
-    label: 'Embassy + lunch + Chahong Myeongdong perm',
-    area: 'Gwanghwamun → Jongno → Myeongdong',
-    status: 'hair appointment booked',
-    focus: 'Protect the embassy interview first, eat lunch, then use the confirmed 2:00 PM Chahong Room Myeongdong perm as the afternoon anchor while you meet your friend nearby.',
+    label: 'Embassy + lunch + Chahong + L’Amitié',
+    area: 'Gwanghwamun → Jongno → Myeongdong / Seoul',
+    status: 'dinner with friend booked',
+    focus: 'Protect the embassy interview first, eat lunch, then use the confirmed 2:00 PM Chahong Room Myeongdong perm as the afternoon anchor while you meet your friend nearby before the 7 PM L’Amitié dinner.',
     logistics: {
       start: 'U.S. Embassy Seoul',
-      end: 'Myeongdong dinner with friend',
-      note: 'Chahong Room Myeongdong is booked for 2:00 PM. Assume the perm takes 3–4 hours, so plan your friend meetup from about 2:15–5:30 and keep pickup flexible around 5:30–6:00 before dinner for three.',
+      end: 'L’Amitié dinner with friend',
+      note: 'Chahong Room Myeongdong is booked for 2:00 PM. Assume the perm takes 3–4 hours, so plan your friend meetup from about 2:15–5:30, pick up around 5:30–6:00, then move calmly to the 7 PM L’Amitié dinner with your friend.',
     },
     mapCenter: { lat: 37.5638, lng: 126.9854 },
     stops: [
@@ -294,14 +294,14 @@ const itineraryDays = [
       { time: '14:15–17:30', title: 'Meet your friend while she is at Chahong', detail: 'Use the salon window for a relaxed catch-up nearby; stay close enough to pick her up when the stylist gives an ETA.', neighborhood: 'Myeongdong / Euljiro', type: 'anchor' },
       { time: '17:30–18:00', title: 'Pick up girlfriend at Chahong', detail: 'Check in by message around the 3-hour mark; if the perm runs long, slide dinner later rather than rushing the finish.', neighborhood: 'Myeongdong', type: 'beauty' },
       { time: 'Flex', title: 'Myeongdong rainy-day backup', detail: 'If embassy or salon timing leaves an awkward pocket, stay indoors around Lotte Department Store / Shinsegae / Myeongdong cafe streets.', neighborhood: 'Myeongdong / Euljiro', type: 'shopping' },
-      { time: '18:30', title: 'Maknae Hoejip dinner', detail: 'Inspiration-tab pick: 막내회집 gives a Namdaemun/Myeongdong-adjacent sashimi-market dinner that works well for three after Chahong pickup.', neighborhood: 'Namdaemun / Myeongdong', type: 'meal' },
+      { time: '19:00', title: 'L’Amitié dinner with friend', detail: 'Confirmed 7 PM dinner with your friend. Keep the afternoon salon pickup and transfer buffer clean so you are not rushing.', neighborhood: 'Seoul', type: 'meal' },
     ],
     mapTargets: [
       mapTarget('US Embassy Seoul', 'Your important embassy task', { query: '주한미국대사관' }),
       mapTarget('Starbucks Ima Building', 'Easy wait point near the embassy', { query: '스타벅스 이마빌딩점' }),
       mapTarget('Chahong Room Myeongdong', 'Confirmed 2:00 PM girlfriend perm booking', { query: '차홍룸 명동점' }),
       mapTarget('Ikseon Chwihyang / 익선취향', 'Inspiration pick for post-embassy lunch', { query: '익선취향 수표로28길 17-32' }),
-      mapTarget('Maknae Hoejip / 막내회집', 'Inspiration pick for dinner for three near Namdaemun/Myeongdong', { query: '막내회집 남대문시장' }),
+      mapTarget('L’Amitié', 'Confirmed 7 PM dinner with your friend', { query: '라미띠에' }),
       mapTarget('Myeongdong', 'Pickup and dinner zone after the appointment', { query: '명동' }),
       mapTarget('Euljiro 1-ga', 'Nearby friend meetup / dinner fallback area', { query: '을지로입구역' }),
       mapTarget('Lotte Department Store Main', 'Myeongdong rainy-day backup', { query: '롯데백화점 본점' }),
@@ -310,15 +310,15 @@ const itineraryDays = [
   itineraryDay({
     key: 'may-19',
     date: 'May 19',
-    label: 'Jeju east coast drive + Seongsan',
-    area: 'Gimpo → Jeju → Gujwa / Seongsan',
-    status: 'east day route',
-    focus: 'Make the first Jeju day about one calm east-side lunch, one private scenic photo window, then dinner and hotel check-in — not a packed east-coast checklist.',
-    quietNote: 'Keep the outdoor block flexible and weather-aware; demote extra beach stops if either of you is tired after the flight and rental-car handoff.',
+    label: 'Jeju arrival + hotel prep + Miliu dinner',
+    area: 'Gimpo → Jeju → Shinhwa → east coast / Haevichi',
+    status: 'Bada Sulsang lunch + Miliu 7 PM booked',
+    focus: 'After landing, keep the first Jeju sequence practical: 바다술상 lunch, hotel check-in / TH flower-prep reset, then move east only if timing stays calm before the confirmed 7 PM Haevichi Miliu dinner.',
+    quietNote: 'Do not overpack the east side. The priority is TH getting ready comfortably and arriving at Miliu calm; scenic time is optional and weather-aware.',
     logistics: {
       start: 'Seoul / Gimpo Airport',
-      end: 'Private scenic photo window → east-side dinner → Landing Jeju Shinhwa',
-      note: 'Jeju Air 7C115 departs GMP at 11:35 AM on Tue May 19. After the Jeju airport shuttle and Kona EV pickup, keep only lunch, a Gujwa cafe reset, one private scenic photo window, dinner, and a late check-in.',
+      end: 'Haevichi Miliu 7 PM dinner → Landing Jeju Shinhwa',
+      note: 'Jeju Air 7C115 departs GMP at 11:35 AM on Tue May 19. After the Jeju airport shuttle and Kona EV pickup, aim for 바다술상 lunch, check in at Landing Jeju Shinhwa for a flower-prep/reset block, then drive east with enough buffer to reach Haevichi Miliu by 7 PM.',
     },
     mapCenter: { lat: 33.4556, lng: 126.9244 },
     stops: [
@@ -328,21 +328,22 @@ const itineraryDays = [
       { time: '~12:45', title: 'Land in Jeju + move to shuttle', detail: 'Once off the plane, head toward the rental shuttle rather than lingering in the terminal.', neighborhood: 'Jeju Airport', type: 'transit' },
       { time: 'After landing', title: 'Shuttle to 특별한렌트카', detail: 'Take the rental shuttle from Jeju Airport to the pickup office at 제주특별자치도 제주시 공항로1길 38.', neighborhood: 'Jeju Airport → rental shuttle', type: 'transit' },
       { time: '13:00', title: 'Pick up Kona 2nd gen EV', detail: 'Rental window begins here and runs until May 21 at 10:00 AM.', neighborhood: '특별한렌트카', type: 'anchor' },
-      { time: '14:15', title: 'Late lunch on the east side', detail: 'Make the first island meal part of the drive rather than doubling back toward the hotel.', neighborhood: 'Gujwa / Seongsan', type: 'meal' },
-      { time: '15:45', title: 'Gujwa cafe reset before scenic photos', detail: 'Use this as the quiet reset and weather check before the private outdoor photo window.', neighborhood: 'Gujwa / Pyeongdae', type: 'shopping' },
-      { time: '17:00–18:00', title: 'Jeju private scenic photo window', detail: 'Keep this protected and simple: one scenic east-side coast/Seongsan-area spot, with extra sightseeing only if timing and weather are easy.', neighborhood: 'Seongsan / Gwangchigi / east coast', type: 'anchor' },
-      { time: '18:45', title: 'Seongsan east-side seafood dinner', detail: 'Keep dinner near the Seongsan / eastern coast cluster before the longer drive back west; this still needs a final local restaurant check, but the map slot is locked.', neighborhood: 'Seongsan / east Jeju', type: 'meal' },
-      { time: 'Late evening', title: 'Landing Jeju Shinhwa check-in', detail: 'Use the hotel as the landing point after the east-coast loop, not the first stop of the day.', neighborhood: 'Landing Jeju Shinhwa', type: 'hotel' },
+      { time: '13:45–14:45', title: 'Bada Sulsang arrival lunch', detail: 'Plan for 바다술상 as the first Jeju meal after car pickup, then stop adding extra food before Miliu.', neighborhood: 'Jeju west / route-dependent', type: 'meal' },
+      { time: '15:15–16:30', title: 'Hotel check-in and flower-prep reset', detail: 'Prioritize Landing Jeju Shinhwa check-in so TH has time to freshen up / 꽃단장 before the evening.', neighborhood: 'Landing Jeju Shinhwa', type: 'hotel' },
+      { time: '16:45–17:45', title: 'East-side scenic window', detail: 'Only move east for one scenic coast/photo stop if lunch, check-in, and prep timing stayed calm.', neighborhood: 'Seongsan / Gwangchigi / east coast', type: 'anchor' },
+      { time: '17:45–18:45', title: 'Drive buffer to Haevichi', detail: 'Leave the scenic area early enough to arrive calmly for the 7 PM Miliu reservation.', neighborhood: 'East coast → Haevichi', type: 'transit' },
+      { time: '19:00', title: 'Haevichi Miliu dinner reservation', detail: 'Confirmed 7 PM dinner at 해비치 밀리우. This is the fixed Jeju evening anchor; do not add a second dinner target.', neighborhood: 'Haevichi / Pyoseon', type: 'meal' },
+      { time: 'Late evening', title: 'Return to Landing Jeju Shinhwa', detail: 'After Miliu, keep the night simple and go back to the hotel.', neighborhood: 'Haevichi → Landing Jeju Shinhwa', type: 'hotel' },
     ],
     mapTargets: [
       mapTarget('Gimpo International Airport', 'Jeju departure airport', { query: '김포국제공항', coords: { lat: 37.5583, lng: 126.7906 } }),
       mapTarget('Jeju International Airport', 'Jeju arrival anchor', { coords: { lat: 33.5104, lng: 126.4914 } }),
       mapTarget('특별한렌트카', 'Rental-car pickup office', { query: '제주특별자치도 제주시 공항로1길 38', coords: { lat: 33.5049, lng: 126.4926 } }),
-      mapTarget('곰막식당', 'Strong east-side uni lunch option', { query: '곰막식당' }),
-      mapTarget('구좌읍 오션뷰 카페', 'Gujwa cafe reset before scenic photos', { query: '구좌읍 오션뷰 카페' }),
-      mapTarget('광치기해변', 'Private scenic photo window candidate with Seongsan backdrop', { query: '광치기해변', coords: { lat: 33.4527, lng: 126.9246 } }),
+      mapTarget('바다술상', 'Arrival lunch after rental-car pickup', { query: '제주 바다술상' }),
+      mapTarget('Landing Jeju Shinhwa', 'Hotel check-in and flower-prep reset before dinner', { query: '랜딩관 제주신화월드 호텔앤리조트' }),
+      mapTarget('광치기해변', 'Optional east-side scenic window candidate', { query: '광치기해변', coords: { lat: 33.4527, lng: 126.9246 } }),
       mapTarget('성산일출봉', 'Backup Seongsan-area visual anchor', { query: '성산일출봉', coords: { lat: 33.4589, lng: 126.9425 } }),
-      mapTarget('Landing Jeju Shinhwa', 'Jeju hotel base after the east loop', { query: '랜딩관 제주신화월드 호텔앤리조트' }),
+      mapTarget('Haevichi Miliu / 해비치 밀리우', 'Confirmed 7 PM Jeju dinner reservation', { query: '해비치 밀리우' }),
     ],
   }),
   itineraryDay({
@@ -350,29 +351,29 @@ const itineraryDays = [
     date: 'May 20',
     label: 'Jeju west food + coast day',
     area: 'Shinhwa / Osulloc / Hyeopjae / Aewol',
-    status: 'west day route',
-    focus: 'Use the Shinhwa-area geography cleanly: Osulloc first because it is close to the hotel, then Bar Sul Sang lunch, then weather-dependent west-coast/cafe time before Aewol black pork.',
+    status: 'Hundo 6 PM booked',
+    focus: 'Use the Shinhwa-area geography cleanly: Osulloc first because it is close to the hotel, keep lunch flexible on the west side, then protect the confirmed 6 PM 훈도 애월흑돼지 reservation.',
     logistics: {
       start: 'Landing Jeju Shinhwa',
       end: 'Landing Jeju Shinhwa',
-      note: 'Kona 2nd gen EV is actively with you through this whole day. The cleaner route is hotel → Osulloc in the morning → Bar Sul Sang lunch → Hyeopjae/Geumneung cafe or beach → Aewol dinner → hotel.',
+      note: 'Kona 2nd gen EV is actively with you through this whole day. 바다술상 moved to arrival day, so the cleaner route is hotel → Osulloc in the morning → west-side lunch flex → Hyeopjae/Geumneung cafe or beach → 훈도 애월흑돼지 6 PM reservation → hotel.',
     },
     mapCenter: { lat: 33.3946, lng: 126.2412 },
     stops: [
       { time: '09:30', title: 'Easy hotel start', detail: 'Do not overload the morning; leave enough margin for the nearby Osulloc stop and lunch timing.', neighborhood: 'Landing Jeju Shinhwa', type: 'hotel' },
       { time: '09:45–11:00', title: 'Osulloc morning tea museum block', detail: 'Go here first because it is close to Shinhwa; this avoids backtracking after lunch.', neighborhood: 'Andeok / Osulloc', type: 'shopping' },
-      { time: '11:30–12:30', title: 'Bar Sul Sang lunch window', detail: 'Make the imokase lunch the main midday anchor after Osulloc if the queue works out cleanly.', neighborhood: 'Hallim', type: 'meal' },
+      { time: '11:30–12:30', title: 'West-side lunch flex', detail: 'Keep lunch flexible around Osulloc/Hallim/Hyeopjae because 바다술상 is now the May 19 arrival lunch and dinner is fixed at 6 PM.', neighborhood: 'Andeok / Hallim / Hyeopjae', type: 'meal' },
       { time: '17:00', title: 'Geumneung or nearby west beach stop', detail: 'Use one beach stop late in the day instead of trying to hit multiple coasts.', neighborhood: 'Geumneung / Hyeopjae', type: 'anchor' },
       { time: '17:30', title: 'Hyeopjae cafe / rain backup', detail: 'If beach time is too windy/rainy, switch to a Hyeopjae/Geumneung cafe window and keep dinner timing intact.', neighborhood: 'Hyeopjae / Geumneung', type: 'meal' },
-      { time: '18:45', title: 'Hundo Aewol black pork dinner', detail: 'Close the day with 훈도 애월흑돼지 본점 as the proper west-side black pork dinner rather than trying to add another sightseeing block.', neighborhood: 'Aewol', type: 'meal' },
+      { time: '18:00', title: 'Hundo Aewol black pork 6 PM reservation', detail: 'Confirmed 6 PM booking at 훈도 애월흑돼지. Close the day here and avoid adding another sightseeing block before dinner.', neighborhood: 'Aewol', type: 'meal' },
     ],
     mapTargets: [
       mapTarget('Landing Jeju Shinhwa', 'Jeju hotel base', { query: '랜딩관 제주신화월드 호텔앤리조트' }),
-      mapTarget('바다술상', 'West-side imokase lunch anchor', { query: '바다술상', coords: { lat: 33.4093, lng: 126.2613 } }),
+      mapTarget('제주 서쪽 점심', 'West-side lunch flex near Osulloc/Hallim/Hyeopjae', { query: '제주 서쪽 점심 맛집' }),
       mapTarget('오설록 티 뮤지엄', 'Easy west-side museum / cafe block', { query: '오설록 티 뮤지엄', coords: { lat: 33.3059, lng: 126.2895 } }),
       mapTarget('금능해수욕장', 'Single west-coast beach stop', { query: '금능해수욕장', coords: { lat: 33.3904, lng: 126.2298 } }),
       mapTarget('협재 카페', 'Hyeopjae cafe / rain backup', { query: '협재 카페' }),
-      mapTarget('훈도 애월흑돼지 본점', 'West-side black pork dinner option', { query: '훈도 애월흑돼지 본점' }),
+      mapTarget('훈도 애월흑돼지 본점', 'Confirmed 6 PM Hundo Aewol black pork reservation', { query: '훈도 애월흑돼지 본점' }),
     ],
   }),
   itineraryDay({
@@ -435,7 +436,7 @@ const itineraryDays = [
       { time: '14:00', title: 'ReOne Dermatology consult', detail: 'Confirmed booking: ReOne on May 22 at 2:00 PM.', neighborhood: 'Cheongdam / Dosan-daero', type: 'beauty' },
       { time: 'Late afternoon', title: 'Post-consult decision block', detail: 'Use this window to decide whether only follow-up is needed or whether one larger-volume clinic should handle specific practical treatments.', neighborhood: 'Cheongdam / Gangnam', type: 'anchor' },
       { time: '17:00', title: 'Seokchon Lake / Lotte indoor backup', detail: 'If the clinic ends early, choose Seokchon Lake for air or Lotte World Mall for indoor recovery before dinner.', neighborhood: 'Jamsil / Seokchon Lake', type: 'shopping' },
-      { time: 'Evening', title: 'Mongchon Dakgalbi dinner', detail: 'Inspiration-tab pick near Songpa/Jamsil: oriental-medicine dakgalbi, kalguksu, and casual Korean dinner energy after the clinic day.', neighborhood: 'Songpa / Jamsil', type: 'meal' },
+      { time: 'Evening', title: 'Mongchon Dakgalbi dinner', detail: 'Inspiration-tab pick near Songpa/Jamsil: oriental-medicine dakgalbi, kalguksu, and casual Korean dinner energy after the clinic day. Branch first, then reservation/waiting plan so Friday dinner does not float.', neighborhood: 'Songpa / Jamsil', type: 'meal' },
     ],
     mapTargets: [
       mapTarget('Sofitel Ambassador Seoul', 'Hotel base'),
@@ -451,98 +452,90 @@ const itineraryDays = [
   itineraryDay({
     key: 'may-23',
     date: 'May 23',
-    label: 'Apgujeong / Cheongdam day + Trid dinner',
-    area: 'Apgujeong / Cheongdam / Dosan Park',
-    status: 'Trid dinner tentative',
-    focus: 'Since 7 PM Trid is tentatively reserved, keep the whole day in Apgujeong/Cheongdam instead of detouring to Myeongdong.',
-    quietNote: 'If brow tattoo happens, keep it optional and preferably earlier; avoid overloading the day before the dinner reservation.',
+    label: 'Apgujeong clinic-or-shopping day + local dinner',
+    area: 'Apgujeong / Cheongdam / Dosan Park / Sinsa',
+    status: 'decision day + dinner slot open',
+    focus: 'Decide whether May 23 becomes a factory dermatology day or a shopping day, but keep the geography tight around 압구정/청담/도산/신사 and pre-pick lunch, cafe/boba, and Saturday local dinner options so there is no floating time.',
+    quietNote: 'Saturday risk is dinner and wandering. Treat clinic vs shopping as flexible, but lock a dinner reservation or waiting plan before the trip.',
     logistics: {
       start: 'Jamsil / Sofitel',
-      end: 'Trid / Cheongdam dinner area',
-      note: 'Use 압구정/청담/도산공원 as the day base. Myeongdong is better saved for the May 25 shopping day, so avoid cross-town detours before dinner.',
+      end: 'Apgujeong / Cheongdam local dinner area',
+      note: 'Use 압구정/청담/도산공원/신사 as one cluster. If factory dermatology happens, keep lunch light and nearby; if not, convert the same window into shopping and cafe/boba. Dinner should be local Korean, not another fine-dining replacement.',
     },
     mapCenter: { lat: 37.525, lng: 127.039 },
     stops: [
-      { time: '10:30', title: 'Slow hotel breakfast / coffee', detail: 'Keep the morning calm after Jeju and clinic days; start with coffee before committing to the day route.', neighborhood: 'Jamsil / hotel area', type: 'meal' },
-      { time: '12:00', title: 'Apgujeong / Cheongdam day base', detail: 'Shift the open day to Apgujeong/Cheongdam because Trid at 7 PM makes this the cleanest neighborhood cluster.', neighborhood: 'Apgujeong / Cheongdam', type: 'shopping' },
-      { time: '14:00', title: 'Apgujeong shopping + cafe backup', detail: 'Keep the afternoon in one easy Apgujeong/Rodeo/Dosan Park cluster: gentle shopping, cafe, and photo-friendly streets.', neighborhood: 'Apgujeong Rodeo / Cheongdam', type: 'shopping' },
-      { time: '15:30', title: 'Optional brow tattoo window', detail: 'Only use this if the shop/timing is confirmed and photo/dinner confidence stays high; otherwise keep it as a later-trip idea.', neighborhood: 'Apgujeong / Cheongdam', type: 'shopping' },
-      { time: '17:30', title: 'Pre-dinner reset near Dosan Park', detail: 'Use a nearby cafe or hotel pause so the 7 PM dinner does not feel rushed.', neighborhood: 'Dosan Park / Cheongdam', type: 'shopping' },
-      { time: '19:00', title: '트리드 dinner reservation', detail: 'Tentative 7 PM Trid reservation; keep the afternoon nearby so this remains the clear evening anchor.', neighborhood: 'Cheongdam / Dosan Park', type: 'meal' },
+      { time: '10:30', title: 'Slow hotel breakfast / coffee', detail: 'Keep the morning calm after Jeju and clinic days; start with coffee before committing to clinic vs shopping.', neighborhood: 'Jamsil / hotel area', type: 'meal' },
+      { time: '11:30', title: 'Factory dermatology or shopping decision', detail: 'Choose the mode for the day: quick factory-style dermatology if needed, otherwise Apgujeong/Dosan/Cheongdam shopping with no cross-town detours.', neighborhood: 'Apgujeong / Cheongdam / Sinsa', type: 'beauty' },
+      { time: '12:30', title: 'Apgujeong lunch candidate shortlist', detail: 'Shortlist: 미미면가 for soba, 리틀넥 청담 for easy brunch, or a quick 압구정/도산 Korean lunch spot if clinic timing runs long.', neighborhood: 'Apgujeong / Sinsa / Cheongdam', type: 'meal' },
+      { time: '14:00–16:30', title: 'Apgujeong / Cheongdam shopping block', detail: 'Use one easy Apgujeong Rodeo / Dosan Park / Cheongdam cluster for shopping and walking, not a scattered Seoul day.', neighborhood: 'Apgujeong Rodeo / Cheongdam', type: 'shopping' },
+      { time: '15:30', title: 'Cafe / boba shortlist', detail: 'Keep a mid-afternoon reset candidate ready: Dosan cafe, Cheongdam cafe street, or 압구정 버블티 보바 around Sinsa/Apgujeong if she wants something familiar and easy.', neighborhood: 'Dosan Park / Cheongdam / Sinsa', type: 'meal' },
+      { time: '19:00', title: 'Saturday local dinner shortlist', detail: 'Highest-priority open meal: reserve or queue-plan one local Korean dinner around Apgujeong/Cheongdam/Sinsa. Candidate lane: Korean BBQ, 닭볶음탕/닭갈비, 곱창/대창, or 전/막걸리 if you want casual Korea energy.', neighborhood: 'Apgujeong / Cheongdam / Sinsa', type: 'meal' },
     ],
     mapTargets: [
       mapTarget('Apgujeong Rodeo', 'Apgujeong / Cheongdam day base', { query: '압구정로데오' }),
       mapTarget('Dosan Park', 'Cafe / pre-dinner reset area', { query: '도산공원' }),
       mapTarget('Cheongdam cafe street', 'Cafe backup near Apgujeong/Rodeo', { query: '청담 카페거리' }),
-      mapTarget('압구정 눈썹문신', 'Optional brow tattoo search zone', { query: '압구정 눈썹문신' }),
-      mapTarget('트리드', 'Tentative 7 PM dinner reservation', { query: '트리드 청담' }),
+      mapTarget('압구정 공장형 피부과', 'Factory dermatology or shopping decision search zone', { query: '압구정 공장형 피부과' }),
+      mapTarget('미미면가', 'Apgujeong lunch candidate shortlist', { query: '미미면가 신사본점' }),
+      mapTarget('Apgujeong boba / bubble tea', 'Cafe / boba shortlist', { query: '압구정 버블티 보바' }),
+      mapTarget('Apgujeong local Korean dinner', 'Saturday local dinner shortlist search zone', { query: '압구정 청담 신사 로컬 한식 맛집' }),
     ],
   }),
   itineraryDay({
     key: 'may-24',
     date: 'May 24',
-    label: 'Return-home day + family Japanese dinner',
-    area: 'Jamsil → parents’ home area / 강동·하남',
-    status: 'Japanese dinner shortlist',
-    focus: 'This is the day framed to parents as returning home after Jeju, so make the evening a comfortable Japanese-family-dinner slot near 강동/하남 rather than another formal event.',
-    quietNote: 'Good family block, but keep it shorter and easier than a full-day parent outing so the language barrier does not become tiring.',
+    label: 'Anseong doctor-friend lunch + return-home day',
+    area: 'Seoul/Jamsil → Anseong → 강동·하남',
+    status: 'Anseong lunch + parents-booked dinner',
+    focus: 'Midday is the doctor-friend lunch at 쇠고개식당 in Anseong, then the clean plan is to go back to the parents’ home side and let the parents-booked family dinner be the only evening anchor.',
+    quietNote: 'Because Anseong is outside Seoul, this is a road/time-management day. Protect drive buffers and do not create a separate dinner plan unless parents change the booking.',
     logistics: {
       start: 'Jamsil / current Seoul base',
-      end: '강동 / 하남 family dinner zone',
-      note: 'Use the afternoon to transition back toward the parents’ side. For Japanese dinner, prioritize easy access and calm conversation; current shortlist: 스시도쿠 엔 고덕, 머무를 정 세이로무시 하남미사, 로이식당 하남미사, or 강동일식.',
+      end: 'Parents’ home / family dinner side',
+      note: 'Plan around the Anseong lunch address: 경기 안성시 죽산면 죽주로 102. After lunch, return toward the parents’ home, reset, and follow the parents-booked dinner plan.',
     },
     mapCenter: { lat: 37.5505, lng: 127.1805 },
     stops: [
-      { time: 'Morning', title: 'Hotel / luggage decision', detail: 'Make sure any check-out or movement is visible in the schedule if applicable.', neighborhood: 'Seoul', type: 'hotel' },
-      { time: 'Lunch', title: 'Norunsan Tteokbokki light lunch', detail: 'Inspiration-tab casual lunch: 노룬산떡볶이 keeps the midday food fun but portion-controlled before the family Japanese dinner.', neighborhood: 'Jayang-dong / east Seoul', type: 'meal' },
-      { time: 'Afternoon', title: 'Move back toward parents’ side', detail: 'Treat this as the “back from Jeju / back home” transition window.', neighborhood: 'Jamsil → 강동 / 하남', type: 'transit' },
-      { time: '15:30', title: 'Hanam Starfield backup window', detail: 'If the afternoon is floating before family dinner, Starfield Hanam is the easiest indoor walking/cafe/shopping backup near the parents-side route.', neighborhood: 'Hanam / Misa', type: 'shopping' },
-      { time: '18:30', title: '스시도쿠 엔 고덕 family dinner', detail: 'Final pick for the family Japanese dinner: easiest 고덕-side logistics, sushi/Japanese safety, and calmer parent-friendly pacing.', neighborhood: '강동 / 고덕', type: 'meal' },
+      { time: 'Morning', title: 'Hotel / luggage decision', detail: 'Make sure any check-out or movement is visible in the schedule before the Anseong lunch drive.', neighborhood: 'Seoul', type: 'hotel' },
+      { time: 'Lunch', title: '쇠고개식당 doctor-friend lunch', detail: 'Confirmed lunch with doctor friends at 쇠고개식당, 경기 안성시 죽산면 죽주로 102. Treat this as the day’s main travel anchor.', neighborhood: 'Anseong / Juksan-myeon', type: 'meal' },
+      { time: 'Afternoon', title: 'Drive back toward parents’ side', detail: 'Return from Anseong without adding a hard appointment immediately after lunch.', neighborhood: 'Anseong → 강동 / 하남', type: 'transit' },
+      { time: 'Late afternoon', title: 'Parents’ home reset', detail: 'Go to the parents’ home side after Anseong, unload, rest, and let the evening be family-led.', neighborhood: 'Parents’ home side', type: 'hotel' },
+      { time: 'Evening', title: 'Parents-booked family dinner', detail: 'Dinner is already booked by parents. Keep the restaurant name/details flexible until they share the exact reservation.', neighborhood: 'Family dinner area', type: 'meal' },
     ],
     mapTargets: [
-      mapTarget('Norunsan Tteokbokki / 노룬산떡볶이', 'Inspiration pick for light casual lunch before family dinner', { query: '노룬산떡볶이 자양동' }),
-      mapTarget('스시도쿠 엔 고덕이케아강동 강동아이파크더리버몰점', 'Final pick for easy sushi / Japanese family dinner near 고덕', { query: '스시도쿠 엔 고덕이케아강동 강동아이파크더리버몰점' }),
-      mapTarget('머무를 정 세이로무시 하남미사점', 'Calmer Japanese-style seiro-mushi option in Hanam Misa', { query: '머무를 정 세이로무시 하남미사점' }),
-      mapTarget('로이식당 하남미사 본점', 'Japanese home-style / pasta option in Hanam Misa', { query: '로이식당 하남미사 본점' }),
-      mapTarget('강동일식', 'Traditional local Japanese / sashimi option', { query: '강동일식' }),
-      mapTarget('고덕역', 'Parents’ side anchor', { query: '고덕역', coords: { lat: 37.5557, lng: 127.1542 } }),
-      mapTarget('Starfield Hanam', 'Hanam Starfield backup window', { query: '스타필드 하남' }),
+      mapTarget('쇠고개식당', 'Confirmed doctor-friend lunch in Anseong', { query: '경기 안성시 죽산면 죽주로 102' }),
+      mapTarget('Parents’ home side', 'Parents’ home reset after Anseong', { query: '고덕역', coords: { lat: 37.5557, lng: 127.1542 } }),
+      mapTarget('Parents-booked family dinner', 'Parents-booked family dinner; exact restaurant pending', { query: '고덕역 가족식사' }),
     ],
   }),
   itineraryDay({
     key: 'may-25',
     date: 'May 25',
-    label: 'Last full Korea day + Myeongdong shopping',
-    area: 'Yongsan → Myeongdong → Sinsa / Gangnam',
-    status: 'main shopping route',
-    focus: 'Use the final full day for the main shopping sweep: Dr. Cho gets Giordano, Dr. Ho gets skincare/makeup, then both of you finish snacks before packing.',
+    label: 'Open final full day',
+    area: 'Flexible Seoul route',
+    status: 'free day — plan later',
+    focus: 'Keep May 25 deliberately open for now. Use it as the final flexible day: choose one priority block, add a shopping/cafe route only if useful, and keep a final-night local dinner option ready before packing.',
     logistics: {
       start: 'Seoul',
       end: 'Final Korea night',
-      note: 'This is the main shopping route because it is Monday and right before departure: buy heavier skincare/makeup/snacks after lunch, then return to pack before final-night dinner.',
+      note: 'This is the free/open day Dr. Cho wants to plan later. Do not hard-lock Myeongdong unless it becomes the chosen shopping route; keep the day useful but flexible.',
     },
     mapCenter: { lat: 37.5612, lng: 126.986 },
     stops: [
-      { time: 'Morning', title: 'Last-day priority block', detail: 'Choose the one thing that would feel worst to miss before the shopping sweep starts.', neighborhood: 'Seoul base', type: 'anchor' },
-      { time: 'Lunch', title: 'Myeongdong lunch flex shortlist', detail: 'Use an alternate lunch near the shopping route: Hadongkwan, Shinsegae/Lotte food hall, or a simple department-store restaurant depending on energy.', neighborhood: 'Myeongdong / Euljiro', type: 'meal' },
-      { time: '13:00–17:30', title: 'Myeongdong main shopping route', detail: 'Main final sweep: Giordano clothes for Dr. Cho, then skincare/makeup and snacks for Dr. Ho before packing.', neighborhood: 'Myeongdong', type: 'shopping' },
-      { time: '13:45', title: 'Giordano Myeongdong', detail: 'Start with Dr. Cho’s clothes while energy is high; this branch is the cleanest Myeongdong anchor.', neighborhood: 'Myeongdong / Myeongdong Migliore 1F', type: 'shopping' },
-      { time: '14:30', title: 'Olive Young Myeongdong beauty sweep', detail: 'Use the large Myeongdong Olive Young cluster for Dr. Ho’s skincare, makeup, masks, sunscreen, and trending K-beauty restocks.', neighborhood: 'Myeongdong', type: 'shopping' },
-      { time: '16:00', title: 'Daiso Myeongdong snack run', detail: 'Finish snacks, cute small items, and last practical buys here; keep a hard stop so the final-night dinner and packing stay calm.', neighborhood: 'Myeongdong Station', type: 'shopping' },
-      { time: '17:30–18:15', title: 'Return / packing buffer', detail: 'Drop bags before dinner if possible; skincare/snacks get heavy fast.', neighborhood: 'Hotel / Seoul base', type: 'hotel' },
-      { time: '18:30', title: 'Garosu-gil cafe backup', detail: 'If the final-night dinner is delayed or you arrive early, use a Sinsa/Garosu-gil cafe as the soft landing instead of wandering with bags.', neighborhood: 'Sinsa / Garosu-gil', type: 'meal' },
-      { time: 'Evening', title: 'Sinsajeon final-night dinner', detail: 'Inspiration-tab final-night pick: 신사전 for jeon, honeycomb makgeolli, and a fun Korea-feeling close instead of another formal course.', neighborhood: 'Sinsa / Gangnam', type: 'meal' },
+      { time: 'Morning', title: 'Free-day planning block', detail: 'Use breakfast/coffee to choose the one thing that would feel worst to miss: shopping, cafe/rest, family time, or one last local neighborhood.', neighborhood: 'Seoul base', type: 'anchor' },
+      { time: 'Lunch', title: 'Lunch flex near chosen route', detail: 'Pick lunch only after the route is chosen; avoid creating a locked plan before the day’s priority is clear.', neighborhood: 'Route-dependent', type: 'meal' },
+      { time: 'Afternoon', title: 'Shopping or cafe route candidate', detail: 'Candidate lanes: Myeongdong for Olive Young/snacks/clothes, Sinsa/Garosu-gil for cafe + final dinner, or Jamsil/department store if energy is low.', neighborhood: 'Myeongdong / Sinsa / Jamsil', type: 'shopping' },
+      { time: '17:30–18:15', title: 'Return / packing buffer', detail: 'Drop bags and start packing before dinner if possible; final-day skincare/snacks get heavy fast.', neighborhood: 'Hotel / Seoul base', type: 'hotel' },
+      { time: 'Evening', title: 'Open final-night local dinner', detail: 'Keep the dinner local and fun rather than formal: 신사전/전막걸리, Korean BBQ, 닭갈비, or another easy Korean spot depending on where the day ends.', neighborhood: 'Route-dependent Seoul', type: 'meal' },
     ],
     mapTargets: [
-      mapTarget('Hadongkwan Myeongdong', 'Classic lunch option before shopping', { query: '하동관 명동본점' }),
-      mapTarget('Shinsegae Department Store Main', 'Food hall / lunch backup near Myeongdong shopping', { query: '신세계백화점 본점 식당가' }),
-      mapTarget('Giordano Myeongdong', 'Main clothing stop for Dr. Cho', { query: '지오다노 명동점', coords: { lat: 37.5607, lng: 126.9858 } }),
-      mapTarget('Olive Young Myeongdong Flagship', 'Main skincare and makeup sweep for Dr. Ho', { query: '올리브영 명동 플래그십' }),
-      mapTarget('Daiso Myeongdong Station', 'Snack and small-goods run before packing', { query: '다이소 명동역점', coords: { lat: 37.5601, lng: 126.9863 } }),
-      mapTarget('Sinsajeon / 신사전', 'Inspiration pick for final-night jeon and honeycomb makgeolli', { query: '신사전 도산대로11길 18' }),
-      mapTarget('Garosu-gil', 'Garosu-gil cafe backup before final-night dinner', { query: '가로수길 카페' }),
+      mapTarget('Myeongdong', 'Optional shopping sweep route', { query: '명동' }),
+      mapTarget('Giordano Myeongdong', 'Optional clothing stop if Myeongdong becomes the route', { query: '지오다노 명동점', coords: { lat: 37.5607, lng: 126.9858 } }),
+      mapTarget('Olive Young Myeongdong Flagship', 'Optional skincare and makeup sweep', { query: '올리브영 명동 플래그십' }),
+      mapTarget('Garosu-gil', 'Optional Sinsa / Garosu-gil cafe route', { query: '가로수길 카페' }),
+      mapTarget('Sinsajeon / 신사전', 'Open final-night local dinner candidate', { query: '신사전 도산대로11길 18' }),
+      mapTarget('Lotte World Mall', 'Low-energy shopping/cafe backup route', { query: '롯데월드몰' }),
       mapTarget('Your Seoul hotel base', 'Drop bags before final-night dinner', { query: '서울 호텔' }),
-      mapTarget('Myeongdong', 'Main final shopping district', { query: '명동' }),
     ],
   }),
   itineraryDay({
@@ -1411,6 +1404,10 @@ const aprilInstagramBatchThemes = [
   ['yeonnam-food-saves', 'Yeonnam food saves', 'Instagram batch', 'Yeonnam/Hongdae-area food ideas from reels.'],
   ['seoul-chicken-saves', 'Seoul chicken saves', 'Instagram batch', 'Dakgalbi and chicken-focused Seoul food reels.'],
   ['seoul-night-view-saves', 'Seoul night-view saves', 'Instagram batch', 'Night-view walks and scenic Seoul viewpoints from shared reels.'],
+  ['jeju-cafe-saves', 'Jeju cafe saves', 'Instagram batch', 'Jeju cafes with views, desserts, or date-course moments from saved reels.'],
+  ['jeju-scenic-west-saves', 'Jeju west-coast scenic saves', 'Instagram batch', 'Jeju coastal drives, viewpoints, and photo stops saved from reels.'],
+  ['seoul-experience-saves', 'Seoul experience saves', 'Instagram batch', 'Hands-on perfume, makeup, photo, and date-course experiences saved from reels.'],
+  ['jeju-lifestyle-shop-saves', 'Jeju lifestyle shop saves', 'Instagram batch', 'Small Jeju gift and lifestyle shops for cute souvenirs.'],
 ]
 
 const batchThumbs = {
@@ -1455,6 +1452,13 @@ const aprilInstagramBatchPlaces = [
   ['ig-yongwangsan-skywalk', 'seoul-night-view-saves', 'Seoul night-view saves', 'Yongwangsan Skywalk / 용왕산 스카이워크', 'Yangcheon-gu / Mok-dong', 'night-view skywalk / accessible deck', 'Free panoramic city-view skywalk from my_season___ reel. Caption notes a 224m barrier-free deck with a gentle slope, about 10m elevated walkway, LED night lighting, and forest-overlook walking mood.', 'Instagram reel DXRZp_zj4rd / caption + Naver local', 'Caption address: 서울특별시 양천구 용왕정길 43. Naver local result identifies 용왕산스카이워크전망대 in 양천구 목동; comments mention it can sway in wind, so keep as optional night-view inspiration.', batchThumbs.viewpoint, 'https://www.instagram.com/reel/DXRZp_zj4rd/?igsh=NTc4MTIwNjQ2YQ==', '용왕산 스카이워크 용왕정길 43'],
   ['ig-songpa-mongchon-dakgalbi', 'seoul-chicken-saves', 'Seoul chicken saves', 'Mongchon Dakgalbi / 몽촌 닭갈비', 'Songpa / Jamsil', 'oriental medicine dakgalbi / kalguksu', 'Celebrity-hyped dakgalbi spot from teureissi’s reel. Reel highlights oriental-medicine dakgalbi, handmade kalguksu noodles, and free slushed iced coffee; frame reading identified 몽촌닭갈비 signage.', 'Instagram reel DXtyngdj2f3 / caption + frame reading + Naver local', 'Naver local identifies 몽촌 닭갈비 in 서울 송파구 송파동; blog snippets mention 몽촌 한방 닭갈비 signature, long waits near Seokchon Lake/Jamsil, and add-ons like cheese/tteok/udon and perilla-oil fried rice.', batchThumbs.food, 'https://www.instagram.com/reel/DXtyngdj2f3/?igsh=NTc4MTIwNjQ2YQ==', '몽촌 닭갈비 송파동'],
   ['ig-gangnam-wumok-hanwoo', 'gangnam-bbq-saves', 'Gangnam BBQ saves', 'Wumok / 우목', 'Gangnam / Apgujeong', '10-course Hanwoo beef omakase', '10-course Hanwoo beef omakase from rosannetong’s reel. Caption says it is a Korea-trip must try and points to Wumok at 22 Eonju-ro 170-gil in Gangnam.', 'Instagram reel DW3qhI3xh5c / caption', 'Book on CatchTable; comments mention no solo diners, possible rushed pacing, wine pairing, and strong booking pressure / fully booked risk.', batchThumbs.bbq, 'https://www.instagram.com/reel/DW3qhI3xh5c/?igsh=NTc4MTIwNjQ2YQ==', '우목 언주로170길 22'],
+  ['ig-jeju-flowave-nakhwa', 'jeju-cafe-saves', 'Jeju cafe saves', 'Flowave / 플로웨이브', 'Hallim-eup / Jeju', 'cafe / daily 낙화축제', 'Jeju cafe with a daily Nakhwa-bong wish-burning lava-flower style experience. Caption says the festival runs around 6:00–6:30 PM after sunset, weather-dependent.', 'Instagram reel DSkOjVVCcW5 / caption', 'Caption address: 63-12 Jangwon-gil, Hallim-eup, Jeju-si; re-check weather and evening timing before routing.', batchThumbs.cafe, 'https://www.instagram.com/reel/DSkOjVVCcW5/?igsh=NTc4MTIwNjQ2YQ==', '플로웨이브 제주 한림읍 장원길 63-12'],
+  ['ig-jeju-daepeyong-gwanggot-route', 'jeju-scenic-west-saves', 'Jeju west-coast scenic saves', 'Daepeyong Port + Gwanggot / 대평포구 · 광이오름길', 'Seogwipo / Jeju west-south coast', 'coastal viewpoint / photo route', 'May Jeju reel pairing a breezy Daepeyong Port stop with Gwanggot / 광이오름길 scenery. Save as a soft scenic route idea rather than a fixed meal.', 'Instagram reel DXyLRZAzA7g / caption', 'Caption highlights 제주도 5월 가볼만한곳; verify parking and exact route order.', batchThumbs.viewpoint, 'https://www.instagram.com/reel/DXyLRZAzA7g/?igsh=NTc4MTIwNjQ2YQ==', '제주 대평포구 광이오름길 광곳'],
+  ['ig-jeju-west-12-place-route', 'jeju-scenic-west-saves', 'Jeju west-coast scenic saves', 'Jeju west 12-stop reel / 제주 서쪽 코스', 'Aewol / Hallim / Jeju west', 'west-coast photo route', 'Jeju west-course reel collecting twelve saved spots across beach/view/photo points for an Aewol-Hallim style day. Keep as a route inspiration card until individual stops are finalized.', 'Instagram reel DXq9a60jybm / caption', 'Multi-place reel; break into exact stops only after choosing a Jeju west day route.', batchThumbs.viewpoint, 'https://www.instagram.com/reel/DXq9a60jybm/?igsh=NTc4MTIwNjQ2YQ==', '제주 서쪽 12곳 코스 애월 한림'],
+  ['ig-jeju-haejigae-the-black', 'jeju-cafe-saves', 'Jeju cafe saves', 'Haejigae The Black / 해지개 더 블랙', 'Jeju / ocean-view cafe', 'ocean-view cafe / dessert', 'Jeju ocean-view cafe save from the reel. Add as a flexible café/photo stop for a coastal route, pending branch and hours check.', 'Instagram reel DUsF9KDkmgg / caption', 'Verify exact Naver listing, hours, and whether it fits the selected Jeju driving day.', batchThumbs.cafe, 'https://www.instagram.com/reel/DUsF9KDkmgg/?igsh=NTc4MTIwNjQ2YQ==', '해지개 더블랙 제주'],
+  ['ig-seoul-retre-lesol-reverie-experiences', 'seoul-experience-saves', 'Seoul experience saves', 'Rettre + Le Sol Atelier + Reverie Black Studio', 'Seoul / exact areas TBD', 'perfume · makeup · photo experiences', 'Korea unique-experience reel with a custom perfume workshop, Le Sol Atelier makeup-style experience, and Reverie Black Studio photo concept. Save as a compare card for date-course/activity planning.', 'Instagram reel DV8u8maEcQ5 / caption', 'Multi-stop reel; verify exact branches, pricing, reservation method, and English support before booking.', batchThumbs.shopping, 'https://www.instagram.com/reel/DV8u8maEcQ5/?igsh=NTc4MTIwNjQ2YQ==', 'Rettre Le Sol Atelier Reverie Black Studio Seoul'],
+  ['ig-jeju-mumujeju-gift-shop', 'jeju-lifestyle-shop-saves', 'Jeju lifestyle shop saves', 'Mumujeju / 무무제주', 'Jeju / exact area TBD', 'gift shop / cute souvenirs', 'Small Jeju gift shop from deshaohaus reel, described as filled with cute stationery and souvenir items. Good low-stakes shopping stop if it falls on the route.', 'Instagram reel DXicB9wicJA / caption', 'Caption gives place name only; verify address and hours before routing.', batchThumbs.shopping, 'https://www.instagram.com/reel/DXicB9wicJA/?igsh=NTc4MTIwNjQ2YQ==', '무무제주 Mumujeju'],
+  ['ig-seongsu-foreplan-architecture-cafe', 'seongsu-cafe-guide', 'Seongsu cafe guide', 'Foreplan / 포어플랜', 'Seongsu', 'architecture design cafe / dessert', 'Architecture-themed Seongsu café where the dessert is part of the concept. Reel highlights Laguna Maison cake by reservation and Section Model ice cream without reservation.', 'Instagram reel DYOVG3mIL5j / caption', 'Caption address: 30-11 Wangsimni-ro 14-gil, Seongdong-gu; open daily 10:00–21:30; Laguna Maison cake needs reservation.', batchThumbs.dessert, 'https://www.instagram.com/reel/DYOVG3mIL5j/?igsh=NTc4MTIwNjQ2YQ==', '포어플랜 성수 왕십리로14길 30-11'],
 ]
 
 stepOnePlaceThemes.push(...aprilInstagramBatchThemes.map(([key, title, status, lead]) => ({ key, title, status, lead })))
@@ -1516,7 +1520,7 @@ const dayPlannerTemplates = {
     { id: 'friend-meetup', time: '14:15–17:30', title: 'Meet your friend while she is at Chahong', note: 'Confirmed parallel block', type: 'confirmed', targetNames: ['Euljiro 1-ga'] },
     { id: 'pickup', time: '17:30–18:00', title: 'Pick up girlfriend at Chahong', note: 'Confirmed pickup buffer', type: 'confirmed', targetNames: ['Chahong Room Myeongdong'] },
     { id: 'myeongdong-rain-backup', time: 'Flex', title: 'Myeongdong rainy-day backup', note: 'Indoor fallback if embassy/salon timing floats', type: 'candidate', targetNames: ['Lotte Department Store Main'] },
-    { id: 'maknae-dinner', time: '18:30', title: 'Maknae Hoejip dinner', note: 'Accepted inspiration food pick for three', type: 'confirmed', targetNames: ['Maknae Hoejip / 막내회집'] },
+    { id: 'lamitie-dinner', time: '19:00', title: 'L’Amitié dinner with friend', note: 'Booked fixed anchor', type: 'confirmed', targetNames: ['L’Amitié'] },
   ],
 }
 
@@ -1545,7 +1549,7 @@ function buildPlannerItems(day) {
     id: `${day.key}-${index}`,
     time: stop.time,
     title: stop.title,
-    note: stop.type === 'anchor' || stop.type === 'hotel' ? 'Fixed anchor' : stop.type === 'transit' ? 'Transit / keep flexible' : 'Candidate → confirm',
+    note: stop.detail || (stop.type === 'anchor' || stop.type === 'hotel' ? 'Fixed anchor' : stop.type === 'transit' ? 'Transit / keep flexible' : 'Candidate → confirm'),
     status: stop.status || day.status || (stop.type === 'anchor' || stop.type === 'hotel' ? 'confirmed anchor' : 'TBD'),
     type: stop.type === 'anchor' || stop.type === 'hotel' || stop.type === 'meal' || stop.type === 'beauty' ? 'confirmed' : 'candidate',
     targetNames: day.mapTargets
@@ -1839,6 +1843,13 @@ const threadSharedInstagramCodes = new Set([
   'DUHKa4LEw7E',
   'DW3qhI3xh5c',
   'DWG4IbfDk_W',
+  'DSkOjVVCcW5',
+  'DXyLRZAzA7g',
+  'DXq9a60jybm',
+  'DUsF9KDkmgg',
+  'DV8u8maEcQ5',
+  'DXicB9wicJA',
+  'DYOVG3mIL5j',
 ])
 
 function instagramCodeFromUrl(sourceUrl = '') {
@@ -2338,8 +2349,10 @@ function App() {
 
     return inspirationItems.filter((item) => {
       const text = [item.title, item.linkedPlace, item.tag, item.createdAt].filter(Boolean).join(' ')
+      const code = instagramCodeFromUrl(item.sourceUrl)
+      const isThreadShared = threadSharedInstagramCodes.has(code)
       const isFoodDrink = ['Food', 'Cafe'].includes(item.tag) || foodDrinkPattern.test(text)
-      return isFoodDrink && !plannedOrBeautyPattern.test(text)
+      return isThreadShared || (isFoodDrink && !plannedOrBeautyPattern.test(text))
     })
   }, [inspirationItems])
 
@@ -2353,7 +2366,13 @@ function App() {
 
   const instagramInspirationItems = useMemo(() => {
     const seen = new Set()
-    return inspirationItems
+    const sortedItems = inspirationItems
+      .filter((item) => {
+        const code = instagramCodeFromUrl(item.sourceUrl)
+        if (threadSharedInstagramCodes.has(code)) return true
+        const text = `${item.title} ${item.tag} ${item.linkedPlace} ${item.createdAt}`.toLowerCase()
+        return /food|cafe|restaurant|bakery|dessert|market|bbq|tea|matcha|brunch|toast|parfait|chicken|dakgalbi|kaisendon|unagi|pasta|sashimi|goroke|makgeolli|skywalk|viewpoint|omakase/i.test(text)
+      })
       .filter((item) => {
         const embedUrl = instagramEmbedUrl(item.sourceUrl)
         if (!embedUrl || seen.has(embedUrl)) return false
@@ -2366,9 +2385,13 @@ function App() {
         return Number(isInlinePlayableInstagramItem(b)) - Number(isInlinePlayableInstagramItem(a))
           || Number(threadSharedInstagramCodes.has(bCode)) - Number(threadSharedInstagramCodes.has(aCode))
       })
-      .slice(0, 12)
+    const inlineItems = sortedItems.filter((item) => isInlinePlayableInstagramItem(item))
+    const sharedItems = sortedItems.filter((item) => !isInlinePlayableInstagramItem(item) && threadSharedInstagramCodes.has(instagramCodeFromUrl(item.sourceUrl)))
+    const fillerItems = sortedItems
+      .filter((item) => !isInlinePlayableInstagramItem(item) && !threadSharedInstagramCodes.has(instagramCodeFromUrl(item.sourceUrl)))
+      .slice(0, Math.max(0, 12 - inlineItems.length - sharedItems.length))
+    return [...inlineItems, ...sharedItems, ...fillerItems]
   }, [inspirationItems])
-
   useEffect(() => {
     window.localStorage.setItem('korea-trip-inspiration-items', JSON.stringify(manualInspirationItems))
   }, [manualInspirationItems])
