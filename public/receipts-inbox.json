@@ -1,5 +1,24 @@
 [
   {
+    "id": "discord-1504970426118311968-udong-kinoya-seongs-2026-05-17",
+    "vendor": "Udong Kinoya Seongsu",
+    "date": "2026-05-17",
+    "amountMinor": 1401,
+    "currency": "USD",
+    "category": "Food",
+    "confirmationNumber": "",
+    "placeGuess": "Udong Kinoya Seongsu",
+    "eventGuess": "Udong Kinoya Seongsu meal",
+    "notes": "May 17 Chase Sapphire Preferred Visa notification: $14.01 USD transaction with UDONG KINOYA SEONGS at 12:38 AM ET. Likely dining/udon purchase.",
+    "fileName": "discord-image-chase-notification-udong-kinoya-seongs-2026-05-17.jpeg",
+    "driveFileId": "",
+    "driveUrl": "https://drive.google.com/drive/u/0/folders/1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG",
+    "discordMessageUrl": "",
+    "source": "discord-image-chase-notification",
+    "status": "review",
+    "createdAt": "2026-05-16T02:00:00.000Z"
+  },
+  {
     "id": "discord-1504970426118311968-nudake-tea-2026-05-17",
     "vendor": "Nudake Tea",
     "date": "2026-05-17",
