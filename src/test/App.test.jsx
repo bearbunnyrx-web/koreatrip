@@ -104,6 +104,7 @@ describe('Korea trip app v2 concept', () => {
     expect(embedSrcs.some((src) => src?.includes('DV8u8maEcQ5'))).toBe(true)
     expect(embedSrcs.some((src) => src?.includes('DXicB9wicJA'))).toBe(true)
     expect(embedSrcs.some((src) => src?.includes('DYOVG3mIL5j'))).toBe(true)
+    expect(embedSrcs.some((src) => src?.includes('DYMJ1iUT0fe'))).toBe(true)
     expect(screen.queryByText(/add a save/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/shortlist/i)).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /filter food/i })).not.toBeInTheDocument()
@@ -380,6 +381,8 @@ describe('Korea trip app v2 concept', () => {
     fireEvent.click(within(calendarDateSelector).getByRole('button', { name: /may 17/i }))
     expect(within(calendarTimeline).getByText(/Seongsu cafe Instagram shortlist/i)).toBeInTheDocument()
     expect(within(calendarTimeline).getByText(/Foreplan \/ 포어플랜/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Seongsu eyewear Instagram shortlist/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/YUN Seongsu \/ 윤안경 성수/i)).toBeInTheDocument()
 
     fireEvent.click(within(calendarDateSelector).getByRole('button', { name: /may 20/i }))
     expect(within(calendarTimeline).getByText(/Jeju west Instagram shortlist/i)).toBeInTheDocument()
@@ -742,6 +745,8 @@ describe('Korea trip app v2 concept', () => {
     expect(within(othersTheme).getAllByText(/jeju west 12-stop reel/i).length).toBeGreaterThan(0)
     expect(within(othersTheme).getAllByText(/rettre \+ le sol atelier \+ reverie black studio/i).length).toBeGreaterThan(0)
     expect(within(othersTheme).getAllByText(/mumujeju/i).length).toBeGreaterThan(0)
+    expect(within(othersTheme).getAllByText(/YUN Seongsu \/ 윤안경 성수/i).length).toBeGreaterThan(0)
+    expect(within(othersTheme).getByRole('button', { name: /yes to YUN Seongsu/i })).toBeInTheDocument()
   })
 
   test('step 1 place yes selections feed step 2 scheduling', () => {

@@ -75,6 +75,7 @@ const mapMarkerPositions = {
   'Musinsa Standard Seongsu': { left: '63%', top: '46%' },
   'TIRTIR Seongsu': { left: '51%', top: '53%' },
   'Blue Elephant Seongsu': { left: '31%', top: '48%' },
+  'YUN Seongsu / 윤안경 성수': { left: '35%', top: '45%' },
   '동화고옥 롯데월드몰점': { left: '72%', top: '69%' },
   'Sofitel Ambassador Seoul': { left: '74%', top: '64%' },
   '리원피부과의원': { left: '66%', top: '58%' },
@@ -87,6 +88,7 @@ const koreanPlaceNames = {
   'Musinsa Standard Seongsu': '무신사 스탠다드 성수',
   'TIRTIR Seongsu': '티르티르 성수',
   'Blue Elephant Seongsu': '블루엘리펀트 성수',
+  'YUN Seongsu / 윤안경 성수': '윤안경 성수',
   '동화고옥 롯데월드몰점': '동화고옥 롯데월드몰점',
   '리원피부과의원': '리원피부과의원',
 }
@@ -267,6 +269,7 @@ const itineraryDays = [
       mapTarget('Musinsa Standard Seongsu', 'Clothing/basic shopping stop', { query: '무신사 스탠다드 성수' }),
       mapTarget('TIRTIR Seongsu', 'Beauty stop', { query: '티르티르 성수' }),
       mapTarget('Blue Elephant Seongsu', 'Eyewear stop', { query: '블루엘리펀트 성수' }),
+      mapTarget('YUN Seongsu / 윤안경 성수', 'Eyewear stop from latest Instagram save', { query: '윤안경 성수 아차산로 66' }),
       mapTarget('Cafe Onion Seongsu', 'Seongsu cafe gap backup', { query: '카페 어니언 성수' }),
       mapTarget('Foreplan / 포어플랜', 'Instagram save for Seongsu architecture dessert cafe gap backup', { query: '포어플랜 성수 왕십리로14길 30-11' }),
       mapTarget('동화고옥 롯데월드몰점', 'Main parent dinner target', { query: '동화고옥 롯데월드몰점' }),
@@ -902,6 +905,23 @@ const placeGroups = [
     mapTargets: [mapTarget('Blue Elephant Seongsu', 'Eyewear stop', { query: '블루엘리펀트 성수' })],
   },
   {
+    key: 'ig-seongsu-yun-eyewear',
+    themeKey: 'seongsu-viral-loop',
+    themeTitle: 'May 17 Seongsu viral loop',
+    title: 'YUN Seongsu / 윤안경 성수',
+    area: 'Seongsu',
+    status: 'Instagram save',
+    lead: 'Clean Korean/Berlin eyewear try-on stop from the Hailey Bieber-style sunglasses reel.',
+    source: 'Instagram reel DYMJ1iUT0fe / caption + Naver search',
+    importNote: 'Naver snippets identify YUN as a Berlin-launched Korean eyewear brand with a Seongsu flagship at 66 Achasan-ro; compare with Blue Elephant if time is tight.',
+    thumbnail: 'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=800&q=80',
+    logistics: { start: 'Seongsu walking loop', end: 'Dinner side of city', note: 'Add to the May 17 eyewear/shopping flex list; verify current stock and wait before making it a must-do.' },
+    entries: [
+      { place: 'YUN Seongsu / 윤안경 성수', area: 'Seongsu', vibe: 'eyewear / sunglasses', note: 'Latest Instagram save for modern sunglasses; good compare stop with Blue Elephant if the Seongsu shopping loop has room.', thumbnail: 'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=800&q=80', instagramUrl: 'https://www.instagram.com/reel/DYMJ1iUT0fe/?igsh=NTc4MTIwNjQ2YQ==', naverUrl: 'https://map.naver.com/p/search/%EC%9C%A4%EC%95%88%EA%B2%BD%20%EC%84%B1%EC%88%98%20%EC%95%84%EC%B0%A8%EC%82%B0%EB%A1%9C%2066', kakaoUrl: 'https://map.kakao.com/?q=%EC%9C%A4%EC%95%88%EA%B2%BD%20%EC%84%B1%EC%88%98%20%EC%95%84%EC%B0%A8%EC%82%B0%EB%A1%9C%2066' },
+    ],
+    mapTargets: [mapTarget('YUN Seongsu / 윤안경 성수', 'Eyewear stop from latest Instagram save', { query: '윤안경 성수 아차산로 66' })],
+  },
+  {
     key: 'seongsu-musinsa-standard',
     themeKey: 'seongsu-viral-loop',
     themeTitle: 'May 17 Seongsu viral loop',
@@ -1514,9 +1534,10 @@ const dayPlannerTemplates = {
     { id: 'seongsu-lunch', time: '12:15', title: 'Grandmother’s Recipe lunch', note: 'Accepted inspiration food pick', type: 'confirmed', targetNames: ['Grandmother’s Recipe / 할머니의 레시피'] },
     { id: 'haus', time: '13:15', title: 'Haus Nowhere', note: 'Candidate → confirm', type: 'candidate', targetNames: ['Haus Nowhere Seongsu'] },
     { id: 'olive-musinsa', time: '14:00', title: 'Olive Young + Musinsa', note: 'Confirmed cluster', type: 'confirmed', targetNames: ['Tamburins Seongsu', 'Olive Young N Seongsu', 'Musinsa Standard Seongsu'] },
-    { id: 'blue', time: '16:00', title: 'Blue Elephant', note: 'Maybe / flex', type: 'candidate', targetNames: ['Blue Elephant Seongsu'] },
+    { id: 'blue', time: '16:00', title: 'Eyewear flex: Blue Elephant or YUN Seongsu', note: 'Maybe / flex; latest save adds YUN / 윤안경 for sunglasses try-on.', type: 'candidate', targetNames: ['Blue Elephant Seongsu', 'YUN Seongsu / 윤안경 성수'] },
     { id: 'seongsu-cafe-backup', time: '16:30', title: 'Seongsu cafe gap backup', note: 'Gap filler if shopping runs short', type: 'candidate', targetNames: ['Cafe Onion Seongsu'] },
     { id: 'seongsu-cafe-instagram-shortlist', time: 'Flex', title: 'Seongsu cafe Instagram shortlist', note: 'Visible save list: Foreplan / 포어플랜 for architecture dessert cafe if the Seongsu gap stays open.', type: 'candidate', targetNames: ['Foreplan / 포어플랜'] },
+    { id: 'seongsu-eyewear-instagram-shortlist', time: 'Flex', title: 'Seongsu eyewear Instagram shortlist', note: 'Visible save list: YUN Seongsu / 윤안경 성수 for modern sunglasses; compare with Blue Elephant.', type: 'candidate', targetNames: ['YUN Seongsu / 윤안경 성수', 'Blue Elephant Seongsu'] },
     { id: 'move-jamsil', time: '17:15–18:00', title: 'Move toward Jamsil / Lotte World Mall', note: 'Confirmed transfer buffer', type: 'confirmed', targetNames: ['동화고옥 롯데월드몰점'] },
     { id: 'donghwa-dinner', time: '18:30', title: 'Donghwa Gook parent dinner target', note: 'Likely reservation target', type: 'confirmed', targetNames: ['동화고옥 롯데월드몰점'] },
   ],
@@ -1860,6 +1881,7 @@ const threadSharedInstagramCodes = new Set([
   'DV8u8maEcQ5',
   'DXicB9wicJA',
   'DYOVG3mIL5j',
+  'DYMJ1iUT0fe',
 ])
 
 function instagramCodeFromUrl(sourceUrl = '') {
