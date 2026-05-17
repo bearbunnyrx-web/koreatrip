@@ -109,8 +109,11 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.queryByRole('button', { name: /filter food/i })).not.toBeInTheDocument()
   })
 
-  test('receipts are a simple receipt-styled list fed from Discord with the shared sticky date header', () => {
-    window.localStorage.setItem('korea-trip-receipts', JSON.stringify([{ id: 'manual-dashboard-test', vendor: 'Dashboard Receipt', date: '2026-05-21', amountMinor: 120000, currency: 'KRW', category: 'Food', status: 'review', placeGuess: 'Bonyeon', notes: 'Dashboard test receipt.' }]))
+  test('receipts are a simple receipt-styled list fed from Discord with uploader-based paid-by totals', () => {
+    window.localStorage.setItem('korea-trip-receipts', JSON.stringify([
+      { id: 'manual-dashboard-test', vendor: 'Dashboard Receipt', date: '2026-05-21', amountMinor: 120000, currency: 'KRW', category: 'Food', status: 'review', placeGuess: 'Bonyeon', notes: 'Dashboard test receipt.', paidBy: 'Dr. Ho' },
+      { id: 'manual-cho-paid-test', vendor: 'Cho Paid Receipt', date: '2026-05-21', amountMinor: 1000, currency: 'USD', category: 'Transit', status: 'review', placeGuess: 'Airport bus', notes: 'Dr. Cho upload test receipt.', paidBy: 'Dr. Cho' },
+    ]))
     const { container } = render(<App />)
 
     fireEvent.click(screen.getAllByRole('button', { name: /^receipts$/i })[0])
@@ -127,8 +130,13 @@ describe('Korea trip app v2 concept', () => {
     expect(screen.getAllByText(/Dashboard Receipt/i).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/₩120,000/i).length).toBeGreaterThan(0)
     expect(screen.getByText(/overview total/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/dr\. cho paid/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/dr\. ho paid/i)).toBeInTheDocument()
+    const paidBySummary = screen.getByLabelText(/paid-by receipt totals/i)
+    expect(within(paidBySummary).getByText(/Dr\. Cho paid/i)).toBeInTheDocument()
+    expect(within(paidBySummary).getByText(/\$10\.00/i)).toBeInTheDocument()
+    expect(within(paidBySummary).getByText(/Dr\. Ho paid/i)).toBeInTheDocument()
+    expect(within(paidBySummary).getByText(/₩120,000/i)).toBeInTheDocument()
+    expect(screen.getAllByLabelText(/Paid by Dr\. Ho/i).length).toBeGreaterThan(0)
+    expect(screen.queryByRole('textbox', { name: /dr\. cho paid/i })).not.toBeInTheDocument()
     expect(screen.queryByText(/spend mix/i)).not.toBeInTheDocument()
     expect(screen.queryByLabelText(/receipt category mix overview/i)).not.toBeInTheDocument()
     expect(container.querySelector('.simple-receipt-list')).toBeInTheDocument()

@@ -1945,15 +1945,6 @@ function App() {
     }
   })
   const [importedReceipts, setImportedReceipts] = useState([])
-  const [receiptPaidBy, setReceiptPaidBy] = useState(() => {
-    const stored = window.localStorage.getItem('korea-trip-receipt-paid-by')
-    if (!stored) return { cho: '', ho: '' }
-    try {
-      return { cho: '', ho: '', ...JSON.parse(stored) }
-    } catch {
-      return { cho: '', ho: '' }
-    }
-  })
   const [selectedHomeMapTargetName, setSelectedHomeMapTargetName] = useState('Haus Nowhere Seongsu')
   const [selectedPlaceKey, setSelectedPlaceKey] = useState('viral-saves-inbox')
   const [selectedBookingKey, setSelectedBookingKey] = useState('beauty')
@@ -2544,6 +2535,32 @@ function App() {
     }
   }, [receiptRecords])
 
+  const receiptPaidByBreakdown = useMemo(() => {
+    const totalsByPerson = receiptRecords.reduce((acc, receipt) => {
+      const payer = receipt.paidBy || 'Unassigned'
+      const currency = receipt.currency || 'USD'
+      if (!acc[payer]) acc[payer] = {}
+      acc[payer][currency] = (acc[payer][currency] || 0) + receipt.amountMinor
+      return acc
+    }, {})
+
+    const preferredOrder = ['Dr. Cho', 'Dr. Ho', 'Unassigned']
+    return Object.entries(totalsByPerson)
+      .sort(([payerA], [payerB]) => {
+        const orderA = preferredOrder.indexOf(payerA)
+        const orderB = preferredOrder.indexOf(payerB)
+        return (orderA === -1 ? 99 : orderA) - (orderB === -1 ? 99 : orderB) || payerA.localeCompare(payerB)
+      })
+      .map(([payer, totals]) => ({
+        payer,
+        total: Object.entries(totals)
+          .filter(([, amountMinor]) => amountMinor)
+          .sort(([currencyA], [currencyB]) => currencyA.localeCompare(currencyB))
+          .map(([currency, amountMinor]) => formatReceiptAmount(amountMinor, currency))
+          .join(' + ') || '$0.00',
+      }))
+  }, [receiptRecords])
+
   const receiptCategoryBreakdown = useMemo(() => {
     const totals = receiptRecords.reduce((acc, receipt) => {
       const key = receipt.category || 'Other'
@@ -2603,9 +2620,6 @@ function App() {
     window.localStorage.setItem(RECEIPT_PIPELINE_CONFIG.localStorageKey, JSON.stringify(manualReceipts))
   }, [manualReceipts])
 
-  useEffect(() => {
-    window.localStorage.setItem('korea-trip-receipt-paid-by', JSON.stringify(receiptPaidBy))
-  }, [receiptPaidBy])
 
   function addManualReceipt(event) {
     event.preventDefault()
@@ -3337,7 +3351,7 @@ function App() {
                       <div className="receipt-ledger-title">
                         <span>Overview</span>
                         <strong>Full receipt overview</strong>
-                        <small>Name + price only, like the bottom of a paper receipt. Add paid-by totals when cards settle.</small>
+                        <small>Name + price only, like the bottom of a paper receipt. Paid-by totals follow who uploaded each receipt.</small>
                       </div>
                       <div className="receipt-ledger-lines" aria-label="All tracked receipt totals">
                         {receiptRecords.map((receipt) => (
@@ -3351,27 +3365,13 @@ function App() {
                           <strong>{receiptSummary.overviewTotal || '$0.00'}</strong>
                         </div>
                       </div>
-                      <div className="receipt-paid-by-inputs" aria-label="Paid-by manual totals">
-                        <label>
-                          <span>Dr. Cho paid</span>
-                          <input
-                            aria-label="Dr. Cho paid"
-                            inputMode="decimal"
-                            placeholder="$ -- / ₩ --"
-                            value={receiptPaidBy.cho}
-                            onChange={(event) => setReceiptPaidBy((paidBy) => ({ ...paidBy, cho: event.target.value }))}
-                          />
-                        </label>
-                        <label>
-                          <span>Dr. Ho paid</span>
-                          <input
-                            aria-label="Dr. Ho paid"
-                            inputMode="decimal"
-                            placeholder="$ -- / ₩ --"
-                            value={receiptPaidBy.ho}
-                            onChange={(event) => setReceiptPaidBy((paidBy) => ({ ...paidBy, ho: event.target.value }))}
-                          />
-                        </label>
+                      <div className="receipt-paid-by-inputs" aria-label="Paid-by receipt totals">
+                        {receiptPaidByBreakdown.map((entry) => (
+                          <div key={entry.payer} className="receipt-paid-by-total">
+                            <span>{entry.payer} paid</span>
+                            <strong>{entry.total}</strong>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -3409,6 +3409,12 @@ function App() {
                               <span>Amount</span>
                               <strong>{formatReceiptAmount(receipt.amountMinor, receipt.currency)}</strong>
                             </div>
+                            {receipt.paidBy ? (
+                              <div className="receipt-paper-row" aria-label={`Paid by ${receipt.paidBy}`}>
+                                <span>Paid by</span>
+                                <strong>{receipt.paidBy}</strong>
+                              </div>
+                            ) : null}
                             {receipt.confirmationNumber ? (
                               <div className="receipt-paper-row">
                                 <span>Confirmation</span>
