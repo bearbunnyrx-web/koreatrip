@@ -1,5 +1,24 @@
 [
   {
+    "id": "discord-1504970426118311968-nudake-tea-2026-05-17",
+    "vendor": "Nudake Tea",
+    "date": "2026-05-17",
+    "amountMinor": 11399,
+    "currency": "USD",
+    "category": "Food",
+    "confirmationNumber": "",
+    "placeGuess": "Nudake",
+    "eventGuess": "Nudake tea",
+    "notes": "May 17 transaction. Nudake tea purchase shown on card transaction list as JOOSIKHOISA AIAIKEOMBAIND: $113.99 USD.",
+    "fileName": "discord-image-card-transaction-nudake-tea-2026-05-17.jpeg",
+    "driveFileId": "",
+    "driveUrl": "https://drive.google.com/drive/u/0/folders/1LpqlmrVIZW8aWQdyqqrkAMlqdFilaMbG",
+    "discordMessageUrl": "",
+    "source": "discord-image-transaction-list",
+    "status": "review",
+    "createdAt": "2026-05-16T01:20:00.000Z"
+  },
+  {
     "id": "discord-1504970426118311968-onion-cafe-2026-05-17",
     "vendor": "Onion Cafe",
     "date": "2026-05-17",
