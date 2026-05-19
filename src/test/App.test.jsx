@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import App, { reorderPlannerItems, tripCountdownLabel } from '../App'
+import App, { initialSelectedDayKey, reorderPlannerItems, tripCountdownLabel } from '../App'
 
 function buildDataTransfer() {
   const store = {}
@@ -33,6 +33,18 @@ describe('Korea trip app v2 concept', () => {
     expect(tripCountdownLabel(new Date('2026-05-16T12:00:00'))).toBe('Day 1 of Korea trip 🇰🇷')
     expect(tripCountdownLabel(new Date('2026-05-28T12:00:00'))).toBe('Back home — great trip! 🏠')
     expect(container.querySelector('.map-first-home-screen')?.firstElementChild).toHaveClass('trip-sticky-date-header')
+  })
+
+  test('map landing opens on the itinerary day that matches today', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-05-19T09:00:00'))
+
+    const { container } = render(<App />)
+
+    expect(initialSelectedDayKey(new Date('2026-05-19T09:00:00'))).toBe('may-19')
+    expect(screen.getByText(/Scheduled stops for May 19/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /May 19 Jeju arrival/i })).toHaveClass('active')
+    expect(container.querySelector('.map-first-home-screen')).toBeInTheDocument()
   })
 
   test('bottom navigation is fixed with V2 Map Calendar Inspiration Receipts labels and switches tabs', () => {
@@ -105,6 +117,9 @@ describe('Korea trip app v2 concept', () => {
     expect(embedSrcs.some((src) => src?.includes('DXicB9wicJA'))).toBe(true)
     expect(embedSrcs.some((src) => src?.includes('DYOVG3mIL5j'))).toBe(true)
     expect(embedSrcs.some((src) => src?.includes('DYMJ1iUT0fe'))).toBe(true)
+    expect(embedSrcs.some((src) => src?.includes('DYCX-xKx3m9'))).toBe(true)
+    expect(embedSrcs.some((src) => src?.includes('DYN4XjgSgd1'))).toBe(true)
+    expect(embedSrcs.some((src) => src?.includes('DYW4KetPdvE'))).toBe(true)
     expect(screen.queryByText(/add a save/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/shortlist/i)).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /filter food/i })).not.toBeInTheDocument()
@@ -276,6 +291,9 @@ describe('Korea trip app v2 concept', () => {
   })
 
   test('home is a map-first view with date strip, route markers, and marker drawer actions', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-05-17T12:00:00'))
+
     const { container } = render(<App />)
 
     expect(screen.getByLabelText(/Map sticky date header/i)).toBeInTheDocument()
@@ -391,6 +409,10 @@ describe('Korea trip app v2 concept', () => {
     expect(within(calendarTimeline).getByText(/Jeju west 12-stop reel/i)).toBeInTheDocument()
     expect(within(calendarTimeline).getByText(/Haejigae The Black \/ 해지개 더 블랙/i)).toBeInTheDocument()
     expect(within(calendarTimeline).getByText(/Mumujeju \/ 무무제주/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Slow Matcha Jeju \/ 슬로우말차/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Jeju hydrangea Instagram shortlist/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Jeju hydrangea map \/ 제주 수국 지도/i)).toBeInTheDocument()
+    expect(within(calendarTimeline).getByText(/Jeju hydrangea 8-stop reel \/ 제주 수국명소 8곳/i)).toBeInTheDocument()
 
     fireEvent.click(within(calendarDateSelector).getByRole('button', { name: /may 25/i }))
     expect(within(calendarTimeline).getByText(/Seoul experience Instagram shortlist/i)).toBeInTheDocument()
@@ -745,6 +767,8 @@ describe('Korea trip app v2 concept', () => {
     expect(within(othersTheme).getAllByText(/jeju west 12-stop reel/i).length).toBeGreaterThan(0)
     expect(within(othersTheme).getAllByText(/rettre \+ le sol atelier \+ reverie black studio/i).length).toBeGreaterThan(0)
     expect(within(othersTheme).getAllByText(/mumujeju/i).length).toBeGreaterThan(0)
+    expect(within(othersTheme).getAllByText(/jeju hydrangea map/i).length).toBeGreaterThan(0)
+    expect(within(othersTheme).getAllByText(/jeju hydrangea 8-stop reel/i).length).toBeGreaterThan(0)
     expect(within(othersTheme).getAllByText(/YUN Seongsu \/ 윤안경 성수/i).length).toBeGreaterThan(0)
     expect(within(othersTheme).getByRole('button', { name: /yes to YUN Seongsu/i })).toBeInTheDocument()
   })

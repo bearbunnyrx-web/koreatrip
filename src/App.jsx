@@ -367,7 +367,8 @@ const itineraryDays = [
       { time: '09:30', title: 'Easy hotel start', detail: 'Do not overload the morning; leave enough margin for the nearby Osulloc stop and lunch timing.', neighborhood: 'Landing Jeju Shinhwa', type: 'hotel' },
       { time: '09:45–11:00', title: 'Osulloc morning tea museum block', detail: 'Go here first because it is close to Shinhwa; this avoids backtracking after lunch.', neighborhood: 'Andeok / Osulloc', type: 'shopping' },
       { time: '11:30–12:30', title: 'West-side lunch flex', detail: 'Keep lunch flexible around Osulloc/Hallim/Hyeopjae because 바다술상 is now the May 19 arrival lunch and dinner is fixed at 6 PM.', neighborhood: 'Andeok / Hallim / Hyeopjae', type: 'meal' },
-      { time: 'Afternoon flex', title: 'Jeju west Instagram shortlist', detail: 'Visible save list: Flowave / 플로웨이브, Daepeyong Port + Gwanggot, Jeju west 12-stop reel, Haejigae The Black / 해지개 더 블랙, and Mumujeju / 무무제주. Use only the ones that fit the west-side driving route before Hundo.', neighborhood: 'Hallim / Aewol / Jeju west', type: 'shopping' },
+      { time: 'Afternoon flex', title: 'Jeju west Instagram shortlist', detail: 'Visible save list: Flowave / 플로웨이브, Slow Matcha Jeju / 슬로우말차, Daepeyong Port + Gwanggot, Jeju west 12-stop reel, Haejigae The Black / 해지개 더 블랙, Mumujeju / 무무제주, plus hydrangea scouting reels. Use only the ones that fit the west-side driving route before Hundo.', neighborhood: 'Hallim / Aewol / Jeju west', type: 'shopping' },
+      { time: 'Route flex', title: 'Jeju hydrangea Instagram shortlist', detail: 'Visible save list: Jeju hydrangea map / 제주 수국 지도 and Jeju hydrangea 8-stop reel / 제주 수국명소 8곳. Prioritize west/south blooms like Manor Blanc, Dabdani, Father’s Garden, or Donggwang-ri only if they are blooming during the trip.', neighborhood: 'Andeok / Seogwipo / Jeju island', type: 'anchor' },
       { time: '17:00', title: 'Geumneung or nearby west beach stop', detail: 'Use one beach stop late in the day instead of trying to hit multiple coasts.', neighborhood: 'Geumneung / Hyeopjae', type: 'anchor' },
       { time: '17:30', title: 'Hyeopjae cafe / rain backup', detail: 'If beach time is too windy/rainy, switch to a Hyeopjae/Geumneung cafe window and keep dinner timing intact.', neighborhood: 'Hyeopjae / Geumneung', type: 'meal' },
       { time: '18:00', title: 'Hundo Aewol black pork 6 PM reservation', detail: 'Confirmed 6 PM booking at 훈도 애월흑돼지. Close the day here and avoid adding another sightseeing block before dinner.', neighborhood: 'Aewol', type: 'meal' },
@@ -381,6 +382,9 @@ const itineraryDays = [
       mapTarget('Jeju west 12-stop reel / 제주 서쪽 코스', 'Instagram save for Aewol/Hallim photo-route ideas', { query: '제주 서쪽 코스 애월 한림' }),
       mapTarget('Haejigae The Black / 해지개 더 블랙', 'Instagram save for Jeju ocean-view cafe backup', { query: '해지개 더블랙 제주' }),
       mapTarget('Mumujeju / 무무제주', 'Instagram save for Jeju souvenir / gift-shop stop', { query: '무무제주 Mumujeju' }),
+      mapTarget('Slow Matcha Jeju / 슬로우말차', 'Instagram save for WE Hotel forest-view matcha cafe', { query: '슬로우말차 제주 WE호텔 1100로 453-95' }),
+      mapTarget('Jeju hydrangea map / 제주 수국 지도', 'Instagram save for seasonal hydrangea photo-route scouting', { query: '제주 수국 지도 마노르블랑 답다니수국밭 보롬왓 혼인지' }),
+      mapTarget('Jeju hydrangea 8-stop reel / 제주 수국명소 8곳', 'Instagram save for seasonal hydrangea photo-route scouting', { query: '제주 수국명소 병악오름 파더스가든 답다니수국밭 마노르블랑' }),
       mapTarget('금능해수욕장', 'Single west-coast beach stop', { query: '금능해수욕장', coords: { lat: 33.3904, lng: 126.2298 } }),
       mapTarget('협재 카페', 'Hyeopjae cafe / rain backup', { query: '협재 카페' }),
       mapTarget('훈도 애월흑돼지 본점', 'Confirmed 6 PM Hundo Aewol black pork reservation', { query: '훈도 애월흑돼지 본점' }),
@@ -1488,6 +1492,9 @@ const aprilInstagramBatchPlaces = [
   ['ig-seoul-retre-lesol-reverie-experiences', 'seoul-experience-saves', 'Seoul experience saves', 'Rettre + Le Sol Atelier + Reverie Black Studio', 'Seoul / exact areas TBD', 'perfume · makeup · photo experiences', 'Korea unique-experience reel with a custom perfume workshop, Le Sol Atelier makeup-style experience, and Reverie Black Studio photo concept. Save as a compare card for date-course/activity planning.', 'Instagram reel DV8u8maEcQ5 / caption', 'Multi-stop reel; verify exact branches, pricing, reservation method, and English support before booking.', batchThumbs.shopping, 'https://www.instagram.com/reel/DV8u8maEcQ5/?igsh=NTc4MTIwNjQ2YQ==', 'Rettre Le Sol Atelier Reverie Black Studio Seoul'],
   ['ig-jeju-mumujeju-gift-shop', 'jeju-lifestyle-shop-saves', 'Jeju lifestyle shop saves', 'Mumujeju / 무무제주', 'Jeju / exact area TBD', 'gift shop / cute souvenirs', 'Small Jeju gift shop from deshaohaus reel, described as filled with cute stationery and souvenir items. Good low-stakes shopping stop if it falls on the route.', 'Instagram reel DXicB9wicJA / caption', 'Caption gives place name only; verify address and hours before routing.', batchThumbs.shopping, 'https://www.instagram.com/reel/DXicB9wicJA/?igsh=NTc4MTIwNjQ2YQ==', '무무제주 Mumujeju'],
   ['ig-seongsu-foreplan-architecture-cafe', 'seongsu-cafe-guide', 'Seongsu cafe guide', 'Foreplan / 포어플랜', 'Seongsu', 'architecture design cafe / dessert', 'Architecture-themed Seongsu café where the dessert is part of the concept. Reel highlights Laguna Maison cake by reservation and Section Model ice cream without reservation.', 'Instagram reel DYOVG3mIL5j / caption', 'Caption address: 30-11 Wangsimni-ro 14-gil, Seongdong-gu; open daily 10:00–21:30; Laguna Maison cake needs reservation.', batchThumbs.dessert, 'https://www.instagram.com/reel/DYOVG3mIL5j/?igsh=NTc4MTIwNjQ2YQ==', '포어플랜 성수 왕십리로14길 30-11'],
+  ['ig-jeju-slow-matcha-wehotel', 'jeju-cafe-saves', 'Jeju cafe saves', 'Slow Matcha Jeju / 슬로우말차', 'Seogwipo / WE Hotel Jeju', 'matcha cafe / hotel forest-view cafe', 'New matcha-specialty cafe inside WE Hotel Jeju. Caption highlights wide spacing, green floor-to-ceiling-window views, strong matcha desserts, and yuzu matcha granita for a lighter sweet option.', 'Instagram reel DYCX-xKx3m9 / caption', 'Caption address: 제주 서귀포시 1100로 453-95, WE호텔 2층; open 10:00–20:00. Verify if a hotel visit fits the Jeju driving day.', batchThumbs.tea, 'https://www.instagram.com/reel/DYCX-xKx3m9/?igsh=NTc4MTIwNjQ2YQ==', '슬로우말차 제주 WE호텔 1100로 453-95'],
+  ['ig-jeju-hydrangea-map-lovepooky', 'jeju-scenic-west-saves', 'Jeju west-coast scenic saves', 'Jeju hydrangea map / 제주 수국 지도', 'Jeju island', 'hydrangea photo-route map', 'Hydrangea map reel from lovepooky collecting Jeju bloom options such as Manor Blanc, Dabdani Hydrangea Field, Boromwat, Jongdal-ri hydrangea road, Eastly, Honinji, Moss Forest Path, Gilmo퉁이가게, and Wind 1947.', 'Instagram reel DYN4XjgSgd1 / caption', 'Multi-place bloom reel; comment-gated map, so treat as a seasonal shortlist and verify current bloom status before routing.', batchThumbs.viewpoint, 'https://www.instagram.com/reel/DYN4XjgSgd1/?igsh=NTc4MTIwNjQ2YQ==', '제주 수국 지도 마노르블랑 답다니수국밭 보롬왓 혼인지'],
+  ['ig-jeju-hydrangea-eight-spots', 'jeju-scenic-west-saves', 'Jeju west-coast scenic saves', 'Jeju hydrangea 8-stop reel / 제주 수국명소 8곳', 'Jeju island', 'hydrangea scenic/photo route', 'Jeju hydrangea compilation reel with west/east options including Byeongak Oreum, Father’s Garden, Mireina, Honinji, Donggwang-ri hydrangea road, Dabdani Hydrangea Field, Manor Blanc, and Seongsan Ilchulbong hydrangea field.', 'Instagram reel DYW4KetPdvE / caption', 'Most blooms are late May through June; use as flexible photo-stop scouting, not a fixed appointment.', batchThumbs.viewpoint, 'https://www.instagram.com/reel/DYW4KetPdvE/?igsh=NTc4MTIwNjQ2YQ==', '제주 수국명소 병악오름 파더스가든 미레이나 혼인지 답다니수국밭 마노르블랑 성산일출봉 수국밭'],
 ]
 
 stepOnePlaceThemes.push(...aprilInstagramBatchThemes.map(([key, title, status, lead]) => ({ key, title, status, lead })))
@@ -1784,6 +1791,11 @@ function dateKeyForToday(today = new Date()) {
   return `${month}-${today.getDate()}`
 }
 
+function initialSelectedDayKey(today = new Date()) {
+  const todayKey = dateKeyForToday(today)
+  return itineraryDays.some((day) => day.key === todayKey) ? todayKey : 'may-17'
+}
+
 function itineraryDayRelation(day, today = new Date()) {
   const dayNumber = Number(day.key.split('-')[1])
   const dayDate = new Date(2026, 4, dayNumber)
@@ -1882,6 +1894,9 @@ const threadSharedInstagramCodes = new Set([
   'DXicB9wicJA',
   'DYOVG3mIL5j',
   'DYMJ1iUT0fe',
+  'DYCX-xKx3m9',
+  'DYN4XjgSgd1',
+  'DYW4KetPdvE',
 ])
 
 function instagramCodeFromUrl(sourceUrl = '') {
@@ -1932,7 +1947,7 @@ function loadKakaoMapsSdk() {
 
 function App() {
   const [activeTab, setActiveTab] = useState('map')
-  const [selectedDayKey, setSelectedDayKey] = useState('may-17')
+  const [selectedDayKey, setSelectedDayKey] = useState(() => initialSelectedDayKey())
   const [calendarView, setCalendarView] = useState('day')
   const [miniCalendarOpen, setMiniCalendarOpen] = useState(false)
   const [inspirationFilter, setInspirationFilter] = useState('All')
@@ -4045,5 +4060,5 @@ function App() {
   )
 }
 
-export { reorderPlannerItems, tripCountdownLabel }
+export { initialSelectedDayKey, reorderPlannerItems, tripCountdownLabel }
 export default App
