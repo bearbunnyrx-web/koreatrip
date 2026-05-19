@@ -1876,7 +1876,7 @@ const inlinePlayableInstagramCodes = new Set([
 ])
 
 const threadSharedInstagramCodes = new Set([
-  // Food/cafe reels Dr. Cho shared in this Discord Instagram thread.
+  // Reels Dr. Cho shared in this Discord Instagram thread.
   'DXO4pYzk71U',
   'DQymX5JEURP',
   'DS19yCsEQun',
@@ -1894,6 +1894,17 @@ const threadSharedInstagramCodes = new Set([
   'DXicB9wicJA',
   'DYOVG3mIL5j',
   'DYMJ1iUT0fe',
+  'DYCX-xKx3m9',
+  'DYN4XjgSgd1',
+  'DYW4KetPdvE',
+])
+
+const jejuPriorityInstagramCodes = new Set([
+  'DSkOjVVCcW5',
+  'DXyLRZAzA7g',
+  'DXq9a60jybm',
+  'DUsF9KDkmgg',
+  'DXicB9wicJA',
   'DYCX-xKx3m9',
   'DYN4XjgSgd1',
   'DYW4KetPdvE',
@@ -2421,6 +2432,7 @@ function App() {
         const aCode = instagramCodeFromUrl(a.sourceUrl)
         const bCode = instagramCodeFromUrl(b.sourceUrl)
         return Number(isInlinePlayableInstagramItem(b)) - Number(isInlinePlayableInstagramItem(a))
+          || Number(jejuPriorityInstagramCodes.has(bCode)) - Number(jejuPriorityInstagramCodes.has(aCode))
           || Number(threadSharedInstagramCodes.has(bCode)) - Number(threadSharedInstagramCodes.has(aCode))
       })
     const inlineItems = sortedItems.filter((item) => isInlinePlayableInstagramItem(item))

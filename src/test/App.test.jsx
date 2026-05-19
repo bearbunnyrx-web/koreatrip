@@ -120,6 +120,12 @@ describe('Korea trip app v2 concept', () => {
     expect(embedSrcs.some((src) => src?.includes('DYCX-xKx3m9'))).toBe(true)
     expect(embedSrcs.some((src) => src?.includes('DYN4XjgSgd1'))).toBe(true)
     expect(embedSrcs.some((src) => src?.includes('DYW4KetPdvE'))).toBe(true)
+    const indexOfReel = (code) => embedSrcs.findIndex((src) => src?.includes(code))
+    const jejuReelCodes = ['DSkOjVVCcW5', 'DXyLRZAzA7g', 'DXq9a60jybm', 'DUsF9KDkmgg', 'DXicB9wicJA', 'DYCX-xKx3m9', 'DYN4XjgSgd1', 'DYW4KetPdvE']
+    const nonJejuSharedReelCodes = ['DXO4pYzk71U', 'DQymX5JEURP', 'DS19yCsEQun', 'DXRZp_zj4rd', 'DXtyngdj2f3', 'DXg7dR7ic-z', 'DUHKa4LEw7E', 'DW3qhI3xh5c', 'DWG4IbfDk_W', 'DV8u8maEcQ5', 'DYOVG3mIL5j', 'DYMJ1iUT0fe']
+    const lastJejuIndex = Math.max(...jejuReelCodes.map(indexOfReel))
+    const firstNonJejuSharedIndex = Math.min(...nonJejuSharedReelCodes.map(indexOfReel).filter((index) => index >= 0))
+    expect(lastJejuIndex).toBeLessThan(firstNonJejuSharedIndex)
     expect(screen.queryByText(/add a save/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/shortlist/i)).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /filter food/i })).not.toBeInTheDocument()
