@@ -1,7 +1,10 @@
 # Three Celebrations
 
-A single-page planner for the Hawaii photo trip, the Los Angeles wedding, and the Seoul wedding:
-cost explorer, example budgets, master timeline, and a shared checklist.
+A step-by-step onboarding for first-time wedding planners covering the Hawaii photo trip, the Southern California
+wedding, and the Seoul wedding. Each lesson shows real YouTube videos and Instagram accounts, asks one choice, and
+builds the budget. The Everything tab holds the full budget, timeline, checklist, vendors, and notes.
+
+Videos play inline on localhost and Vercel. On the shared Claude page they open on YouTube in a new tab.
 
 ## Run locally
 
