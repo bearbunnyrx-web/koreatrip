@@ -154,7 +154,72 @@ textarea{width:100%;min-height:120px;font:inherit;padding:14px;border:1px solid 
 input.num{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);width:100%;font-variant-numeric:tabular-nums}
 footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;letter-spacing:.1em}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media (max-width:640px){.step{padding:24px 18px}.names2{grid-template-columns:1fr}.task{grid-template-columns:22px 1fr}.task .who,.task .x{grid-column:2}nav .brand{font-size:18px}}
+.medialist{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.ytrow{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--paper);text-decoration:none;color:var(--ink);min-height:56px}
+.ytrow .play{flex:none;width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--lilac),var(--pink));display:flex;align-items:center;justify-content:center}
+.ytrow .play::after{content:"";border-left:12px solid var(--accent);border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+.ytrow .txt{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.ytrow .mt{font-size:14px;font-weight:600;line-height:1.3}
+.ytrow .mb{font-size:12px;color:var(--ink3);line-height:1.3}
+.ytrow .chev{color:var(--ink3);font-size:22px;flex:none}
+.bottomnav{display:none}
+@media (max-width:640px){
+  body{font-size:15px}
+  nav .tabs{display:none}
+  nav .wrap{height:52px;justify-content:center}
+  nav .brand{font-size:20px}
+  .wiz{padding:16px 12px 120px}
+  .progress{margin-bottom:14px;gap:3px}
+  .step{padding:20px 16px;border-radius:14px;box-shadow:none}
+  .step h2{font-size:30px;margin-bottom:8px}
+  .step .lead{font-size:15px;margin-bottom:16px;line-height:1.5}
+  .eyebrow{letter-spacing:.2em}
+  .learn{padding:12px 14px;font-size:13.5px;margin-bottom:16px}
+  .opts{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:16px}
+  .opt{padding:12px 12px;border-radius:12px;min-height:60px;justify-content:center}
+  .opt b{font-size:14px;line-height:1.25}
+  .opt .cost{font-size:17px}
+  .opt span:not(.cost){display:none}
+  .opts[data-k="target"],.opts[data-k="la.planner"],.opts[data-k="hi.photo"],.opts[data-k="kr.format"],.opts[data-k="kr.studio"],.opts[data-k="la.music"]{grid-template-columns:1fr}
+  .opts[data-k="target"] .opt span,.opts[data-k="la.planner"] .opt span,.opts[data-k="hi.photo"] .opt span,.opts[data-k="kr.format"] .opt span,.opts[data-k="kr.studio"] .opt span,.opts[data-k="la.music"] .opt span{display:block}
+  .opts[data-k="target"] .opt,.opts[data-k="la.planner"] .opt,.opts[data-k="hi.photo"] .opt,.opts[data-k="kr.format"] .opt,.opts[data-k="kr.studio"] .opt,.opts[data-k="la.music"] .opt{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+  .opts[data-k="target"] .opt span:not(.cost),.opts[data-k="la.planner"] .opt span:not(.cost),.opts[data-k="hi.photo"] .opt span:not(.cost),.opts[data-k="kr.format"] .opt span:not(.cost),.opts[data-k="kr.studio"] .opt span:not(.cost),.opts[data-k="la.music"] .opt span:not(.cost){flex-basis:100%}
+  .media{grid-template-columns:1fr}
+  .mediahead{margin:4px 0 8px}
+  .mediahead h3{font-size:17px}
+  .igrow{gap:6px;margin-bottom:16px}
+  .ig{padding:8px 10px;font-size:13px;flex:1 1 45%}
+  .toggle{min-height:44px;font-size:14px;margin-bottom:4px;align-items:flex-start;padding-top:6px}
+  .toggle input{margin-top:3px;flex:none}
+  .fields2{grid-template-columns:1fr 1fr;gap:10px}
+  .fundtbl{font-size:12.5px}
+  .fundtbl th,.fundtbl td{padding:6px 4px}
+  .navrow{flex-direction:column-reverse;gap:8px;margin-top:14px}
+  .navrow .btn{width:100%;text-align:center;padding:15px 20px;font-size:14px}
+  .navrow .btn.ghost{border-color:var(--line)}
+  .navrow span{display:none}
+  .running{width:100%;text-align:center;order:3;margin-bottom:6px}
+  .sum-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .sum-grid .kv b{font-size:24px}
+  .all{padding:16px 0 120px}
+  .wrap{padding:0 14px}
+  section.blk{margin-bottom:32px}
+  .sechead h2{font-size:28px}
+  .choices{grid-template-columns:1fr}
+  .names2{grid-template-columns:1fr}
+  .task{grid-template-columns:22px 1fr}.task .who,.task .x{grid-column:2}
+  .bottomnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:16;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+  .bottomnav button{flex:1;font:inherit;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;padding:10px 0 9px;border:0;background:transparent;color:var(--ink3);display:flex;flex-direction:column;align-items:center;gap:3px;min-height:56px}
+  .bottomnav button .ico{font-size:16px;line-height:1}
+  .bottomnav button.on{color:var(--accent)}
+  .savebar{bottom:calc(56px + env(safe-area-inset-bottom))}
+  .savebar .wrap{height:auto;padding:10px 14px;flex-direction:column;align-items:stretch;gap:8px}
+  .savebar .msg{font-size:13px;text-align:center}
+  .savebar .wrap > div{display:flex;gap:8px}
+  .savebar .wrap > div .btn{flex:1;text-align:center;padding:12px}
+  .status{bottom:calc(64px + env(safe-area-inset-bottom))}
+  footer{padding:20px 0 110px;font-size:11px}
+}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
 </head>
@@ -162,7 +227,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
 
 <script id="state" type="application/json">{"n1": "", "n2": "", "dateLA": "2028-09-16", "dateHI": "2027-02-15", "dateKR": "2029-03-17", "dateMove": "2027-04-15", "rate": 1380, "view": "learn", "step": 0, "est": {"target": "lean", "hi": {"photo": "full", "nights": 4, "travelers": 2, "attire": "rent", "album": true, "dinner": true}, "la": {"style": "oc", "guests": 120, "music": "dj", "video": true, "planner": "month", "bar": true, "tea": true}, "kr": {"format": "hall", "guests": 200, "studio": "reuse", "offset": true, "parentsTravel": true}}, "notes": "", "tasks": [{"ph": "hw", "t": "Set Hawaii photo budget (photographer, dress, hair and makeup, travel)", "d": false, "w": ""}, {"ph": "hw", "t": "Shortlist 3 Hawaii wedding-snap photographers (popular ones book 3 to 6 months out)", "d": false, "w": ""}, {"ph": "hw", "t": "Book photographer and pick locations (Lanikai, Kualoa, Waimanalo, Waikiki sunset)", "d": false, "w": ""}, {"ph": "hw", "t": "Book flights and hotel (Nov 2026 for best fares)", "d": false, "w": ""}, {"ph": "hw", "t": "Arrange dress and suit (rent in Honolulu or bring from LA)", "d": false, "w": ""}, {"ph": "hw", "t": "Book hair and makeup for shoot morning", "d": false, "w": ""}, {"ph": "hw", "t": "Plan a family dinner in Honolulu with her parents; invite your parents to join or video call", "d": false, "w": ""}, {"ph": "hw", "t": "Ask her parents which Hong Kong traditions matter to them (tea ceremony, red envelopes, banquet dishes)", "d": false, "w": ""}, {"ph": "hw", "t": "Order prints or album; reuse photos for save-the-dates and both wedding websites", "d": false, "w": ""}, {"ph": "mv", "t": "Set a moving budget (movers, deposit, furniture)", "d": false, "w": ""}, {"ph": "mv", "t": "Sign the Irvine lease and pick a move date", "d": false, "w": ""}, {"ph": "mv", "t": "Book movers or a truck 3 to 4 weeks ahead", "d": false, "w": ""}, {"ph": "mv", "t": "Open the joint wedding savings account once you share an address", "d": false, "w": ""}, {"ph": "now", "t": "Formal parents' meeting (sanggyeonrye): in person in Hawaii in Feb, or video call before", "d": false, "w": ""}, {"ph": "now", "t": "Agree on total budget across all three events", "d": false, "w": ""}, {"ph": "now", "t": "Draft the guest list and settle a target headcount", "d": false, "w": ""}, {"ph": "now", "t": "Tour Orange County and Temecula venues: Laguna Beach, Newport, San Juan Capistrano, Temecula wine country", "d": false, "w": ""}, {"ph": "now", "t": "Choose 2 or 3 candidate dates (include a Friday or Sunday)", "d": false, "w": ""}, {"ph": "now", "t": "Decide: wedding planner, or DIY plus a month-of coordinator", "d": false, "w": ""}, {"ph": "18", "t": "Tour venues and book one (this locks the date)", "d": false, "w": ""}, {"ph": "18", "t": "Book photographer", "d": false, "w": ""}, {"ph": "18", "t": "Book videographer", "d": false, "w": ""}, {"ph": "18", "t": "Book band or DJ", "d": false, "w": ""}, {"ph": "18", "t": "Book caterer if venue does not provide one", "d": false, "w": ""}, {"ph": "18", "t": "Ask officiant", "d": false, "w": ""}, {"ph": "12", "t": "Send save-the-dates using the Hawaii photos", "d": false, "w": ""}, {"ph": "12", "t": "Reserve hotel room blocks near the venue", "d": false, "w": ""}, {"ph": "12", "t": "Order dress, suit, and attire (6 to 9 months lead time)", "d": false, "w": ""}, {"ph": "12", "t": "Book florist, rentals, lighting", "d": false, "w": ""}, {"ph": "12", "t": "Book hair and makeup", "d": false, "w": ""}, {"ph": "12", "t": "Decide on a tea ceremony (Hong Kong side) and pyebaek (Korean side) in the day-of timeline", "d": false, "w": ""}, {"ph": "12", "t": "Invitations in English, Korean, and Chinese; book flights and hotel for her parents from Hawaii", "d": false, "w": ""}, {"ph": "12", "t": "Choose wedding party and ask them", "d": false, "w": ""}, {"ph": "6", "t": "Send invitations (RSVP due 6 weeks before)", "d": false, "w": ""}, {"ph": "6", "t": "Menu tasting and finalize catering", "d": false, "w": ""}, {"ph": "6", "t": "Book transportation or guest shuttles", "d": false, "w": ""}, {"ph": "6", "t": "Order rings", "d": false, "w": ""}, {"ph": "6", "t": "Plan rehearsal dinner", "d": false, "w": ""}, {"ph": "6", "t": "Write vows", "d": false, "w": ""}, {"ph": "2", "t": "Apply for LA County or Orange County marriage license (valid 90 days)", "d": false, "w": ""}, {"ph": "2", "t": "Final headcount to caterer and venue", "d": false, "w": ""}, {"ph": "2", "t": "Seating chart", "d": false, "w": ""}, {"ph": "2", "t": "Day-of timeline shared with all vendors", "d": false, "w": ""}, {"ph": "2", "t": "Confirm every vendor in writing the week before", "d": false, "w": ""}, {"ph": "se", "t": "Set Seoul wedding budget and decide who covers what with both families", "d": false, "w": ""}, {"ph": "se", "t": "Decide format: wedding hall, hotel, or small house wedding; target guest count", "d": false, "w": ""}, {"ph": "se", "t": "Research halls from March 2028 (popular Seoul halls book 6 to 12 months out)", "d": false, "w": ""}, {"ph": "se", "t": "Book hall and date by mid 2028", "d": false, "w": ""}, {"ph": "se", "t": "Book studio, dress, makeup package 6 months out, or reuse LA attire", "d": false, "w": ""}, {"ph": "se", "t": "Order hanbok for the couple and parents; plan pyebaek", "d": false, "w": ""}, {"ph": "se", "t": "Send Korean invitations (paper and mobile) 4 to 6 weeks out", "d": false, "w": ""}, {"ph": "se", "t": "Arrange congratulatory money desk and receipt helpers", "d": false, "w": ""}, {"ph": "se", "t": "Book flights and hotel in Seoul for her parents; arrange a bilingual host for the day", "d": false, "w": ""}, {"ph": "se", "t": "Book flights and hotel for the two of you and LA guests", "d": false, "w": ""}], "vendors": [{"ev": "Hawaii", "cat": "Photographer", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "SoCal", "cat": "Venue", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "SoCal", "cat": "Photographer", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "SoCal", "cat": "Caterer", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "SoCal", "cat": "Band / DJ", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "SoCal", "cat": "Florist", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "SoCal", "cat": "Planner / coordinator", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "Seoul", "cat": "Wedding hall", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "Seoul", "cat": "Studio / dress / makeup", "name": "", "status": "idea", "cost": "", "note": ""}], "fund": {"monthly": 1000, "share": 50, "saved": 0, "extra": 0, "family": 0}}</script>
 
-<nav><div class="wrap"><span class="brand" id="brand">Three Celebrations</span><div class="tabs"><button data-view="learn">Learn &amp; choose</button><button data-view="all">Everything</button></div></div></nav>
+<nav><div class="wrap"><span class="brand" id="brand">Three Celebrations</span><div class="tabs"><button data-view="learn">Learn</button><button data-view="all">Everything</button></div></div></nav>
 
 <div class="view" id="view-learn"><div class="wiz"><div class="progress" id="progress"></div><div class="step" id="step"></div></div></div>
 
@@ -198,6 +263,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
 
 <footer>Made for the two of us · figures are estimates, not quotes</footer>
 <div class="status" id="status">Saved</div>
+<div class="bottomnav" id="bottomnav"><button data-view="learn"><span class="ico">&#9679;</span>Learn</button><button data-view="all"><span class="ico">&#9776;</span>Everything</button></div>
 <div class="savebar" id="savebar"><div class="wrap"><span class="msg" id="savemsg">You have unsaved changes</span><div><button class="btn ghost small" id="discard">Discard</button> <button class="btn" id="savebtn">Save</button></div></div></div>
 
 <script>
@@ -290,19 +356,19 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
   function yt(id,title,by,note){ return {yt:id,title:title,by:by,note:note||''}; }
   function ig(h,name,note){ return {ig:h,name:name,note:note||''}; }
   var POSTS={
-    hawaii:['https://www.instagram.com/reel/DFKLb3IRr_Q/','https://www.instagram.com/reel/DP4ULBDDxqZ/'],
-    oc:['https://www.instagram.com/p/DNoOCIZyQ5Q/','https://www.instagram.com/p/DFvwtaITzdw/'],
-    beach:['https://www.instagram.com/calamigosevents/p/DAKIDOlSnwX/','https://www.instagram.com/p/DQul1hjEmBB/'],
-    estate:['https://www.instagram.com/p/DPCvfohkok9/','https://www.instagram.com/thecastlegreen/reel/Cuzn2CIgdhI/'],
-    loft:['https://www.instagram.com/weddingbyeunice/reel/CUTJ7Q4hoJe/'],
-    traditions:['https://www.instagram.com/leehwawedding/reel/C9ulyS8JA1H/','https://www.instagram.com/leehwawedding/p/Clmtdf1P4Zr/'],
-    hall:['https://www.instagram.com/apelgamo/reel/DGVEo4qTzGy/','https://www.instagram.com/p/DQG_g8CkTlD/'],
-    hotelkr:['https://www.instagram.com/p/DCJzvDozyDB/','https://www.instagram.com/p/DB1BqwdS_8B/']
+    hawaii:[['https://www.instagram.com/reel/DFKLb3IRr_Q/','Lohe: Oahu couple reel'],['https://www.instagram.com/reel/DP4ULBDDxqZ/','An Oahu wedding photographer’s reel']],
+    oc:[['https://www.instagram.com/p/DNoOCIZyQ5Q/','A wedding at Laguna Beach'],['https://www.instagram.com/p/DFvwtaITzdw/','A photographer’s favorite Laguna venues']],
+    beach:[['https://www.instagram.com/calamigosevents/p/DAKIDOlSnwX/','Calamigos Ranch wedding'],['https://www.instagram.com/p/DQul1hjEmBB/','Elegant Malibu wedding at Cielo Farms']],
+    estate:[['https://www.instagram.com/p/DPCvfohkok9/','Inside The Maxwell House'],['https://www.instagram.com/thecastlegreen/reel/Cuzn2CIgdhI/','Castle Green reel']],
+    loft:[['https://www.instagram.com/weddingbyeunice/reel/CUTJ7Q4hoJe/','Millwick wedding reel']],
+    traditions:[['https://www.instagram.com/leehwawedding/reel/C9ulyS8JA1H/','LEEHWA hanbok wedding dress reel'],['https://www.instagram.com/leehwawedding/p/Clmtdf1P4Zr/','LEEHWA hanbok rental options']],
+    hall:[['https://www.instagram.com/apelgamo/reel/DGVEo4qTzGy/','Apelgamo hall reel'],['https://www.instagram.com/p/DQG_g8CkTlD/','Apelgamo Gongdeok chapel hall']],
+    hotelkr:[['https://www.instagram.com/p/DCJzvDozyDB/','A Shilla Hotel wedding'],['https://www.instagram.com/p/DB1BqwdS_8B/','Signiel Seoul wedding dinner']]
   };
   function postsHTML(key){
     var list=POSTS[key]; if(!list||!list.length) return '';
-    if(IN_ARTIFACT) return '<div class="igrow">'+list.map(function(u){ return '<a class="ig" href="'+u+'" target="_blank" rel="noopener"><b>Instagram post</b><span>'+esc(u.replace('https://www.instagram.com/',''))+'</span></a>'; }).join('')+'</div>';
-    return '<div class="posts">'+list.map(function(u){ return '<blockquote class="instagram-media" data-instgrm-permalink="'+u+'" data-instgrm-version="14" style="margin:0;max-width:540px;min-width:240px;width:100%"><a href="'+u+'" target="_blank" rel="noopener">View on Instagram</a></blockquote>'; }).join('')+'</div>';
+    if(IN_ARTIFACT) return '<div class="igrow">'+list.map(function(x){ return '<a class="ig" href="'+x[0]+'" target="_blank" rel="noopener"><b>'+esc(x[1])+'</b><span>'+(x[0].indexOf('/reel/')>0?'Reel':'Post')+' · opens Instagram</span></a>'; }).join('')+'</div>';
+    return '<div class="posts">'+list.map(function(x){ var u=x[0]; return '<blockquote class="instagram-media" data-instgrm-permalink="'+u+'" data-instgrm-version="14" style="margin:0;max-width:540px;min-width:240px;width:100%"><a href="'+u+'" target="_blank" rel="noopener">View on Instagram</a></blockquote>'; }).join('')+'</div>';
   }
   function wirePosts(){
     if(IN_ARTIFACT) return;
@@ -344,10 +410,11 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
   };
   function mediaHTML(list){
     if(!list||!list.length) return '';
-    return '<div class="media">'+list.map(function(m){
+    return '<div class="'+(IN_ARTIFACT?'medialist':'media')+'">'+list.map(function(m){
       var url='https://www.youtube.com/watch?v='+m.yt;
       var img=IN_ARTIFACT?'':'<img alt="" loading="lazy" src="https://i.ytimg.com/vi/'+m.yt+'/hqdefault.jpg">';
       if(!IN_ARTIFACT && list.indexOf(m)===0) img='<iframe src="https://www.youtube-nocookie.com/embed/'+m.yt+'?rel=0" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen title="'+esc(m.title)+'"></iframe>';
+      if(IN_ARTIFACT) return '<a class="ytrow" href="'+url+'" target="_blank" rel="noopener"><span class="play"></span><span class="txt"><span class="mt">'+esc(m.title)+'</span><span class="mb">'+esc(m.by)+(m.note?' · '+esc(m.note):'')+'</span></span><span class="chev">&#8250;</span></a>';
       return '<a class="yt" data-id="'+m.yt+'" href="'+url+'" target="_blank" rel="noopener"><div class="thumb">'+img+(list.indexOf(m)===0&&!IN_ARTIFACT?'':'<span class="play"></span>')+'</div><div class="mt">'+esc(m.title)+'</div><div class="mb">'+esc(m.by)+(m.note?' · '+esc(m.note):'')+'</div></a>';
     }).join('')+'</div>';
   }
@@ -559,7 +626,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
     });
   }
   function renderBrand(){ var b=(S.n1&&S.n2)?S.n1+' & '+S.n2:(S.n1||S.n2||'Three Celebrations'); $('brand').textContent=b; document.title=b+' · Three Celebrations'; }
-  function setView(v){ S.view=v; document.querySelectorAll('.tabs button').forEach(function(b){ b.classList.toggle('on',b.dataset.view===v); }); $('view-learn').hidden=(v!=='learn'); $('view-all').hidden=(v!=='all'); if(v==='all') renderAll(); else renderWizard(); window.scrollTo(0,0); }
+  function setView(v){ S.view=v; document.querySelectorAll('.tabs button, .bottomnav button').forEach(function(b){ b.classList.toggle('on',b.dataset.view===v); }); $('view-learn').hidden=(v!=='learn'); $('view-all').hidden=(v!=='all'); if(v==='all') renderAll(); else renderWizard(); window.scrollTo(0,0); }
 
   /* ---------- persistence ---------- */
   function serialize(){ var json=JSON.stringify(S).replace(/<\/script/gi,'<\\/script'); return TEMPLATE.replace(/(<script id="state" type="application\/json">)[\s\S]*?(<\/script>)/,function(_,a,b){return a+json+b}); }
@@ -594,7 +661,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
   if(!S.fund) S.fund={monthly:1000,share:50,saved:0,extra:0,family:0};
 
   /* ---------- wiring ---------- */
-  document.querySelectorAll('.tabs button').forEach(function(b){ b.onclick=function(){ setView(b.dataset.view); }; });
+  document.querySelectorAll('.tabs button, .bottomnav button').forEach(function(b){ b.onclick=function(){ setView(b.dataset.view); }; });
   $('restart').onclick=function(){ S.step=0; setView('learn'); };
   $('savebtn').onclick=doSave;
   $('discard').onclick=function(){ try{ sessionStorage.removeItem('three-celebrations-pending'); localStorage.removeItem('three-celebrations-draft'); }catch(e){} dirty=false; location.reload(); };
@@ -606,7 +673,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
 
   function boot(){
   renderBrand();
-  var _v=S.view||'learn'; S.view=_v; document.querySelectorAll('.tabs button').forEach(function(b){ b.classList.toggle('on',b.dataset.view===_v); }); $('view-learn').hidden=(_v!=='learn'); $('view-all').hidden=(_v!=='all'); if(_v==='all') renderAll(); else renderWizard();
+  var _v=S.view||'learn'; S.view=_v; document.querySelectorAll('.tabs button, .bottomnav button').forEach(function(b){ b.classList.toggle('on',b.dataset.view===_v); }); $('view-learn').hidden=(_v!=='learn'); $('view-all').hidden=(_v!=='all'); if(_v==='all') renderAll(); else renderWizard();
   if(pendingRestore){ save(); $('savemsg').textContent='Restored your unsaved changes. Press Save to keep them.'; }
   }
   if(!IN_ARTIFACT && location.protocol.indexOf('http')===0){
