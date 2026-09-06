@@ -41,7 +41,7 @@ section.block{padding:72px 0}
 section.block.alt{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sechead{display:flex;flex-direction:column;gap:8px;margin-bottom:34px;text-align:center;align-items:center}
 .sechead p{margin:0;color:var(--ink2);max-width:600px}
-.grid3{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:1000px){.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .card{background:var(--paper);border-radius:8px;padding:20px;border-top:3px solid #d8b4fe;display:flex;flex-direction:column;gap:8px}
 .alt .card{border:1px solid var(--line);border-top:3px solid #d8b4fe}
@@ -50,6 +50,11 @@ section.block.alt{background:var(--paper);border-top:1px solid var(--line);borde
 .card ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:5px;font-size:13px}
 .card li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding-bottom:4px}
 .card li span:last-child{font-variant-numeric:tabular-nums;color:var(--ink2)}
+span.links{display:inline-flex;gap:8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+span.links a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--lilac)}
+span.links a:hover{border-bottom-color:var(--accent)}
+.lines li span.links{margin-left:auto}
+.opts button span.links{margin-left:8px}
 /* estimator */
 .tabs{display:flex;justify-content:center;gap:6px;margin-bottom:28px;flex-wrap:wrap}
 .tabs button{font:inherit;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:10px 20px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink2);cursor:pointer}
@@ -138,21 +143,21 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
 </head>
 <body>
 
-<script id="state" type="application/json">{"n1":"Joe","n2":"","dateLA":"2028-09-16","dateHI":"2027-02-15","dateKR":"2029-03-17","rate":1380,"est":{"tab":"hi","hi":{"photo":"full","nights":4,"travelers":2,"attire":"rent","album":true},"la":{"style":"estate","guests":120,"music":"dj","video":true,"planner":"month","bar":true},"kr":{"format":"hall","guests":200,"studio":"reuse","offset":true}},"notes":"","tasks":[{"ph":"hw","t":"Set Hawaii photo budget (photographer, dress, hair and makeup, travel)","d":false,"w":""},{"ph":"hw","t":"Shortlist 3 Hawaii wedding-snap photographers (popular ones book 3 to 6 months out)","d":false,"w":""},{"ph":"hw","t":"Book photographer and pick locations (Oahu east side beaches, Kualoa, Waikiki sunset)","d":false,"w":""},{"ph":"hw","t":"Book flights and hotel (Nov 2026 for best fares)","d":false,"w":""},{"ph":"hw","t":"Arrange dress and suit (rent in Honolulu or bring from LA)","d":false,"w":""},{"ph":"hw","t":"Book hair and makeup for shoot morning","d":false,"w":""},{"ph":"hw","t":"Order prints or album; reuse photos for save-the-dates and both wedding websites","d":false,"w":""},{"ph":"now","t":"Agree on total budget across all three events","d":false,"w":""},{"ph":"now","t":"Draft the LA guest list and settle a target headcount","d":false,"w":""},{"ph":"now","t":"Pick an LA vibe: beach, garden estate, DTLA loft, vineyard, hotel","d":false,"w":""},{"ph":"now","t":"Choose 2 or 3 candidate dates (include a Friday or Sunday)","d":false,"w":""},{"ph":"now","t":"Decide: wedding planner, or DIY plus a month-of coordinator","d":false,"w":""},{"ph":"now","t":"Open a shared wedding savings account","d":false,"w":""},{"ph":"18","t":"Tour LA venues and book one (this locks the date)","d":false,"w":""},{"ph":"18","t":"Book photographer","d":false,"w":""},{"ph":"18","t":"Book videographer","d":false,"w":""},{"ph":"18","t":"Book band or DJ","d":false,"w":""},{"ph":"18","t":"Book caterer if venue does not provide one","d":false,"w":""},{"ph":"18","t":"Ask officiant","d":false,"w":""},{"ph":"12","t":"Send save-the-dates using the Hawaii photos","d":false,"w":""},{"ph":"12","t":"Reserve hotel room blocks near the venue","d":false,"w":""},{"ph":"12","t":"Order dress, suit, and attire (6 to 9 months lead time)","d":false,"w":""},{"ph":"12","t":"Book florist, rentals, lighting","d":false,"w":""},{"ph":"12","t":"Book hair and makeup","d":false,"w":""},{"ph":"12","t":"Choose wedding party and ask them","d":false,"w":""},{"ph":"6","t":"Send invitations (RSVP due 6 weeks before)","d":false,"w":""},{"ph":"6","t":"Menu tasting and finalize catering","d":false,"w":""},{"ph":"6","t":"Book transportation or guest shuttles","d":false,"w":""},{"ph":"6","t":"Order rings","d":false,"w":""},{"ph":"6","t":"Plan rehearsal dinner","d":false,"w":""},{"ph":"6","t":"Write vows","d":false,"w":""},{"ph":"2","t":"Apply for LA County marriage license (valid 90 days)","d":false,"w":""},{"ph":"2","t":"Final headcount to caterer and venue","d":false,"w":""},{"ph":"2","t":"Seating chart","d":false,"w":""},{"ph":"2","t":"Day-of timeline shared with all vendors","d":false,"w":""},{"ph":"2","t":"Confirm every vendor in writing the week before","d":false,"w":""},{"ph":"se","t":"Set Seoul wedding budget in KRW and decide who covers what with both families","d":false,"w":""},{"ph":"se","t":"Decide format: wedding hall, hotel, or small house wedding; target guest count","d":false,"w":""},{"ph":"se","t":"Research halls from March 2028 (popular Seoul halls book 6 to 12 months out)","d":false,"w":""},{"ph":"se","t":"Book hall and date by mid 2028","d":false,"w":""},{"ph":"se","t":"Book studio, dress, makeup package 6 months out, or reuse LA attire","d":false,"w":""},{"ph":"se","t":"Order hanbok for the couple and parents; plan pyebaek","d":false,"w":""},{"ph":"se","t":"Send Korean invitations (paper and mobile) 4 to 6 weeks out","d":false,"w":""},{"ph":"se","t":"Arrange congratulatory money desk and receipt helpers","d":false,"w":""},{"ph":"se","t":"Book flights and hotel for the two of you and LA guests","d":false,"w":""}],"vendors":[{"ev":"Hawaii","cat":"Photographer","name":"","status":"idea","cost":"","note":""},{"ev":"LA","cat":"Venue","name":"","status":"idea","cost":"","note":""},{"ev":"LA","cat":"Photographer","name":"","status":"idea","cost":"","note":""},{"ev":"LA","cat":"Caterer","name":"","status":"idea","cost":"","note":""},{"ev":"LA","cat":"Band / DJ","name":"","status":"idea","cost":"","note":""},{"ev":"LA","cat":"Florist","name":"","status":"idea","cost":"","note":""},{"ev":"Seoul","cat":"Wedding hall","name":"","status":"idea","cost":"","note":""},{"ev":"Seoul","cat":"Studio / dress / makeup","name":"","status":"idea","cost":"","note":""}]}</script>
+<script id="state" type="application/json">{"n1": "Joe", "n2": "", "dateLA": "2028-09-16", "dateHI": "2027-02-15", "dateKR": "2029-03-17", "rate": 1380, "est": {"tab": "hi", "hi": {"photo": "full", "nights": 4, "travelers": 2, "attire": "rent", "album": true, "dinner": true}, "la": {"style": "oc", "guests": 120, "music": "dj", "video": true, "planner": "month", "bar": true, "tea": true}, "kr": {"format": "hall", "guests": 200, "studio": "reuse", "offset": true, "parentsTravel": true}}, "notes": "", "tasks": [{"ph": "hw", "t": "Set Hawaii photo budget (photographer, dress, hair and makeup, travel)", "d": false, "w": ""}, {"ph": "hw", "t": "Shortlist 3 Hawaii wedding-snap photographers (popular ones book 3 to 6 months out)", "d": false, "w": ""}, {"ph": "hw", "t": "Book photographer and pick locations (Oahu east side beaches, Kualoa, Waikiki sunset)", "d": false, "w": ""}, {"ph": "hw", "t": "Book flights and hotel (Nov 2026 for best fares)", "d": false, "w": ""}, {"ph": "hw", "t": "Arrange dress and suit (rent in Honolulu or bring from LA)", "d": false, "w": ""}, {"ph": "hw", "t": "Book hair and makeup for shoot morning", "d": false, "w": ""}, {"ph": "hw", "t": "Order prints or album; reuse photos for save-the-dates and both wedding websites", "d": false, "w": ""}, {"ph": "hw", "t": "Plan a family dinner in Honolulu with your fiancée's parents; invite your parents to join or video call", "d": false, "w": ""}, {"ph": "hw", "t": "Ask her parents which Hong Kong traditions matter to them (tea ceremony, red envelopes, banquet dishes)", "d": false, "w": ""}, {"ph": "mv", "t": "Set a moving budget (movers, deposit, furniture)", "d": false, "w": ""}, {"ph": "mv", "t": "Sign the Irvine lease and pick a move date", "d": false, "w": ""}, {"ph": "mv", "t": "Book movers or a truck 3 to 4 weeks ahead", "d": false, "w": ""}, {"ph": "mv", "t": "Open the joint wedding savings account once you share an address", "d": false, "w": ""}, {"ph": "now", "t": "Formal parents' meeting (sanggyeonrye): in person in Hawaii in Feb, or video call before", "d": false, "w": ""}, {"ph": "now", "t": "Tour Orange County and Temecula venues too: Laguna Beach, Newport, San Juan Capistrano, Temecula wine country", "d": false, "w": ""}, {"ph": "now", "t": "Agree on total budget across all three events", "d": false, "w": ""}, {"ph": "now", "t": "Draft the LA guest list and settle a target headcount", "d": false, "w": ""}, {"ph": "now", "t": "Pick an LA vibe: beach, garden estate, DTLA loft, vineyard, hotel", "d": false, "w": ""}, {"ph": "now", "t": "Choose 2 or 3 candidate dates (include a Friday or Sunday)", "d": false, "w": ""}, {"ph": "now", "t": "Decide: wedding planner, or DIY plus a month-of coordinator", "d": false, "w": ""}, {"ph": "now", "t": "Open a shared wedding savings account", "d": false, "w": ""}, {"ph": "18", "t": "Tour LA venues and book one (this locks the date)", "d": false, "w": ""}, {"ph": "18", "t": "Book photographer", "d": false, "w": ""}, {"ph": "18", "t": "Book videographer", "d": false, "w": ""}, {"ph": "18", "t": "Book band or DJ", "d": false, "w": ""}, {"ph": "18", "t": "Book caterer if venue does not provide one", "d": false, "w": ""}, {"ph": "18", "t": "Ask officiant", "d": false, "w": ""}, {"ph": "12", "t": "Send save-the-dates using the Hawaii photos", "d": false, "w": ""}, {"ph": "12", "t": "Reserve hotel room blocks near the venue", "d": false, "w": ""}, {"ph": "12", "t": "Order dress, suit, and attire (6 to 9 months lead time)", "d": false, "w": ""}, {"ph": "12", "t": "Book florist, rentals, lighting", "d": false, "w": ""}, {"ph": "12", "t": "Book hair and makeup", "d": false, "w": ""}, {"ph": "12", "t": "Choose wedding party and ask them", "d": false, "w": ""}, {"ph": "12", "t": "Decide on a tea ceremony (Hong Kong side) and pyebaek (Korean side) in the LA day-of timeline", "d": false, "w": ""}, {"ph": "12", "t": "Invitations in English, Korean, and Chinese; book flights and hotel for her parents from Hawaii", "d": false, "w": ""}, {"ph": "6", "t": "Send invitations (RSVP due 6 weeks before)", "d": false, "w": ""}, {"ph": "6", "t": "Menu tasting and finalize catering", "d": false, "w": ""}, {"ph": "6", "t": "Book transportation or guest shuttles", "d": false, "w": ""}, {"ph": "6", "t": "Order rings", "d": false, "w": ""}, {"ph": "6", "t": "Plan rehearsal dinner", "d": false, "w": ""}, {"ph": "6", "t": "Write vows", "d": false, "w": ""}, {"ph": "2", "t": "Apply for LA County marriage license (valid 90 days)", "d": false, "w": ""}, {"ph": "2", "t": "Final headcount to caterer and venue", "d": false, "w": ""}, {"ph": "2", "t": "Seating chart", "d": false, "w": ""}, {"ph": "2", "t": "Day-of timeline shared with all vendors", "d": false, "w": ""}, {"ph": "2", "t": "Confirm every vendor in writing the week before", "d": false, "w": ""}, {"ph": "se", "t": "Set Seoul wedding budget in KRW and decide who covers what with both families", "d": false, "w": ""}, {"ph": "se", "t": "Decide format: wedding hall, hotel, or small house wedding; target guest count", "d": false, "w": ""}, {"ph": "se", "t": "Research halls from March 2028 (popular Seoul halls book 6 to 12 months out)", "d": false, "w": ""}, {"ph": "se", "t": "Book hall and date by mid 2028", "d": false, "w": ""}, {"ph": "se", "t": "Book studio, dress, makeup package 6 months out, or reuse LA attire", "d": false, "w": ""}, {"ph": "se", "t": "Order hanbok for the couple and parents; plan pyebaek", "d": false, "w": ""}, {"ph": "se", "t": "Send Korean invitations (paper and mobile) 4 to 6 weeks out", "d": false, "w": ""}, {"ph": "se", "t": "Arrange congratulatory money desk and receipt helpers", "d": false, "w": ""}, {"ph": "se", "t": "Book flights and hotel for the two of you and LA guests", "d": false, "w": ""}, {"ph": "se", "t": "Book flights and hotel in Seoul for her parents; arrange an interpreter or bilingual host for the day", "d": false, "w": ""}], "vendors": [{"ev": "Hawaii", "cat": "Photographer", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "LA", "cat": "Venue (OC / Temecula option)", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "LA", "cat": "Venue", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "LA", "cat": "Photographer", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "LA", "cat": "Caterer", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "LA", "cat": "Band / DJ", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "LA", "cat": "Florist", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "Seoul", "cat": "Wedding hall", "name": "", "status": "idea", "cost": "", "note": ""}, {"ev": "Seoul", "cat": "Studio / dress / makeup", "name": "", "status": "idea", "cost": "", "note": ""}], "dateMove": "2027-04-15"}</script>
 
 <nav><div class="wrap"><a class="brand" href="#top" style="text-decoration:none" id="brand">Joe &amp; ___</a><div class="links"><a href="#costs">Costs</a><a href="#examples">Examples</a><a href="#timeline">Timeline</a><a href="#planner">Planner</a></div></div></nav>
 
 <header class="hero" id="top"><div class="wrap">
-  <div class="eyebrow">Hawaii · Los Angeles · Seoul</div>
+  <div class="eyebrow">Hawaii · Irvine · Southern California · Seoul</div>
   <h1>Three celebrations, <em>planned together</em></h1>
   <p>What each choice costs, when to book what, and one shared list for the two of us. Everything here updates as we decide.</p>
-  <div class="dates"><div><b id="hd-hi">Feb 2027</b><span>Hawaii photos</span></div><div><b id="hd-la">Sept 2028</b><span>LA wedding</span></div><div><b id="hd-kr">Mar 2029</b><span>Seoul wedding</span></div></div>
+  <div class="dates"><div><b id="hd-hi">Feb 2027</b><span>Hawaii photos</span></div><div><b id="hd-mv">Apr 2027</b><span>Move to Irvine</span></div><div><b id="hd-la">Sept 2028</b><span>SoCal wedding</span></div><div><b id="hd-kr">Mar 2029</b><span>Seoul wedding</span></div></div>
   <div class="btnrow"><a class="btn" href="#costs">Explore costs</a><a class="btn ghost" href="#planner">Our planner</a></div>
 </div></header>
 
 <section class="block" id="costs"><div class="wrap">
-  <div class="sechead"><div class="eyebrow">Cost explorer</div><h2>What will it cost?</h2><p>Pick the options and watch the estimate move. Figures are typical market ranges for 2026, not quotes. Your picks are saved to the planner.</p></div>
-  <div class="tabs"><button data-tab="hi">Hawaii photos</button><button data-tab="la">LA wedding</button><button data-tab="kr">Seoul wedding</button></div>
+  <div class="sechead"><div class="eyebrow">Cost explorer</div><h2>What will it cost?</h2><p>Pick the options and watch the estimate move. Everything is in US dollars, Seoul included. Figures are typical market ranges for 2026, not quotes. The Instagram and YouTube links open real examples of each option.</p></div>
+  <div class="tabs"><button data-tab="hi">Hawaii photos</button><button data-tab="la">SoCal wedding</button><button data-tab="kr">Seoul wedding</button></div>
   <div class="est">
     <div>
       <div class="panel" id="panel-hi">
@@ -161,35 +166,38 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
         <div class="field"><label>Travelers · <span class="rangeval" id="hi.travelers.v"></span></label><input type="range" min="2" max="6" data-k="hi.travelers"></div>
         <div class="field"><label>Attire</label><div class="opts" data-k="hi.attire"><button data-v="rent">Rent in Honolulu · $600</button><button data-v="own">Bring our own · $0</button></div></div>
         <label class="toggle"><input type="checkbox" data-k="hi.album"> Printed album and prints ($600)</label>
+        <label class="toggle" style="margin-top:8px"><input type="checkbox" data-k="hi.dinner"> Family dinner with her parents in Honolulu ($400)</label>
       </div>
       <div class="panel" id="panel-la" hidden>
-        <div class="field"><label>Venue style</label><div class="opts" data-k="la.style"><button data-v="beach">Malibu beach</button><button data-v="estate">Garden estate</button><button data-v="loft">DTLA loft</button><button data-v="hotel">Hotel ballroom</button><button data-v="backyard">Backyard / restaurant</button></div></div>
+        <div class="field"><label>Venue style</label><div class="opts" data-k="la.style"><button data-v="oc">Orange County coast</button><button data-v="irvine">Irvine / inland OC</button><button data-v="temecula">Temecula vineyard</button><button data-v="beach">Malibu beach</button><button data-v="estate">Pasadena garden estate</button><button data-v="loft">DTLA loft</button><button data-v="hotel">Hotel ballroom</button><button data-v="backyard">Backyard / restaurant</button></div></div>
         <div class="field"><label>Guests · <span class="rangeval" id="la.guests.v"></span></label><input type="range" min="40" max="250" step="5" data-k="la.guests"></div>
         <div class="field"><label>Music</label><div class="opts" data-k="la.music"><button data-v="dj">DJ · $2,500</button><button data-v="band">Live band · $9,000</button></div></div>
         <div class="field"><label>Planner</label><div class="opts" data-k="la.planner"><button data-v="none">None</button><button data-v="month">Month-of · $3,000</button><button data-v="partial">Partial · $6,500</button><button data-v="full">Full service · 12%</button></div></div>
         <label class="toggle"><input type="checkbox" data-k="la.video"> Videographer ($3,500)</label>
         <label class="toggle" style="margin-top:8px"><input type="checkbox" data-k="la.bar"> Open bar ($45 per guest)</label>
+        <label class="toggle" style="margin-top:8px"><input type="checkbox" data-k="la.tea"> Tea ceremony (Hong Kong side) and pyebaek (Korean side), $1,800</label>
       </div>
       <div class="panel" id="panel-kr" hidden>
         <div class="field"><label>Format</label><div class="opts" data-k="kr.format"><button data-v="hall">Wedding hall</button><button data-v="hotel">Hotel wedding</button><button data-v="small">Small / house wedding</button></div></div>
         <div class="field"><label>Guests · <span class="rangeval" id="kr.guests.v"></span></label><input type="range" min="50" max="400" step="10" data-k="kr.guests"></div>
-        <div class="field"><label>Studio, dress, makeup</label><div class="opts" data-k="kr.studio"><button data-v="full">Full package · ₩3.5M</button><button data-v="reuse">Reuse LA attire · ₩1.5M</button></div></div>
-        <label class="toggle"><input type="checkbox" data-k="kr.offset"> Show expected congratulatory money offset (₩70k per guest)</label>
-        <div class="field" style="margin-top:18px"><label>Won per dollar · <span class="rangeval" id="rate.v"></span></label><input type="range" min="1100" max="1600" step="10" data-k="rate"></div>
+        <div class="field"><label>Studio, dress, makeup</label><div class="opts" data-k="kr.studio"><button data-v="full">Full package · $2,500</button><button data-v="reuse">Reuse LA attire · $1,100</button></div></div>
+        <label class="toggle" style="margin-bottom:8px"><input type="checkbox" data-k="kr.parentsTravel"> Flights and hotel in Seoul for her parents from Hawaii ($3,200)</label>
+        <label class="toggle"><input type="checkbox" data-k="kr.offset"> Show expected congratulatory money offset (about $50 per guest)</label>
+        <div class="field" style="margin-top:18px"><label>Exchange rate used, won per dollar · <span class="rangeval" id="rate.v"></span></label><input type="range" min="1100" max="1600" step="10" data-k="rate"><span class="tiny">All Seoul figures are shown in dollars. Korean vendors quote in won, so this converts them.</span></div>
       </div>
     </div>
     <div class="panel summary"><div class="eyebrow" id="sum-title">Hawaii photos</div><div class="total" id="sum-total">$0</div><div class="sub" id="sum-sub"></div><ul class="lines" id="sum-lines"></ul></div>
   </div>
   <div class="combined">
     <div class="kv"><b id="c-hi">$0</b><span>Hawaii</span></div>
-    <div class="kv"><b id="c-la">$0</b><span>Los Angeles</span></div>
+    <div class="kv"><b id="c-la">$0</b><span>SoCal wedding</span></div>
     <div class="kv"><b id="c-kr">$0</b><span>Seoul, net</span></div>
     <div class="kv hl"><b id="c-all">$0</b><span>All three · <span id="c-month"></span> / month</span></div>
   </div>
 </div></section>
 
 <section class="block alt" id="examples"><div class="wrap">
-  <div class="sechead"><div class="eyebrow">Example budgets</div><h2>Four ways it could look</h2><p>Itemized, realistic examples built from current LA, Oahu, and Seoul pricing. Use them as a sanity check against your own picks above.</p></div>
+  <div class="sechead"><div class="eyebrow">Example budgets</div><h2>Six ways it could look</h2><p>Itemized, realistic examples from current Oahu, Orange County, Temecula, LA, and Seoul pricing, all in dollars. Each links to Instagram and YouTube so you can see the style before you tour.</p></div>
   <div class="grid3" id="examples-grid"></div>
 </div></section>
 
@@ -229,8 +237,15 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
   function root(path){ return path==='rate'?S:S.est; }
   function get(path){ return path.split('.').reduce(function(o,k){return o[k]},root(path)); }
   function set(path,v){ var ks=path.split('.'); var o=root(path); for(var i=0;i<ks.length-1;i++) o=o[ks[i]]; o[ks[ks.length-1]]=v; }
+  function links(ig,yt){ return '<span class="links"><a target="_blank" rel="noopener" href="https://www.instagram.com/explore/tags/'+encodeURIComponent(ig)+'/">Instagram</a><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query='+encodeURIComponent(yt)+'">YouTube</a></span>'; }
   function monthName(d){ return new Date(d+'T00:00:00').toLocaleDateString('en-US',{month:'short',year:'numeric'}); }
 
+  var OPT_LINKS={'la.style':{oc:['lagunabeachwedding','orange county coastal wedding venue'],irvine:['irvinewedding','irvine wedding venue'],temecula:['temeculawedding','temecula vineyard wedding'],beach:['malibuwedding','malibu beach wedding'],estate:['pasadenawedding','pasadena estate wedding'],loft:['dtlawedding','dtla loft wedding'],hotel:['beverlyhillswedding','los angeles hotel ballroom wedding'],backyard:['backyardwedding','backyard wedding california']},
+    'hi.photo':{half:['hawaiiweddingsnap','hawaii wedding snap'],full:['oahuwedding photographer','oahu wedding snap photographer'],premium:['hawaiisnap','hawaii wedding photography luxury']},
+    'kr.format':{hall:['웨딩홀','서울 웨딩홀'],hotel:['호텔웨딩','서울 호텔 웨딩'],small:['스몰웨딩','서울 스몰웨딩']},
+    'la.music':{dj:['weddingdj','los angeles wedding dj'],band:['weddingband','los angeles wedding band']}};
+  var LINE_LINKS=[['Photographer','weddingphotography','wedding photographer'],['Hair and makeup','bridalmakeup','bridal hair and makeup'],['Catering','weddingcatering','wedding catering tasting'],['Open bar','weddingbar','wedding bar'],['Videographer','weddingvideography','wedding film'],['Flowers','weddingflowers','wedding florals'],['Rentals','weddingrentals','wedding rentals lighting'],['Attire','weddingdress','wedding dress shopping'],['Invitations','weddinginvitations','wedding invitation'],['Cake','weddingcake','wedding cake'],['Tea ceremony','teaceremony','chinese tea ceremony wedding pyebaek'],['Hanbok','hanbok','wedding hanbok'],['Venue','weddingvenue','wedding venue tour'],['Hall','웨딩홀','웨딩홀 투어'],['Meals','웨딩식사','웨딩홀 식사'],['Studio','스드메','스드메 촬영'],['Dress fitting','드레스투어','드레스 투어'],['Snap','웨딩스냅','웨딩 스냅'],['Album','weddingalbum','wedding album'],['Hotel','honeymoon','oahu hotel'],['Family dinner','honolulufood','honolulu family dinner restaurant']];
+  function lineLink(label){ for(var i=0;i<LINE_LINKS.length;i++){ if(label.indexOf(LINE_LINKS[i][0])===0) return links(LINE_LINKS[i][1],LINE_LINKS[i][2]); } return ''; }
   /* ---------- cost models ---------- */
   function estHI(){
     var h=S.est.hi, L=[];
@@ -242,11 +257,12 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
     L.push(['Hotel × '+h.nights+' nights',350*h.nights]);
     L.push(['Meals, car, misc × '+h.nights+' days',130*h.nights]);
     if(h.album) L.push(['Album and prints',600]);
+    if(h.dinner) L.push(['Family dinner with her parents',400]);
     return L;
   }
   function estLA(){
     var l=S.est.la, g=l.guests, L=[];
-    var v={beach:{fee:14000,pp:210,extra:4500,name:'Malibu beach'},estate:{fee:12000,pp:190,extra:4000,name:'garden estate'},loft:{fee:9000,pp:175,extra:0,name:'DTLA loft'},hotel:{fee:5000,pp:245,extra:0,name:'hotel ballroom'},backyard:{fee:2500,pp:120,extra:5000,name:'backyard or restaurant'}}[l.style];
+    var v={oc:{fee:11000,pp:200,extra:3500,name:'Orange County coast (Laguna, Newport, Dana Point)'},irvine:{fee:6500,pp:165,extra:2000,name:'Irvine or inland OC (Irvine, Tustin, San Juan Capistrano)'},temecula:{fee:9500,pp:170,extra:3000,name:'Temecula vineyard'},beach:{fee:14000,pp:210,extra:4500,name:'Malibu beach'},estate:{fee:12000,pp:190,extra:4000,name:'garden estate'},loft:{fee:9000,pp:175,extra:0,name:'DTLA loft'},hotel:{fee:5000,pp:245,extra:0,name:'hotel ballroom'},backyard:{fee:2500,pp:120,extra:5000,name:'backyard or restaurant'}}[l.style];
     L.push(['Venue fee, '+v.name,v.fee]);
     L.push(['Catering × '+g+' guests',v.pp*g]);
     if(l.bar) L.push(['Open bar × '+g,45*g]);
@@ -259,7 +275,8 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
     L.push(['Invitations, website, stationery',1500]);
     L.push(['Cake and dessert',Math.max(800,8*g)]);
     L.push(['Officiant, license, rings',3500]);
-    if(l.style==='beach'||l.style==='estate') L.push(['Guest shuttles',2500]);
+    if(l.style==='beach'||l.style==='estate'||l.style==='temecula'||l.style==='oc') L.push(['Guest shuttles',l.style==='temecula'?3500:2500]);
+    if(l.tea) L.push(['Tea ceremony and pyebaek: tea set, hanbok, qipao, red envelopes, food',1800]);
     var sub=L.reduce(function(a,x){return a+x[1]},0);
     var p={none:0,month:3000,partial:6500,full:Math.round(sub*0.12)}[l.planner];
     if(p) L.push([{month:'Month-of coordinator',partial:'Partial planner',full:'Full-service planner'}[l.planner],p]);
@@ -278,13 +295,14 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
     L.push(['MC, officiant, ceremony extras',1000000]);
     L.push(['Invitations, paper and mobile',500000]);
     L.push(['Flights and hotel for the two of us',3000000]);
-    return L;
+    if(k.parentsTravel) L.push(['Flights and hotel for her parents from Hawaii',3200*S.rate]);
+    return L.map(function(x){ return [x[0], x[1]/S.rate]; });
   }
   function sumL(L){ return L.reduce(function(a,x){return a+x[1]},0); }
   function totals(){
     var hi=sumL(estHI()), la=sumL(estLA());
-    var krGross=sumL(estKR()), off=S.est.kr.offset?70000*S.est.kr.guests:0;
-    var krNet=(krGross-off)/S.rate;
+    var krGross=sumL(estKR()), off=S.est.kr.offset?(70000/S.rate)*S.est.kr.guests:0;
+    var krNet=krGross-off;
     return {hi:hi,la:la,krGross:krGross,off:off,krNet:krNet,all:hi+la+krNet};
   }
 
@@ -297,11 +315,11 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
     document.querySelectorAll('input[type=checkbox][data-k]').forEach(function(c){ c.checked=!!get(c.dataset.k); });
     var T=totals(), L, title, sub, lines=$('sum-lines'); lines.innerHTML='';
     if(tab==='hi'){ L=estHI(); title='Hawaii photos · '+monthName(S.dateHI); $('sum-total').textContent=usd(T.hi); sub='for '+S.est.hi.travelers+' travelers, '+S.est.hi.nights+' nights'; }
-    else if(tab==='la'){ L=estLA(); title='LA wedding · '+monthName(S.dateLA); $('sum-total').textContent=usd(T.la); sub=usd(T.la/S.est.la.guests)+' per guest'; }
-    else { L=estKR(); title='Seoul wedding · '+monthName(S.dateKR); $('sum-total').textContent=krw(T.krGross)+' · '+usd(T.krGross/S.rate); sub=S.est.kr.offset?'net after congratulatory money: '+usd(T.krNet):'before congratulatory money'; }
+    else if(tab==='la'){ L=estLA(); title='Southern California wedding · '+monthName(S.dateLA); $('sum-total').textContent=usd(T.la); sub=usd(T.la/S.est.la.guests)+' per guest'; }
+    else { L=estKR(); title='Seoul wedding · '+monthName(S.dateKR); $('sum-total').textContent=usd(T.krGross); sub=S.est.kr.offset?'net after congratulatory money: '+usd(T.krNet):'before congratulatory money'; }
     $('sum-title').textContent=title; $('sum-sub').textContent=sub;
-    L.forEach(function(x){ var li=document.createElement('li'); li.innerHTML='<span>'+esc(x[0])+'</span><span>'+(tab==='kr'?krw(x[1]):usd(x[1]))+'</span>'; lines.appendChild(li); });
-    if(tab==='kr'&&S.est.kr.offset){ var li=document.createElement('li'); li.className='off'; li.innerHTML='<span>Expected congratulatory money × '+S.est.kr.guests+'</span><span>−'+krw(T.off)+'</span>'; lines.appendChild(li); }
+    L.forEach(function(x){ var li=document.createElement('li'); li.innerHTML='<span>'+esc(x[0])+'</span>'+lineLink(x[0])+'<span>'+usd(x[1])+'</span>'; lines.appendChild(li); });
+    if(tab==='kr'&&S.est.kr.offset){ var li=document.createElement('li'); li.className='off'; li.innerHTML='<span>Expected congratulatory money × '+S.est.kr.guests+'</span><span>−'+usd(T.off)+'</span>'; lines.appendChild(li); }
     $('c-hi').textContent=usd(T.hi); $('c-la').textContent=usd(T.la); $('c-kr').textContent=usd(T.krNet); $('c-all').textContent=usd(T.all);
     var months=Math.max(1,Math.round((new Date(S.dateKR+'T00:00:00')-new Date())/2629800000));
     $('c-month').textContent=usd(T.all/months);
@@ -310,44 +328,47 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
 
   /* ---------- examples ---------- */
   var EXAMPLES=[
-    {name:'Oahu sunrise snap',loc:'Lanikai and Kualoa · 2 travelers · 4 nights',items:[['Photographer, full day',3200],['Hair and makeup',500],['Dress and suit rental',600],['Flights × 2',1100],['Hotel × 4',1400],['Meals, car',520],['Album',600]]},
-    {name:'Pasadena garden estate',loc:'Los Angeles · 110 guests · Saturday',items:[['Venue fee',12000],['Catering and bar',25850],['Photo and video',10000],['DJ',2500],['Flowers and decor',7150],['Rentals, lighting, shade',9500],['Attire, hair and makeup',6200],['Stationery, cake, rings',5900],['Month-of coordinator',3000],['Tips, contingency',6600]]},
-    {name:'Malibu beach, full service',loc:'Los Angeles · 130 guests · Friday',items:[['Venue fee',14000],['Catering and bar',33150],['Photo and video',10000],['Live band',9000],['Flowers and decor',8450],['Rentals, tenting, shuttles',12500],['Attire, hair and makeup',6200],['Stationery, cake, rings',6100],['Full-service planner',12000],['Tips, contingency',8900]]},
-    {name:'Seoul wedding hall',loc:'Gangnam · 200 guests · Saturday noon',won:true,items:[['Hall fee',3000000],['Meals × 200',13000000],['Flowers and decor',2500000],['Dress fitting, makeup (reusing LA dress)',1500000],['Hanbok, pyebaek',2000000],['Snap, video, MC',2500000],['Invitations',500000],['Flights and hotel',3000000],['Congratulatory money × 200',-14000000]]}
+    {name:'Oahu sunrise snap',loc:'Lanikai and Kualoa · 2 travelers · 4 nights',ig:'hawaiiweddingsnap',yt:'hawaii wedding snap photoshoot oahu',items:[['Photographer, full day',3200],['Hair and makeup',500],['Dress and suit rental',600],['Flights × 2',1100],['Hotel × 4',1400],['Meals, car',520],['Album',600],['Family dinner with her parents',400]]},
+    {name:'Laguna Beach cliffside',loc:'Orange County · 110 guests · Saturday',ig:'lagunabeachwedding',yt:'laguna beach wedding venue tour',items:[['Venue fee',11000],['Catering and bar',26950],['Photo and video',10000],['DJ',2500],['Flowers and decor',7150],['Rentals, lighting, shade, shuttles',11500],['Attire, hair and makeup',6200],['Tea ceremony and pyebaek',1800],['Stationery, cake, rings',5900],['Month-of coordinator',3000],['Tips, contingency',6900]]},
+    {name:'Irvine garden venue',loc:'Irvine / San Juan Capistrano · 120 guests · Friday',ig:'orangecountywedding',yt:'irvine wedding venue',items:[['Venue fee',6500],['Catering and bar',25200],['Photo and video',10000],['DJ',2500],['Flowers and decor',7800],['Rentals, lighting',7500],['Attire, hair and makeup',6200],['Tea ceremony and pyebaek',1800],['Stationery, cake, rings',6000],['Month-of coordinator',3000],['Tips, contingency',6100]]},
+    {name:'Temecula vineyard',loc:'Temecula wine country · 130 guests · Saturday',ig:'temeculawedding',yt:'temecula winery wedding',items:[['Venue fee',9500],['Catering and bar',27950],['Photo and video',10000],['Live band',9000],['Flowers and decor',8450],['Rentals, lighting, shuttles',12000],['Attire, hair and makeup',6200],['Tea ceremony and pyebaek',1800],['Stationery, cake, rings',6100],['Partial planner',6500],['Tips, contingency',7800]]},
+    {name:'Malibu beach, full service',loc:'Los Angeles · 130 guests · Friday',ig:'malibuwedding',yt:'malibu beach wedding',items:[['Venue fee',14000],['Catering and bar',33150],['Photo and video',10000],['Live band',9000],['Flowers and decor',8450],['Rentals, tenting, shuttles',12500],['Attire, hair and makeup',6200],['Stationery, cake, rings',6100],['Full-service planner',12000],['Tips, contingency',8900]]},
+    {name:'Seoul wedding hall',loc:'Gangnam · 200 guests · Saturday noon',ig:'웨딩홀',yt:'서울 웨딩홀 투어',items:[['Hall fee',2200],['Meals × 200',9400],['Flowers and decor',1800],['Dress fitting, makeup (reusing LA dress)',1100],['Hanbok, pyebaek',1450],['Snap, video, MC',1800],['Invitations',360],['Flights and hotel, the two of us',2200],['Flights and hotel, her parents',3200],['Congratulatory money × 200',-10100]]}
   ];
   function renderExamples(){
     var g=$('examples-grid'); g.innerHTML='';
     EXAMPLES.forEach(function(e){
-      var t=sumL(e.items.map(function(x){return [x[0],x[1]]}));
+      var t=sumL(e.items);
       var c=document.createElement('div'); c.className='card';
-      var priceTxt=e.won?krw(t)+' net · '+usd(t/S.rate):usd(t);
-      c.innerHTML='<h3>'+e.name+'</h3><div class="loc">'+e.loc+'</div><div class="price">'+priceTxt+'</div><ul>'+e.items.map(function(x){return '<li><span>'+esc(x[0])+'</span><span>'+(e.won?(x[1]<0?'−':'')+krw(Math.abs(x[1])):usd(x[1]))+'</span></li>'}).join('')+'</ul>';
+      c.innerHTML='<h3>'+e.name+'</h3><div class="loc">'+e.loc+'</div><div class="price">'+usd(t)+(t<0?' net':'')+'</div>'+links(e.ig,e.yt)+'<ul>'+e.items.map(function(x){return '<li><span>'+esc(x[0])+'</span><span>'+(x[1]<0?'−':'')+usd(Math.abs(x[1]))+'</span></li>'}).join('')+'</ul>';
       g.appendChild(c);
     });
   }
 
   /* ---------- timeline ---------- */
+  var TL_LINKS={hi:['hawaiiweddingsnap','hawaii wedding snap'],la:['orangecountywedding','southern california wedding venue tour'],kr:['웨딩홀','서울 웨딩 준비'],both:['weddingplanning','wedding planning timeline'],now:['weddingbudget','wedding budget planning'],mv:['irvine','moving to irvine']};
   var TL=[
-    ['Sept to Oct 2026','Set the combined budget','Agree a total across all three events and a monthly savings target. Talk with both families about who covers what in Seoul.','now'],
+    ['Sept to Oct 2026','Set the combined budget','Agree a total across all three events, the move, and a monthly savings target. Talk with both families about who covers what: Korean side for Seoul, Hong Kong side traditions for LA.','now'],
     ['Oct to Nov 2026','Book Hawaii','Photographer first (popular wedding-snap photographers fill 3 to 6 months out for February), then flights and hotel.','hi'],
-    ['Nov 2026 to Mar 2027','Tour LA venues','Book by spring 2027 to lock a September 2028 Saturday. This sets the LA date.','la'],
+    ['Nov 2026 to Mar 2027','Tour venues across LA, Orange County, Temecula','Book by spring 2027 to lock a September 2028 Saturday. This sets the wedding date.','la'],
     ['Jan 2027','Hawaii details','Attire, hair and makeup, shot list and locations confirmed.','hi'],
-    ['Feb 2027','Hawaii shoot','Reuse the photos for save-the-dates, both wedding websites, and the Seoul entrance video.','hi'],
+    ['Feb 2027','Hawaii shoot and family time','Shoot on Oahu, dinner with her parents, and a proper parents\' meeting if your parents can fly in. Reuse the photos for save-the-dates and the Seoul entrance video.','hi'],
+    ['Apr to May 2027','Move in together in Irvine','Lease signed, movers booked. Living in Irvine makes Orange County and Temecula venues easy to tour on weekends.','mv'],
     ['Mid 2027','LA big vendors','Photographer, videographer, band or DJ, caterer, officiant.','la'],
     ['Sept 2027','LA save-the-dates and attire','Send save-the-dates, reserve hotel blocks, order dress and suit.','la'],
     ['Mar 2028','Start Seoul research','Good Seoul halls book 6 to 12 months out. Shortlist halls and dates.','kr'],
     ['Jun to Jul 2028','LA license, Seoul hall booked','Apply for the LA County marriage license (valid 90 days). Seoul hall and date confirmed by now at the latest.','both'],
     ['Sept 2028','LA wedding','','la'],
-    ['Sept 2028 to Jan 2029','Seoul details','Studio or dress package, hanbok, invitations, flights for LA guests.','kr'],
+    ['Sept 2028 to Jan 2029','Seoul details','Dress package, hanbok, trilingual invitations, flights and hotel for her parents and LA guests, a bilingual host for the day.','kr'],
     ['Mar 2029','Seoul wedding','','kr']
   ];
   function renderTL(){
     var r=$('tl'); r.innerHTML='';
-    TL.forEach(function(x,i){ var d=document.createElement('div'); d.className='item'+(i===0?' now':''); var tag={hi:'Hawaii',la:'Los Angeles',kr:'Seoul',both:'LA + Seoul',now:'Now'}[x[3]]; d.innerHTML='<div class="when">'+x[0]+'</div><h3>'+x[1]+'<span class="tag">'+tag+'</span></h3>'+(x[2]?'<p>'+x[2]+'</p>':''); r.appendChild(d); });
+    TL.forEach(function(x,i){ var d=document.createElement('div'); d.className='item'+(i===0?' now':''); var tag={hi:'Hawaii',la:'Southern California',kr:'Seoul',both:'LA + Seoul',now:'Now',mv:'Irvine'}[x[3]]; var ll=TL_LINKS[x[3]]; d.innerHTML='<div class="when">'+x[0]+'</div><h3>'+x[1]+'<span class="tag">'+tag+'</span></h3>'+(x[2]?'<p>'+x[2]+'</p>':'')+'<div style="margin-top:6px">'+links(ll[0],ll[1])+'</div>'; r.appendChild(d); });
   }
 
   /* ---------- planner ---------- */
-  var PHASES=[{k:'hw',name:'Hawaii photo trip',when:'Feb 2027 · book Oct to Nov 2026'},{k:'now',name:'LA · start now',when:'24+ months out'},{k:'18',name:'LA · lock the big pieces',when:'18 to 20 months out'},{k:'12',name:'LA · fill in the details',when:'12 to 15 months out'},{k:'6',name:'LA · invitations and logistics',when:'4 to 8 months out'},{k:'2',name:'LA · final stretch',when:'last 2 months'},{k:'se',name:'Seoul wedding',when:'Mar 2029 · start Mar 2028'}];
+  var PHASES=[{k:'hw',name:'Hawaii photo trip and family time',when:'Feb 2027 · book Oct to Nov 2026'},{k:'mv',name:'Move to Irvine',when:'Apr to May 2027'},{k:'now',name:'Wedding · start now',when:'24+ months out'},{k:'18',name:'Wedding · lock the big pieces',when:'18 to 20 months out'},{k:'12',name:'Wedding · fill in the details',when:'12 to 15 months out'},{k:'6',name:'Wedding · invitations and logistics',when:'4 to 8 months out'},{k:'2',name:'Wedding · final stretch',when:'last 2 months'},{k:'se',name:'Seoul wedding',when:'Mar 2029 · start Mar 2028'}];
   function renderTasks(){
     var root=$('phases'); root.innerHTML=''; var done=0;
     PHASES.forEach(function(p){
@@ -394,7 +415,7 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
   function renderHeader(){
     $('n1').value=S.n1; $('n2').value=S.n2; $('notes').value=S.notes;
     var b=(S.n1||'___')+' & '+(S.n2||'___'); $('brand').textContent=b; document.title=b+' · Three Celebrations';
-    $('hd-hi').textContent=monthName(S.dateHI); $('hd-la').textContent=monthName(S.dateLA); $('hd-kr').textContent=monthName(S.dateKR);
+    $('hd-hi').textContent=monthName(S.dateHI); $('hd-mv').textContent=monthName(S.dateMove||'2027-04-15'); $('hd-la').textContent=monthName(S.dateLA); $('hd-kr').textContent=monthName(S.dateKR);
   }
   function renderAll(){ renderHeader(); renderEst(); renderExamples(); renderTasks(); renderVendors(); }
 
@@ -423,6 +444,7 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
   $('import').onclick=function(){ $('importfile').click(); };
   $('importfile').onchange=function(e){ var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(){ try{ var o=JSON.parse(r.result); if(o&&o.tasks){ S=o; renderAll(); save(); } }catch(err){ toast('That file is not a planner export'); } }; r.readAsText(f); };
 
+  Object.keys(OPT_LINKS).forEach(function(k){ var o=document.querySelector('.opts[data-k="'+k+'"]'); if(!o) return; o.querySelectorAll('button').forEach(function(b){ var l=OPT_LINKS[k][b.dataset.v]; if(l){ b.insertAdjacentHTML('beforeend',links(l[0],l[1])); b.querySelectorAll('a').forEach(function(a){ a.onclick=function(e){ e.stopPropagation(); }; }); } }); });
   renderTL(); renderAll();
 })();
 </script>
