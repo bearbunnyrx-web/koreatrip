@@ -68,6 +68,7 @@ input.txt{font:inherit;padding:10px 12px;border:1px solid var(--line);border-rad
 .yt .play::after{content:"";border-left:14px solid var(--accent);border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:4px}
 .yt .mt{font-size:13px;font-weight:600;padding:10px 12px 2px;line-height:1.35}
 .yt .mb{font-size:12px;color:var(--ink3);padding:0 12px 12px}
+.posts{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:22px}
 .igrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
 .ig{display:inline-flex;flex-direction:column;gap:1px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);text-decoration:none;color:var(--ink);font-size:13px}
 .ig b{font-weight:600;color:var(--accent2)}
@@ -288,6 +289,27 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
   /* ---------- media (researched, real accounts and videos) ---------- */
   function yt(id,title,by,note){ return {yt:id,title:title,by:by,note:note||''}; }
   function ig(h,name,note){ return {ig:h,name:name,note:note||''}; }
+  var POSTS={
+    hawaii:['https://www.instagram.com/reel/DFKLb3IRr_Q/','https://www.instagram.com/reel/DP4ULBDDxqZ/'],
+    oc:['https://www.instagram.com/p/DNoOCIZyQ5Q/','https://www.instagram.com/p/DFvwtaITzdw/'],
+    beach:['https://www.instagram.com/calamigosevents/p/DAKIDOlSnwX/','https://www.instagram.com/p/DQul1hjEmBB/'],
+    estate:['https://www.instagram.com/p/DPCvfohkok9/','https://www.instagram.com/thecastlegreen/reel/Cuzn2CIgdhI/'],
+    loft:['https://www.instagram.com/weddingbyeunice/reel/CUTJ7Q4hoJe/'],
+    traditions:['https://www.instagram.com/leehwawedding/reel/C9ulyS8JA1H/','https://www.instagram.com/leehwawedding/p/Clmtdf1P4Zr/'],
+    hall:['https://www.instagram.com/apelgamo/reel/DGVEo4qTzGy/','https://www.instagram.com/p/DQG_g8CkTlD/'],
+    hotelkr:['https://www.instagram.com/p/DCJzvDozyDB/','https://www.instagram.com/p/DB1BqwdS_8B/']
+  };
+  function postsHTML(key){
+    var list=POSTS[key]; if(!list||!list.length) return '';
+    if(IN_ARTIFACT) return '<div class="igrow">'+list.map(function(u){ return '<a class="ig" href="'+u+'" target="_blank" rel="noopener"><b>Instagram post</b><span>'+esc(u.replace('https://www.instagram.com/',''))+'</span></a>'; }).join('')+'</div>';
+    return '<div class="posts">'+list.map(function(u){ return '<blockquote class="instagram-media" data-instgrm-permalink="'+u+'" data-instgrm-version="14" style="margin:0;max-width:540px;min-width:240px;width:100%"><a href="'+u+'" target="_blank" rel="noopener">View on Instagram</a></blockquote>'; }).join('')+'</div>';
+  }
+  function wirePosts(){
+    if(IN_ARTIFACT) return;
+    if(window.instgrm&&window.instgrm.Embeds){ window.instgrm.Embeds.process(); return; }
+    if(document.getElementById('ig-embed-js')) return;
+    var sc=document.createElement('script'); sc.id='ig-embed-js'; sc.async=true; sc.src='https://www.instagram.com/embed.js'; document.body.appendChild(sc);
+  }
   var MEDIA={
     budget:[yt('MgckkKsJkZA','Wedding Budget Breakdown 2026: what a $30,000 wedding actually pays for','YouTube · Mar 2026','Good first watch: where every dollar goes'),yt('y8gKt3fwfAg','A $100,000 Texas wedding with 120 guests, full budget breakdown','The Knot','Closer to a SoCal-size budget'),yt('Rr8VFL5qii0','Wedding budget breakdown: how to allocate every dollar','YouTube','Percentages by category')],
     hawaii:[yt('0BxZ4BOZORE','하와이 웨딩촬영 브이로그 3편, 본식날 이야기','주노무비','Korean-style Hawaii wedding shoot, in Korean'),yt('ezZK5YAMkbo','Oahu wedding with photoshoot at Magic Island','Weddings of Hawaii · 2023','What a private ceremony plus photoshoot looks like'),yt('RwxAYyYWI9U','Hawaii wedding with mountain views and a beach photoshoot','Weddings of Hawaii · 2023','Nalo Gardens ceremony, Waialae Beach photos'),yt('viG1ONPoAFA','하와이 웨딩 브이로그 #1: 베뉴부터 동선까지','예그리나하와이','Korean planner based on Oahu walks through venues')],
@@ -325,7 +347,8 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
     return '<div class="media">'+list.map(function(m){
       var url='https://www.youtube.com/watch?v='+m.yt;
       var img=IN_ARTIFACT?'':'<img alt="" loading="lazy" src="https://i.ytimg.com/vi/'+m.yt+'/hqdefault.jpg">';
-      return '<a class="yt" data-id="'+m.yt+'" href="'+url+'" target="_blank" rel="noopener"><div class="thumb">'+img+'<span class="play"></span></div><div class="mt">'+esc(m.title)+'</div><div class="mb">'+esc(m.by)+(m.note?' · '+esc(m.note):'')+'</div></a>';
+      if(!IN_ARTIFACT && list.indexOf(m)===0) img='<iframe src="https://www.youtube-nocookie.com/embed/'+m.yt+'?rel=0" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen title="'+esc(m.title)+'"></iframe>';
+      return '<a class="yt" data-id="'+m.yt+'" href="'+url+'" target="_blank" rel="noopener"><div class="thumb">'+img+(list.indexOf(m)===0&&!IN_ARTIFACT?'':'<span class="play"></span>')+'</div><div class="mt">'+esc(m.title)+'</div><div class="mb">'+esc(m.by)+(m.note?' · '+esc(m.note):'')+'</div></a>';
     }).join('')+'</div>';
   }
   function igHTML(list){
@@ -336,6 +359,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
     if(IN_ARTIFACT) return;
     root.querySelectorAll('a.yt').forEach(function(a){
       a.addEventListener('click',function(e){
+        if(a.querySelector('iframe')){ if(e.target.closest('.thumb')) e.preventDefault(); return; }
         e.preventDefault();
         var t=a.querySelector('.thumb'); t.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+a.dataset.id+'?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="'+esc(a.querySelector('.mt').textContent)+'"></iframe>';
       });
@@ -378,7 +402,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
     {id:'hawaii',eyebrow:'Lesson 2 · Hawaii, Feb 2027',title:'What a “wedding snap” trip is',render:function(){
       return '<p class="lead">A wedding snap is a Korean-style pre-wedding photo session: dress and suit, hair and makeup, a photographer, and two or three locations in one day. Oahu is the classic spot, and her parents are there.</p>'+
       '<div class="mediahead"><h3>See it</h3><span class="tiny">Opens on YouTube</span></div>'+mediaHTML(MEDIA.hawaii)+
-      '<div class="mediahead"><h3>Photographers to follow</h3><span class="tiny">Instagram</span></div>'+igHTML(MEDIA.hawaiiIG)+
+      '<div class="mediahead"><h3>On Instagram</h3></div>'+postsHTML('hawaii')+igHTML(MEDIA.hawaiiIG)+
       '<div class="learn"><b>How much photographer do we want?</b> Half day covers one beach at sunrise or sunset. Full day adds a second location and outfit change. Premium adds video or a second shooter.</div>'+
       opts('hi.photo',[{v:'half',l:'Half day',c:'$1,800',d:'One location, 3 to 4 hours'},{v:'full',l:'Full day',c:'$3,200',d:'Two or three locations, outfit change'},{v:'premium',l:'Premium',c:'$4,500',d:'Photo plus video or second shooter'}])+
       range('hi.nights','Nights on Oahu',2,8)+
@@ -392,7 +416,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
       opts('la.style',[{v:'oc',l:'Orange County coast',c:'from $11k venue'},{v:'irvine',l:'Irvine / inland OC',c:'from $6.5k venue'},{v:'temecula',l:'Temecula vineyard',c:'from $9.5k venue'},{v:'beach',l:'Malibu',c:'from $14k venue'},{v:'estate',l:'Pasadena garden estate',c:'from $12k venue'},{v:'loft',l:'DTLA loft',c:'from $9k venue'},{v:'hotel',l:'Hotel ballroom',c:'from $5k venue'},{v:'backyard',l:'Backyard / restaurant',c:'from $2.5k venue'}])+
       '<div class="learn">'+esc(desc)+'</div>'+
       (MEDIA[s].length?'<div class="mediahead"><h3>Real weddings here</h3><span class="tiny">Opens on YouTube</span></div>'+mediaHTML(MEDIA[s]):'<div class="learn">No videos picked for this one yet; ask and we will add some.</div>')+
-      (MEDIA[s+'IG'].length?'<div class="mediahead"><h3>Venues to follow</h3><span class="tiny">Instagram</span></div>'+igHTML(MEDIA[s+'IG']):'')+running('la');
+      (MEDIA[s+'IG'].length||POSTS[s]?'<div class="mediahead"><h3>On Instagram</h3></div>'+postsHTML(s)+igHTML(MEDIA[s+'IG']):'')+running('la');
     }},
     {id:'guests',eyebrow:'Lesson 4 · Guests',title:'How many people?',render:function(){
       var v=LA_VENUES[S.est.la.style];
@@ -412,7 +436,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
     }},
     {id:'traditions',eyebrow:'Lesson 7 · Two families',title:'Tea ceremony and pyebaek',render:function(){
       return '<p class="lead">Her family is Hong Kong Chinese, so a tea ceremony where you serve tea to her parents and elders will mean a lot. Your family will expect pyebaek, the Korean bow and date-throwing ceremony in hanbok. Both fit in one afternoon, usually right after the ceremony or during cocktail hour.</p>'+mediaHTML(MEDIA.traditions)+
-      '<div class="mediahead"><h3>Hanbok and ceremony rentals in LA</h3><span class="tiny">Instagram</span></div>'+igHTML(MEDIA.traditionsIG)+
+      '<div class="mediahead"><h3>Hanbok and ceremony rentals in LA</h3></div>'+postsHTML('traditions')+igHTML(MEDIA.traditionsIG)+
       toggle('la.tea','Include both ceremonies in the SoCal wedding ($1,800 for tea set, hanbok, qipao, red envelopes, food)')+
       '<div class="learn"><b>Ask her parents</b> which elders should receive tea and in what order. Ask yours whether pyebaek should be at the wedding or saved for Seoul. This is on the checklist.</div>'+running('la');
     }},
@@ -423,7 +447,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
       opts('kr.format',[{v:'hall',l:'Wedding hall',c:'about $47 per guest',d:'Most common in Seoul'},{v:'hotel',l:'Hotel wedding',c:'about $98 per guest',d:'Shilla, Signiel, Hyatt'},{v:'small',l:'Small / house wedding',c:'about $65 per guest',d:'Under 100 guests'}])+
       '<div class="learn">'+esc(desc)+'</div>'+
       '<div class="mediahead"><h3>See it</h3><span class="tiny">Opens on YouTube</span></div>'+mediaHTML({hall:MEDIA.hall,hotel:MEDIA.hotelkr,small:MEDIA.small}[f])+
-      '<div class="mediahead"><h3>Venues to follow</h3><span class="tiny">Instagram</span></div>'+igHTML({hall:MEDIA.hallIG,hotel:MEDIA.hotelkrIG,small:MEDIA.smallIG}[f])+
+      '<div class="mediahead"><h3>On Instagram</h3></div>'+postsHTML({hall:'hall',hotel:'hotelkr',small:'small'}[f])+igHTML({hall:MEDIA.hallIG,hotel:MEDIA.hotelkrIG,small:MEDIA.smallIG}[f])+
       range('kr.guests','Guests in Seoul',50,400,10)+
       toggle('kr.offset','Count expected congratulatory money, about $50 per guest, against the cost')+toggle('kr.parentsTravel','Flights and hotel in Seoul for her parents from Hawaii ($3,200)')+running('kr');
     }},
@@ -452,7 +476,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
     var st=STEPS[i], box=$('step');
     box.innerHTML='<div class="eyebrow">'+esc(st.eyebrow)+' · '+(i+1)+' of '+STEPS.length+'</div><h2>'+st.title+'</h2>'+st.render()+
       '<div class="navrow">'+(i>0?'<button class="btn ghost" id="back">Back</button>':'<span></span>')+(i<STEPS.length-1?'<button class="btn" id="next">'+(i===0?'Start':'Next')+'</button>':'<button class="btn" id="toall">Open Everything</button>')+'</div>';
-    wireMedia(box);
+    wireMedia(box); wirePosts();
     box.querySelectorAll('.opts').forEach(function(o){ o.querySelectorAll('.opt').forEach(function(b){ b.onclick=function(){ setEst(o.dataset.k,b.dataset.v); renderWizard(); save(); }; }); });
     box.querySelectorAll('input[type=range]').forEach(function(r){ r.oninput=function(){ setEst(r.dataset.k,Number(r.value)); box.querySelector('[data-for="'+r.dataset.k+'"]').textContent=r.value; box.querySelectorAll('.running').forEach(function(x){ x.outerHTML=running(STEPS[i].id==='hawaii'?'hi':STEPS[i].id==='seoul'||STEPS[i].id==='studio'?'kr':'la'); }); }; r.onchange=function(){ save(); }; });
     box.querySelectorAll('input[type=checkbox]').forEach(function(c){ c.onchange=function(){ setEst(c.dataset.k,c.checked); renderWizard(); save(); }; });
