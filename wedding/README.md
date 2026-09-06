@@ -25,3 +25,19 @@ Then open the URL it prints (usually http://localhost:3000). Any static server w
 On localhost or Vercel the planner saves in the browser only. Use **Export** to download a JSON file and
 **Import** on the other device. Live shared editing needs a small backend (Supabase or Firebase); ask for that
 when you want it.
+
+## Home server on a Mac mini (shared saves, no cloud)
+
+```bash
+git clone -b claude/la-wedding-planning-2028-kaiy58 https://github.com/bearbunnyrx-web/koreatrip.git
+cd koreatrip
+node wedding/server.mjs
+```
+
+It prints two addresses. Use the "home network" one from any phone or laptop on the same Wi-Fi. Both of you
+see the same saves, stored in `wedding/data/state.json`. Needs Node 18 or newer (`node -v` to check;
+`brew install node` if missing). To keep it running after you close the terminal:
+
+```bash
+nohup node wedding/server.mjs > wedding/server.log 2>&1 &
+```

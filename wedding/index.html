@@ -549,11 +549,13 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
       artifact.publish(serialize()).then(function(){ dirty=false; try{ sessionStorage.removeItem('three-celebrations-pending'); localStorage.removeItem('three-celebrations-draft'); }catch(e){} $('savebar').classList.remove('show'); toast('Saved for both of you'); })
         .catch(function(e){ if(e&&e.code==='conflict') $('savemsg').textContent='Your partner saved first. The page will reload with their version; your changes are kept as unsaved so you can save again.'; else if(e&&(e.code==='not_writer'||e.code==='not_granted')) $('savemsg').textContent='You have view-only access, so this cannot be saved.'; else $('savemsg').textContent='Could not save. Try again.'; });
     } else {
-      try{ localStorage.setItem('three-celebrations-v2',JSON.stringify(S)); localStorage.removeItem('three-celebrations-draft'); dirty=false; $('savebar').classList.remove('show'); toast('Saved on this device'); }catch(e){ $('savemsg').textContent='Could not save on this device.'; }
+      try{ localStorage.setItem('three-celebrations-v2',JSON.stringify(S)); localStorage.removeItem('three-celebrations-draft'); }catch(e){}
+      if(SERVER){ fetch('/api/state',{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify(S)}).then(function(r){ if(!r.ok) throw 0; dirty=false; $('savebar').classList.remove('show'); toast('Saved for both of you'); }).catch(function(){ $('savemsg').textContent='Could not reach the server. Saved on this device only.'; }); }
+      else { dirty=false; $('savebar').classList.remove('show'); toast('Saved on this device'); }
     }
   }
   window.addEventListener('beforeunload',function(e){ if(dirty){ e.preventDefault(); e.returnValue=''; } });
-  var pendingRestore=null;
+  var pendingRestore=null, SERVER=false;
   if(!IN_ARTIFACT){ try{ var saved=localStorage.getItem('three-celebrations-v2'); if(saved){ var o=JSON.parse(saved); if(o&&o.tasks&&o.est) S=o; } var dr=localStorage.getItem('three-celebrations-draft'); if(dr){ var od=JSON.parse(dr); if(od&&od.tasks&&od.est){ S=od; pendingRestore=true; } } }catch(e){} $('storage-note').textContent='Saved on this device · use Export to share'; }
   else { try{ var pend=sessionStorage.getItem('three-celebrations-pending'); if(pend){ var op=JSON.parse(pend); if(op&&op.tasks&&op.est){ S=op; pendingRestore=true; } } }catch(e){} window.claude.use('artifact').then(function(a){ artifact=a; if(a){ $('storage-note').textContent='Shared: press Save to publish for both of you'; $('export').hidden=true; $('import').hidden=true; } }); }
   if(!S.fund) S.fund={monthly:1000,share:50,saved:0,extra:0,family:0};
@@ -569,9 +571,14 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
   $('import').onclick=function(){ $('importfile').click(); };
   $('importfile').onchange=function(e){ var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(){ try{ var o=JSON.parse(r.result); if(o&&o.tasks&&o.est){ S=o; renderBrand(); setView(S.view||'learn'); } }catch(err){ toast('That file is not a planner export'); } }; r.readAsText(f); };
 
+  function boot(){
   renderBrand();
   var _v=S.view||'learn'; S.view=_v; document.querySelectorAll('.tabs button').forEach(function(b){ b.classList.toggle('on',b.dataset.view===_v); }); $('view-learn').hidden=(_v!=='learn'); $('view-all').hidden=(_v!=='all'); if(_v==='all') renderAll(); else renderWizard();
   if(pendingRestore){ save(); $('savemsg').textContent='Restored your unsaved changes. Press Save to keep them.'; }
+  }
+  if(!IN_ARTIFACT && location.protocol.indexOf('http')===0){
+    fetch('/api/state',{cache:'no-store'}).then(function(r){ SERVER=true; $('storage-note').textContent='Shared on the home server: press Save to keep changes for both of you'; $('export').hidden=true; $('import').hidden=true; if(r.ok) return r.json(); return null; }).then(function(o){ if(o&&o.tasks&&o.est&&!pendingRestore) S=o; if(!S.fund) S.fund={monthly:1000,share:50,saved:0,extra:0,family:0}; boot(); }).catch(function(){ boot(); });
+  } else boot();
 })();
 </script>
 </body>
