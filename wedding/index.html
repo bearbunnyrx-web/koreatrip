@@ -409,7 +409,7 @@ footer{padding:40px 0;text-align:center;color:var(--ink3);font-size:12px;letter-
     },700);
   }
   try{ var saved=localStorage.getItem('three-celebrations'); if(saved && !(window.claude&&window.claude.use)){ var o=JSON.parse(saved); if(o&&o.tasks) S=o; } }catch(e){}
-  if(window.claude&&window.claude.use){ window.claude.use('artifact').then(function(a){ artifact=a; if(a){ mode='shared'; $('storage-note').textContent='Shared: saves for both of you'; } }); }
+  if(window.claude&&window.claude.use){ window.claude.use('artifact').then(function(a){ artifact=a; if(a){ mode='shared'; $('storage-note').textContent='Shared: saves for both of you'; $('export').hidden=true; $('import').hidden=true; } }); }
   $('storage-note').textContent='Saved on this device · use Export to share';
 
   /* ---------- wiring ---------- */
