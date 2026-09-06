@@ -14,11 +14,18 @@ npx serve wedding
 
 Then open the URL it prints (usually http://localhost:3000). Any static server works; it is one HTML file.
 
-## Deploy to Vercel
+## Deploy to Vercel (open it anywhere, shared saves)
 
-1. Push this repo to GitHub.
-2. In Vercel, import the repo and set **Root Directory** to `wedding`.
-3. Framework preset: **Other**. No build command. Deploy.
+1. Go to https://vercel.com/new and import `bearbunnyrx-web/koreatrip`.
+2. Set **Root Directory** to `wedding`. Framework preset **Other**. Leave build settings empty. Deploy.
+3. In the new project: **Storage → Create Database → Blob**. Connect it to the project. This gives the site a
+   place to keep your shared saves.
+4. Optional but recommended: **Settings → Environment Variables**, add `PLANNER_PASSWORD` with a word only the
+   two of you know. Without it anyone with the link can save changes.
+5. **Deployments → Redeploy** so the new settings take effect.
+
+Make sure the deployed branch is `claude/la-wedding-planning-2028-kaiy58` (Settings → Git → Production Branch),
+or merge that branch into `main` first.
 
 ## Sharing data between the two of you
 

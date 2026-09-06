@@ -574,9 +574,18 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
         .catch(function(e){ if(e&&e.code==='conflict') $('savemsg').textContent='Your partner saved first. The page will reload with their version; your changes are kept as unsaved so you can save again.'; else if(e&&(e.code==='not_writer'||e.code==='not_granted')) $('savemsg').textContent='You have view-only access, so this cannot be saved.'; else $('savemsg').textContent='Could not save. Try again.'; });
     } else {
       try{ localStorage.setItem('three-celebrations-v2',JSON.stringify(S)); localStorage.removeItem('three-celebrations-draft'); }catch(e){}
-      if(SERVER){ fetch('/api/state',{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify(S)}).then(function(r){ if(!r.ok) throw 0; dirty=false; $('savebar').classList.remove('show'); toast('Saved for both of you'); }).catch(function(){ $('savemsg').textContent='Could not reach the server. Saved on this device only.'; }); }
+      if(SERVER){ putState(false); }
       else { dirty=false; $('savebar').classList.remove('show'); toast('Saved on this device'); }
     }
+  }
+  function putState(retried){
+    var pw=''; try{ pw=localStorage.getItem('three-celebrations-pw')||''; }catch(e){}
+    fetch('/api/state',{method:'PUT',headers:{'content-type':'application/json','x-planner-password':pw},body:JSON.stringify(S)}).then(function(r){
+      if(r.status===401){ if(retried){ $('savemsg').textContent='Wrong password. Not saved.'; return; } var p=window.prompt('Enter the planner password to save for both of you'); if(p===null){ $('savemsg').textContent='Not saved.'; return; } try{ localStorage.setItem('three-celebrations-pw',p); }catch(e){} return putState(true); }
+      if(r.status===503){ $('savemsg').textContent='Shared storage is not set up on this site yet. Saved on this device only.'; return; }
+      if(!r.ok) throw 0;
+      dirty=false; $('savebar').classList.remove('show'); toast('Saved for both of you');
+    }).catch(function(){ $('savemsg').textContent='Could not reach the server. Saved on this device only.'; });
   }
   window.addEventListener('beforeunload',function(e){ if(dirty){ e.preventDefault(); e.returnValue=''; } });
   var pendingRestore=null, SERVER=false;
@@ -601,7 +610,7 @@ footer{padding:30px 0 90px;text-align:center;color:var(--ink3);font-size:12px;le
   if(pendingRestore){ save(); $('savemsg').textContent='Restored your unsaved changes. Press Save to keep them.'; }
   }
   if(!IN_ARTIFACT && location.protocol.indexOf('http')===0){
-    fetch('/api/state',{cache:'no-store'}).then(function(r){ SERVER=true; $('storage-note').textContent='Shared on the home server: press Save to keep changes for both of you'; $('export').hidden=true; $('import').hidden=true; if(r.ok) return r.json(); return null; }).then(function(o){ if(o&&o.tasks&&o.est&&!pendingRestore) S=o; if(!S.fund) S.fund={monthly:1000,share:50,saved:0,extra:0,family:0}; boot(); }).catch(function(){ boot(); });
+    fetch('/api/state',{cache:'no-store'}).then(function(r){ SERVER=(r.status!==404||true); $('storage-note').textContent='Shared on the home server: press Save to keep changes for both of you'; $('export').hidden=true; $('import').hidden=true; if(r.ok) return r.json(); return null; }).then(function(o){ if(o&&o.tasks&&o.est&&!pendingRestore) S=o; if(!S.fund) S.fund={monthly:1000,share:50,saved:0,extra:0,family:0}; boot(); }).catch(function(){ boot(); });
   } else boot();
 })();
 </script>
